@@ -1,0 +1,5 @@
+## 1.0.0 - 2026-08-02
+- Rilis awal tema Neumorphism
+- Implementasi 61 komponen berbasis MUI & @mui/icons-material
+- Tanpa varian light/dark sesuai arahan terbaru user
+- Penggunaan Product Sans sebagai font aktif
