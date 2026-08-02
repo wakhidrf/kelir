@@ -1,0 +1,85 @@
+DAFTAR KOMPONEN KELIR
+=====================
+Sumber: daftar komponen shadcn/ui (ui.shadcn.com/docs/components)
+Aturan: setiap tema di themes/<nama-tema>/ WAJIB implementasi SEMUA komponen di bawah ini,
+        1 file per komponen (kebab-case, sesuai nama file), lihat plan.md §5 untuk kontrak props.
+
+[ ] accordion.tsx        - Daftar heading tersusun vertikal, tiap heading bisa dibuka untuk lihat isinya
+[ ] alert.tsx             - Callout untuk menarik perhatian user
+[ ] alert-dialog.tsx      - Modal dialog yang interupsi user, minta konfirmasi/respons
+[ ] aspect-ratio.tsx      - Bungkus konten supaya rasio ukurannya tetap terjaga
+[ ] attachment.tsx        - Tampilkan file/gambar terlampir (media, metadata, status upload, aksi)
+[ ] avatar.tsx            - Elemen gambar profil user dengan fallback
+[ ] badge.tsx             - Label kecil/badge
+[ ] breadcrumb.tsx        - Jejak navigasi hierarki halaman
+[ ] bubble.tsx            - Bubble chat, ada variant, alignment, grouping, reaction, collapsible
+[ ] button.tsx            - Tombol
+[ ] button-group.tsx      - Kumpulan tombol yang dikelompokkan dengan styling konsisten
+[ ] calendar.tsx          - Kalender untuk pilih tanggal/rentang tanggal
+[ ] card.tsx              - Card dengan header, content, footer
+[ ] carousel.tsx          - Carousel dengan motion & swipe
+[ ] chart.tsx             - Chart/grafik
+[ ] checkbox.tsx          - Checkbox
+[ ] collapsible.tsx       - Panel yang bisa dibuka/tutup
+[ ] combobox.tsx          - Input autocomplete dengan daftar saran
+[ ] command.tsx           - Command menu untuk search & quick action
+[ ] context-menu.tsx      - Menu aksi yang muncul saat klik kanan
+[ ] data-table.tsx        - Tabel/datagrid dengan fitur lengkap
+[ ] date-picker.tsx       - Date picker dengan range & preset
+[ ] dialog.tsx            - Window overlay/modal
+[ ] direction.tsx         - Provider untuk atur arah teks (LTR/RTL)
+[ ] drawer.tsx            - Panel geser dari tepi layar
+[ ] dropdown-menu.tsx     - Menu dropdown, dipicu tombol
+[ ] empty.tsx             - Tampilan state kosong
+[ ] field.tsx             - Gabungan label, kontrol, dan teks bantuan untuk form
+[ ] hover-card.tsx        - Preview konten saat hover di atas link
+[ ] input.tsx             - Input teks
+[ ] input-group.tsx       - Input dengan addon/tombol/helper tambahan
+[ ] input-otp.tsx         - Input OTP dengan dukungan copy-paste
+[ ] item.tsx              - Komponen serbaguna: media, title, description, actions
+[ ] kbd.tsx               - Tampilan input keyboard
+[ ] label.tsx             - Label yang terhubung ke kontrol form
+[ ] marker.tsx            - Status inline, catatan sistem, baris berbingkai, separator berlabel (di percakapan)
+[ ] menubar.tsx           - Menu persisten khas aplikasi desktop
+[ ] message.tsx           - Pesan dalam percakapan (avatar, header, footer, alignment opsional)
+[ ] message-scroller.tsx  - Container scroll chat: anchor turn, buka transkrip, follow stream, load history
+[ ] native-select.tsx     - Select HTML native dengan styling konsisten
+[ ] navigation-menu.tsx   - Kumpulan link navigasi
+[ ] pagination.tsx        - Navigasi halaman (next/prev)
+[ ] popover.tsx           - Konten rich dalam portal, dipicu tombol
+[ ] progress.tsx          - Progress bar
+[ ] radio-group.tsx       - Grup radio button, cuma bisa pilih 1
+[ ] resizable.tsx         - Panel yang bisa diresize, dukung keyboard
+[ ] scroll-area.tsx       - Scroll custom cross-browser
+[ ] select.tsx            - Dropdown pilihan
+[ ] separator.tsx         - Pemisah konten (visual/semantik)
+[ ] sheet.tsx             - Extends Dialog, konten pelengkap layar utama
+[ ] sidebar.tsx           - Sidebar composable & themeable
+[ ] skeleton.tsx          - Placeholder saat loading
+[ ] slider.tsx            - Input pilih nilai dari rentang
+[ ] spinner.tsx           - Indikator loading
+[ ] switch.tsx            - Toggle on/off
+[ ] table.tsx             - Tabel responsif
+[ ] tabs.tsx              - Tab panel berlapis
+[ ] textarea.tsx          - Textarea form
+[ ] toast.tsx             - Pesan singkat sementara
+[ ] toggle.tsx            - Tombol 2 state (on/off)
+[ ] toggle-group.tsx      - Grup tombol 2 state
+[ ] tooltip.tsx           - Popup info saat fokus/hover
+[ ] typography.tsx        - Style untuk heading, paragraf, list, dst
+
+TOTAL: 61 komponen
+
+Catatan:
+- Semua komponen dibangun di atas @mui/material + @mui/icons-material (lihat plan.md §1.3),
+  bukan HTML mentah dari nol.
+- "New Components" (Attachment, Bubble, Marker, Message, Message Scroller, Toast) sudah
+  termasuk dalam daftar di atas — tidak didaftar dua kali.
+- Urutan prioritas implementasi per tema mengikuti roadmap plan.md §8: mulai dari
+  Button, Card, Input dulu (3 komponen minimum buat uji alur tema+variant+font),
+  baru lanjut ke sisanya.
+- Kalau ada komponen yang secara desain tidak relevan untuk tema tertentu (mis. Sidebar
+  di tema yang nggak ada konsep sidebar), tetap wajib ada implementasinya (boleh minimal/
+  generic) — supaya kontrak "semua tema punya semua komponen" tetap konsisten dan
+  switch tema tidak pernah menyebabkan komponen hilang total (lihat plan.md §5 soal
+  fallback graceful).
