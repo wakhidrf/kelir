@@ -21,7 +21,7 @@ Project ini dibangun murni di atas **MUI (`@mui/material`) + `@mui/icons-materia
 Tambahkan Kelir ke folder project Anda sebagai submodule:
 
 ```bash
-git submodule add https://github.com/wakhidrf/kelir src/kelir
+git submodule add https://github.com/wakhidrf/kelir src/views/kelir
 git submodule update --init --recursive
 ```
 
