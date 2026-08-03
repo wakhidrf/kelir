@@ -1,0 +1,2 @@
+Perbaiki sesuai arahan agent-notes saja
+Ketika sudah mengerjakan agent-notes, tulis apa yang sudah dikerjakan di agent-logs/<timestamp>-<judul pekerjaan>.md
