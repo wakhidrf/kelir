@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useKelir } from "../KelirProvider.js";
-import { SidebarProps } from "../types.js";
-import { Sidebar as NeumorphismSidebar } from "../themes/neumorphism/sidebar.js";
+import { useKelir } from "../KelirProvider";
+import { SidebarProps } from "../types";
+import { Sidebar as NeumorphismSidebar } from "../themes/neumorphism/sidebar";
 
 export function Sidebar(props: SidebarProps) {
   const { theme } = useKelir();

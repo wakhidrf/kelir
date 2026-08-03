@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useKelir } from "../KelirProvider.js";
-import { FieldProps } from "../types.js";
-import { Field as NeumorphismField } from "../themes/neumorphism/field.js";
+import { useKelir } from "../KelirProvider";
+import { FieldProps } from "../types";
+import { Field as NeumorphismField } from "../themes/neumorphism/field";
 
 export function Field(props: FieldProps) {
   const { theme } = useKelir();

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AccordionProps } from "../../types.js";
+import { AccordionProps } from "../../types";
 import MuiAccordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";

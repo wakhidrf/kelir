@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useKelir } from "../KelirProvider.js";
-import { CollapsibleProps } from "../types.js";
-import { Collapsible as NeumorphismCollapsible } from "../themes/neumorphism/collapsible.js";
+import { useKelir } from "../KelirProvider";
+import { CollapsibleProps } from "../types";
+import { Collapsible as NeumorphismCollapsible } from "../themes/neumorphism/collapsible";
 
 export function Collapsible(props: CollapsibleProps) {
   const { theme } = useKelir();

@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useKelir } from "../KelirProvider.js";
-import { AvatarProps } from "../types.js";
-import { Avatar as NeumorphismAvatar } from "../themes/neumorphism/avatar.js";
+import { useKelir } from "../KelirProvider";
+import { AvatarProps } from "../types";
+import { Avatar as NeumorphismAvatar } from "../themes/neumorphism/avatar";
 
 export function Avatar(props: AvatarProps) {
   const { theme } = useKelir();

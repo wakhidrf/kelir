@@ -1,5 +1,5 @@
-import { tokens as neumorphismTokens } from "./themes/neumorphism/tokens.js";
-import { productSans } from "./fonts/product-sans.js";
+import { tokens as neumorphismTokens } from "./themes/neumorphism/tokens";
+import { productSans } from "./fonts/product-sans";
 
 export const themeRegistry = {
   neumorphism: {

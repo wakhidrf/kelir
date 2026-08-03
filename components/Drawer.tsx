@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useKelir } from "../KelirProvider.js";
-import { DrawerProps } from "../types.js";
-import { Drawer as NeumorphismDrawer } from "../themes/neumorphism/drawer.js";
+import { useKelir } from "../KelirProvider";
+import { DrawerProps } from "../types";
+import { Drawer as NeumorphismDrawer } from "../themes/neumorphism/drawer";
 
 export function Drawer(props: DrawerProps) {
   const { theme } = useKelir();

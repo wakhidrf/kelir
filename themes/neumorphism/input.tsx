@@ -1,5 +1,5 @@
 import * as React from "react";
-import { InputProps } from "../../types.js";
+import { InputProps } from "../../types";
 import MuiInputBase from "@mui/material/InputBase";
 
 

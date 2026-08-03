@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useKelir } from "../KelirProvider.js";
-import { MessageScrollerProps } from "../types.js";
-import { MessageScroller as NeumorphismMessageScroller } from "../themes/neumorphism/message-scroller.js";
+import { useKelir } from "../KelirProvider";
+import { MessageScrollerProps } from "../types";
+import { MessageScroller as NeumorphismMessageScroller } from "../themes/neumorphism/message-scroller";
 
 export function MessageScroller(props: MessageScrollerProps) {
   const { theme } = useKelir();

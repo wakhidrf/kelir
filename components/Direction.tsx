@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useKelir } from "../KelirProvider.js";
-import { DirectionProps } from "../types.js";
-import { Direction as NeumorphismDirection } from "../themes/neumorphism/direction.js";
+import { useKelir } from "../KelirProvider";
+import { DirectionProps } from "../types";
+import { Direction as NeumorphismDirection } from "../themes/neumorphism/direction";
 
 export function Direction(props: DirectionProps) {
   const { theme } = useKelir();

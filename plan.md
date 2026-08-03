@@ -1,69 +1,150 @@
-# Rencana Implementasi Kelir (plan-step.md)
+# Panduan Revisi Rencana Kerja (Plan.md) Untuk Ekspansi Tema & Font Baru
 
-Sebagai Senior Developer, Senior Security Engineer, dan Senior UI/UX Engineer, berikut adalah rencana langkah demi langkah untuk merancang dan membangun Kelir sesuai dengan `plan.md` (yang disederhanakan tanpa varian), `Part 1/DESIGN.md`, `Part 1/FONT.css`, dan seluruh komponen yang terdaftar di `daftar-komponen.txt`.
+Dokumen ini berfungsi sebagai peta jalan (*blueprint* / rencana kerja) taktis saat Anda ingin menambahkan tema baru (`DESIGN.md`) atau font baru (`font.css` / CDN font) ke dalam submodul **Kelir**.
 
-*Catatan Sesuai Arahan User:* **Varian tema (light/dark variant) tidak usah dibuat.** Kita cukup fokus pada penerapan **Tema** (Neumorphism) dan **Font** (Product Sans) saja.
-
----
-
-## Perspektif Arsitektur & Keamanan (Senior Developer & Security Engineer)
-1. **Model Submodul Tanpa `index.ts`:** Distribusi murni via Git Submodule. Setiap komponen diimpor langsung dari path-nya tanpa barrel file (`index.ts`) guna optimalisasi tree-shaking dan meminimalkan overhead loading modul.
-2. **Keamanan Injeksi Font (Sanitisasi):** Font di-load secara dinamis dari CDN cdnfonts. Kami menerapkan validasi URL yang ketat (regex URL cdnfonts yang aman) sebelum menyisipkan elemen `<link>` ke `<head>` untuk mencegah eksploitasi XSS berbasis DOM.
-3. **Pemuatan Komponen Dinamis yang Aman (Safe Dynamic Imports):** Komponen di-render menggunakan `React.lazy` secara dinamis. Path penyusunan tema akan dibatasi dan divalidasi dengan whitelist (hanya nama tema terdaftar) guna mencegah serangan Directory Traversal/Arbitrary Code Execution saat pemuatan modul.
-4. **SSR-Safety:** Memastikan deteksi lingkungan runtime (`typeof window !== 'undefined'`) saat memanipulasi DOM atau memanggil `localStorage` agar kompatibel dengan Next.js / framework SSR.
-
-## Perspektif Visual & Aksesibilitas (Senior UI/UX Engineer)
-1. **Desain Neumorphism yang Presisi:** Mengikuti manual visual dari `DESIGN.md` (efek timbul/tenggelam, shadow ganda: -5px -5px 15px, 5px 5px 15px dengan blend warna latar belakang).
-2. **Transisi Fisik & Taktil:** Menyediakan transisi visual yang halus (durasi 150ms-300ms, ease-out) untuk transisi tombol dari convex/embossed ke concave/debossed/pressed.
+Ini merevisi konsep di dalam `Plan.md` bawaan agar proses ekspansi berjalan secara modular, konsisten, dan aman.
 
 ---
 
-## Langkah-Langkah Eksekusi Detail
+## 1. STRUKTUR ARSITEKTUR EKSPANSI (TEMA & FONT)
 
-### Tahap 1: Inisialisasi Fondasi & Kontrak Tipe (`types.ts`)
-- [ ] Membuat file `types.ts` di root directory.
-- [ ] Mendefinisikan kontrak interface (`Props`) untuk seluruh 61 komponen dari `daftar-komponen.txt`. Semua interface ini akan meng-extend komponen MUI yang sesuai (misal: `ButtonProps` meng-extend `MuiButtonProps` dari `@mui/material/Button`) agar mempertahankan API standar MUI.
-- [ ] Menentukan tipe global untuk `Theme` dan `Font`. (Tanpa tipe `Variant` / Mode).
-
-### Tahap 2: Manajemen Font Global (`fonts/`)
-- [ ] Mengonversi data dari `Part 1/FONT.css` menjadi modul font global pertama di `fonts/product-sans.ts`.
-- [ ] Membuat struktur standar properti font sesuai §6 di `plan.md`.
-- [ ] Menyediakan skrip utilitas untuk melakukan injeksi font secara aman ke dokumen.
-
-### Tahap 3: Generator Tokens & Integrasi MUI Theme (`themes/neumorphism/`)
-- [ ] Membuat folder `themes/neumorphism/` dan menyalin `DESIGN.md` (Part 1) serta membuat file `changelog.txt`.
-- [ ] Menulis modul parser/resolver di `themes/neumorphism/tokens.ts` yang mengonversi frontmatter YAML di `DESIGN.md` menjadi design tokens siap pakai.
-- [ ] Menggunakan data warna flat murni dari `DESIGN.md` (tanpa membuat varian light/dark).
-- [ ] Menyusun pemetaan dari tokens tersebut ke properti override global MUI (`theme.components.Mui*.styleOverrides`).
-
-### Tahap 4: State Management & Theme Context (`KelirProvider.tsx`)
-- [ ] Membangun context provider utama `KelirProvider.tsx` yang mengelola state `theme` dan `font` aktif. (Tanpa state `variant`/light-dark).
-- [ ] Menghubungkan provider dengan `MuiThemeProvider` untuk menyalurkan tema MUI yang dinamis.
-- [ ] Menerapkan fungsionalitas persistensi state (opsional via `localStorage` yang aman dari SSR crash).
-
-### Tahap 5: Komponen Switcher UI (`switcher.tsx`)
-- [ ] Mengembangkan komponen `KelirSwitcher` yang unstyled/minimalis, berisi 2 select control saja (Tema dan Font) untuk manipulasi langsung secara runtime.
-- [ ] Memastikan `KelirSwitcher` dapat diletakkan di mana saja dalam pohon aplikasi React di bawah `KelirProvider`.
-
-### Tahap 6: Proxy Components & Dynamic Registry (`components/` & `registry.ts`)
-- [ ] Membuat `registry.ts` yang mendaftarkan tema `neumorphism` dan font `product-sans`.
-- [ ] Mengembangkan folder `components/` yang berisi proxy component untuk masing-masing 61 komponen (misal, `components/Button.tsx`).
-- [ ] Mengimplementasikan `React.lazy` + `Suspense` di dalam proxy component untuk me-resolve komponen tema aktif secara dinamis.
-
-### Tahap 7: Implementasi Komponen Tema Neumorphism (61 Komponen)
-- [ ] Membuat implementasi spesifik Neumorphic berbasis MUI untuk masing-masing komponen di dalam `themes/neumorphism/`.
-- [ ] Komponen prioritas pertama: `button.tsx`, `card.tsx`, `input.tsx` (sesuai rekomendasi roadmap §8).
-- [ ] Melanjutkan implementasi seluruh komponen lainnya dari `accordion.tsx` hingga `typography.tsx` (total 61 komponen).
-- [ ] Memastikan setiap komponen mematuhi aturan visual "Do's and Don'ts" dari `DESIGN.md` (misal: tanpa emoji di UI, tanpa pure black `#000000`, efek shadow neumorphic, sudut membulat konsisten 12-16px, efek press 150ms).
-
-### Tahap 8: Skrip Registrasi Otomatis (Auto-Registry Generator)
-- [ ] Menulis skrip pembantu (misal, `scripts/generate-registry.ts` atau utilitas build) yang memindai direktori `themes/` dan `fonts/` guna memperbarui `registry.ts` secara dinamis.
-
-### Tahap 9: Verifikasi, Keamanan & Refleksi Pre-Commit
-- [ ] Melakukan analisis keamanan terhadap penanganan parameter input dan URL font (mencegah manipulasi prototipe / CSRF / XSS).
-- [ ] Menjalankan verifikasi fungsionalitas switching runtime (uji coba ganti tema dan perubahan font secara simultan).
-- [ ] Menjalankan pre-commit check untuk memvalidasi linting dan konsistensi tipe TypeScript.
+```
+src/views/kelir/
+├── fonts/
+│   ├── product-sans.ts           # Definisikan objek font Product Sans
+│   └── <nama-font-baru>.ts       # Berkas pendaftaran font baru (misal: jetbrains-mono.ts)
+├── themes/
+│   ├── neumorphism/
+│   │   ├── DESIGN.md             # Tokens, aturan desain, & dokumentasi neumorphism
+│   │   ├── button.tsx            # Implementasi visual tombol neumorphic
+│   │   └── ...                   # Implementasi spesifik komponen neumorphic
+│   └── <nama-tema-baru>/         # Folder Tema Baru (misal: glassmorphism/)
+│       ├── DESIGN.md             # Tokens & aturan desain tema baru
+│       ├── button.tsx            # Implementasi visual komponen tema baru
+│       └── ...
+```
 
 ---
 
-Rencana ini siap dieksekusi untuk menghasilkan library komponen berbasis tema yang modular, aman, dan memiliki performa serta estetika tinggi.
+## 2. PANDUAN LANGKAH: MENAMBAHKAN FONT BARU
+
+Ketika Anda memiliki berkas `font.css` baru atau ingin memuat font eksternal dari CDN (misal: `https://fonts.cdnfonts.com/css/jetbrains-mono`), ikuti langkah-langkah berikut:
+
+### Langkah 1: Buat Definisinya di dalam `src/views/kelir/fonts/`
+Buat file baru bernama `src/views/kelir/fonts/<nama-font-baru>.ts` (misal: `jetbrains-mono.ts`). Definisikan spesifikasi font tersebut sesuai standar model Kelir:
+
+```typescript
+export const jetbrainsMono = {
+  slug: "jetbrains-mono",
+  family: "JetBrains Mono",
+  fallback: "monospace",
+  importUrl: "https://fonts.cdnfonts.com/css/jetbrains-mono", // URL cdnfonts yang valid
+  cssVariable: "--kelir-font-active", // Variabel CSS global yang diatur oleh Provider
+} as const;
+```
+
+### Langkah 2: Daftarkan di `src/views/kelir/types.ts`
+Tambahkan slug font baru ke dalam tipe data global `Font`:
+```typescript
+export type Font = "product-sans" | "jetbrains-mono";
+```
+
+### Langkah 3: Daftarkan di `src/views/kelir/registry.ts`
+Impor dan masukkan font baru tersebut ke dalam `fontRegistry`:
+```typescript
+import { jetbrainsMono } from "./fonts/jetbrains-mono";
+
+export const fontRegistry = {
+  "product-sans": productSans,
+  "jetbrains-mono": jetbrainsMono,
+} as const;
+```
+
+### Langkah 4: Perbarui Menu Pilihan di `src/views/kelir/KelirProvider.tsx`
+Agar font baru tersebut muncul dalam elemen selektor switcher secara otomatis saat runtime, tambahkan ke dalam `fontsList`:
+```typescript
+const fontsList = React.useMemo(() => [
+  { slug: "product-sans" as Font, family: "Product Sans" },
+  { slug: "jetbrains-mono" as Font, family: "JetBrains Mono" },
+], []);
+```
+
+---
+
+## 3. PANDUAN LANGKAH: MENAMBAHKAN TEMA BARU
+
+Misalnya Anda ingin menambahkan tema baru berbasis **Glassmorphism** dengan file tokens `DESIGN.md`:
+
+### Langkah 1: Buat Folder Tema di `src/views/kelir/themes/`
+Buat folder baru bernama `src/views/kelir/themes/glassmorphism/`.
+
+### Langkah 2: Letakkan `DESIGN.md` & Buat Parser Tokens
+1. Tulis `DESIGN.md` yang memuat YAML Frontmatter di bagian atas berisi nilai-nilai warna, radius, dan tipografi spesifik tema baru tersebut.
+2. Buat file `tokens.ts` di dalam folder tema baru tersebut untuk mengekstrak data dari YAML tersebut menjadi objek JSON yang siap digunakan oleh komponen Anda.
+   *(Contoh pemetaan token warna murni datar seperti warna primer, sekunder, latar belakang, teks, sudut membulat, dan bayangan).*
+
+### Langkah 3: Implementasikan Komponen Spesifik Tema
+Tulis implementasi UI komponen di dalam `themes/glassmorphism/` (misalnya `button.tsx`, `card.tsx`, dll) dengan memanfaatkan token-token yang telah didefinisikan sebelumnya. Komponen ini harus menerima properti standar yang ditentukan di dalam `src/views/kelir/types.ts`.
+
+### Langkah 4: Daftarkan Tema di `src/views/kelir/types.ts`
+Tambahkan slug tema baru Anda ke dalam tipe data global `Theme`:
+```typescript
+export type Theme = "neumorphism" | "glassmorphism";
+```
+
+### Langkah 5: Daftarkan Tema di `src/views/kelir/registry.ts`
+Impor token tema baru Anda dan daftarkan ke dalam `themeRegistry`:
+```typescript
+import { tokens as glassmorphismTokens } from "./themes/glassmorphism/tokens";
+
+export const themeRegistry = {
+  neumorphism: {
+    slug: "neumorphism",
+    label: "Neumorphism",
+    tokens: neumorphismTokens,
+  },
+  glassmorphism: {
+    slug: "glassmorphism",
+    label: "Glassmorphism",
+    tokens: glassmorphismTokens,
+  },
+} as const;
+```
+
+### Langkah 6: Perbarui Daftar Tema di `src/views/kelir/KelirProvider.tsx`
+Daftarkan tema tersebut di dalam `themesList` agar dideteksi oleh `KelirSwitcher`:
+```typescript
+const themesList = React.useMemo(() => [
+  { slug: "neumorphism" as Theme, label: "Neumorphism" },
+  { slug: "glassmorphism" as Theme, label: "Glassmorphism" },
+], []);
+```
+
+### Langkah 7: Hubungkan Komponen Proxy di `src/views/kelir/components/`
+Terakhir, hubungkan komponen proxy agar merender visual komponen yang sesuai ketika tema aktif terpilih.
+Contoh pada `src/views/kelir/components/Button.tsx`:
+
+```tsx
+import { Button as NeumorphismButton } from "../themes/neumorphism/button";
+import { Button as GlassmorphismButton } from "../themes/glassmorphism/button";
+
+export function Button(props: ButtonProps) {
+  const { theme } = useKelir();
+
+  if (theme === "neumorphism") {
+    return <NeumorphismButton {...props} />;
+  }
+  if (theme === "glassmorphism") {
+    return <GlassmorphismButton {...props} />;
+  }
+
+  return null;
+}
+```
+
+---
+
+## 4. PRINSIP UTAMA SAAT EKSPANSI
+1. **Konsistensi API:** Pastikan setiap komponen tema baru mengimplementasikan properti (`Props`) yang sama dari `src/views/kelir/types.ts` agar tidak merusak kode pengonsumsi (*consumer-side*).
+2. **Keamanan DOM Regex:** Saat memuat CDN Font dari luar, pastikan aturan regex aman Anda di `KelirProvider.tsx` (`CDN_FONT_REGEX`) diperbarui agar mendukung URL domain CDN baru jika Anda tidak menggunakan `cdnfonts.com`.
+3. **No Barrel Policy:** Tetap pertahankan impor langsung (*direct-path loading*) tanpa membuat file index.ts untuk memelihara performa tree-shaking yang optimal.

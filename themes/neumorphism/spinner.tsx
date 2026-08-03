@@ -1,5 +1,5 @@
 import * as React from "react";
-import { SpinnerProps } from "../../types.js";
+import { SpinnerProps } from "../../types";
 import MuiCircularProgress from "@mui/material/CircularProgress";
 
 

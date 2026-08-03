@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AvatarProps } from "../../types.js";
+import { AvatarProps } from "../../types";
 import MuiAvatar from "@mui/material/Avatar";
 
 

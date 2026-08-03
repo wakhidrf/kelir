@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useKelir } from "../KelirProvider.js";
-import { InputProps } from "../types.js";
-import { Input as NeumorphismInput } from "../themes/neumorphism/input.js";
+import { useKelir } from "../KelirProvider";
+import { InputProps } from "../types";
+import { Input as NeumorphismInput } from "../themes/neumorphism/input";
 
 export function Input(props: InputProps) {
   const { theme } = useKelir();

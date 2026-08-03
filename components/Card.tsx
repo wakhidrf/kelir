@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useKelir } from "../KelirProvider.js";
-import { CardProps } from "../types.js";
-import { Card as NeumorphismCard } from "../themes/neumorphism/card.js";
+import { useKelir } from "../KelirProvider";
+import { CardProps } from "../types";
+import { Card as NeumorphismCard } from "../themes/neumorphism/card";
 
 export function Card(props: CardProps) {
   const { theme } = useKelir();

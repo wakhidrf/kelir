@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useKelir } from "../KelirProvider.js";
-import { ScrollAreaProps } from "../types.js";
-import { ScrollArea as NeumorphismScrollArea } from "../themes/neumorphism/scroll-area.js";
+import { useKelir } from "../KelirProvider";
+import { ScrollAreaProps } from "../types";
+import { ScrollArea as NeumorphismScrollArea } from "../themes/neumorphism/scroll-area";
 
 export function ScrollArea(props: ScrollAreaProps) {
   const { theme } = useKelir();

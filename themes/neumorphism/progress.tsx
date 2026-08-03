@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ProgressProps } from "../../types.js";
+import { ProgressProps } from "../../types";
 import MuiLinearProgress from "@mui/material/LinearProgress";
 
 

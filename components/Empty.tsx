@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useKelir } from "../KelirProvider.js";
-import { EmptyProps } from "../types.js";
-import { Empty as NeumorphismEmpty } from "../themes/neumorphism/empty.js";
+import { useKelir } from "../KelirProvider";
+import { EmptyProps } from "../types";
+import { Empty as NeumorphismEmpty } from "../themes/neumorphism/empty";
 
 export function Empty(props: EmptyProps) {
   const { theme } = useKelir();

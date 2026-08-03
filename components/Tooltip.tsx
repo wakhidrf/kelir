@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useKelir } from "../KelirProvider.js";
-import { TooltipProps } from "../types.js";
-import { Tooltip as NeumorphismTooltip } from "../themes/neumorphism/tooltip.js";
+import { useKelir } from "../KelirProvider";
+import { TooltipProps } from "../types";
+import { Tooltip as NeumorphismTooltip } from "../themes/neumorphism/tooltip";
 
 export function Tooltip(props: TooltipProps) {
   const { theme } = useKelir();

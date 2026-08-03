@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CheckboxProps } from "../../types.js";
+import { CheckboxProps } from "../../types";
 import MuiCheckbox from "@mui/material/Checkbox";
 
 

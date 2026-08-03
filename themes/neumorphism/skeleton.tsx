@@ -1,5 +1,5 @@
 import * as React from "react";
-import { SkeletonProps } from "../../types.js";
+import { SkeletonProps } from "../../types";
 import MuiSkeleton from "@mui/material/Skeleton";
 
 

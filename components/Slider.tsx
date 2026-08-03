@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useKelir } from "../KelirProvider.js";
-import { SliderProps } from "../types.js";
-import { Slider as NeumorphismSlider } from "../themes/neumorphism/slider.js";
+import { useKelir } from "../KelirProvider";
+import { SliderProps } from "../types";
+import { Slider as NeumorphismSlider } from "../themes/neumorphism/slider";
 
 export function Slider(props: SliderProps) {
   const { theme } = useKelir();

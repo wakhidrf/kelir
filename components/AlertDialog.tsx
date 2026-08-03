@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useKelir } from "../KelirProvider.js";
-import { AlertDialogProps } from "../types.js";
-import { AlertDialog as NeumorphismAlertDialog } from "../themes/neumorphism/alert-dialog.js";
+import { useKelir } from "../KelirProvider";
+import { AlertDialogProps } from "../types";
+import { AlertDialog as NeumorphismAlertDialog } from "../themes/neumorphism/alert-dialog";
 
 export function AlertDialog(props: AlertDialogProps) {
   const { theme } = useKelir();

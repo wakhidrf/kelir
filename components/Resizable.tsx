@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useKelir } from "../KelirProvider.js";
-import { ResizableProps } from "../types.js";
-import { Resizable as NeumorphismResizable } from "../themes/neumorphism/resizable.js";
+import { useKelir } from "../KelirProvider";
+import { ResizableProps } from "../types";
+import { Resizable as NeumorphismResizable } from "../themes/neumorphism/resizable";
 
 export function Resizable(props: ResizableProps) {
   const { theme } = useKelir();

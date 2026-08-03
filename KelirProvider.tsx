@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createTheme, ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
-import { Theme, Font, KelirContextValue } from "./types.js";
-import { themeRegistry, fontRegistry } from "./registry.js";
+import { Theme, Font, KelirContextValue } from "./types";
+import { themeRegistry, fontRegistry } from "./registry";
 
 // Validation for secure font injection
 const CDN_FONT_REGEX = /^https:\/\/fonts\.cdnfonts\.com\/css\/[a-zA-Z0-9_-]+$/;

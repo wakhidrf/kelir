@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useKelir } from "../KelirProvider.js";
-import { CheckboxProps } from "../types.js";
-import { Checkbox as NeumorphismCheckbox } from "../themes/neumorphism/checkbox.js";
+import { useKelir } from "../KelirProvider";
+import { CheckboxProps } from "../types";
+import { Checkbox as NeumorphismCheckbox } from "../themes/neumorphism/checkbox";
 
 export function Checkbox(props: CheckboxProps) {
   const { theme } = useKelir();

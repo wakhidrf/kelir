@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useKelir } from "../KelirProvider.js";
-import { ProgressProps } from "../types.js";
-import { Progress as NeumorphismProgress } from "../themes/neumorphism/progress.js";
+import { useKelir } from "../KelirProvider";
+import { ProgressProps } from "../types";
+import { Progress as NeumorphismProgress } from "../themes/neumorphism/progress";
 
 export function Progress(props: ProgressProps) {
   const { theme } = useKelir();

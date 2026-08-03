@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useKelir } from "../KelirProvider.js";
-import { CarouselProps } from "../types.js";
-import { Carousel as NeumorphismCarousel } from "../themes/neumorphism/carousel.js";
+import { useKelir } from "../KelirProvider";
+import { CarouselProps } from "../types";
+import { Carousel as NeumorphismCarousel } from "../themes/neumorphism/carousel";
 
 export function Carousel(props: CarouselProps) {
   const { theme } = useKelir();

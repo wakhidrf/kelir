@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useKelir } from "../KelirProvider.js";
-import { BubbleProps } from "../types.js";
-import { Bubble as NeumorphismBubble } from "../themes/neumorphism/bubble.js";
+import { useKelir } from "../KelirProvider";
+import { BubbleProps } from "../types";
+import { Bubble as NeumorphismBubble } from "../themes/neumorphism/bubble";
 
 export function Bubble(props: BubbleProps) {
   const { theme } = useKelir();

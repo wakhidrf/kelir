@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useKelir } from "./KelirProvider.js";
+import { useKelir } from "./KelirProvider";
 
 export function KelirSwitcher() {
   const { theme, setTheme, font, setFont, themes, fonts } = useKelir();

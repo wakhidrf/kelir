@@ -1,5 +1,5 @@
 import * as React from "react";
-import { SeparatorProps } from "../../types.js";
+import { SeparatorProps } from "../../types";
 import MuiDivider from "@mui/material/Divider";
 
 

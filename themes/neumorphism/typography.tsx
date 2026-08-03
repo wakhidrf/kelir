@@ -1,5 +1,5 @@
 import * as React from "react";
-import { TypographyProps } from "../../types.js";
+import { TypographyProps } from "../../types";
 import MuiTypography from "@mui/material/Typography";
 
 

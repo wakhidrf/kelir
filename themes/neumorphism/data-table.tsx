@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DataTableProps } from "../../types.js";
+import { DataTableProps } from "../../types";
 
 
 const cardShadow = "var(--shadow-card, 3px 3px 10px rgba(0, 0, 0, 0.05), -3px -3px 10px rgba(255, 255, 255, 0.8))";

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ButtonProps } from "../../types.js";
+import { ButtonProps } from "../../types";
 import MuiButton from "@mui/material/Button";
 
 

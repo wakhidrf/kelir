@@ -1,5 +1,5 @@
 import * as React from "react";
-import { SliderProps } from "../../types.js";
+import { SliderProps } from "../../types";
 import MuiSlider from "@mui/material/Slider";
 
 

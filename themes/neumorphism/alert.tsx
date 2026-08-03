@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AlertProps } from "../../types.js";
+import { AlertProps } from "../../types";
 import MuiAlert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 

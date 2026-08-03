@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useKelir } from "../KelirProvider.js";
-import { SkeletonProps } from "../types.js";
-import { Skeleton as NeumorphismSkeleton } from "../themes/neumorphism/skeleton.js";
+import { useKelir } from "../KelirProvider";
+import { SkeletonProps } from "../types";
+import { Skeleton as NeumorphismSkeleton } from "../themes/neumorphism/skeleton";
 
 export function Skeleton(props: SkeletonProps) {
   const { theme } = useKelir();

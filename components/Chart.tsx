@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useKelir } from "../KelirProvider.js";
-import { ChartProps } from "../types.js";
-import { Chart as NeumorphismChart } from "../themes/neumorphism/chart.js";
+import { useKelir } from "../KelirProvider";
+import { ChartProps } from "../types";
+import { Chart as NeumorphismChart } from "../themes/neumorphism/chart";
 
 export function Chart(props: ChartProps) {
   const { theme } = useKelir();

@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useKelir } from "../KelirProvider.js";
-import { SelectProps } from "../types.js";
-import { Select as NeumorphismSelect } from "../themes/neumorphism/select.js";
+import { useKelir } from "../KelirProvider";
+import { SelectProps } from "../types";
+import { Select as NeumorphismSelect } from "../themes/neumorphism/select";
 
 export function Select(props: SelectProps) {
   const { theme } = useKelir();

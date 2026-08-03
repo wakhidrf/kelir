@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ResizableProps } from "../../types.js";
+import { ResizableProps } from "../../types";
 
 
 const cardShadow = "var(--shadow-card, 3px 3px 10px rgba(0, 0, 0, 0.05), -3px -3px 10px rgba(255, 255, 255, 0.8))";

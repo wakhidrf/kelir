@@ -99,7 +99,7 @@ export interface BadgeProps extends Omit<MuiBadgeProps, "children" | "variant"> 
 }
 
 // 8. Breadcrumb
-export interface BreadcrumbProps extends Omit<MuiBreadcrumbsProps, "children"> {
+export interface BreadcrumbProps extends MuiBreadcrumbsProps {
   items: { label: React.ReactNode; href?: string; active?: boolean }[];
 }
 

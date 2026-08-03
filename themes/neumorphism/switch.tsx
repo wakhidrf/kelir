@@ -1,5 +1,5 @@
 import * as React from "react";
-import { SwitchProps } from "../../types.js";
+import { SwitchProps } from "../../types";
 import MuiSwitch from "@mui/material/Switch";
 
 

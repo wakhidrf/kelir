@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useKelir } from "../KelirProvider.js";
-import { HoverCardProps } from "../types.js";
-import { HoverCard as NeumorphismHoverCard } from "../themes/neumorphism/hover-card.js";
+import { useKelir } from "../KelirProvider";
+import { HoverCardProps } from "../types";
+import { HoverCard as NeumorphismHoverCard } from "../themes/neumorphism/hover-card";
 
 export function HoverCard(props: HoverCardProps) {
   const { theme } = useKelir();
