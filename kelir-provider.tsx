@@ -1,0 +1,197 @@
+"use client";
+
+import {
+  createTheme,
+  ThemeProvider as MuiThemeProvider,
+} from "@mui/material/styles";
+import Cookies from "js-cookie";
+import { useTheme } from "next-themes";
+import * as React from "react";
+import { themeRegistry } from "./kelir-registry";
+import {
+  fontLinks,
+  kelirStyleCss,
+  THEME_ATTRIBUTE,
+  THEME_COOKIE,
+} from "./kelir-styles";
+import type { KelirContextValue, Theme } from "./kelir-types";
+
+export const KelirContext = React.createContext<KelirContextValue | null>(null);
+
+export function useKelir() {
+  const context = React.useContext(KelirContext);
+  if (!context) {
+    throw new Error("useKelir must be used within a KelirProvider");
+  }
+  return context;
+}
+
+interface KelirProviderProps {
+  children: React.ReactNode;
+  defaultTheme?: Theme;
+}
+
+export function KelirProvider({
+  children,
+  defaultTheme = "neumorphism",
+}: KelirProviderProps) {
+  // Theme state is owned by next-themes (persisted + pre-hydration script).
+  const { theme: activeTheme, setTheme: setActiveTheme } = useTheme();
+  // Keep a local value initialized from the persisted theme attribute that
+  // next-themes' pre-hydration script already set on <html>. Reading it
+  // synchronously on first render means the NativeSelect never flashes the
+  // default theme's label on refresh.
+  const [themeName, setThemeName] = React.useState<Theme>(() => {
+    if (typeof document === "undefined") return defaultTheme;
+    const saved = document.documentElement.getAttribute(THEME_ATTRIBUTE);
+    return saved && saved in themeRegistry ? (saved as Theme) : defaultTheme;
+  });
+
+  // Adopt the persisted theme from next-themes once it settles after mount.
+  React.useEffect(() => {
+    if (activeTheme && activeTheme in themeRegistry) {
+      setThemeName(activeTheme as Theme);
+    }
+  }, [activeTheme]);
+
+  // Mirror the theme into a cookie so the server can render the initial HTML
+  // (and the switcher's label) in the correct theme — no flash on refresh.
+  React.useEffect(() => {
+    try {
+      Cookies.set(THEME_COOKIE, themeName, {
+        path: "/",
+        expires: 365,
+        sameSite: "lax",
+      });
+    } catch {
+      // ignore storage errors
+    }
+  }, [themeName]);
+
+  // Setter updates both the local value (drives MUI) and next-themes
+  // (persists to localStorage + sets the pre-hydration attribute).
+  const setTheme = React.useCallback(
+    (next: Theme) => {
+      setThemeName(next);
+      // Apply the theme attribute synchronously so CSS-var-driven text
+      // (e.g. NativeSelect) doesn't flash to the default theme before
+      // next-themes' effect runs.
+      document.documentElement.setAttribute(THEME_ATTRIBUTE, next);
+      setActiveTheme(next);
+    },
+    [setActiveTheme],
+  );
+
+  // Available lists
+  const themesList = React.useMemo(
+    () => [
+      { slug: "kawaii-sweet-pastel" as Theme, label: "Kawaii Sweet Pastel" },
+      { slug: "neumorphism" as Theme, label: "Neumorphism" },
+    ],
+    [],
+  );
+
+  // Create MUI dynamic theme.
+  // Custom Kelir components use CSS variables (zero-flash via the
+  // data-kelir-theme attribute). MUI must use concrete hex values because it
+  // runs color math (e.g. alpha()) at style-evaluation time which cannot parse
+  // CSS variables; those components pick up the persisted theme on hydration.
+  const muiTheme = React.useMemo(() => {
+    const tokens = themeRegistry[themeName]?.tokens;
+    const baseColors: Record<string, string> = tokens?.colors || {
+      primary: "#C8E0F4",
+      secondary: "#F5E0E8",
+      background: "#E8E8E8",
+      surface: "#E8E8E8",
+      textPrimary: "#333333",
+      textSecondary: "#666666",
+    };
+
+    return createTheme({
+      palette: {
+        mode: "light",
+        primary: { main: baseColors.primary },
+        secondary: { main: baseColors.secondary },
+        background: {
+          default: baseColors.background,
+          paper: baseColors.surface || baseColors.background,
+        },
+        text: {
+          primary: baseColors.textPrimary,
+          secondary: baseColors.textSecondary,
+        },
+      },
+      typography: {
+        fontFamily: "var(--kelir-font-active, sans-serif)",
+        h1: {
+          fontSize: tokens?.typography?.h1?.fontSize,
+          fontWeight: tokens?.typography?.h1?.fontWeight,
+        },
+        body1: {
+          fontSize: tokens?.typography?.bodyMd?.fontSize,
+          fontWeight: tokens?.typography?.bodyMd?.fontWeight,
+        },
+      },
+      shape: {
+        borderRadius: parseInt(tokens?.rounded?.sm || "14px", 10),
+      },
+      components: {
+        MuiButton: {
+          defaultProps: {
+            disableElevation: true,
+          },
+          styleOverrides: {
+            root: {
+              borderRadius: "var(--radius-sm)",
+              textTransform: "none",
+              fontWeight: 600,
+              padding: "10px 20px",
+              fontFamily: "inherit",
+              transition: "all 150ms ease-out",
+            },
+          },
+        },
+        MuiCard: {
+          styleOverrides: {
+            root: {
+              borderRadius: "var(--radius-sm)",
+              backgroundColor: "var(--color-surface)",
+              boxShadow: "var(--shadow-card)",
+              border:
+                "1px solid var(--color-border-light, rgba(255, 255, 255, 0.4))",
+            },
+          },
+        },
+      },
+    });
+  }, [themeName]);
+
+  const contextValue = React.useMemo<KelirContextValue>(
+    () => ({
+      theme: themeName,
+      setTheme,
+      themes: themesList,
+    }),
+    [themeName, setTheme, themesList],
+  );
+
+  return (
+    <>
+      {/* Theme token CSS + scrollbar. Injected by Kelir itself so consumers
+          don't need any token stylesheet. Selectors match the data-kelir-theme
+          attribute, so the saved theme applies before first paint (no flash).
+          Rendered as React children (a static string, not user input) so no
+          dangerouslySetInnerHTML is needed. */}
+      <style>{kelirStyleCss()}</style>
+      {/* Theme fonts. Rendered before the content so they load render-blocking
+          and are cached — switching themes/fonts never flashes to a fallback.
+          React 19 dedupes identical <link>s by href. */}
+      {fontLinks().map(({ href }) => (
+        <link key={href} rel="stylesheet" href={href} />
+      ))}
+      <KelirContext.Provider value={contextValue}>
+        <MuiThemeProvider theme={muiTheme}>{children}</MuiThemeProvider>
+      </KelirContext.Provider>
+    </>
+  );
+}
