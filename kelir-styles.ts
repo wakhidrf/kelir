@@ -54,6 +54,10 @@ const FONTS: Record<Theme, ThemeFonts> = {
     active: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     mono: '"JetBrains Mono", monospace',
   },
+  "editorial-contemporaneo": {
+    active: '"Playfair Display", serif', // DESIGN typography (Playfair Display)
+    mono: '"JetBrains Mono", monospace',
+  },
   "futuristic-glassmorphism": {
     active: '"Exo 2", sans-serif', // DESIGN typography (Exo 2)
     mono: '"JetBrains Mono", monospace',
@@ -71,6 +75,7 @@ const FONT_URLS: Record<Theme, string> = {
   "spatial-ui": "https://fonts.cdnfonts.com/css/jetbrains-mono",
   claymorphism: "https://fonts.cdnfonts.com/css/jetbrains-mono",
   "dimensional-layering": "https://fonts.cdnfonts.com/css/jetbrains-mono",
+  "editorial-contemporaneo": "https://fonts.cdnfonts.com/css/playfair-display",
   "futuristic-glassmorphism": "https://fonts.cdnfonts.com/css/exo-2",
   skeuomorphism: "https://fonts.cdnfonts.com/css/jetbrains-mono",
 };
@@ -87,6 +92,7 @@ const SCHEMES: Record<Theme, "light" | "dark"> = {
   "spatial-ui": "light",
   claymorphism: "light",
   "dimensional-layering": "light",
+  "editorial-contemporaneo": "light",
   "futuristic-glassmorphism": "dark",
   skeuomorphism: "dark",
 };

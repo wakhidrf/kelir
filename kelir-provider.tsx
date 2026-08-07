@@ -90,6 +90,10 @@ export function KelirProvider({ children, defaultTheme }: KelirProviderProps) {
         slug: "dimensional-layering" as Theme,
         label: "Dimensional Layering",
       },
+      {
+        slug: "editorial-contemporaneo" as Theme,
+        label: "Editorial Contemporâneo",
+      },
       { slug: "skeuomorphism" as Theme, label: "Skeuomorphism" },
       { slug: "liquid-glass" as Theme, label: "Liquid Glass" },
       { slug: "spatial-ui" as Theme, label: "Spatial UI (VisionOS)" },
