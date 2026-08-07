@@ -48,6 +48,21 @@ export function motionFamily(theme: string): MotionFamily {
     : "ease";
 }
 
+// Liquid Glass (premium, springy, fluid 400-600ms).
+export const liquidGlassMotion: KelirMotionTokens = {
+  duration: {
+    base: "280ms",
+    hover: "200ms",
+    entry: "480ms",
+    stagger: "100ms",
+    page: "300ms",
+  },
+  easing: { curve: "spring", stiffness: "120", damping: "20" },
+  entry: { translateY: "16px", opacity: "0" },
+  hover: { scale: "1.03" },
+  blur: { backdrop: "blur(20px)" },
+} as const;
+
 // Neumorphism (calm / ease-out) defaults.
 export const easeMotion: KelirMotionTokens = {
   duration: {
@@ -80,5 +95,6 @@ export const springMotion: KelirMotionTokens = {
 
 // Mapping theme -> motion token set.
 export function motionFor(theme: string): KelirMotionTokens {
+  if (theme === "liquid-glass") return liquidGlassMotion;
   return motionFamily(theme) === "spring" ? springMotion : easeMotion;
 }

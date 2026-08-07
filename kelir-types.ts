@@ -39,6 +39,7 @@ import type * as React from "react";
 export type Theme =
   | "claymorphism"
   | "glassmorphism"
+  | "liquid-glass"
   | "neumorphism"
   | "skeuomorphism";
 

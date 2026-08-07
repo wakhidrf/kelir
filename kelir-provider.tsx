@@ -89,6 +89,7 @@ export function KelirProvider({
       { slug: "glassmorphism" as Theme, label: "Glassmorphism" },
       { slug: "claymorphism" as Theme, label: "Claymorphism" },
       { slug: "skeuomorphism" as Theme, label: "Skeuomorphism" },
+      { slug: "liquid-glass" as Theme, label: "Liquid Glass" },
     ],
     [],
   );
