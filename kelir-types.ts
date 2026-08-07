@@ -38,6 +38,7 @@ import type * as React from "react";
 // Global contexts & states
 export type Theme =
   | "claymorphism"
+  | "dimensional-layering"
   | "futuristic-glassmorphism"
   | "glassmorphism"
   | "liquid-glass"

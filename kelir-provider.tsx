@@ -86,6 +86,10 @@ export function KelirProvider({ children, defaultTheme }: KelirProviderProps) {
       { slug: "neumorphism" as Theme, label: "Neumorphism" },
       { slug: "glassmorphism" as Theme, label: "Glassmorphism" },
       { slug: "claymorphism" as Theme, label: "Claymorphism" },
+      {
+        slug: "dimensional-layering" as Theme,
+        label: "Dimensional Layering",
+      },
       { slug: "skeuomorphism" as Theme, label: "Skeuomorphism" },
       { slug: "liquid-glass" as Theme, label: "Liquid Glass" },
       { slug: "spatial-ui" as Theme, label: "Spatial UI (VisionOS)" },

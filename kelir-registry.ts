@@ -1,4 +1,5 @@
 import { tokens as claymorphismTokens } from "./kelir-themes/claymorphism";
+import { tokens as dimensionalLayeringTokens } from "./kelir-themes/dimensional-layering";
 import { tokens as futuristicGlassTokens } from "./kelir-themes/futuristic-glassmorphism";
 import { tokens as glassmorphismTokens } from "./kelir-themes/glassmorphism";
 import { tokens as liquidGlassTokens } from "./kelir-themes/liquid-glass";
@@ -41,5 +42,10 @@ export const themeRegistry = {
     slug: "futuristic-glassmorphism",
     label: "Futuristic UI Glassmorphism",
     tokens: futuristicGlassTokens,
+  },
+  "dimensional-layering": {
+    slug: "dimensional-layering",
+    label: "Dimensional Layering",
+    tokens: dimensionalLayeringTokens,
   },
 } as const;
