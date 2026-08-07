@@ -87,6 +87,7 @@ export function KelirProvider({
     () => [
       { slug: "kawaii-sweet-pastel" as Theme, label: "Kawaii Sweet Pastel" },
       { slug: "neumorphism" as Theme, label: "Neumorphism" },
+      { slug: "glassmorphism" as Theme, label: "Glassmorphism" },
     ],
     [],
   );
@@ -107,14 +108,22 @@ export function KelirProvider({
       textSecondary: "#666666",
     };
 
+    // MUI runs color math (alpha/emphasize) on palette values at render time,
+    // which cannot parse CSS gradients. When a theme's background is a
+    // gradient (e.g. glassmorphism), map it to a solid MUI-safe color so
+    // popups/surfaces never throw a "color" error.
+    const muiBackground = baseColors.background.includes("gradient(")
+      ? baseColors.surface || baseColors.background
+      : baseColors.background;
+
     return createTheme({
       palette: {
         mode: "light",
         primary: { main: baseColors.primary },
         secondary: { main: baseColors.secondary },
         background: {
-          default: baseColors.background,
-          paper: baseColors.surface || baseColors.background,
+          default: muiBackground,
+          paper: baseColors.surface || muiBackground,
         },
         text: {
           primary: baseColors.textPrimary,

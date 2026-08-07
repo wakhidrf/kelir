@@ -61,6 +61,21 @@ export function Select({ options, style, ...props }: SelectProps) {
             fontFamily: "inherit",
             fontSize: "14px",
           }}
+          sx={{
+            "&.Mui-selected": {
+              backgroundColor: css.colors.primary,
+              color: css.on.primary,
+            },
+            "&.Mui-selected:hover": {
+              backgroundColor: css.colors.primary,
+              color: css.on.primary,
+            },
+            "&:hover": {
+              backgroundColor: css.colors.primary,
+              color: css.on.primary,
+              opacity: 0.9,
+            },
+          }}
         >
           {option.label}
         </MenuItem>

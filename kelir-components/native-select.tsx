@@ -39,6 +39,9 @@ export function NativeSelect({ options, style, ...props }: NativeSelectProps) {
           color: textPrimary,
           backgroundColor: neumorphicBg,
         },
+        "& option:disabled": {
+          color: textSecondary,
+        },
       }}
     >
       {options.map((option) => (

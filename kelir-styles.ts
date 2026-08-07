@@ -35,14 +35,28 @@ const FONTS: Record<Theme, ThemeFonts> = {
     active: '"Fredoka", sans-serif',
     mono: '"JetBrains Mono", monospace',
   },
+  glassmorphism: {
+    active: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    mono: '"JetBrains Mono", monospace',
+  },
 };
 
 const FONT_URLS: Record<Theme, string> = {
   neumorphism: "https://fonts.cdnfonts.com/css/product-sans",
   "kawaii-sweet-pastel": "https://fonts.cdnfonts.com/css/fredoka",
+  glassmorphism: "https://fonts.cdnfonts.com/css/jetbrains-mono",
 };
 
 const MONO_FONT_URL = "https://fonts.cdnfonts.com/css/jetbrains-mono";
+
+// Native color scheme: matches whether the theme uses light or dark text so
+// OS-rendered surfaces (native <select> dropdown, scrollbars, overlays) get the
+// correct panel color and don't render white-on-white / dark-on-dark.
+const SCHEMES: Record<Theme, "light" | "dark"> = {
+  neumorphism: "light",
+  "kawaii-sweet-pastel": "light",
+  glassmorphism: "dark",
+};
 
 function themeVars(theme: Theme): string {
   const tokens = themeRegistry[theme].tokens;
@@ -76,6 +90,7 @@ function themeVars(theme: Theme): string {
     `--shadow-card: ${shadows.card};`,
     `--kelir-font-active: ${fonts.active};`,
     `--kelir-font-mono: ${fonts.mono};`,
+    `--kelir-color-scheme: ${SCHEMES[theme] ?? "light"};`,
   ].join("\n  ");
 }
 
@@ -105,9 +120,10 @@ const baseCss = `
     min-height: 100%;
     display: flex;
     flex-direction: column;
-    background-color: var(--color-background, #e8e8e8);
+    background: var(--color-background, #e8e8e8);
     color: var(--color-text-primary, #333333);
     font-family: var(--kelir-font-active, sans-serif);
+    color-scheme: var(--kelir-color-scheme, light);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
