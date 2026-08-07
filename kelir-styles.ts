@@ -31,10 +31,6 @@ const FONTS: Record<Theme, ThemeFonts> = {
     active: '"Product Sans", sans-serif',
     mono: '"JetBrains Mono", monospace',
   },
-  "kawaii-sweet-pastel": {
-    active: '"Fredoka", sans-serif',
-    mono: '"JetBrains Mono", monospace',
-  },
   glassmorphism: {
     active: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     mono: '"JetBrains Mono", monospace',
@@ -43,7 +39,6 @@ const FONTS: Record<Theme, ThemeFonts> = {
 
 const FONT_URLS: Record<Theme, string> = {
   neumorphism: "https://fonts.cdnfonts.com/css/product-sans",
-  "kawaii-sweet-pastel": "https://fonts.cdnfonts.com/css/fredoka",
   glassmorphism: "https://fonts.cdnfonts.com/css/jetbrains-mono",
 };
 
@@ -54,7 +49,6 @@ const MONO_FONT_URL = "https://fonts.cdnfonts.com/css/jetbrains-mono";
 // correct panel color and don't render white-on-white / dark-on-dark.
 const SCHEMES: Record<Theme, "light" | "dark"> = {
   neumorphism: "light",
-  "kawaii-sweet-pastel": "light",
   glassmorphism: "dark",
 };
 

@@ -85,7 +85,6 @@ export function KelirProvider({
   // Available lists
   const themesList = React.useMemo(
     () => [
-      { slug: "kawaii-sweet-pastel" as Theme, label: "Kawaii Sweet Pastel" },
       { slug: "neumorphism" as Theme, label: "Neumorphism" },
       { slug: "glassmorphism" as Theme, label: "Glassmorphism" },
     ],
