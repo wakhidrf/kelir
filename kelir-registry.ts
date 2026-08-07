@@ -1,4 +1,5 @@
 import { tokens as claymorphismTokens } from "./kelir-themes/claymorphism";
+import { tokens as futuristicGlassTokens } from "./kelir-themes/futuristic-glassmorphism";
 import { tokens as glassmorphismTokens } from "./kelir-themes/glassmorphism";
 import { tokens as liquidGlassTokens } from "./kelir-themes/liquid-glass";
 import { tokens as neumorphismTokens } from "./kelir-themes/neumorphism";
@@ -35,5 +36,10 @@ export const themeRegistry = {
     slug: "spatial-ui",
     label: "Spatial UI (VisionOS)",
     tokens: spatialUiTokens,
+  },
+  "futuristic-glassmorphism": {
+    slug: "futuristic-glassmorphism",
+    label: "Futuristic UI Glassmorphism",
+    tokens: futuristicGlassTokens,
   },
 } as const;

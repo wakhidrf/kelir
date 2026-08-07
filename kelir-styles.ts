@@ -50,6 +50,10 @@ const FONTS: Record<Theme, ThemeFonts> = {
     active: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     mono: '"JetBrains Mono", monospace',
   },
+  "futuristic-glassmorphism": {
+    active: '"Exo 2", sans-serif', // DESIGN typography (Exo 2)
+    mono: '"JetBrains Mono", monospace',
+  },
   skeuomorphism: {
     active: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     mono: '"JetBrains Mono", monospace',
@@ -62,6 +66,7 @@ const FONT_URLS: Record<Theme, string> = {
   "liquid-glass": "https://fonts.cdnfonts.com/css/jetbrains-mono",
   "spatial-ui": "https://fonts.cdnfonts.com/css/jetbrains-mono",
   claymorphism: "https://fonts.cdnfonts.com/css/jetbrains-mono",
+  "futuristic-glassmorphism": "https://fonts.cdnfonts.com/css/exo-2",
   skeuomorphism: "https://fonts.cdnfonts.com/css/jetbrains-mono",
 };
 
@@ -76,6 +81,7 @@ const SCHEMES: Record<Theme, "light" | "dark"> = {
   "liquid-glass": "dark",
   "spatial-ui": "light",
   claymorphism: "light",
+  "futuristic-glassmorphism": "dark",
   skeuomorphism: "dark",
 };
 
