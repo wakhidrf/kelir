@@ -13,7 +13,7 @@ import type { Theme } from "./kelir-types";
 import { typographyVars } from "./kelir-typography";
 import { scrollbarCss } from "./kelir-variants";
 
-export const DEFAULT_THEME: Theme = "neumorphism";
+export const DEFAULT_THEME: Theme = "glassmorphism";
 
 export const THEME_ATTRIBUTE = "data-kelir-theme";
 

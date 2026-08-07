@@ -33,7 +33,7 @@ interface KelirProviderProps {
 
 export function KelirProvider({
   children,
-  defaultTheme = "neumorphism",
+  defaultTheme = "glassmorphism",
 }: KelirProviderProps) {
   // Theme state is owned by next-themes (persisted + pre-hydration script).
   const { theme: activeTheme, setTheme: setActiveTheme } = useTheme();
