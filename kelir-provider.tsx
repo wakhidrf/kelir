@@ -87,6 +87,7 @@ export function KelirProvider({
     () => [
       { slug: "neumorphism" as Theme, label: "Neumorphism" },
       { slug: "glassmorphism" as Theme, label: "Glassmorphism" },
+      { slug: "claymorphism" as Theme, label: "Claymorphism" },
     ],
     [],
   );

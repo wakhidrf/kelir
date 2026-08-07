@@ -35,11 +35,16 @@ const FONTS: Record<Theme, ThemeFonts> = {
     active: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     mono: '"JetBrains Mono", monospace',
   },
+  claymorphism: {
+    active: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    mono: '"JetBrains Mono", monospace',
+  },
 };
 
 const FONT_URLS: Record<Theme, string> = {
   neumorphism: "https://fonts.cdnfonts.com/css/product-sans",
   glassmorphism: "https://fonts.cdnfonts.com/css/jetbrains-mono",
+  claymorphism: "https://fonts.cdnfonts.com/css/jetbrains-mono",
 };
 
 const MONO_FONT_URL = "https://fonts.cdnfonts.com/css/jetbrains-mono";
@@ -50,6 +55,7 @@ const MONO_FONT_URL = "https://fonts.cdnfonts.com/css/jetbrains-mono";
 const SCHEMES: Record<Theme, "light" | "dark"> = {
   neumorphism: "light",
   glassmorphism: "dark",
+  claymorphism: "light",
 };
 
 function themeVars(theme: Theme): string {
