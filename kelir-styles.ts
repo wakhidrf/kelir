@@ -4,7 +4,9 @@
 //
 // Selectors mirror the theme attribute set by next-themes' pre-hydration
 // script (data-kelir-theme), so the saved theme renders with zero flash on
-// refresh. The default theme (no attribute) is neumorphism.
+// refresh. There is no hardcoded default theme here: the consumer supplies the
+// default (from its own persisted cookie) via KelirProvider, and this module
+// merely emits a selector per registered theme.
 
 import { layoutVars } from "./kelir-layout";
 import { motionFor } from "./kelir-motion";
@@ -12,8 +14,6 @@ import { themeRegistry } from "./kelir-registry";
 import type { Theme } from "./kelir-types";
 import { typographyVars } from "./kelir-typography";
 import { scrollbarCss } from "./kelir-variants";
-
-export const DEFAULT_THEME: Theme = "glassmorphism";
 
 export const THEME_ATTRIBUTE = "data-kelir-theme";
 
@@ -90,7 +90,7 @@ function themeVars(theme: Theme): string {
   const colors = tokens.colors;
   const rounded = tokens.rounded;
   const shadows = tokens.shadows;
-  const fonts = FONTS[theme] ?? FONTS[DEFAULT_THEME];
+  const fonts = FONTS[theme];
   const motion = motionFor(theme);
   const control = tokens.components?.buttonPrimary;
 
@@ -142,9 +142,7 @@ function themeVars(theme: Theme): string {
 }
 
 function themeSelector(theme: Theme): string {
-  return theme === DEFAULT_THEME
-    ? ":root"
-    : `:root[data-kelir-theme="${theme}"]`;
+  return `:root[data-kelir-theme="${theme}"]`;
 }
 
 // Base stylesheet that makes Kelir the single source of appearance. The

@@ -28,13 +28,11 @@ export function useKelir() {
 
 interface KelirProviderProps {
   children: React.ReactNode;
-  defaultTheme?: Theme;
+  /** Consumer-provided default theme (from its own persisted cookie). */
+  defaultTheme: Theme;
 }
 
-export function KelirProvider({
-  children,
-  defaultTheme = "glassmorphism",
-}: KelirProviderProps) {
+export function KelirProvider({ children, defaultTheme }: KelirProviderProps) {
   // Theme state is owned by next-themes (persisted + pre-hydration script).
   const { theme: activeTheme, setTheme: setActiveTheme } = useTheme();
   // Keep a local value initialized from the persisted theme attribute that
