@@ -116,7 +116,7 @@ export function DatePicker({
       fontFamily: "inherit",
       fontSize: "14px",
       cursor: "pointer",
-      transition: "all 120ms ease-out",
+      transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
     };
   };
 
@@ -144,7 +144,7 @@ export function DatePicker({
           fontFamily: "inherit",
           fontSize: "14px",
           cursor: "pointer",
-          transition: "all 150ms ease-out",
+          transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
         }}
       >
         {value ? formatDate(value) : placeholder || "Select date"}
@@ -164,7 +164,7 @@ export function DatePicker({
         <div
           style={{
             width: "280px",
-            padding: "12px",
+            padding: css.layout.space.md,
             backgroundColor: neumorphicBg,
             borderRadius: css.radius.sm,
             boxShadow: convexShadow,
@@ -210,7 +210,7 @@ export function DatePicker({
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(7, 1fr)",
-              gap: "4px",
+              gap: css.layout.space.xs,
             }}
           >
             {WEEKDAYS.map((weekday) => (

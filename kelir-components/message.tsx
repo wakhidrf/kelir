@@ -22,7 +22,7 @@ export function Message({
         display: "flex",
         flexDirection: "column",
         alignItems: isRight ? "flex-end" : "flex-start",
-        gap: "4px",
+        gap: css.layout.space.xs,
         fontFamily: "inherit",
         ...style,
       }}
@@ -31,7 +31,7 @@ export function Message({
         style={{
           display: "flex",
           alignItems: "center",
-          gap: "8px",
+          gap: css.layout.space.sm,
           fontSize: "12px",
           fontWeight: 600,
           color: textSecondary,

@@ -18,7 +18,11 @@ export function Switch({ label, ...props }: SwitchProps) {
       <MuiSwitch {...props} style={props.style} />
       {label && (
         <span
-          style={{ color: textPrimary, fontSize: "14px", marginLeft: "4px" }}
+          style={{
+            color: textPrimary,
+            fontSize: "14px",
+            marginLeft: css.layout.space.xs,
+          }}
         >
           {label}
         </span>

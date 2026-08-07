@@ -62,14 +62,14 @@ export function Textarea({
           fontSize: "14px",
           outline: "none",
           resize: "vertical",
-          transition: "border 150ms ease-out",
+          transition: `border ${css.motion.duration.hover} ${css.motion.easing.curve}`,
           ...style,
         }}
       />
       {helperText && (
         <div
           style={{
-            marginTop: "4px",
+            marginTop: css.layout.space.xs,
             fontSize: "12px",
             color: error ? css.destructive : textSecondary,
             fontFamily: "inherit",

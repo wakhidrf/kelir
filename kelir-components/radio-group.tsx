@@ -14,7 +14,7 @@ export function RadioGroup({ options, style, ...props }: RadioGroupProps) {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "8px",
+        gap: css.layout.space.sm,
         fontFamily: "inherit",
         ...style,
       }}

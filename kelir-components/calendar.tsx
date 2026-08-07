@@ -38,7 +38,7 @@ const navButtonStyles: React.CSSProperties = {
   cursor: "pointer",
   fontFamily: "inherit",
   fontSize: "16px",
-  transition: "all 150ms ease-out",
+  transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
 };
 
 function isSameDay(a: Date, b: Date) {
@@ -70,7 +70,7 @@ export function Calendar({ value, onChange, ...props }: CalendarProps) {
         borderRadius: css.radius.sm,
         boxShadow: convexShadow,
         border: `1px solid ${css.border.light}`,
-        padding: "16px",
+        padding: css.layout.space.lg,
         color: textPrimary,
         fontFamily: "inherit",
         ...props.style,
@@ -81,7 +81,7 @@ export function Calendar({ value, onChange, ...props }: CalendarProps) {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          marginBottom: "12px",
+          marginBottom: css.layout.space.md,
         }}
       >
         <button
@@ -108,7 +108,7 @@ export function Calendar({ value, onChange, ...props }: CalendarProps) {
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(7, 1fr)",
-          gap: "4px",
+          gap: css.layout.space.xs,
           textAlign: "center",
         }}
       >
@@ -119,7 +119,7 @@ export function Calendar({ value, onChange, ...props }: CalendarProps) {
               fontSize: "11px",
               fontWeight: 700,
               color: textSecondary,
-              padding: "4px 0",
+              padding: `${css.layout.space.xs} 0`,
             }}
           >
             {day}
@@ -159,7 +159,7 @@ export function Calendar({ value, onChange, ...props }: CalendarProps) {
                   isToday && !isSelected
                     ? `1px solid ${css.colors.primary}`
                     : "none",
-                transition: "all 150ms ease-out",
+                transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
               }}
             >
               {day}

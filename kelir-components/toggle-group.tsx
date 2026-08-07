@@ -28,7 +28,7 @@ export function ToggleGroup({
       onChange={handleChange}
       sx={{
         display: "inline-flex",
-        gap: "8px",
+        gap: css.layout.space.sm,
         backgroundColor: neumorphicBg,
         borderRadius: css.radius.sm,
         border: `1px solid ${css.border.light}`,
@@ -52,7 +52,7 @@ export function ToggleGroup({
             fontFamily: "inherit",
             fontSize: "14px",
             textTransform: "none",
-            padding: "8px 14px",
+            padding: `${css.layout.space.sm} 14px`,
             "&:hover": {
               backgroundColor: neumorphicBg,
               boxShadow: concaveShadow,

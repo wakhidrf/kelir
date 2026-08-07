@@ -88,6 +88,7 @@ export function KelirProvider({
       { slug: "neumorphism" as Theme, label: "Neumorphism" },
       { slug: "glassmorphism" as Theme, label: "Glassmorphism" },
       { slug: "claymorphism" as Theme, label: "Claymorphism" },
+      { slug: "skeuomorphism" as Theme, label: "Skeuomorphism" },
     ],
     [],
   );
@@ -102,6 +103,8 @@ export function KelirProvider({
     const baseColors: Record<string, string> = tokens?.colors || {
       primary: "#C8E0F4",
       secondary: "#F5E0E8",
+      tertiary: "#E8E8E8",
+      neutral: "#2C4A63",
       background: "#E8E8E8",
       surface: "#E8E8E8",
       textPrimary: "#333333",
@@ -133,12 +136,22 @@ export function KelirProvider({
       typography: {
         fontFamily: "var(--kelir-font-active, sans-serif)",
         h1: {
-          fontSize: tokens?.typography?.h1?.fontSize,
-          fontWeight: tokens?.typography?.h1?.fontWeight,
+          fontSize: "var(--type-h1, 2.25rem)",
+          fontWeight: "var(--type-weight-h1, 700)",
+        },
+        h2: {
+          fontSize: "var(--type-h2, 1.5rem)",
+          fontWeight: "var(--type-weight-h2, 600)",
         },
         body1: {
-          fontSize: tokens?.typography?.bodyMd?.fontSize,
-          fontWeight: tokens?.typography?.bodyMd?.fontWeight,
+          fontSize: "var(--type-body, 1rem)",
+          fontWeight: "var(--type-weight-body, 400)",
+          lineHeight: "var(--type-lineheight-body, 1.6)",
+        },
+        body2: {
+          fontSize: "var(--type-small, 0.875rem)",
+          fontWeight: "var(--type-weight-label, 500)",
+          lineHeight: "var(--type-lineheight-body, 1.6)",
         },
       },
       shape: {
@@ -151,12 +164,17 @@ export function KelirProvider({
           },
           styleOverrides: {
             root: {
-              borderRadius: "var(--radius-sm)",
+              borderRadius: "var(--control-radius, var(--radius-sm))",
               textTransform: "none",
               fontWeight: 600,
-              padding: "10px 20px",
+              padding: "var(--control-padding, 12px)",
               fontFamily: "inherit",
-              transition: "all 150ms ease-out",
+              transition: `all var(--motion-duration-hover, 200ms) var(--motion-easing-curve, ease-out)`,
+              "&:focus-visible": {
+                outline: "none",
+                boxShadow: `0 0 0 var(--focus-ring-width) var(--focus-ring-color)`,
+                outlineOffset: "var(--focus-ring-offset)",
+              },
             },
           },
         },

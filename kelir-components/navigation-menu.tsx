@@ -15,7 +15,7 @@ export function NavigationMenu({
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "4px",
+        gap: css.layout.space.xs,
         fontFamily: "inherit",
         ...style,
       }}
@@ -41,7 +41,7 @@ export function NavigationMenu({
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          gap: "8px",
+          gap: css.layout.space.sm,
           border: "none",
           background: "none",
           cursor: "pointer",
@@ -54,7 +54,7 @@ export function NavigationMenu({
           backgroundColor: item.active ? css.colors.primary : "transparent",
           boxShadow: item.active ? css.shadows.concave : "none",
           fontFamily: "inherit",
-          transition: "all 150ms ease-out",
+          transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
         };
 
         if (item.href) {

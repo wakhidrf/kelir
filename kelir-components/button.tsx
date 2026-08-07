@@ -22,7 +22,7 @@ export function Button({ variant = "primary", ...props }: ButtonProps) {
       textTransform: "none",
       fontWeight: 600,
       padding: "10px 20px",
-      transition: "all 150ms ease-out",
+      transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
       fontFamily: "inherit",
       ...props.style,
     };

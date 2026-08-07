@@ -86,7 +86,7 @@ export function InputOtp({
       {...props}
       style={{
         display: "flex",
-        gap: "8px",
+        gap: css.layout.space.sm,
         fontFamily: "inherit",
         ...style,
       }}
@@ -124,7 +124,7 @@ export function InputOtp({
             fontSize: "18px",
             fontWeight: 600,
             outline: "none",
-            transition: "all 150ms ease-out",
+            transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
           }}
         />
       ))}

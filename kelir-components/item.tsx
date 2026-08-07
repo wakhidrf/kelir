@@ -22,8 +22,8 @@ export function Item({
       style={{
         display: "flex",
         alignItems: "center",
-        gap: "12px",
-        padding: "12px 16px",
+        gap: css.layout.space.md,
+        padding: `${css.layout.space.md} ${css.layout.space.lg}`,
         borderRadius: css.radius.sm,
         backgroundColor: neumorphicBg,
         border: `1px solid ${css.border.light}`,
@@ -55,7 +55,9 @@ export function Item({
         }}
       />
       {action && (
-        <div style={{ flexShrink: 0, marginLeft: "12px" }}>{action}</div>
+        <div style={{ flexShrink: 0, marginLeft: css.layout.space.md }}>
+          {action}
+        </div>
       )}
     </MuiListItem>
   );

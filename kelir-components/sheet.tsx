@@ -27,7 +27,7 @@ export function Sheet({ title, children, ...props }: SheetProps) {
       {title && (
         <div
           style={{
-            padding: "16px 16px 0",
+            padding: `${css.layout.space.lg} ${css.layout.space.lg} 0`,
             color: textPrimary,
             fontWeight: 700,
             fontSize: "16px",

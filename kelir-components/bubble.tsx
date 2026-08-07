@@ -29,7 +29,7 @@ export function Bubble({
     textAlign: "left",
     appearance: "none",
     cursor: collapsible ? "pointer" : "default",
-    transition: "all 150ms ease-out",
+    transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
     ...(isSent
       ? {
           backgroundColor: css.colors.primary,
@@ -90,7 +90,7 @@ export function Bubble({
                 justifyContent: "center",
                 minWidth: "28px",
                 height: "24px",
-                padding: "0 8px",
+                padding: `0 ${css.layout.space.sm}`,
                 fontSize: "13px",
                 borderRadius: "999px",
                 backgroundColor: css.colors.surface,

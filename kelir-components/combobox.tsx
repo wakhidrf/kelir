@@ -39,17 +39,17 @@ export function Combobox({ label, placeholder, ...props }: ComboboxProps) {
           borderRadius: css.radius.sm,
           boxShadow: convexShadow,
           border: `1px solid ${css.border.light}`,
-          marginTop: "8px",
+          marginTop: css.layout.space.sm,
         },
         "& .MuiAutocomplete-listbox": {
-          padding: "4px",
+          padding: css.layout.space.xs,
         },
         "& .MuiAutocomplete-option": {
           borderRadius: css.radius.sm,
           color: textPrimary,
           fontFamily: "inherit",
           fontSize: "14px",
-          padding: "8px 12px",
+          padding: `${css.layout.space.sm} ${css.layout.space.md}`,
         },
         "& .MuiAutocomplete-option.Mui-focused": {
           backgroundColor: css.track,

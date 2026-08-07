@@ -24,7 +24,7 @@ export function Drawer({ title, children, ...props }: DrawerProps) {
       {title && (
         <div
           style={{
-            padding: "16px 16px 0",
+            padding: `${css.layout.space.lg} ${css.layout.space.lg} 0`,
             color: textPrimary,
             fontWeight: 700,
             fontSize: "16px",

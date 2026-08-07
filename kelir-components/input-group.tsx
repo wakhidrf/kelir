@@ -18,12 +18,12 @@ export function InputGroup({
       style={{
         display: "flex",
         alignItems: "center",
-        gap: "8px",
+        gap: css.layout.space.sm,
         backgroundColor: neumorphicBg,
         borderRadius: css.radius.sm,
         border: `1px solid ${css.border.light}`,
         boxShadow: convexShadow,
-        padding: "4px 8px",
+        padding: `${css.layout.space.xs} ${css.layout.space.sm}`,
         fontFamily: "inherit",
         ...style,
       }}

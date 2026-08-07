@@ -22,8 +22,8 @@ export function Empty({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        gap: "12px",
-        padding: "48px 24px",
+        gap: css.layout.space.md,
+        padding: `${css.layout.space["4xl"]} ${css.layout.space["2xl"]}`,
         textAlign: "center",
         backgroundColor: neumorphicBg,
         borderRadius: css.radius.sm,
@@ -63,7 +63,7 @@ export function Empty({
           {description}
         </div>
       )}
-      {action && <div style={{ marginTop: "4px" }}>{action}</div>}
+      {action && <div style={{ marginTop: css.layout.space.xs }}>{action}</div>}
     </div>
   );
 }

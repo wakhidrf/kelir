@@ -12,7 +12,7 @@ export function Badge({ variant = "primary", children, style }: BadgeProps) {
       display: "inline-flex",
       alignItems: "center",
       justifyContent: "center",
-      padding: "4px 10px",
+      padding: `${css.layout.space.xs} 10px`,
       borderRadius: "999px",
       fontSize: "11px",
       fontWeight: 600,

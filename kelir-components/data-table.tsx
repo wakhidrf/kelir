@@ -44,7 +44,7 @@ export function DataTable({
     fontFamily: "inherit",
     fontSize: "12px",
     fontWeight: 600,
-    transition: "all 150ms ease-out",
+    transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
   });
 
   return (
@@ -123,14 +123,14 @@ export function DataTable({
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            padding: "12px 16px",
+            padding: `${css.layout.space.md} ${css.layout.space.lg}`,
             borderTop: `1px solid ${css.divider}`,
           }}
         >
           <span style={{ fontSize: "12px", color: textSecondary }}>
             Page {safePage + 1} of {pageCount}
           </span>
-          <div style={{ display: "flex", gap: "8px" }}>
+          <div style={{ display: "flex", gap: css.layout.space.sm }}>
             <button
               type="button"
               disabled={safePage === 0}

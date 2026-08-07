@@ -33,7 +33,7 @@ export function NativeSelect({ options, style, ...props }: NativeSelectProps) {
         },
         "& .MuiNativeSelect-icon": {
           color: textSecondary,
-          right: "8px",
+          right: css.layout.space.sm,
         },
         "& option": {
           color: textPrimary,

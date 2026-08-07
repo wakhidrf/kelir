@@ -56,7 +56,7 @@ export function ContextMenu({
               boxShadow: convexShadow,
               border: `1px solid ${css.border.light}`,
               fontFamily: "inherit",
-              padding: "4px",
+              padding: css.layout.space.xs,
             },
           },
         }}
@@ -72,7 +72,7 @@ export function ContextMenu({
               color: textPrimary,
               fontSize: "14px",
               borderRadius: css.radius.sm,
-              gap: "8px",
+              gap: css.layout.space.sm,
             }}
           >
             {item.icon && (

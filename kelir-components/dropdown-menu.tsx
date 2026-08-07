@@ -47,7 +47,7 @@ export function DropdownMenu({ trigger, items, ...props }: DropdownMenuProps) {
               boxShadow: convexShadow,
               border: `1px solid ${css.border.light}`,
               fontFamily: "inherit",
-              padding: "4px",
+              padding: css.layout.space.xs,
             },
           },
         }}
@@ -56,7 +56,10 @@ export function DropdownMenu({ trigger, items, ...props }: DropdownMenuProps) {
           <React.Fragment key={`dropdown-${item.label}`}>
             {item.divider && (
               <Divider
-                style={{ backgroundColor: css.divider, margin: "4px 0" }}
+                style={{
+                  backgroundColor: css.divider,
+                  margin: `${css.layout.space.xs} 0`,
+                }}
               />
             )}
             <MenuItem
@@ -68,7 +71,7 @@ export function DropdownMenu({ trigger, items, ...props }: DropdownMenuProps) {
                 color: textPrimary,
                 fontSize: "14px",
                 borderRadius: css.radius.sm,
-                gap: "8px",
+                gap: css.layout.space.sm,
               }}
             >
               {item.icon && (

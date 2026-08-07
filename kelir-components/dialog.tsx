@@ -35,7 +35,9 @@ export function Dialog({ title, actions, children, ...props }: DialogProps) {
         {children}
       </DialogContent>
       {actions && (
-        <DialogActions style={{ padding: "16px 24px" }}>
+        <DialogActions
+          style={{ padding: `${css.layout.space.lg} ${css.layout.space.xl}` }}
+        >
           {actions}
         </DialogActions>
       )}

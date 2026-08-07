@@ -33,7 +33,7 @@ export function Attachment({
   const statusStyle: React.CSSProperties = {
     display: "inline-flex",
     alignItems: "center",
-    gap: "4px",
+    gap: css.layout.space.xs,
     fontSize: "11px",
     fontWeight: 600,
     flexShrink: 0,
@@ -45,12 +45,12 @@ export function Attachment({
       style={{
         display: "flex",
         alignItems: "center",
-        gap: "12px",
+        gap: css.layout.space.md,
         backgroundColor: neumorphicBg,
         borderRadius: css.radius.sm,
         boxShadow: convexShadow,
         border: `1px solid ${css.border.light}`,
-        padding: "12px 16px",
+        padding: `${css.layout.space.md} ${css.layout.space.lg}`,
         color: textPrimary,
         fontFamily: "inherit",
         fontSize: "14px",
@@ -78,7 +78,7 @@ export function Attachment({
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "8px",
+            gap: css.layout.space.sm,
           }}
         >
           <span
@@ -92,17 +92,17 @@ export function Attachment({
             {nameNode}
           </span>
           {status === "uploading" && (
-            <span style={{ ...statusStyle, color: textPrimary }}>
+            <span style={{ ...statusStyle, color: textSecondary }}>
               Uploading {Math.min(100, Math.max(0, progress))}%
             </span>
           )}
           {status === "success" && (
-            <span style={{ ...statusStyle, color: css.on.secondary }}>
+            <span style={{ ...statusStyle, color: textPrimary }}>
               <CheckCircleIcon style={{ fontSize: 14 }} /> Saved
             </span>
           )}
           {status === "error" && (
-            <span style={{ ...statusStyle, color: css.on.destructive }}>
+            <span style={{ ...statusStyle, color: css.destructive }}>
               <ErrorOutlineIcon style={{ fontSize: 14 }} /> Failed
             </span>
           )}
@@ -119,7 +119,7 @@ export function Attachment({
         {status === "uploading" && (
           <div
             style={{
-              marginTop: "8px",
+              marginTop: css.layout.space.sm,
               height: "6px",
               borderRadius: "999px",
               backgroundColor: css.track,
@@ -132,7 +132,7 @@ export function Attachment({
                 width: `${Math.min(100, Math.max(0, progress))}%`,
                 borderRadius: "999px",
                 backgroundColor: css.colors.primary,
-                transition: "width 200ms ease-out",
+                transition: `width ${css.motion.duration.hover} ${css.motion.easing.curve}`,
               }}
             />
           </div>
@@ -156,7 +156,7 @@ export function Attachment({
             color: textSecondary,
             cursor: "pointer",
             boxShadow: convexShadow,
-            transition: "all 150ms ease-out",
+            transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
           }}
         >
           <CloseIcon style={{ fontSize: 16 }} />

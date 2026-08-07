@@ -48,7 +48,9 @@ export function Tabs({ items, defaultValue, style, ...props }: TabsProps) {
           />
         ))}
       </MuiTabs>
-      <div style={{ paddingTop: "12px" }}>{activeItem?.content ?? null}</div>
+      <div style={{ paddingTop: css.layout.space.md }}>
+        {activeItem?.content ?? null}
+      </div>
     </div>
   );
 }

@@ -34,7 +34,7 @@ export function AlertDialog({
             boxShadow: convexShadow,
             border: `1px solid ${css.border.light}`,
             fontFamily: "inherit",
-            padding: "8px",
+            padding: css.layout.space.sm,
           },
         },
       }}
@@ -49,7 +49,9 @@ export function AlertDialog({
           {description}
         </div>
       </DialogContent>
-      <DialogActions style={{ padding: "16px 24px" }}>
+      <DialogActions
+        style={{ padding: `${css.layout.space.lg} ${css.layout.space.xl}` }}
+      >
         <Button variant="ghost" onClick={onCancel}>
           {cancelText}
         </Button>

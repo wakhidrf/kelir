@@ -6,8 +6,11 @@
 // script (data-kelir-theme), so the saved theme renders with zero flash on
 // refresh. The default theme (no attribute) is neumorphism.
 
+import { layoutVars } from "./kelir-layout";
+import { motionFor } from "./kelir-motion";
 import { themeRegistry } from "./kelir-registry";
 import type { Theme } from "./kelir-types";
+import { typographyVars } from "./kelir-typography";
 import { scrollbarCss } from "./kelir-variants";
 
 export const DEFAULT_THEME: Theme = "neumorphism";
@@ -39,12 +42,17 @@ const FONTS: Record<Theme, ThemeFonts> = {
     active: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     mono: '"JetBrains Mono", monospace',
   },
+  skeuomorphism: {
+    active: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    mono: '"JetBrains Mono", monospace',
+  },
 };
 
 const FONT_URLS: Record<Theme, string> = {
   neumorphism: "https://fonts.cdnfonts.com/css/product-sans",
   glassmorphism: "https://fonts.cdnfonts.com/css/jetbrains-mono",
   claymorphism: "https://fonts.cdnfonts.com/css/jetbrains-mono",
+  skeuomorphism: "https://fonts.cdnfonts.com/css/jetbrains-mono",
 };
 
 const MONO_FONT_URL = "https://fonts.cdnfonts.com/css/jetbrains-mono";
@@ -56,6 +64,7 @@ const SCHEMES: Record<Theme, "light" | "dark"> = {
   neumorphism: "light",
   glassmorphism: "dark",
   claymorphism: "light",
+  skeuomorphism: "dark",
 };
 
 function themeVars(theme: Theme): string {
@@ -64,11 +73,14 @@ function themeVars(theme: Theme): string {
   const rounded = tokens.rounded;
   const shadows = tokens.shadows;
   const fonts = FONTS[theme] ?? FONTS[DEFAULT_THEME];
+  const motion = motionFor(theme);
+  const control = tokens.components?.buttonPrimary;
 
   return [
     `--color-primary: ${colors.primary};`,
     `--color-secondary: ${colors.secondary};`,
     `--color-tertiary: ${colors.tertiary};`,
+    `--color-neutral: ${colors.neutral};`,
     `--color-background: ${colors.background};`,
     `--color-surface: ${colors.surface};`,
     `--color-text-primary: ${colors.textPrimary};`,
@@ -85,12 +97,29 @@ function themeVars(theme: Theme): string {
     `--radius-sm: ${rounded.sm};`,
     `--radius-md: ${rounded.md};`,
     `--radius-lg: ${rounded.lg};`,
+    `--control-padding: ${control?.padding ?? "12px"};`,
+    `--control-radius: ${control?.rounded ?? rounded.sm};`,
+    `--focus-ring-width: 2px;`,
+    `--focus-ring-offset: 2px;`,
+    `--focus-ring-color: ${colors.primary};`,
     `--shadow-convex: ${shadows.convex};`,
     `--shadow-concave: ${shadows.concave};`,
     `--shadow-card: ${shadows.card};`,
     `--kelir-font-active: ${fonts.active};`,
     `--kelir-font-mono: ${fonts.mono};`,
     `--kelir-color-scheme: ${SCHEMES[theme] ?? "light"};`,
+    `--motion-duration-base: ${motion.duration.base};`,
+    `--motion-duration-hover: ${motion.duration.hover};`,
+    `--motion-duration-entry: ${motion.duration.entry};`,
+    `--motion-duration-stagger: ${motion.duration.stagger};`,
+    `--motion-duration-page: ${motion.duration.page};`,
+    `--motion-easing-curve: ${motion.easing.curve};`,
+    `--motion-spring-stiffness: ${motion.easing.stiffness ?? "none"};`,
+    `--motion-spring-damping: ${motion.easing.damping ?? "none"};`,
+    `--motion-entry-translate-y: ${motion.entry.translateY};`,
+    `--motion-entry-opacity: ${motion.entry.opacity};`,
+    `--motion-hover-scale: ${motion.hover.scale};`,
+    `--motion-blur-backdrop: ${motion.blur.backdrop};`,
   ].join("\n  ");
 }
 
@@ -104,6 +133,10 @@ function themeSelector(theme: Theme): string {
 // page-level (body) colors and font follow the active theme's CSS variables,
 // so the whole page restyles instantly when the theme changes.
 const baseCss = `
+  :root {
+    ${layoutVars}
+    ${typographyVars}
+  }
   *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;

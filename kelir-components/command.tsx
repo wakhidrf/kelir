@@ -48,7 +48,7 @@ export function Command({
           display: "flex",
           alignItems: "center",
           gap: "10px",
-          padding: "12px 14px",
+          padding: `${css.layout.space.md} 14px`,
           borderBottom: `1px solid ${css.divider}`,
         }}
       >
@@ -69,11 +69,11 @@ export function Command({
           }}
         />
       </div>
-      <div style={{ padding: "8px" }}>
+      <div style={{ padding: css.layout.space.sm }}>
         {filteredGroups.length === 0 && (
           <div
             style={{
-              padding: "20px 12px",
+              padding: `20px ${css.layout.space.md}`,
               textAlign: "center",
               fontSize: "13px",
               color: textSecondary,
@@ -91,7 +91,7 @@ export function Command({
                 textTransform: "uppercase",
                 letterSpacing: "1px",
                 color: textSecondary,
-                padding: "8px 10px 4px",
+                padding: `${css.layout.space.sm} 10px ${css.layout.space.xs}`,
               }}
             >
               {group.heading}
@@ -115,7 +115,7 @@ export function Command({
                   fontSize: "14px",
                   color: textPrimary,
                   fontFamily: "inherit",
-                  transition: "all 150ms ease-out",
+                  transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
                 }}
               >
                 {item.icon && (

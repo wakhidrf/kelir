@@ -1,17 +1,18 @@
 import { createCss } from "../kelir-variants";
 
 export const variants = {
-  // Palet inti (10 warna, fix antar tema)
+  // Warna inti dari DESIGN.md
   primary: "#0080FF", // Electric Blue (primary accent)
   secondary: "#8B00FF", // Neon Purple (secondary accent)
   tertiary: "#FF1493", // Vivid Pink (accent, emphasis)
-  quaternary: "#FFFFFF", // White (text on primary)
-  quinary: "#FFFFFF", // White (text on secondary)
-  senary: "#FFFFFF", // White (text on destructive)
-  septenary: "#FF1493", // Vivid Pink (destructive background)
-  octonary: "#FFFFFF", // White (primary text on glass)
-  nonary: "rgba(255, 255, 255, 0.7)", // Soft white (secondary text)
-  denary: "#FFFFFF", // White (highlight)
+  neutral: "#20B2AA", // Teal (secondary accent, DESIGN neutral)
+  // Warna turunan semantik
+  textPrimary: "#FFFFFF", // White (primary text on glass)
+  textSecondary: "rgba(255, 255, 255, 0.7)", // Soft white (secondary text)
+  onPrimary: "#FFFFFF", // White (text on primary)
+  onSecondary: "#FFFFFF", // White (text on secondary)
+  onDestructive: "#FFFFFF", // White (text on destructive)
+  destructive: "#FF1493", // Vivid Pink (destructive background)
   // Warna turunan (nilai bebas per tema, nama key fix)
   background:
     "radial-gradient(1200px 800px at 20% 0%, #0080FF 0%, transparent 60%), radial-gradient(1000px 700px at 90% 20%, #8B00FF 0%, transparent 55%), radial-gradient(900px 700px at 60% 100%, #FF1493 0%, transparent 60%), linear-gradient(180deg, #0A0E27 0%, #1B1035 100%)", // Vibrant gradient behind the glass
@@ -65,14 +66,15 @@ export const tokens = {
     primary: variants.primary,
     secondary: variants.secondary,
     tertiary: variants.tertiary,
+    neutral: variants.neutral,
     background: variants.background,
     surface: variants.surface,
-    textPrimary: variants.octonary,
-    textSecondary: variants.nonary,
-    onPrimary: variants.quaternary,
-    onSecondary: variants.quinary,
-    onDestructive: variants.senary,
-    destructive: variants.septenary,
+    textPrimary: variants.textPrimary,
+    textSecondary: variants.textSecondary,
+    onPrimary: variants.onPrimary,
+    onSecondary: variants.onSecondary,
+    onDestructive: variants.onDestructive,
+    destructive: variants.destructive,
     borderLight: variants.borderLight,
     borderMedium: variants.borderMedium,
     borderStrong: variants.borderStrong,
@@ -92,7 +94,7 @@ export const tokens = {
   components: {
     buttonPrimary: {
       backgroundColor: variants.primary,
-      color: variants.quaternary,
+      color: variants.onPrimary,
       rounded: rounded.sm,
       padding: "12px",
     },

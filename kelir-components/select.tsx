@@ -35,7 +35,7 @@ export function Select({ options, style, ...props }: SelectProps) {
         },
         "& .MuiSelect-icon": {
           color: textSecondary,
-          right: "8px",
+          right: css.layout.space.sm,
         },
       }}
       MenuProps={{
@@ -46,7 +46,7 @@ export function Select({ options, style, ...props }: SelectProps) {
               borderRadius: css.radius.sm,
               boxShadow: convexShadow,
               border: `1px solid ${css.border.light}`,
-              marginTop: "8px",
+              marginTop: css.layout.space.sm,
             },
           },
         },

@@ -17,7 +17,7 @@ export function ButtonGroup({ children, ...props }: ButtonGroupProps) {
         border: `1px solid ${css.border.light}`,
         color: textPrimary,
         fontFamily: "inherit",
-        gap: "8px",
+        gap: css.layout.space.sm,
         ...props.style,
       }}
     >

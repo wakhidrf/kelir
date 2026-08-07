@@ -1,19 +1,21 @@
+import { springMotion } from "../kelir-motion";
 import { createCss } from "../kelir-variants";
 
 // Claymorphism: puffy, toy-like, thick borders + inner/outer shadows. Pastel
 // but slightly more chromatic than neumorphism. Light scheme.
 export const variants = {
-  // Palet inti (10 warna, fix antar tema)
+  // Warna inti dari DESIGN.md
   primary: "#FDBCB4", // Soft Peach (primary surface)
   secondary: "#ADD8E6", // Baby Blue (secondary accent)
   tertiary: "#98FF98", // Mint (supporting accent)
-  quaternary: "#6E4A3C", // Warm brown (text on primary)
-  quinary: "#2C4A63", // Deep blue (text on secondary)
-  senary: "#632C41", // Deep red (text on destructive)
-  septenary: "#F4A9A2", // Muted peach-red (destructive background)
-  octonary: "#3A2E2C", // Dark warm grey (primary text)
-  nonary: "#8A7A76", // Muted grey (secondary text)
-  denary: "#FFFFFF", // White (highlight)
+  neutral: "#E6E6FA", // Lavender (DESIGN neutral / highlight)
+  // Warna turunan semantik
+  textPrimary: "#3A2E2C", // Dark warm grey (primary text)
+  textSecondary: "#8A7A76", // Muted grey (secondary text)
+  onPrimary: "#6E4A3C", // Warm brown (text on primary)
+  onSecondary: "#2C4A63", // Deep blue (text on secondary)
+  onDestructive: "#632C41", // Deep red (text on destructive)
+  destructive: "#F4A9A2", // Muted peach-red (destructive background)
   // Warna turunan (nilai bebas per tema, nama key fix)
   background: "#F5F0EE", // Warm clay canvas
   surface: "#FFFFFF", // Paper surface
@@ -57,7 +59,7 @@ export const typography = {
   },
 } as const;
 
-export const css = createCss(variants, shadows, rounded);
+export const css = createCss(variants, shadows, rounded, springMotion);
 
 export const tokens = {
   version: "alpha",
@@ -68,14 +70,15 @@ export const tokens = {
     primary: variants.primary,
     secondary: variants.secondary,
     tertiary: variants.tertiary,
+    neutral: variants.neutral,
     background: variants.background,
     surface: variants.surface,
-    textPrimary: variants.octonary,
-    textSecondary: variants.nonary,
-    onPrimary: variants.quaternary,
-    onSecondary: variants.quinary,
-    onDestructive: variants.senary,
-    destructive: variants.septenary,
+    textPrimary: variants.textPrimary,
+    textSecondary: variants.textSecondary,
+    onPrimary: variants.onPrimary,
+    onSecondary: variants.onSecondary,
+    onDestructive: variants.onDestructive,
+    destructive: variants.destructive,
     borderLight: variants.borderLight,
     borderMedium: variants.borderMedium,
     borderStrong: variants.borderStrong,
@@ -95,7 +98,7 @@ export const tokens = {
   components: {
     buttonPrimary: {
       backgroundColor: variants.primary,
-      color: variants.quaternary,
+      color: variants.onPrimary,
       rounded: rounded.sm,
       padding: "12px",
     },

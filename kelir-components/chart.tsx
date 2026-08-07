@@ -57,12 +57,12 @@ export function Chart({
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "12px",
+        gap: css.layout.space.md,
         backgroundColor: neumorphicBg,
         borderRadius: css.radius.sm,
         boxShadow: convexShadow,
         border: `1px solid ${css.border.light}`,
-        padding: "16px",
+        padding: css.layout.space.lg,
         color: textPrimary,
         fontFamily: "inherit",
         ...props.style,
@@ -74,7 +74,7 @@ export function Chart({
             style={{
               display: "flex",
               alignItems: "flex-end",
-              gap: "8px",
+              gap: css.layout.space.sm,
               height: "100%",
             }}
           >
@@ -86,7 +86,7 @@ export function Chart({
                   display: "flex",
                   alignItems: "flex-end",
                   justifyContent: "center",
-                  gap: "4px",
+                  gap: css.layout.space.xs,
                   height: "100%",
                 }}
               >
@@ -104,7 +104,7 @@ export function Chart({
                         borderRadius: "6px 6px 0 0",
                         backgroundColor: seriesColors[s % seriesColors.length],
                         boxShadow: convexShadow,
-                        transition: "height 200ms ease-out",
+                        transition: `height ${css.motion.duration.hover} ${css.motion.easing.curve}`,
                       }}
                     />
                   );
@@ -156,7 +156,7 @@ export function Chart({
           </svg>
         )}
       </div>
-      <div style={{ display: "flex", gap: "8px" }}>
+      <div style={{ display: "flex", gap: css.layout.space.sm }}>
         {labels.map((label) => (
           <div
             key={`label-${String(label)}`}

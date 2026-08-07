@@ -18,7 +18,7 @@ export function Accordion({ summary, details, ...props }: AccordionProps) {
         borderRadius: css.radius.sm,
         boxShadow: "none",
         border: `1px solid ${css.border.light}`,
-        marginBottom: "8px",
+        marginBottom: css.layout.space.sm,
         fontFamily: "inherit",
         ...props.style,
       }}

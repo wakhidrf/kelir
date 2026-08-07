@@ -36,7 +36,11 @@ import type { TypographyProps as MuiTypographyProps } from "@mui/material/Typogr
 import type * as React from "react";
 
 // Global contexts & states
-export type Theme = "claymorphism" | "glassmorphism" | "neumorphism";
+export type Theme =
+  | "claymorphism"
+  | "glassmorphism"
+  | "neumorphism"
+  | "skeuomorphism";
 
 export interface KelirContextValue {
   theme: Theme;

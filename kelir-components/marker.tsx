@@ -29,18 +29,18 @@ export function Marker({
       return {
         display: "inline-flex",
         alignItems: "center",
-        gap: "8px",
+        gap: css.layout.space.sm,
         fontSize: "13px",
         fontWeight: 600,
         color: textPrimary,
-        padding: "4px 0",
+        padding: `${css.layout.space.xs} 0`,
       };
     }
     if (variant === "note") {
       return {
         display: "flex",
         alignItems: "center",
-        gap: "8px",
+        gap: css.layout.space.sm,
         fontSize: "13px",
         lineHeight: "1.5",
         padding: "10px 14px",
@@ -62,7 +62,7 @@ export function Marker({
     return {
       display: "flex",
       alignItems: "center",
-      gap: "12px",
+      gap: css.layout.space.md,
       fontSize: "12px",
       fontWeight: 600,
       textTransform: "uppercase",

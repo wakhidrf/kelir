@@ -51,7 +51,7 @@ export function Card({
         <CardActions
           style={{
             borderTop: `1px solid ${css.divider}`,
-            padding: "12px 16px",
+            padding: `${css.layout.space.md} ${css.layout.space.lg}`,
           }}
         >
           {footer}

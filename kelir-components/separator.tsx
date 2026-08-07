@@ -10,7 +10,7 @@ export function Separator({ label, ...props }: SeparatorProps) {
       {...props}
       style={{
         borderColor: "rgba(0, 0, 0, 0.08)",
-        margin: "12px 0",
+        margin: `${css.layout.space.md} 0`,
         fontFamily: "inherit",
         color: textSecondary,
         fontSize: "12px",

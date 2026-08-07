@@ -15,11 +15,11 @@ export function Input({ ...props }: InputProps) {
         borderRadius: css.radius.sm,
         boxShadow: concaveShadow,
         border: `1px solid ${css.border.light}`,
-        padding: "8px 16px",
+        padding: `${css.layout.space.sm} ${css.layout.space.lg}`,
         color: textPrimary,
         fontFamily: "inherit",
         fontSize: "14px",
-        transition: "all 150ms ease-out",
+        transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
         ...props.style,
       }}
     />

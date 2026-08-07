@@ -20,7 +20,7 @@ export function Toggle(props: ToggleProps) {
         fontFamily: "inherit",
         fontSize: "14px",
         textTransform: "none",
-        padding: "10px 16px",
+        padding: `10px ${css.layout.space.lg}`,
         "&:hover": {
           backgroundColor: neumorphicBg,
           boxShadow: concaveShadow,

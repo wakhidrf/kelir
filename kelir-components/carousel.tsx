@@ -23,7 +23,7 @@ const navButtonStyles: React.CSSProperties = {
   cursor: "pointer",
   fontFamily: "inherit",
   fontSize: "18px",
-  transition: "all 150ms ease-out",
+  transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
 };
 
 export function Carousel({
@@ -56,7 +56,7 @@ export function Carousel({
         borderRadius: css.radius.sm,
         boxShadow: convexShadow,
         border: `1px solid ${css.border.light}`,
-        padding: "16px",
+        padding: css.layout.space.lg,
         color: textPrimary,
         fontFamily: "inherit",
         ...props.style,
@@ -95,8 +95,8 @@ export function Carousel({
           style={{
             display: "flex",
             justifyContent: "center",
-            gap: "8px",
-            marginTop: "12px",
+            gap: css.layout.space.sm,
+            marginTop: css.layout.space.md,
           }}
         >
           {slides.map(({ slideIndex }) => (
@@ -115,7 +115,7 @@ export function Carousel({
                   slideIndex === index ? css.colors.primary : css.track,
                 boxShadow: slideIndex === index ? convexShadow : "none",
                 cursor: "pointer",
-                transition: "all 200ms ease-out",
+                transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
               }}
             />
           ))}

@@ -27,7 +27,7 @@ export function Menubar({ menus, style, ...props }: MenubarProps) {
       style={{
         display: "flex",
         alignItems: "center",
-        gap: "4px",
+        gap: css.layout.space.xs,
         padding: "6px 10px",
         borderRadius: css.radius.sm,
         backgroundColor: css.colors.surface,
@@ -48,7 +48,7 @@ export function Menubar({ menus, style, ...props }: MenubarProps) {
               border: "none",
               background: "none",
               cursor: "pointer",
-              padding: "6px 12px",
+              padding: `6px ${css.layout.space.md}`,
               borderRadius: "10px",
               fontSize: "13px",
               fontWeight: 600,

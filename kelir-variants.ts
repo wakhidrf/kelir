@@ -1,14 +1,21 @@
+import { layout } from "./kelir-layout";
+import type { KelirMotionTokens } from "./kelir-motion";
+import { easeMotion } from "./kelir-motion";
+import { typography as baseTypography } from "./kelir-typography";
+
 export interface KelirVariants {
+  // Warna inti dari DESIGN.md
   primary: string;
   secondary: string;
   tertiary: string;
-  quaternary: string;
-  quinary: string;
-  senary: string;
-  septenary: string;
-  octonary: string;
-  nonary: string;
-  denary: string;
+  neutral: string;
+  // Warna turunan semantik (nilai bebas per tema, nama key fix)
+  textPrimary: string;
+  textSecondary: string;
+  onPrimary: string;
+  onSecondary: string;
+  onDestructive: string;
+  destructive: string;
   background: string;
   surface: string;
   borderLight: string;
@@ -48,23 +55,25 @@ export function createCss(
   variants: KelirVariants,
   shadows: KelirShadows,
   themeRounded: KelirRounded = rounded,
+  motion: KelirMotionTokens = easeMotion,
 ) {
   return {
     colors: {
       background: color("background", variants.background),
       surface: color("surface", variants.surface),
-      textPrimary: color("text-primary", variants.octonary),
-      textSecondary: color("text-secondary", variants.nonary),
+      textPrimary: color("text-primary", variants.textPrimary),
+      textSecondary: color("text-secondary", variants.textSecondary),
       primary: color("primary", variants.primary),
       secondary: color("secondary", variants.secondary),
       tertiary: color("tertiary", variants.tertiary),
+      neutral: color("neutral", variants.neutral),
     },
     on: {
-      primary: color("on-primary", variants.quaternary),
-      secondary: color("on-secondary", variants.quinary),
-      destructive: color("on-destructive", variants.senary),
+      primary: color("on-primary", variants.onPrimary),
+      secondary: color("on-secondary", variants.onSecondary),
+      destructive: color("on-destructive", variants.onDestructive),
     },
-    destructive: color("destructive", variants.septenary),
+    destructive: color("destructive", variants.destructive),
     border: {
       light: color("border-light", variants.borderLight),
       medium: color("border-medium", variants.borderMedium),
@@ -77,10 +86,67 @@ export function createCss(
       md: `var(--radius-md, ${themeRounded.md})`,
       lg: `var(--radius-lg, ${themeRounded.lg})`,
     },
+    control: {
+      padding: "var(--control-padding, 12px)",
+      radius: `var(--control-radius, ${themeRounded.sm})`,
+    },
+    focusRing: {
+      width: "var(--focus-ring-width, 2px)",
+      offset: "var(--focus-ring-offset, 2px)",
+      color: "var(--focus-ring-color, transparent)",
+    },
     shadows: {
       card: shadow("card", shadows.card),
       convex: shadow("convex", shadows.convex),
       concave: shadow("concave", shadows.concave),
+    },
+    layout,
+    motion: {
+      duration: {
+        base: `var(--motion-duration-base, ${motion.duration.base})`,
+        hover: `var(--motion-duration-hover, ${motion.duration.hover})`,
+        entry: `var(--motion-duration-entry, ${motion.duration.entry})`,
+        stagger: `var(--motion-duration-stagger, ${motion.duration.stagger})`,
+        page: `var(--motion-duration-page, ${motion.duration.page})`,
+      },
+      easing: {
+        curve: `var(--motion-easing-curve, ${motion.easing.curve})`,
+        stiffness: `var(--motion-spring-stiffness, ${motion.easing.stiffness ?? "none"})`,
+        damping: `var(--motion-spring-damping, ${motion.easing.damping ?? "none"})`,
+      },
+      entry: {
+        translateY: `var(--motion-entry-translate-y, ${motion.entry.translateY})`,
+        opacity: `var(--motion-entry-opacity, ${motion.entry.opacity})`,
+      },
+      hover: {
+        scale: `var(--motion-hover-scale, ${motion.hover.scale})`,
+      },
+      blur: {
+        backdrop: `var(--motion-blur-backdrop, ${motion.blur.backdrop})`,
+      },
+    },
+    typography: {
+      scale: {
+        hero: `var(--type-hero, ${baseTypography.scale.hero})`,
+        h1: `var(--type-h1, ${baseTypography.scale.h1})`,
+        h2: `var(--type-h2, ${baseTypography.scale.h2})`,
+        body: `var(--type-body, ${baseTypography.scale.body})`,
+        small: `var(--type-small, ${baseTypography.scale.small})`,
+        label: `var(--type-label, ${baseTypography.scale.label})`,
+      },
+      lineHeight: {
+        body: `var(--type-lineheight-body, ${baseTypography.lineHeight.body})`,
+      },
+      maxCh: {
+        body: `var(--type-max-ch, ${baseTypography.maxCh.body})`,
+      },
+      weights: {
+        hero: `var(--type-weight-hero, ${baseTypography.weights.hero})`,
+        h1: `var(--type-weight-h1, ${baseTypography.weights.h1})`,
+        h2: `var(--type-weight-h2, ${baseTypography.weights.h2})`,
+        body: `var(--type-weight-body, ${baseTypography.weights.body})`,
+        label: `var(--type-weight-label, ${baseTypography.weights.label})`,
+      },
     },
   } as const;
 }
@@ -88,19 +154,21 @@ export function createCss(
 // ===== Base / default theme (neumorphism) =====
 // Nilai default dipakai kelir-components sebagai referensi var() bersama;
 // runtime-nya selalu di-override oleh KelirProvider lewat CSS variables.
+// Warna inti mengikuti DESIGN.md (primary/secondary/tertiary/neutral) dan
+// sisanya adalah turunan semantik neumorphism.
 export const variants = {
-  // Palet inti (10 warna, fix antar tema)
+  // Warna inti dari DESIGN.md
   primary: "#C8E0F4", // Soft Blue
   secondary: "#F5E0E8", // Soft Pink
   tertiary: "#E8E8E8", // Soft Grey
-  quaternary: "#2C4A63", // Deep Blue (text on primary)
-  quinary: "#632C41", // Deep Pink (text on secondary)
-  senary: "#900C3F", // Deep Red (text on destructive)
-  septenary: "#FFCCD5", // Soft Red (destructive background)
-  octonary: "#333333", // Charcoal (primary text)
-  nonary: "#666666", // Slate (secondary text)
-  denary: "#FFFFFF", // White (light shadow / highlight)
-  // Warna turunan (nilai bebas per tema, nama key fix)
+  neutral: "#2C4A63", // Deep Blue (neutral / text)
+  // Warna turunan semantik
+  textPrimary: "#333333", // Charcoal (primary text)
+  textSecondary: "#666666", // Slate (secondary text)
+  onPrimary: "#2C4A63", // Deep Blue (text on primary)
+  onSecondary: "#632C41", // Deep Pink (text on secondary)
+  onDestructive: "#900C3F", // Deep Red (text on destructive)
+  destructive: "#FFCCD5", // Soft Red (destructive background)
   background: "#E8E8E8", // Neumorphic background
   surface: "#E8E8E8", // Neumorphic surface (blend with background)
   borderLight: "rgba(255, 255, 255, 0.4)",

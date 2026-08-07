@@ -77,14 +77,14 @@ export function HoverCard({ trigger, children, ...props }: HoverCardProps) {
         open={open}
         anchorEl={anchorEl}
         placement="bottom-start"
-        style={{ zIndex: 1300 }}
+        style={{ zIndex: css.layout.zIndex.overlay }}
         onMouseEnter={cancelClose}
         onMouseLeave={scheduleClose}
       >
         <div
           style={{
             maxWidth: "280px",
-            padding: "12px 16px",
+            padding: `${css.layout.space.md} ${css.layout.space.lg}`,
             backgroundColor: neumorphicBg,
             borderRadius: css.radius.sm,
             boxShadow: css.shadows.card,
