@@ -41,7 +41,8 @@ export type Theme =
   | "glassmorphism"
   | "liquid-glass"
   | "neumorphism"
-  | "skeuomorphism";
+  | "skeuomorphism"
+  | "spatial-ui";
 
 export interface KelirContextValue {
   theme: Theme;

@@ -90,6 +90,7 @@ export function KelirProvider({
       { slug: "claymorphism" as Theme, label: "Claymorphism" },
       { slug: "skeuomorphism" as Theme, label: "Skeuomorphism" },
       { slug: "liquid-glass" as Theme, label: "Liquid Glass" },
+      { slug: "spatial-ui" as Theme, label: "Spatial UI (VisionOS)" },
     ],
     [],
   );
