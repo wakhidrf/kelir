@@ -92,17 +92,17 @@ export function Attachment({
             {nameNode}
           </span>
           {status === "uploading" && (
-            <span style={{ ...statusStyle, color: css.colors.primary }}>
+            <span style={{ ...statusStyle, color: textPrimary }}>
               Uploading {Math.min(100, Math.max(0, progress))}%
             </span>
           )}
           {status === "success" && (
-            <span style={{ ...statusStyle, color: css.colors.primary }}>
+            <span style={{ ...statusStyle, color: css.on.secondary }}>
               <CheckCircleIcon style={{ fontSize: 14 }} /> Saved
             </span>
           )}
           {status === "error" && (
-            <span style={{ ...statusStyle, color: css.destructive }}>
+            <span style={{ ...statusStyle, color: css.on.destructive }}>
               <ErrorOutlineIcon style={{ fontSize: 14 }} /> Failed
             </span>
           )}
