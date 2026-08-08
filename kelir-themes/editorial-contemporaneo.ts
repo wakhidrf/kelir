@@ -1,5 +1,5 @@
 import { createCss } from "../kelir-variants";
-// Editorial Contemporâneo: artistic editorial / magazine design. DESIGN.md
+// Contemporary Editorial: artistic editorial / magazine design. DESIGN.md
 // front matter (primary white, secondary black, tertiary wine-red, neutral
 // dark grey) plus gold surface and navy accent. Light scheme, serif Display
 // (Playfair), ease-out motion (entry 420ms, stagger 80ms) = easeMotion default.
@@ -67,7 +67,7 @@ export const css = createCss(variants, shadows, rounded);
 
 export const tokens = {
   version: "alpha",
-  name: "Editorial Contemporâneo",
+  name: "Contemporary Editorial",
   description:
     "Artistic and immersive editorial landing page for a contemporary culture and art digital magazine. Landing pages, modern websites.",
   colors: {

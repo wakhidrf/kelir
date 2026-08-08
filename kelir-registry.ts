@@ -51,7 +51,7 @@ export const themeRegistry = {
   },
   "editorial-contemporaneo": {
     slug: "editorial-contemporaneo",
-    label: "Editorial Contemporâneo",
+    label: "Contemporary Editorial",
     tokens: editorialToken,
   },
 } as const;

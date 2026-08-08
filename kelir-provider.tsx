@@ -92,7 +92,7 @@ export function KelirProvider({ children, defaultTheme }: KelirProviderProps) {
       },
       {
         slug: "editorial-contemporaneo" as Theme,
-        label: "Editorial Contemporâneo",
+        label: "Contemporary Editorial",
       },
       { slug: "skeuomorphism" as Theme, label: "Skeuomorphism" },
       { slug: "liquid-glass" as Theme, label: "Liquid Glass" },

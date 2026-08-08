@@ -1,6 +1,6 @@
 ---
 version: "alpha"
-name: "Editorial Contemporâneo"
+name: "Contemporary Editorial"
 description: "Design an artistic and immersive editorial landing page for a contemporary culture and art digital magazine. Ideal for landing pages, modern websites. AI-ready template."
 colors:
   primary: "#FFFFFF"
