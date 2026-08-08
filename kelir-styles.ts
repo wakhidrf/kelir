@@ -181,8 +181,8 @@ const baseCss = `
     min-height: 100%;
     display: flex;
     flex-direction: column;
-    background: var(--color-background, #e8e8e8);
-    color: var(--color-text-primary, #333333);
+    background: var(--color-background, #f5f6f7);
+    color: var(--color-text-primary, #1f2328);
     font-family: var(--kelir-font-active, sans-serif);
     color-scheme: var(--kelir-color-scheme, light);
     -webkit-font-smoothing: antialiased;

@@ -7,7 +7,7 @@
 //
 // Components reference these via `css.motion`, which resolves to CSS variables
 // emitted per-theme by KelirProvider (see kelir-styles themeVars). The values
-// below are the neumorphism defaults used as var() fallbacks.
+// below are theme-agnostic fallbacks used only as var() fallbacks.
 
 export interface KelirMotionDuration {
   /** Base physics duration. */

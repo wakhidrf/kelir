@@ -44,11 +44,11 @@ export interface KelirRounded {
   lg: string;
 }
 
-// Base / default theme (neumorphism) rounded scale.
+// Neutral base rounded scale (theme-agnostic fallback).
 export const rounded: KelirRounded = {
-  sm: "14px",
-  md: "28px",
-  lg: "42px",
+  sm: "8px",
+  md: "16px",
+  lg: "24px",
 } as const;
 
 export function createCss(
@@ -151,41 +151,41 @@ export function createCss(
   } as const;
 }
 
-// ===== Base / default theme (neumorphism) =====
-// Nilai default dipakai kelir-components sebagai referensi var() bersama;
-// runtime-nya selalu di-override oleh KelirProvider lewat CSS variables.
-// Warna inti mengikuti DESIGN.md (primary/secondary/tertiary/neutral) dan
-// sisanya adalah turunan semantik neumorphism.
+// ===== Neutral base fallbacks =====
+// Values used ONLY as the var() fallback inside kelir-components so a component
+// still has sensible colors before/without a theme's CSS variables. They are
+// deliberately theme-agnostic — never tied to any single theme — so consumers
+// cannot accidentally render a specific theme when the attribute is missing.
 export const variants = {
-  // Warna inti dari DESIGN.md
-  primary: "#C8E0F4", // Soft Blue
-  secondary: "#F5E0E8", // Soft Pink
-  tertiary: "#E8E8E8", // Soft Grey
-  neutral: "#2C4A63", // Deep Blue (neutral / text)
-  // Warna turunan semantik
-  textPrimary: "#333333", // Charcoal (primary text)
-  textSecondary: "#666666", // Slate (secondary text)
-  onPrimary: "#2C4A63", // Deep Blue (text on primary)
-  onSecondary: "#632C41", // Deep Pink (text on secondary)
-  onDestructive: "#900C3F", // Deep Red (text on destructive)
-  destructive: "#FFCCD5", // Soft Red (destructive background)
-  background: "#E8E8E8", // Neumorphic background
-  surface: "#E8E8E8", // Neumorphic surface (blend with background)
-  borderLight: "rgba(255, 255, 255, 0.4)",
-  borderMedium: "rgba(255, 255, 255, 0.5)",
-  borderStrong: "rgba(255, 255, 255, 0.6)",
-  dividerDark: "rgba(0, 0, 0, 0.05)",
+  // Warna inti netral (bukan tema mana pun)
+  primary: "#8A8F98", // neutral gray (accent fallback)
+  secondary: "#A6ABB3", // lighter gray
+  tertiary: "#C4C8CE", // light gray
+  neutral: "#3C4146", // dark gray (text / neutral)
+  // Warna turunan semantik (nilai netral)
+  textPrimary: "#1F2328", // near-black (primary text)
+  textSecondary: "#555B63", // muted gray (secondary text)
+  onPrimary: "#FFFFFF", // white (text on primary)
+  onSecondary: "#FFFFFF", // white (text on secondary)
+  onDestructive: "#FFFFFF", // white (text on destructive)
+  destructive: "#B3261E", // neutral red (destructive background)
+  background: "#F5F6F7", // neutral light canvas
+  surface: "#FFFFFF", // neutral surface
+  borderLight: "rgba(0, 0, 0, 0.08)",
+  borderMedium: "rgba(0, 0, 0, 0.14)",
+  borderStrong: "rgba(0, 0, 0, 0.24)",
+  dividerDark: "rgba(0, 0, 0, 0.06)",
   trackDark: "rgba(0, 0, 0, 0.1)",
-  shadowDark: "rgba(0, 0, 0, 0.08)",
-  shadowLight: "rgba(255, 255, 255, 0.9)",
+  shadowDark: "rgba(0, 0, 0, 0.12)",
+  shadowLight: "rgba(255, 255, 255, 0.8)",
 } as const;
 
 export type VariantName = keyof typeof variants;
 
 export const shadows = {
-  card: "3px 3px 10px rgba(0, 0, 0, 0.05), -3px -3px 10px rgba(255, 255, 255, 0.8)",
-  convex: `5px 5px 15px ${variants.shadowDark}, -5px -5px 15px ${variants.shadowLight}`,
-  concave: `inset 5px 5px 10px ${variants.shadowDark}, inset -5px -5px 10px ${variants.shadowLight}`,
+  card: "0 1px 3px rgba(0, 0, 0, 0.12)",
+  convex: "0 2px 8px rgba(0, 0, 0, 0.12)",
+  concave: "inset 0 2px 4px rgba(0, 0, 0, 0.06)",
 } as const;
 
 export const css = createCss(variants, shadows);

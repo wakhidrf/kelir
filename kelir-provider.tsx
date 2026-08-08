@@ -113,14 +113,14 @@ export function KelirProvider({ children, defaultTheme }: KelirProviderProps) {
   const muiTheme = React.useMemo(() => {
     const tokens = themeRegistry[themeName]?.tokens;
     const baseColors: Record<string, string> = tokens?.colors || {
-      primary: "#C8E0F4",
-      secondary: "#F5E0E8",
-      tertiary: "#E8E8E8",
-      neutral: "#2C4A63",
-      background: "#E8E8E8",
-      surface: "#E8E8E8",
-      textPrimary: "#333333",
-      textSecondary: "#666666",
+      primary: "#8A8F98",
+      secondary: "#A6ABB3",
+      tertiary: "#C4C8CE",
+      neutral: "#3C4146",
+      background: "#F5F6F7",
+      surface: "#FFFFFF",
+      textPrimary: "#1F2328",
+      textSecondary: "#555B63",
     };
 
     // MUI runs color math (alpha/emphasize) on palette values at render time,
