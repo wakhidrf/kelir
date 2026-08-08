@@ -17,6 +17,7 @@ export const variants = {
   destructive: "#FFCCD5", // Soft Red (destructive background)
   // Warna turunan (nilai bebas per tema, nama key fix)
   background: "#E8E8E8", // Neumorphic background
+  baseBackground: "#E8E8E8", // solid canvas base (same as background for flat themes)
   surface: "#E8E8E8", // Neumorphic surface (blend with background)
   borderLight: "rgba(255, 255, 255, 0.4)",
   borderMedium: "rgba(255, 255, 255, 0.5)",
@@ -69,6 +70,7 @@ export const tokens = {
     tertiary: variants.tertiary,
     neutral: variants.neutral,
     background: variants.background,
+    baseBackground: variants.baseBackground,
     surface: variants.surface,
     textPrimary: variants.textPrimary,
     textSecondary: variants.textSecondary,

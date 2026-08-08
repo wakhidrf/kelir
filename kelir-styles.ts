@@ -124,6 +124,7 @@ function themeVars(theme: Theme): string {
     `--color-tertiary: ${colors.tertiary};`,
     `--color-neutral: ${colors.neutral};`,
     `--color-background: ${colors.background};`,
+    `--color-background-base: ${colors.baseBackground};`,
     `--color-surface: ${colors.surface};`,
     `--color-text-primary: ${colors.textPrimary};`,
     `--color-text-secondary: ${colors.textSecondary};`,
@@ -201,7 +202,7 @@ const baseCss = `
     min-height: 100%;
     display: flex;
     flex-direction: column;
-    background: var(--color-background, #f5f6f7);
+    background-color: var(--color-background-base, #f5f6f7);
     color: var(--color-text-primary, #1f2328);
     font-family: var(--kelir-font-active, sans-serif);
     color-scheme: var(--kelir-color-scheme, light);
@@ -221,6 +222,20 @@ const baseCss = `
       radial-gradient(500px 500px at 45% 55%, rgba(0, 255, 255, 0.25) 0%, transparent 70%);
     background-size: 200% 200%;
     animation: var(--kelir-flow-anim, none);
+  }
+  /* Theme canvas is locked to the viewport (fixed layer) instead of being
+     painted over the full scrollable height. Keeps the gradient computed
+     against viewport size only, so long pages no longer stretch, relocate or
+     band the gradient ("belang-belang"). Below the fold, body's solid
+     --color-background-base takes over seamlessly. */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    background: var(--color-background, transparent);
+    background-repeat: no-repeat;
   }
   h1, h2 {
     text-shadow: var(--kelir-chroma, none);

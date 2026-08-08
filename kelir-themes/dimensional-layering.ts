@@ -19,6 +19,7 @@ export const variants = {
   destructive: "#B3261E", // derived deep red (destructive)
   // Warna turunan (nilai bebas per tema, nama key fix)
   background: "#F2F2F3", // neutral grey canvas (depth backdrop)
+  baseBackground: "#F2F2F3", // solid canvas base (same as background for flat themes)
   surface: "#FFFFFF", // paper surface (top layer)
   borderLight: "rgba(0, 0, 0, 0.08)",
   borderMedium: "rgba(0, 0, 0, 0.12)",
@@ -74,6 +75,7 @@ export const tokens = {
     tertiary: variants.tertiary,
     neutral: variants.neutral,
     background: variants.background,
+    baseBackground: variants.baseBackground,
     surface: variants.surface,
     textPrimary: variants.textPrimary,
     textSecondary: variants.textSecondary,

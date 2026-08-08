@@ -18,6 +18,7 @@ export const variants = {
   destructive: "#F4A9A2", // Muted peach-red (destructive background)
   // Warna turunan (nilai bebas per tema, nama key fix)
   background: "#F5F0EE", // Warm clay canvas
+  baseBackground: "#F5F0EE", // solid canvas base (same as background for flat themes)
   surface: "#FFFFFF", // Paper surface
   borderLight: "#E9D8D4", // Soft border
   borderMedium: "#DCC9C4", // Medium border
@@ -72,6 +73,7 @@ export const tokens = {
     tertiary: variants.tertiary,
     neutral: variants.neutral,
     background: variants.background,
+    baseBackground: variants.baseBackground,
     surface: variants.surface,
     textPrimary: variants.textPrimary,
     textSecondary: variants.textSecondary,

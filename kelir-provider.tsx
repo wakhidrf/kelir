@@ -129,9 +129,11 @@ export function KelirProvider({ children, defaultTheme }: KelirProviderProps) {
     // which cannot parse CSS gradients. When a theme's background is a
     // gradient (e.g. glassmorphism), map it to a solid MUI-safe color so
     // popups/surfaces never throw a "color" error.
-    const muiBackground = baseColors.background.includes("gradient(")
-      ? baseColors.surface || baseColors.background
-      : baseColors.background;
+    const muiBackground =
+      baseColors.baseBackground ||
+      (baseColors.background.includes("gradient(")
+        ? baseColors.surface || baseColors.background
+        : baseColors.background);
 
     return createTheme({
       palette: {
