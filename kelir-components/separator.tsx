@@ -9,7 +9,7 @@ export function Separator({ label, ...props }: SeparatorProps) {
     <MuiDivider
       {...props}
       style={{
-        borderColor: "rgba(0, 0, 0, 0.08)",
+        borderColor: css.divider,
         margin: `${css.layout.space.md} 0`,
         fontFamily: "inherit",
         color: textSecondary,

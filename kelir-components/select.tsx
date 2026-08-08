@@ -7,6 +7,7 @@ import { css } from "../kelir-variants";
 const convexShadow = css.shadows.convex;
 const concaveShadow = css.shadows.concave;
 const neumorphicBg = css.colors.surface;
+const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
@@ -22,6 +23,8 @@ export function Select({ options, style, ...props }: SelectProps) {
             borderRadius: css.radius.sm,
             boxShadow: concaveShadow,
             border: `1px solid ${css.border.light}`,
+            backdropFilter: surfaceBlur,
+            WebkitBackdropFilter: surfaceBlur,
             color: textPrimary,
             fontFamily: "inherit",
             fontSize: "14px",
@@ -37,6 +40,16 @@ export function Select({ options, style, ...props }: SelectProps) {
           color: textSecondary,
           right: css.layout.space.sm,
         },
+        "&.Mui-focused": {
+          borderColor: css.colors.primary,
+          "& .MuiInputBase-root": {
+            borderColor: css.colors.primary,
+          },
+        },
+        "&:focus-visible": {
+          outline: `${css.focusRing.width} solid ${css.focusRing.color}`,
+          outlineOffset: css.focusRing.offset,
+        },
       }}
       MenuProps={{
         slotProps: {
@@ -46,6 +59,8 @@ export function Select({ options, style, ...props }: SelectProps) {
               borderRadius: css.radius.sm,
               boxShadow: convexShadow,
               border: `1px solid ${css.border.light}`,
+              backdropFilter: surfaceBlur,
+              WebkitBackdropFilter: surfaceBlur,
               marginTop: css.layout.space.sm,
             },
           },

@@ -47,7 +47,7 @@ export function NavigationMenu({
           cursor: "pointer",
           textAlign: "left",
           padding: "10px 14px",
-          borderRadius: "12px",
+          borderRadius: css.radius.sm,
           fontSize: "14px",
           fontWeight: 600,
           color: item.active ? css.on.primary : textSecondary,

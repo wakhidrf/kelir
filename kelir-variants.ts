@@ -89,6 +89,7 @@ export function createCss(
     control: {
       padding: "var(--control-padding, 12px)",
       radius: `var(--control-radius, ${themeRounded.sm})`,
+      background: "var(--control-background, var(--color-primary, #8A8F98))",
     },
     focusRing: {
       width: "var(--focus-ring-width, 2px)",
@@ -181,6 +182,14 @@ export const variants = {
 } as const;
 
 export type VariantName = keyof typeof variants;
+
+// Status semantic palette (success/warning). Tetap netral (theme-agnostic)
+// sesuai aturan fallback: nilai sengaja tidak terkait satu tema, dan hanya
+// dipakai jika tema tidak menyediakan override status sendiri.
+export const statusColors = {
+  success: { bg: "#C8E6C9", fg: "#1B5E20" },
+  warning: { bg: "#FFE0B2", fg: "#B45309" },
+} as const;
 
 export const shadows = {
   card: "0 1px 3px rgba(0, 0, 0, 0.12)",

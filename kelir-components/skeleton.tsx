@@ -7,7 +7,7 @@ export function Skeleton({ ...props }: SkeletonProps) {
     <MuiSkeleton
       {...props}
       style={{
-        backgroundColor: "rgba(0, 0, 0, 0.05)",
+        backgroundColor: css.track,
         borderRadius: css.radius.sm,
         ...props.style,
       }}

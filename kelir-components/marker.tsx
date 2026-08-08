@@ -1,6 +1,6 @@
 import type * as React from "react";
 import type { MarkerProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import { css, statusColors } from "../kelir-variants";
 
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
@@ -12,8 +12,8 @@ const markerColors: Record<
   primary: { bg: css.colors.primary, fg: css.on.primary },
   secondary: { bg: css.colors.secondary, fg: css.on.secondary },
   error: { bg: css.destructive, fg: css.on.destructive },
-  success: { bg: "#C8E6C9", fg: "#1B5E20" },
-  warning: { bg: "#FFE0B2", fg: "#B45309" },
+  success: statusColors.success,
+  warning: statusColors.warning,
 };
 
 export function Marker({

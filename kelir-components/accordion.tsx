@@ -16,7 +16,7 @@ export function Accordion({ summary, details, ...props }: AccordionProps) {
       style={{
         backgroundColor: neumorphicBg,
         borderRadius: css.radius.sm,
-        boxShadow: "none",
+        boxShadow: css.shadows.card,
         border: `1px solid ${css.border.light}`,
         marginBottom: css.layout.space.sm,
         fontFamily: "inherit",

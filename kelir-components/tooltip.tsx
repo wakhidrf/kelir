@@ -5,6 +5,7 @@ import { css } from "../kelir-variants";
 
 const convexShadow = css.shadows.convex;
 const neumorphicBg = css.colors.surface;
+const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 
 type SlotStyle = { style?: React.CSSProperties };
@@ -25,6 +26,8 @@ export function Tooltip({ children, ...props }: TooltipProps) {
             borderRadius: css.radius.sm,
             boxShadow: convexShadow,
             border: `1px solid ${css.border.light}`,
+            backdropFilter: surfaceBlur,
+            WebkitBackdropFilter: surfaceBlur,
             color: textPrimary,
             fontSize: "12px",
             fontFamily: "inherit",

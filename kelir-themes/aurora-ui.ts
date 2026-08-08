@@ -101,7 +101,8 @@ export const tokens = {
   },
   components: {
     buttonPrimary: {
-      backgroundColor: variants.primary, // DESIGN {colors.primary}
+      backgroundColor:
+        "linear-gradient(135deg, #0080FF 0%, #FF1493 55%, #00FFFF 130%)",
       color: variants.onPrimary,
       rounded: rounded.sm,
       padding: "12px",

@@ -28,7 +28,7 @@ export function Button({ variant = "primary", ...props }: ButtonProps) {
     };
 
     if (isPrimary) {
-      base.backgroundColor = css.colors.primary;
+      base.background = css.control.background;
       base.border = "none";
       base.boxShadow = convexShadow;
       base.color = css.on.primary;
@@ -44,7 +44,7 @@ export function Button({ variant = "primary", ...props }: ButtonProps) {
       base.color = css.on.destructive;
     } else if (isOutline) {
       base.backgroundColor = "transparent";
-      base.border = `1px solid ${css.border.strong}`;
+      base.border = `1.5px solid ${css.border.medium}`;
       base.color = textPrimary;
     } else if (isGhost) {
       base.backgroundColor = "transparent";
@@ -67,28 +67,28 @@ export function Button({ variant = "primary", ...props }: ButtonProps) {
       style={getStyles()}
       sx={{
         "&:hover": {
-          backgroundColor: isPrimary
-            ? css.colors.primary
-            : isSecondary
-              ? css.colors.secondary
-              : isDestructive
-                ? css.destructive
-                : isOutline
-                  ? "transparent"
-                  : isGhost
-                    ? "transparent"
+          backgroundColor:
+            isOutline || isGhost
+              ? css.track
+              : isPrimary
+                ? css.control.background
+                : isSecondary
+                  ? css.colors.secondary
+                  : isDestructive
+                    ? css.destructive
                     : neumorphicBg,
           color: isOutline || isGhost ? textPrimary : undefined,
-          borderColor: isOutline ? css.border.strong : undefined,
-          opacity: 0.92,
+          borderColor: isOutline ? css.border.medium : undefined,
+          filter: isOutline || isGhost ? "none" : "brightness(0.92)",
+          transform: "translateY(-1px)",
         },
         "&:active": {
           boxShadow: isOutline || isGhost ? "none" : concaveShadow,
           transform: "translateY(1px)",
         },
         "&.Mui-focusVisible": {
-          outline: `2px solid ${css.colors.primary}`,
-          outlineOffset: "2px",
+          outline: `${css.focusRing.width} solid ${css.focusRing.color}`,
+          outlineOffset: css.focusRing.offset,
         },
         "&.Mui-disabled": {
           backgroundColor: css.track,

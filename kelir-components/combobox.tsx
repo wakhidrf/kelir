@@ -6,6 +6,7 @@ import { Label } from "./label";
 
 const convexShadow = css.shadows.convex;
 const neumorphicBg = css.colors.surface;
+const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
@@ -39,6 +40,8 @@ export function Combobox({ label, placeholder, ...props }: ComboboxProps) {
           borderRadius: css.radius.sm,
           boxShadow: convexShadow,
           border: `1px solid ${css.border.light}`,
+          backdropFilter: surfaceBlur,
+          WebkitBackdropFilter: surfaceBlur,
           marginTop: css.layout.space.sm,
         },
         "& .MuiAutocomplete-listbox": {

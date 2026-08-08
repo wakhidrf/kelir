@@ -6,6 +6,7 @@ import { css } from "../kelir-variants";
 const convexShadow = css.shadows.convex;
 const concaveShadow = css.shadows.concave;
 const neumorphicBg = css.colors.surface;
+const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
@@ -169,6 +170,8 @@ export function DatePicker({
             borderRadius: css.radius.sm,
             boxShadow: convexShadow,
             border: `1px solid ${css.border.light}`,
+            backdropFilter: surfaceBlur,
+            WebkitBackdropFilter: surfaceBlur,
           }}
         >
           <div

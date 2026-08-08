@@ -31,8 +31,7 @@ interface ThemeFonts {
 // via <link> tags rendered by KelirProvider, so no fallback font flashes.
 const FONTS: Record<Theme, ThemeFonts> = {
   "aurora-ui": {
-    active:
-      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    active: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     mono: '"JetBrains Mono", monospace',
   },
   neumorphism: {
@@ -136,6 +135,7 @@ function themeVars(theme: Theme): string {
     `--radius-lg: ${rounded.lg};`,
     `--control-padding: ${control?.padding ?? "12px"};`,
     `--control-radius: ${control?.rounded ?? rounded.sm};`,
+    `--control-background: ${control?.backgroundColor ?? colors.primary};`,
     `--focus-ring-width: 2px;`,
     `--focus-ring-offset: 2px;`,
     `--focus-ring-color: ${colors.primary};`,
@@ -145,6 +145,13 @@ function themeVars(theme: Theme): string {
     `--kelir-font-active: ${fonts.active};`,
     `--kelir-font-mono: ${fonts.mono};`,
     `--kelir-color-scheme: ${SCHEMES[theme] ?? "light"};`,
+    `--kelir-flow-anim: ${theme === "aurora-ui" ? "kelir-aurora-flow 12s ease-in-out infinite alternate" : "none"};`,
+    `--kelir-flow-opacity: ${theme === "aurora-ui" ? "1" : "0"};`,
+    `--kelir-chroma: ${
+      theme === "liquid-glass"
+        ? "1px 0 0 rgba(0, 255, 255, 0.28), -1px 0 0 rgba(255, 0, 128, 0.28)"
+        : "none"
+    };`,
     `--motion-duration-base: ${motion.duration.base};`,
     `--motion-duration-hover: ${motion.duration.hover};`,
     `--motion-duration-entry: ${motion.duration.entry};`,
@@ -195,6 +202,23 @@ const baseCss = `
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: var(--kelir-flow-opacity, 0);
+    background:
+      radial-gradient(600px 500px at 20% 30%, rgba(0, 128, 255, 0.5) 0%, transparent 70%),
+      radial-gradient(700px 600px at 80% 70%, rgba(255, 20, 147, 0.35) 0%, transparent 70%),
+      radial-gradient(500px 500px at 45% 55%, rgba(0, 255, 255, 0.25) 0%, transparent 70%);
+    background-size: 200% 200%;
+    animation: var(--kelir-flow-anim, none);
+  }
+  h1, h2 {
+    text-shadow: var(--kelir-chroma, none);
+  }
   a {
     color: inherit;
     text-decoration: none;
@@ -202,11 +226,17 @@ const baseCss = `
 `;
 
 export function kelirStyleCss(): string {
+  const keyframes = `
+@keyframes kelir-aurora-flow {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
+`;
   const themes = Object.keys(themeRegistry) as Theme[];
   const blocks = themes.map(
     (theme) => `${themeSelector(theme)} {\n  ${themeVars(theme)}\n}`,
   );
-  return `${baseCss}\n\n${blocks.join("\n\n")}\n\n${scrollbarCss}`;
+  return `${baseCss}\n${keyframes}\n${blocks.join("\n\n")}\n\n${scrollbarCss}`;
 }
 
 // Font stylesheets rendered by KelirProvider so they load before the content

@@ -5,6 +5,7 @@ import { css } from "../kelir-variants";
 
 const cardShadow = css.shadows.card;
 const neumorphicBg = css.colors.surface;
+const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 
 export function Alert({ title, children, ...props }: AlertProps) {
@@ -16,6 +17,8 @@ export function Alert({ title, children, ...props }: AlertProps) {
         borderRadius: css.radius.sm,
         boxShadow: cardShadow,
         border: `1px solid ${css.border.light}`,
+        backdropFilter: surfaceBlur,
+        WebkitBackdropFilter: surfaceBlur,
         color: textPrimary,
         fontFamily: "inherit",
         ...props.style,

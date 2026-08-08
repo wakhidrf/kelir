@@ -4,6 +4,7 @@ import { css } from "../kelir-variants";
 
 const concaveShadow = css.shadows.concave;
 const neumorphicBg = css.colors.surface;
+const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
@@ -56,11 +57,16 @@ export function Textarea({
                 : css.border.light
           }`,
           boxShadow: concaveShadow,
+          backdropFilter: surfaceBlur,
+          WebkitBackdropFilter: surfaceBlur,
           padding: "10px 14px",
           color: textPrimary,
           fontFamily: "inherit",
           fontSize: "14px",
-          outline: "none",
+          outline: focused
+            ? `${css.focusRing.width} solid ${css.focusRing.color}`
+            : "none",
+          outlineOffset: css.focusRing.offset,
           resize: "vertical",
           transition: `border ${css.motion.duration.hover} ${css.motion.easing.curve}`,
           ...style,

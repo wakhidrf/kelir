@@ -4,6 +4,7 @@ import type { HoverCardProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
 const neumorphicBg = css.colors.surface;
+const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 
 export function HoverCard({ trigger, children, ...props }: HoverCardProps) {
@@ -89,6 +90,8 @@ export function HoverCard({ trigger, children, ...props }: HoverCardProps) {
             borderRadius: css.radius.sm,
             boxShadow: css.shadows.card,
             border: `1px solid ${css.border.medium}`,
+            backdropFilter: surfaceBlur,
+            WebkitBackdropFilter: surfaceBlur,
             color: textPrimary,
             fontFamily: "inherit",
             fontSize: "14px",

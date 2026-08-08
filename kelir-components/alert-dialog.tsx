@@ -33,6 +33,8 @@ export function AlertDialog({
             borderRadius: css.radius.md,
             boxShadow: convexShadow,
             border: `1px solid ${css.border.light}`,
+            backdropFilter: css.motion.blur.backdrop,
+            WebkitBackdropFilter: css.motion.blur.backdrop,
             fontFamily: "inherit",
             padding: css.layout.space.sm,
           },

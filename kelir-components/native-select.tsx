@@ -5,6 +5,7 @@ import { css } from "../kelir-variants";
 
 const concaveShadow = css.shadows.concave;
 const neumorphicBg = css.colors.surface;
+const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
@@ -20,6 +21,8 @@ export function NativeSelect({ options, style, ...props }: NativeSelectProps) {
             borderRadius: css.radius.sm,
             boxShadow: concaveShadow,
             border: `1px solid ${css.border.light}`,
+            backdropFilter: surfaceBlur,
+            WebkitBackdropFilter: surfaceBlur,
             color: textPrimary,
             fontFamily: "inherit",
             fontSize: "14px",
@@ -28,6 +31,15 @@ export function NativeSelect({ options, style, ...props }: NativeSelectProps) {
         />
       }
       sx={{
+        "&.Mui-focused": {
+          "& .MuiInputBase-root": {
+            borderColor: css.colors.primary,
+          },
+        },
+        "&:focus-visible": {
+          outline: `${css.focusRing.width} solid ${css.focusRing.color}`,
+          outlineOffset: css.focusRing.offset,
+        },
         "& .MuiNativeSelect-select": {
           padding: "10px 36px 10px 14px",
         },

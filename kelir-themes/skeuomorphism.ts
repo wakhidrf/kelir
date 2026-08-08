@@ -18,7 +18,7 @@ export const variants = {
   destructive: "#C0372B", // derived deep red (destructive)
   // Warna turunan (nilai bebas per tema, nama key fix)
   background:
-    "radial-gradient(900px 500px at 15% 0%, #4A4A4A 0%, transparent 55%), linear-gradient(170deg, #2A2A2E 0%, #1A1A1A 50%, #121214 100%)", // charcoal canvas (from primary #1A1A1A)
+    "radial-gradient(900px 500px at 15% 0%, #4A4A4A 0%, transparent 55%), radial-gradient(700px 420px at 90% 20%, rgba(0, 102, 255, 0.16) 0%, transparent 55%), radial-gradient(500px 340px at 70% 80%, rgba(255, 255, 255, 0.06) 0%, transparent 60%), repeating-linear-gradient(45deg, rgba(255,255,255,0.01) 0 2px, transparent 2px 4px), linear-gradient(170deg, #303036 0%, #26262B 22%, #1E1E23 45%, #17171B 70%, #0F0F13 88%, #0A0A0D 100%)", // charcoal canvas with 6-stop gradient + subtle grain texture
   surface: "#222226", // dark surface
   borderLight: "rgba(255, 255, 255, 0.12)",
   borderMedium: "rgba(255, 255, 255, 0.2)",

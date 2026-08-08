@@ -17,6 +17,7 @@ export function Table({ headers, rows, style, ...props }: TableProps) {
         borderRadius: css.radius.sm,
         boxShadow: css.shadows.convex,
         border: `1px solid ${css.border.light}`,
+        backgroundColor: css.colors.surface,
         overflowX: "auto",
         fontFamily: "inherit",
         ...style,

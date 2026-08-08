@@ -26,13 +26,14 @@ Make sure your project has the following core dependencies:
 {
   "dependencies": {
     "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
-    "@mui/icons-material": "^6.4.4",
-    "@mui/material": "^6.4.4",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^9.2.0",
+    "@mui/material": "^9.2.0",
     "js-cookie": "^3.0.8",
+    "next": "16.3.0",
     "next-themes": "^0.4.6",
-    "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
   }
 }
 ```
@@ -42,13 +43,13 @@ Install all Project Kelir dependencies at once with a single command:
 ```bash
 npm install \
   @emotion/react@^11.14.0 \
-  @emotion/styled@^11.14.0 \
-  @mui/material@^6.4.4 \
-  @mui/icons-material@^6.4.4 \
+  @emotion/styled@^11.14.1 \
+  @mui/material@^9.2.0 \
+  @mui/icons-material@^9.2.0 \
   js-cookie@^3.0.8 \
   next-themes@^0.4.6 \
-  react@19.2.4 \
-  react-dom@19.2.4
+  react@^19.2.8 \
+  react-dom@^19.2.8
 ```
 
 ### 2. Copying the Project Kelir Repo into Your Project (Git Submodule)

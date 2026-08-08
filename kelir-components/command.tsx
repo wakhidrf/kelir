@@ -111,7 +111,7 @@ export function Command({
                   cursor: "pointer",
                   textAlign: "left",
                   padding: "9px 10px",
-                  borderRadius: "10px",
+                  borderRadius: css.radius.sm,
                   fontSize: "14px",
                   color: textPrimary,
                   fontFamily: "inherit",
