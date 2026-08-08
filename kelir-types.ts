@@ -41,6 +41,7 @@ export type Theme =
   | "claymorphism"
   | "dimensional-layering"
   | "editorial-contemporaneo"
+  | "edtech-plataforma"
   | "futuristic-glassmorphism"
   | "glassmorphism"
   | "liquid-glass"

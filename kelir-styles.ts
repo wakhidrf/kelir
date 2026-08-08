@@ -62,6 +62,10 @@ const FONTS: Record<Theme, ThemeFonts> = {
     active: '"Playfair Display", serif', // DESIGN typography (Playfair Display)
     mono: '"JetBrains Mono", monospace',
   },
+  "edtech-plataforma": {
+    active: '"Poppins", sans-serif', // DESIGN typography (Poppins)
+    mono: '"JetBrains Mono", monospace',
+  },
   "futuristic-glassmorphism": {
     active: '"Exo 2", sans-serif', // DESIGN typography (Exo 2)
     mono: '"JetBrains Mono", monospace',
@@ -81,6 +85,7 @@ const FONT_URLS: Record<Theme, string> = {
   claymorphism: "https://fonts.cdnfonts.com/css/jetbrains-mono",
   "dimensional-layering": "https://fonts.cdnfonts.com/css/jetbrains-mono",
   "editorial-contemporaneo": "https://fonts.cdnfonts.com/css/playfair-display",
+  "edtech-plataforma": "https://fonts.cdnfonts.com/css/poppins",
   "futuristic-glassmorphism": "https://fonts.cdnfonts.com/css/exo-2",
   skeuomorphism: "https://fonts.cdnfonts.com/css/jetbrains-mono",
 };
@@ -99,6 +104,7 @@ const SCHEMES: Record<Theme, "light" | "dark"> = {
   claymorphism: "light",
   "dimensional-layering": "light",
   "editorial-contemporaneo": "light",
+  "edtech-plataforma": "light", // DESIGN light only
   "futuristic-glassmorphism": "dark",
   skeuomorphism: "dark",
 };

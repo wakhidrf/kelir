@@ -95,6 +95,7 @@ export function KelirProvider({ children, defaultTheme }: KelirProviderProps) {
         slug: "editorial-contemporaneo" as Theme,
         label: "Contemporary Editorial",
       },
+      { slug: "edtech-plataforma" as Theme, label: "EdTech Course Platform" },
       { slug: "skeuomorphism" as Theme, label: "Skeuomorphism" },
       { slug: "liquid-glass" as Theme, label: "Liquid Glass" },
       { slug: "spatial-ui" as Theme, label: "Spatial UI (VisionOS)" },

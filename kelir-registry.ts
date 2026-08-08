@@ -2,6 +2,7 @@ import { tokens as auroraUiTokens } from "./kelir-themes/aurora-ui";
 import { tokens as claymorphismTokens } from "./kelir-themes/claymorphism";
 import { tokens as dimensionalLayeringTokens } from "./kelir-themes/dimensional-layering";
 import { tokens as editorialToken } from "./kelir-themes/editorial-contemporaneo";
+import { tokens as edtechPlataformaTokens } from "./kelir-themes/edtech-plataforma";
 import { tokens as futuristicGlassTokens } from "./kelir-themes/futuristic-glassmorphism";
 import { tokens as glassmorphismTokens } from "./kelir-themes/glassmorphism";
 import { tokens as liquidGlassTokens } from "./kelir-themes/liquid-glass";
@@ -59,5 +60,10 @@ export const themeRegistry = {
     slug: "editorial-contemporaneo",
     label: "Contemporary Editorial",
     tokens: editorialToken,
+  },
+  "edtech-plataforma": {
+    slug: "edtech-plataforma",
+    label: "EdTech Course Platform",
+    tokens: edtechPlataformaTokens,
   },
 } as const;
