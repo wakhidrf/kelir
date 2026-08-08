@@ -21,6 +21,7 @@ export const variants = {
   // Warna turunan (nilai bebas per tema, nama key fix)
   background:
     "radial-gradient(1200px 800px at 85% -10%, rgba(0, 128, 255, 0.4) 0%, transparent 55%), radial-gradient(1000px 700px at 10% 110%, rgba(255, 20, 147, 0.32) 0%, transparent 52%), radial-gradient(900px 600px at 55% 55%, rgba(0, 255, 255, 0.14) 0%, transparent 50%), linear-gradient(180deg, #0B0E1A 0%, #060711 100%)", // flowing aurora mesh on deep navy
+  baseBackground: "#060711", // solid canvas base (gradient tail) for below-the-fold body
   surface: "rgba(255, 255, 255, 0.07)", // translucent aurora surface
   borderLight: "rgba(255, 255, 255, 0.14)",
   borderMedium: "rgba(255, 255, 255, 0.22)",
@@ -76,6 +77,7 @@ export const tokens = {
     tertiary: variants.tertiary,
     neutral: variants.neutral,
     background: variants.background,
+    baseBackground: variants.baseBackground,
     surface: variants.surface,
     textPrimary: variants.textPrimary,
     textSecondary: variants.textSecondary,

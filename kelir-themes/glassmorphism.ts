@@ -16,6 +16,7 @@ export const variants = {
   // Warna turunan (nilai bebas per tema, nama key fix)
   background:
     "radial-gradient(1200px 800px at 20% 0%, #0080FF 0%, transparent 60%), radial-gradient(1000px 700px at 90% 20%, #8B00FF 0%, transparent 55%), radial-gradient(900px 700px at 60% 100%, #FF1493 0%, transparent 60%), linear-gradient(180deg, #0A0E27 0%, #1B1035 100%)", // Vibrant gradient behind the glass
+  baseBackground: "#1B1035", // solid canvas base (gradient tail) for below-the-fold body
   surface: "rgba(255, 255, 255, 0.15)", // Frosted glass surface
   borderLight: "rgba(255, 255, 255, 0.2)",
   borderMedium: "rgba(255, 255, 255, 0.3)",
@@ -68,6 +69,7 @@ export const tokens = {
     tertiary: variants.tertiary,
     neutral: variants.neutral,
     background: variants.background,
+    baseBackground: variants.baseBackground,
     surface: variants.surface,
     textPrimary: variants.textPrimary,
     textSecondary: variants.textSecondary,

@@ -18,6 +18,7 @@ export const variants = {
   destructive: "#800000", // DESIGN tertiary (wine red destructive)
   // Warna turunan (nilai bebas per tema, nama key fix)
   background: "#FAF8F2", // warm paper canvas
+  baseBackground: "#FAF8F2", // solid canvas base (same as background for flat themes)
   surface: "#FFFFFF", // paper surface (editorial card)
   borderLight: "rgba(0, 0, 0, 0.1)",
   borderMedium: "rgba(0, 0, 0, 0.16)",
@@ -76,6 +77,7 @@ export const tokens = {
     tertiary: variants.tertiary,
     neutral: variants.neutral,
     background: variants.background,
+    baseBackground: variants.baseBackground,
     surface: variants.surface,
     textPrimary: variants.textPrimary,
     textSecondary: variants.textSecondary,

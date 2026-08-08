@@ -220,3 +220,9 @@ Components that shape the structure and placement of elements.
 61. **Direction**: A context provider for text reading direction (LTR - Left to Right, or RTL - Right to Left).
 62. **Resizable**: A layout panel whose size can be dynamically adjusted with draggable dividers.
 63. **Skeleton**: An animated dimming-brightening placeholder frame for empty elements as a visualization before data finishes loading.
+
+---
+
+## License
+
+Licensed under the [MIT License](LICENSE).
