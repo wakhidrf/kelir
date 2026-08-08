@@ -83,6 +83,7 @@ export function KelirProvider({ children, defaultTheme }: KelirProviderProps) {
   // Available lists
   const themesList = React.useMemo(
     () => [
+      { slug: "aurora-ui" as Theme, label: "Aurora UI" },
       { slug: "neumorphism" as Theme, label: "Neumorphism" },
       { slug: "glassmorphism" as Theme, label: "Glassmorphism" },
       { slug: "claymorphism" as Theme, label: "Claymorphism" },

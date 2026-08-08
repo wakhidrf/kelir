@@ -1,3 +1,4 @@
+import { tokens as auroraUiTokens } from "./kelir-themes/aurora-ui";
 import { tokens as claymorphismTokens } from "./kelir-themes/claymorphism";
 import { tokens as dimensionalLayeringTokens } from "./kelir-themes/dimensional-layering";
 import { tokens as editorialToken } from "./kelir-themes/editorial-contemporaneo";
@@ -9,6 +10,11 @@ import { tokens as skeuomorphismTokens } from "./kelir-themes/skeuomorphism";
 import { tokens as spatialUiTokens } from "./kelir-themes/spatial-ui";
 
 export const themeRegistry = {
+  "aurora-ui": {
+    slug: "aurora-ui",
+    label: "Aurora UI",
+    tokens: auroraUiTokens,
+  },
   neumorphism: {
     slug: "neumorphism",
     label: "Neumorphism",

@@ -30,6 +30,11 @@ interface ThemeFonts {
 // Font stacks per theme. The font files themselves are loaded (render-blocking)
 // via <link> tags rendered by KelirProvider, so no fallback font flashes.
 const FONTS: Record<Theme, ThemeFonts> = {
+  "aurora-ui": {
+    active:
+      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    mono: '"JetBrains Mono", monospace',
+  },
   neumorphism: {
     active: '"Product Sans", sans-serif',
     mono: '"JetBrains Mono", monospace',
@@ -69,6 +74,7 @@ const FONTS: Record<Theme, ThemeFonts> = {
 };
 
 const FONT_URLS: Record<Theme, string> = {
+  "aurora-ui": "https://fonts.cdnfonts.com/css/jetbrains-mono",
   neumorphism: "https://fonts.cdnfonts.com/css/product-sans",
   glassmorphism: "https://fonts.cdnfonts.com/css/jetbrains-mono",
   "liquid-glass": "https://fonts.cdnfonts.com/css/jetbrains-mono",
@@ -86,6 +92,7 @@ const MONO_FONT_URL = "https://fonts.cdnfonts.com/css/jetbrains-mono";
 // OS-rendered surfaces (native <select> dropdown, scrollbars, overlays) get the
 // correct panel color and don't render white-on-white / dark-on-dark.
 const SCHEMES: Record<Theme, "light" | "dark"> = {
+  "aurora-ui": "dark",
   neumorphism: "light",
   glassmorphism: "dark",
   "liquid-glass": "dark",

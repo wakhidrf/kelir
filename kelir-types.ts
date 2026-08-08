@@ -37,6 +37,7 @@ import type * as React from "react";
 
 // Global contexts & states
 export type Theme =
+  | "aurora-ui"
   | "claymorphism"
   | "dimensional-layering"
   | "editorial-contemporaneo"
