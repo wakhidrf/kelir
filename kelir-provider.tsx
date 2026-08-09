@@ -9,6 +9,7 @@ import * as React from "react";
 import { themeRegistry } from "./kelir-registry";
 import { fontLinks, kelirStyleCss, THEME_ATTRIBUTE } from "./kelir-styles";
 import type { KelirContextValue, Theme } from "./kelir-types";
+import { rounded, variants } from "./kelir-variants";
 
 export const KelirContext = React.createContext<KelirContextValue | null>(null);
 
@@ -87,31 +88,24 @@ export function KelirProvider({ children, defaultTheme }: KelirProviderProps) {
     [],
   );
 
-  // Create MUI dynamic theme.
-  // Custom Kelir components use CSS variables (zero-flash via the
-  // data-kelir-theme attribute). MUI must use concrete hex values because it
-  // runs color math (e.g. alpha()) at style-evaluation time which cannot parse
-  // CSS variables, so its palette is theme state — client-only, see below.
+  // Create a single static MUI dynamic theme.
+  // It MUST be the exact same object on the server and the client: MUI's
+  // emotion cache hashes the theme object into every generated class name
+  // (css-<hash>-Mui...), so any server/client difference in the theme produces
+  // a hydration mismatch on every MUI element. The object is therefore built
+  // once from the theme-agnostic neutral base and never changes. Theme visuals
+  // are driven by CSS variables (data-kelir-theme attribute), which MUI cannot
+  // parse for its color math — MUI palette-rendering stays neutral.
   const muiTheme = React.useMemo(() => {
-    // Theme state is client-only: the server never knows the saved theme, so
-    // its MUI palette is built from the theme-agnostic neutral base (the same
-    // values kelir-components use as var() fallbacks) — no specific theme is
-    // ever baked into the server HTML. On the client, themeName is already the
-    // persisted theme (read synchronously from the pre-hydration attribute), so
-    // the hydrated palette is the user's theme.
-    const tokens =
-      typeof document === "undefined"
-        ? undefined
-        : themeRegistry[themeName]?.tokens;
-    const baseColors: Record<string, string> = tokens?.colors || {
-      primary: "#8A8F98",
-      secondary: "#A6ABB3",
-      tertiary: "#C4C8CE",
-      neutral: "#3C4146",
-      background: "#F5F6F7",
-      surface: "#FFFFFF",
-      textPrimary: "#1F2328",
-      textSecondary: "#555B63",
+    const baseColors: Record<string, string> = {
+      primary: variants.primary,
+      secondary: variants.secondary,
+      tertiary: variants.tertiary,
+      neutral: variants.neutral,
+      background: variants.background,
+      surface: variants.surface,
+      textPrimary: variants.textPrimary,
+      textSecondary: variants.textSecondary,
     };
 
     // MUI runs color math (alpha/emphasize) on palette values at render time,
@@ -160,7 +154,7 @@ export function KelirProvider({ children, defaultTheme }: KelirProviderProps) {
         },
       },
       shape: {
-        borderRadius: parseInt(tokens?.rounded?.sm || "14px", 10),
+        borderRadius: parseInt(rounded.sm, 10),
       },
       components: {
         MuiButton: {
@@ -196,7 +190,7 @@ export function KelirProvider({ children, defaultTheme }: KelirProviderProps) {
         },
       },
     });
-  }, [themeName]);
+  }, []);
 
   const contextValue = React.useMemo<KelirContextValue>(
     () => ({
