@@ -4,16 +4,10 @@ import {
   createTheme,
   ThemeProvider as MuiThemeProvider,
 } from "@mui/material/styles";
-import Cookies from "js-cookie";
 import { useTheme } from "next-themes";
 import * as React from "react";
 import { themeRegistry } from "./kelir-registry";
-import {
-  fontLinks,
-  kelirStyleCss,
-  THEME_ATTRIBUTE,
-  THEME_COOKIE,
-} from "./kelir-styles";
+import { fontLinks, kelirStyleCss, THEME_ATTRIBUTE } from "./kelir-styles";
 import type { KelirContextValue, Theme } from "./kelir-types";
 
 export const KelirContext = React.createContext<KelirContextValue | null>(null);
@@ -51,20 +45,6 @@ export function KelirProvider({ children, defaultTheme }: KelirProviderProps) {
       setThemeName(activeTheme as Theme);
     }
   }, [activeTheme]);
-
-  // Mirror the theme into a cookie so the server can render the initial HTML
-  // (and the switcher's label) in the correct theme — no flash on refresh.
-  React.useEffect(() => {
-    try {
-      Cookies.set(THEME_COOKIE, themeName, {
-        path: "/",
-        expires: 365,
-        sameSite: "lax",
-      });
-    } catch {
-      // ignore storage errors
-    }
-  }, [themeName]);
 
   // Setter updates both the local value (drives MUI) and next-themes
   // (persists to localStorage + sets the pre-hydration attribute).

@@ -29,7 +29,6 @@ Make sure your project has the following core dependencies:
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^9.2.0",
     "@mui/material": "^9.2.0",
-    "js-cookie": "^3.0.8",
     "next": "16.3.0",
     "next-themes": "^0.4.6",
     "react": "^19.2.8",
@@ -46,7 +45,6 @@ npm install \
   @emotion/styled@^11.14.1 \
   @mui/material@^9.2.0 \
   @mui/icons-material@^9.2.0 \
-  js-cookie@^3.0.8 \
   next-themes@^0.4.6 \
   react@^19.2.8 \
   react-dom@^19.2.8
@@ -66,11 +64,9 @@ Place `ThemeProvider` (next-themes) then `KelirProvider` in `layout.tsx`.
 
 ```tsx
 // src/app/layout.tsx (Server Component)
-import { cookies } from "next/headers";
 import { ThemeProvider } from "next-themes";
 import { KelirProvider } from "@/views/kelir/kelir-provider";
-import { themeRegistry } from "@/views/kelir/kelir-registry";
-import { THEME_COOKIE, THEME_STORAGE_KEY } from "@/views/kelir/kelir-styles";
+import { THEME_STORAGE_KEY } from "@/views/kelir/kelir-styles";
 import type { Theme } from "@/views/kelir/kelir-types";
 
 export default async function RootLayout({
@@ -78,10 +74,10 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const cookieStore = await cookies();
-  const stored = cookieStore.get(THEME_COOKIE)?.value;
-  const defaultTheme: Theme =
-    stored && stored in themeRegistry ? (stored as Theme) : "neumorphism";
+  // Theme is client-only — persisted in localStorage, applied before first
+  // paint by next-themes' pre-hydration script. The server provides only a
+  // static default so the initial HTML is deterministic.
+  const defaultTheme: Theme = "neumorphism";
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -102,10 +98,10 @@ export default async function RootLayout({
 ```
 
 > **Optional — per-site cache isolation.** Set `NEXT_PUBLIC_KELIR_STORAGE_KEY` in your
-> environment to scope both the localStorage key and the theme cookie to that value.
-> This prevents two Kelir consumers living on the **same origin** (e.g. two sites
-> both served from `localhost:3000`) from overwriting each other's persisted theme.
-> When unset, the defaults `kelir:theme` / `kelir_theme` are used — unchanged behavior.
+> environment to scope the localStorage key to that value. This prevents two Kelir
+> consumers living on the **same origin** (e.g. two sites both served from
+> `localhost:3000`) from overwriting each other's persisted theme. When unset, the
+> default `kelir:theme` is used — unchanged behavior.
 
 ```tsx
 // src/app/page.tsx (Client Component)
