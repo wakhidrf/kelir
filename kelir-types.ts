@@ -53,6 +53,12 @@ export interface KelirContextValue {
   theme: Theme;
   setTheme: (theme: Theme) => void;
   themes: { slug: Theme; label: string }[];
+  /** Mounting/unmounting signals from KelirSwitcher (or any theme picker UI).
+   *  When the counter is 0 (no switcher on the page) the provider removes the
+   *  persisted theme cookie, keeping a shared origin (e.g. localhost:3000 used
+   *  by several projects) free of leaked theme preferences. */
+  registerSwitcher: () => void;
+  unregisterSwitcher: () => void;
 }
 
 // 1. Accordion

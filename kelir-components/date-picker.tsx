@@ -1,4 +1,5 @@
 import MuiPopover from "@mui/material/Popover";
+import { useTheme } from "@mui/material/styles";
 import * as React from "react";
 import type { DatePickerProps } from "../kelir-types";
 import { css } from "../kelir-variants";
@@ -39,6 +40,7 @@ export function DatePicker({
   const [viewDate, setViewDate] = React.useState<Date>(value ?? new Date());
 
   const open = Boolean(anchorEl);
+  const popoverZIndex = useTheme().zIndex.modal + 1;
   const year = viewDate.getFullYear();
   const month = viewDate.getMonth();
   const today = new Date();
@@ -154,6 +156,7 @@ export function DatePicker({
         open={open}
         anchorEl={anchorEl}
         onClose={() => setAnchorEl(null)}
+        style={{ zIndex: popoverZIndex }}
         anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
         transformOrigin={{ vertical: "top", horizontal: "left" }}
         slotProps={{

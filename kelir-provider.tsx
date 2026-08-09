@@ -4,9 +4,11 @@ import {
   createTheme,
   ThemeProvider as MuiThemeProvider,
 } from "@mui/material/styles";
-import { useTheme } from "next-themes";
 import * as React from "react";
-import { themeRegistry } from "./kelir-registry";
+import {
+  deleteThemeCookie,
+  persistThemeCookie,
+} from "@/controllers/theme-actions";
 import { fontLinks, kelirStyleCss, THEME_ATTRIBUTE } from "./kelir-styles";
 import type { KelirContextValue, Theme } from "./kelir-types";
 import { rounded, variants } from "./kelir-variants";
@@ -23,43 +25,73 @@ export function useKelir() {
 
 interface KelirProviderProps {
   children: React.ReactNode;
-  /** Consumer-provided default theme (from its own persisted cookie). */
+  /** Consumer-provided default theme — for this app the theme cookie already
+   *  resolved on the server, so the first render matches the persisted choice
+   *  and there is no flash. */
   defaultTheme: Theme;
 }
 
 export function KelirProvider({ children, defaultTheme }: KelirProviderProps) {
-  // Theme state is owned by next-themes (persisted + pre-hydration script).
-  const { theme: activeTheme, setTheme: setActiveTheme } = useTheme();
-  // Keep a local value initialized from the persisted theme attribute that
-  // next-themes' pre-hydration script already set on <html>. Reading it
-  // synchronously on first render means the NativeSelect never flashes the
-  // default theme's label on refresh.
-  const [themeName, setThemeName] = React.useState<Theme>(() => {
-    if (typeof document === "undefined") return defaultTheme;
-    const saved = document.documentElement.getAttribute(THEME_ATTRIBUTE);
-    return saved && saved in themeRegistry ? (saved as Theme) : defaultTheme;
-  });
+  // Server-driven: the provider starts at the theme the server already
+  // rendered (cookie or static default). It is a plain selectable state.
+  const [themeName, setThemeName] = React.useState<Theme>(defaultTheme);
 
-  // Adopt the persisted theme from next-themes once it settles after mount.
+  // Mounted theme pickers (KelirSwitcher or equivalents). While at least one is
+  // alive the theme cookie is preserved; when none is mounted the cookie is
+  // deleted so a shared origin (e.g. localhost:3000 used by several projects)
+  // never keeps a stale theme choice. Mirrored in a ref so setTheme can read it
+  // without re-subscribing.
+  const [switcherCount, setSwitcherCount] = React.useState(0);
+  const switcherCountRef = React.useRef(0);
+
+  const registerSwitcher = React.useCallback(() => {
+    switcherCountRef.current += 1;
+    setSwitcherCount(switcherCountRef.current);
+  }, []);
+
+  const unregisterSwitcher = React.useCallback(() => {
+    switcherCountRef.current = Math.max(0, switcherCountRef.current - 1);
+    setSwitcherCount(switcherCountRef.current);
+  }, []);
+
+  // A mounted switcher registers during its own effect, which runs BEFORE this
+  // parent's effect on the same commit, so the count is already >= 1 here on
+  // switcher pages. Waiting a tick avoids deleting on switcher pages whose
+  // registration lands immediately after mount.
   React.useEffect(() => {
-    if (activeTheme && activeTheme in themeRegistry) {
-      setThemeName(activeTheme as Theme);
-    }
-  }, [activeTheme]);
+    const timer = window.setTimeout(() => {
+      if (switcherCount === 0) {
+        void deleteThemeCookie().catch(() => {
+          // ignore persistence errors; local state stays consistent
+        });
+      }
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [switcherCount]);
 
-  // Setter updates both the local value (drives MUI) and next-themes
-  // (persists to localStorage + sets the pre-hydration attribute).
-  const setTheme = React.useCallback(
-    (next: Theme) => {
-      setThemeName(next);
-      // Apply the theme attribute synchronously so CSS-var-driven text
-      // (e.g. NativeSelect) doesn't flash to the default theme before
-      // next-themes' effect runs.
+  // Keep the attribute in sync so CSS-variable-driven styling follows the theme.
+  React.useLayoutEffect(() => {
+    if (typeof document === "undefined") return;
+    document.documentElement.setAttribute(THEME_ATTRIBUTE, themeName);
+  }, [themeName]);
+
+  // Setter updates the local value (drives MUI and the attribute synchronously so
+  // CSS-var-driven text doesn't flash). When a switcher is mounted the theme is
+  // persisted to the cookie via a Server Action, so the next SSR response already
+  // ships the saved theme. Without a mounted switcher the switch is transient —
+  // the cookie is deleted on pages that offer no switcher, keeping a shared
+  // origin clean.
+  const setTheme = React.useCallback((next: Theme) => {
+    setThemeName(next);
+    if (typeof document !== "undefined") {
       document.documentElement.setAttribute(THEME_ATTRIBUTE, next);
-      setActiveTheme(next);
-    },
-    [setActiveTheme],
-  );
+    }
+    if (switcherCountRef.current > 0) {
+      void persistThemeCookie(next).catch(() => {
+        // ignore persistence errors; local state stays consistent
+      });
+    }
+  }, []);
 
   // Available lists
   const themesList = React.useMemo(
@@ -197,8 +229,10 @@ export function KelirProvider({ children, defaultTheme }: KelirProviderProps) {
       theme: themeName,
       setTheme,
       themes: themesList,
+      registerSwitcher,
+      unregisterSwitcher,
     }),
-    [themeName, setTheme, themesList],
+    [themeName, setTheme, themesList, registerSwitcher, unregisterSwitcher],
   );
 
   return (

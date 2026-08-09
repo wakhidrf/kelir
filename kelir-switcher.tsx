@@ -4,16 +4,18 @@ import { useKelir } from "./kelir-provider";
 import type { Theme } from "./kelir-types";
 
 export function KelirSwitcher() {
-  const { theme, setTheme, themes } = useKelir();
-  // Theme state is client-only (read from localStorage after mount). Rendering
-  // the control only after mount prevents the server from printing a
-  // theme-dependent label that would flash the wrong value on hydration.
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
+  const { theme, setTheme, themes, registerSwitcher, unregisterSwitcher } =
+    useKelir();
 
-  if (!mounted) return null;
+  // Presence registration: while this switcher is mounted the provider keeps
+  // the theme cookie (setTheme persists); when no switcher is mounted the
+  // provider deletes the cookie so a shared origin stays clean.
+  React.useEffect(() => {
+    registerSwitcher();
+    return () => {
+      unregisterSwitcher();
+    };
+  }, [registerSwitcher, unregisterSwitcher]);
 
   return (
     <Select

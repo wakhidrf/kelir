@@ -1,4 +1,5 @@
 import MuiPopover from "@mui/material/Popover";
+import { useTheme } from "@mui/material/styles";
 import * as React from "react";
 import type { PopoverProps } from "../kelir-types";
 import { css } from "../kelir-variants";
@@ -18,6 +19,7 @@ export function Popover({ trigger, children, ...props }: PopoverProps) {
   const [internalOpen, setInternalOpen] = React.useState(false);
 
   const open = props.open ?? internalOpen;
+  const popoverZIndex = useTheme().zIndex.modal + 1;
 
   React.useEffect(() => {
     if (props.open && wrapperRef.current) {
@@ -46,6 +48,7 @@ export function Popover({ trigger, children, ...props }: PopoverProps) {
         {...props}
         open={open}
         anchorEl={anchorEl}
+        style={{ ...props.style, zIndex: popoverZIndex }}
         onClose={(event, reason) => {
           setInternalOpen(false);
           props.onClose?.(event, reason);
