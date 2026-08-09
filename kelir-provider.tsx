@@ -4,17 +4,12 @@ import {
   createTheme,
   ThemeProvider as MuiThemeProvider,
 } from "@mui/material/styles";
-import Cookies from "js-cookie";
 import { useTheme } from "next-themes";
 import * as React from "react";
 import { themeRegistry } from "./kelir-registry";
-import {
-  fontLinks,
-  kelirStyleCss,
-  THEME_ATTRIBUTE,
-  THEME_COOKIE,
-} from "./kelir-styles";
+import { fontLinks, kelirStyleCss, THEME_ATTRIBUTE } from "./kelir-styles";
 import type { KelirContextValue, Theme } from "./kelir-types";
+import { rounded, variants } from "./kelir-variants";
 
 export const KelirContext = React.createContext<KelirContextValue | null>(null);
 
@@ -51,20 +46,6 @@ export function KelirProvider({ children, defaultTheme }: KelirProviderProps) {
       setThemeName(activeTheme as Theme);
     }
   }, [activeTheme]);
-
-  // Mirror the theme into a cookie so the server can render the initial HTML
-  // (and the switcher's label) in the correct theme — no flash on refresh.
-  React.useEffect(() => {
-    try {
-      Cookies.set(THEME_COOKIE, themeName, {
-        path: "/",
-        expires: 365,
-        sameSite: "lax",
-      });
-    } catch {
-      // ignore storage errors
-    }
-  }, [themeName]);
 
   // Setter updates both the local value (drives MUI) and next-themes
   // (persists to localStorage + sets the pre-hydration attribute).
@@ -107,22 +88,24 @@ export function KelirProvider({ children, defaultTheme }: KelirProviderProps) {
     [],
   );
 
-  // Create MUI dynamic theme.
-  // Custom Kelir components use CSS variables (zero-flash via the
-  // data-kelir-theme attribute). MUI must use concrete hex values because it
-  // runs color math (e.g. alpha()) at style-evaluation time which cannot parse
-  // CSS variables; those components pick up the persisted theme on hydration.
+  // Create a single static MUI dynamic theme.
+  // It MUST be the exact same object on the server and the client: MUI's
+  // emotion cache hashes the theme object into every generated class name
+  // (css-<hash>-Mui...), so any server/client difference in the theme produces
+  // a hydration mismatch on every MUI element. The object is therefore built
+  // once from the theme-agnostic neutral base and never changes. Theme visuals
+  // are driven by CSS variables (data-kelir-theme attribute), which MUI cannot
+  // parse for its color math — MUI palette-rendering stays neutral.
   const muiTheme = React.useMemo(() => {
-    const tokens = themeRegistry[themeName]?.tokens;
-    const baseColors: Record<string, string> = tokens?.colors || {
-      primary: "#8A8F98",
-      secondary: "#A6ABB3",
-      tertiary: "#C4C8CE",
-      neutral: "#3C4146",
-      background: "#F5F6F7",
-      surface: "#FFFFFF",
-      textPrimary: "#1F2328",
-      textSecondary: "#555B63",
+    const baseColors: Record<string, string> = {
+      primary: variants.primary,
+      secondary: variants.secondary,
+      tertiary: variants.tertiary,
+      neutral: variants.neutral,
+      background: variants.background,
+      surface: variants.surface,
+      textPrimary: variants.textPrimary,
+      textSecondary: variants.textSecondary,
     };
 
     // MUI runs color math (alpha/emphasize) on palette values at render time,
@@ -171,7 +154,7 @@ export function KelirProvider({ children, defaultTheme }: KelirProviderProps) {
         },
       },
       shape: {
-        borderRadius: parseInt(tokens?.rounded?.sm || "14px", 10),
+        borderRadius: parseInt(rounded.sm, 10),
       },
       components: {
         MuiButton: {
@@ -207,7 +190,7 @@ export function KelirProvider({ children, defaultTheme }: KelirProviderProps) {
         },
       },
     });
-  }, [themeName]);
+  }, []);
 
   const contextValue = React.useMemo<KelirContextValue>(
     () => ({

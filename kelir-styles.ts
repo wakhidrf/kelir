@@ -17,10 +17,16 @@ import { scrollbarCss } from "./kelir-variants";
 
 export const THEME_ATTRIBUTE = "data-kelir-theme";
 
-// Server-side source of truth for the theme so the initial HTML (and thus the
-// NativeSelect label) is already correct on refresh — same pattern as the
-// language cookie. URL-safe name only (js-cookie would encode ":").
-export const THEME_COOKIE = "kelir_theme";
+// Optional per-site isolation. When NEXT_PUBLIC_KELIR_STORAGE_KEY is set, the
+// localStorage key used by next-themes is scoped to that value so multiple
+// Kelir consumers on the same origin (e.g. two sites on localhost:3000) do not
+// overwrite each other's persisted theme. When unset, the original default
+// (kelir:theme) is used — no behavioral change. Theme state is client-only;
+// no server cookie is involved.
+const configuredStorageKey = process.env.NEXT_PUBLIC_KELIR_STORAGE_KEY?.trim();
+
+// localStorage key used by next-themes for persisting the active theme.
+export const THEME_STORAGE_KEY = configuredStorageKey || "kelir:theme";
 
 interface ThemeFonts {
   active: string;
