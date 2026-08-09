@@ -70,6 +70,7 @@ import { cookies } from "next/headers";
 import { ThemeProvider } from "next-themes";
 import { KelirProvider } from "@/views/kelir/kelir-provider";
 import { themeRegistry } from "@/views/kelir/kelir-registry";
+import { THEME_COOKIE, THEME_STORAGE_KEY } from "@/views/kelir/kelir-styles";
 import type { Theme } from "@/views/kelir/kelir-types";
 
 export default async function RootLayout({
@@ -78,7 +79,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const cookieStore = await cookies();
-  const stored = cookieStore.get("kelir_theme")?.value;
+  const stored = cookieStore.get(THEME_COOKIE)?.value;
   const defaultTheme: Theme =
     stored && stored in themeRegistry ? (stored as Theme) : "neumorphism";
 
@@ -88,7 +89,7 @@ export default async function RootLayout({
         <ThemeProvider
           attribute="data-kelir-theme"
           defaultTheme={defaultTheme}
-          storageKey="kelir:theme"
+          storageKey={THEME_STORAGE_KEY}
           enableSystem={false}
           disableTransitionOnChange
         >
@@ -99,6 +100,12 @@ export default async function RootLayout({
   );
 }
 ```
+
+> **Optional — per-site cache isolation.** Set `NEXT_PUBLIC_KELIR_STORAGE_KEY` in your
+> environment to scope both the localStorage key and the theme cookie to that value.
+> This prevents two Kelir consumers living on the **same origin** (e.g. two sites
+> both served from `localhost:3000`) from overwriting each other's persisted theme.
+> When unset, the defaults `kelir:theme` / `kelir_theme` are used — unchanged behavior.
 
 ```tsx
 // src/app/page.tsx (Client Component)
