@@ -2,11 +2,11 @@
 // per-theme font stacks, entirely inside Kelir. KelirProvider injects this as
 // a <style> tag so consumers do not need any token CSS of their own.
 //
-// Selectors mirror the theme attribute set by next-themes' pre-hydration
-// script (data-kelir-theme), so the saved theme renders with zero flash on
-// refresh. There is no hardcoded default theme here: the consumer supplies the
-// default (from its own persisted cookie) via KelirProvider, and this module
-// merely emits a selector per registered theme.
+// Selectors mirror the theme attribute (data-kelir-theme): the server lays the
+// attribute onto <html> when no switcher is used (server-driven theme), and
+// KelirProvider writes it when the switcher adopts a persisted theme. There is
+// no hardcoded default theme here: the consumer supplies the default via
+// KelirProvider, and this module merely emits a selector per registered theme.
 
 import { layoutVars } from "./kelir-layout";
 import { motionFor } from "./kelir-motion";
@@ -17,16 +17,35 @@ import { scrollbarCss } from "./kelir-variants";
 
 export const THEME_ATTRIBUTE = "data-kelir-theme";
 
-// Optional per-site theme key. When NEXT_PUBLIC_KELIR_THEME_KEY is set, the
-// localStorage key used by next-themes is scoped to that value so multiple
-// Kelir consumers on the same origin (e.g. two projects on localhost:3000) do
-// not overwrite each other's persisted theme. When unset, the original default
-// (kelir:theme) is used — no behavioral change. Theme state is client-only;
-// no server cookie is involved.
-const configuredThemeKey = process.env.NEXT_PUBLIC_KELIR_THEME_KEY?.trim();
+// When this is "false" (server default until KelirProvider resolves the theme),
+// the page stays at the browser default: no themed background/canvas and no
+// theme text colors. KelirProvider flips it to "true" right before the first
+// paint once the persisted theme has been read, so nothing themed is shown
+// until that moment.
+export const THEME_READY_ATTRIBUTE = "data-kelir-ready";
 
-// localStorage key used by next-themes for persisting the active theme.
-export const THEME_STORAGE_KEY = configuredThemeKey || "kelir:theme";
+// Minimal hiding rules for the pre-resolution state. Rendered by the consumer
+// root layout as the first <body> child (before any provider content streams)
+// so the server default is never painted; KelirProvider keeps `data-kelir-ready`
+// on <html> in sync and also re-includes these rules through kelirStyleCss.
+export const hideBeforeReadyCss = `
+  html[data-kelir-ready="false"] body {
+    visibility: hidden;
+    background-color: #ffffff;
+    color: #000000;
+  }
+  html[data-kelir-ready="false"] body::before,
+  html[data-kelir-ready="false"] body::after {
+    opacity: 0;
+  }
+`;
+
+// Theme persistence is server-side via cookie: layout.tsx reads the cookie and
+// renders the saved theme on <html>, so the very first SSR HTML is already
+// themed — no flash, no client-side inline script and no localStorage. The
+// client only applies the theme instantly (attribute) and persists back through
+// a Server Action. Name is URL-safe (no ":").
+export const THEME_COOKIE = "kelir_theme";
 
 interface ThemeFonts {
   active: string;
@@ -243,6 +262,13 @@ const baseCss = `
     background: var(--color-background, transparent);
     background-repeat: no-repeat;
   }
+  /* Before the theme is resolved (data-kelir-ready not "true" yet), the whole
+     page stays at the browser default: body hidden, plain background, no themed
+     canvas and no theme text colors. KelirProvider flips the attribute to
+     "true" right before paint once it has read the persisted theme (switcher)
+     or on mount (server-driven default), so neither the server default theme
+     nor its background are ever shown — not even for a single frame. */
+  ${hideBeforeReadyCss}
   h1, h2 {
     text-shadow: var(--kelir-chroma, none);
   }

@@ -30,7 +30,6 @@ Make sure your project has the following core dependencies:
     "@mui/icons-material": "^9.2.0",
     "@mui/material": "^9.2.0",
     "next": "16.3.0",
-    "next-themes": "^0.4.6",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   }
@@ -45,7 +44,6 @@ npm install \
   @emotion/styled@^11.14.1 \
   @mui/material@^9.2.0 \
   @mui/icons-material@^9.2.0 \
-  next-themes@^0.4.6 \
   react@^19.2.8 \
   react-dom@^19.2.8
 ```
@@ -69,13 +67,18 @@ git submodule update --remote src/views/kelir
 
 ### 3. Installing the Main Provider (`KelirProvider`)
 
-Place `ThemeProvider` (next-themes) then `KelirProvider` in `layout.tsx`.
+Place `KelirProvider` in `layout.tsx`. The theme is **server-driven**: the root
+layout reads the persisted theme cookie (if any) and lays `data-kelir-theme`
+straight onto `<html>`, so the very first SSR HTML is already themed — no flash,
+no client inline script, no localStorage. `setTheme` applies the theme instantly
+on the client (attribute) and persists it back through a Server Action that sets
+the cookie, so the next SSR response already ships the saved theme.
 
 ```tsx
 // src/app/layout.tsx (Server Component)
-import { ThemeProvider } from "next-themes";
+import { cookies } from "next/headers";
 import { KelirProvider } from "@/views/kelir/kelir-provider";
-import { THEME_STORAGE_KEY } from "@/views/kelir/kelir-styles";
+import { THEME_COOKIE } from "@/views/kelir/kelir-styles";
 import type { Theme } from "@/views/kelir/kelir-types";
 
 export default async function RootLayout({
@@ -83,44 +86,72 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Theme is client-only — persisted in localStorage, applied before first
-  // paint by next-themes' pre-hydration script. The server provides only a
-  // static default so the initial HTML is deterministic.
-  const defaultTheme: Theme = "neumorphism";
+  const cookieStore = await cookies();
+  const stored = cookieStore.get(THEME_COOKIE)?.value;
+  const theme: Theme = stored ? (stored as Theme) : "neumorphism";
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-kelir-theme={theme} suppressHydrationWarning>
       <body>
-        <ThemeProvider
-          attribute="data-kelir-theme"
-          defaultTheme={defaultTheme}
-          storageKey={THEME_STORAGE_KEY}
-          enableSystem={false}
-          disableTransitionOnChange
-        >
-          <KelirProvider defaultTheme={defaultTheme}>{children}</KelirProvider>
-        </ThemeProvider>
+        {/* Optional safety gate; inert while data-kelir-ready="true" (see
+            kelir-styles "hideBeforeReadyCss"). */}
+        <KelirProvider defaultTheme={theme}>{children}</KelirProvider>
       </body>
     </html>
   );
 }
 ```
 
-> **Optional — per-site theme key isolation.** Set `NEXT_PUBLIC_KELIR_THEME_KEY` in
-> your environment so the localStorage key is scoped to that value. This prevents
-> two Kelir consumers living on the **same origin** — e.g. two projects both served
-> from `localhost:3000` during development — from overwriting each other's persisted
-> theme. When unset, the default `kelir:theme` is used — unchanged behavior.
+```tsx
+// src/controllers/theme-actions.ts (Server Action — sets the cookie)
+"use server";
 
-Example for local development (`.env.local`):
+import { cookies } from "next/headers";
+import { THEME_COOKIE } from "@/views/kelir/kelir-styles";
+import type { Theme } from "@/views/kelir/kelir-types";
 
-```bash
-# .env.local — scope the theme so it cannot clash with other projects on :3000
-NEXT_PUBLIC_KELIR_THEME_KEY=my-project-name
+export async function persistTheme(theme: Theme) {
+  const cookieStore = await cookies();
+  cookieStore.set(THEME_COOKIE, theme, {
+    path: "/",
+    sameSite: "lax",
+    maxAge: 31536000,
+  });
+}
+```
+
+```tsx
+// src/controllers/theme-actions.ts (Server Action — removes the cookie)
+"use server";
+
+import { cookies } from "next/headers";
+import { THEME_COOKIE } from "@/views/kelir/kelir-styles";
+
+export async function deleteTheme() {
+  const cookieStore = await cookies();
+  cookieStore.set(THEME_COOKIE, "", {
+    path: "/",
+    sameSite: "lax",
+    maxAge: 0,
+  });
+}
 ```
 
 ```tsx
 // src/app/page.tsx (Client Component)
+"use client";
+
+import { KelirSwitcher } from "@/views/kelir/kelir-switcher";
+
+export default function Home() {
+  // Render the switcher when you want interactive, persisted theme switching.
+  // setTheme applies the theme immediately and persists via the theme cookie.
+  return <KelirSwitcher />;
+}
+```
+
+```tsx
+// src/app/page.tsx (Client Component) — programmatic access
 "use client";
 
 import { useKelir } from "@/views/kelir/kelir-provider";
@@ -130,6 +161,25 @@ export default function Home() {
   return <div>{/* your app */}</div>;
 }
 ```
+
+> **Theme persistence.** The root layout serves the saved theme from the
+> `THEME_COOKIE` (`kelir_theme`), and `KelirProvider`'s `setTheme` persists that
+> cookie through a Server Action. No env key and no localStorage — the SSR HTML
+> itself is already themed, so there is no flash to a server default on load or
+> refresh.
+
+> **No switcher = no persisted theme.** `KelirSwitcher` (or any picker) calls
+> `registerSwitcher`/`unregisterSwitcher` via `useKelir()`. As long as one is
+> mounted, `setTheme` persists to the cookie. If the page has **no** mounted
+> switcher, the provider deletes the theme cookie and `setTheme` stays transient —
+> a shared origin (e.g. `localhost:3000` reused by several projects) never keeps a
+> leaked theme choice. The server still serves the cookie theme if a stale cookie
+> existed, but it is removed once the no-switcher page hydrates.
+
+> **Without persistence** (e.g. a static-first site): pass a fixed default theme to
+> `KelirProvider` and skip the cookie; `setTheme` then just applies the theme for
+> the current session without persisting. The cookie is only consulted when the
+> layout opts into it.
 
 ### 4. How to Import Components
 
