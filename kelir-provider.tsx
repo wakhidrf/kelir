@@ -91,9 +91,18 @@ export function KelirProvider({ children, defaultTheme }: KelirProviderProps) {
   // Custom Kelir components use CSS variables (zero-flash via the
   // data-kelir-theme attribute). MUI must use concrete hex values because it
   // runs color math (e.g. alpha()) at style-evaluation time which cannot parse
-  // CSS variables; those components pick up the persisted theme on hydration.
+  // CSS variables, so its palette is theme state — client-only, see below.
   const muiTheme = React.useMemo(() => {
-    const tokens = themeRegistry[themeName]?.tokens;
+    // Theme state is client-only: the server never knows the saved theme, so
+    // its MUI palette is built from the theme-agnostic neutral base (the same
+    // values kelir-components use as var() fallbacks) — no specific theme is
+    // ever baked into the server HTML. On the client, themeName is already the
+    // persisted theme (read synchronously from the pre-hydration attribute), so
+    // the hydrated palette is the user's theme.
+    const tokens =
+      typeof document === "undefined"
+        ? undefined
+        : themeRegistry[themeName]?.tokens;
     const baseColors: Record<string, string> = tokens?.colors || {
       primary: "#8A8F98",
       secondary: "#A6ABB3",
