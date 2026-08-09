@@ -34,7 +34,13 @@ export function Dialog({ title, actions, children, ...props }: DialogProps) {
           {title}
         </DialogTitle>
       )}
-      <DialogContent style={{ color: textSecondary, fontSize: "14px" }}>
+      <DialogContent
+        style={{
+          color: textSecondary,
+          fontSize: "14px",
+          overflowX: "hidden",
+        }}
+      >
         {children}
       </DialogContent>
       {actions && (
