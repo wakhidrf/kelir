@@ -50,12 +50,21 @@ npm install \
   react-dom@^19.2.8
 ```
 
-### 2. Copying the Project Kelir Repo into Your Project (Git Submodule)
+### 2. Adding Project Kelir as a Git Submodule
 
-Project Kelir is developed as a Git submodule. Copy the repo into the `src/views/kelir` directory with the following command:
+Project Kelir is distributed as a Git submodule. Add it (and initialize any of
+its own dependencies) into the `src/views/kelir` directory:
 
 ```bash
 git submodule add https://github.com/wakhidrf/kelir.git src/views/kelir
+git submodule update --init --recursive
+```
+
+The submodule is pinned to a specific commit (the version you added). To pull
+newer commits from the repo later:
+
+```bash
+git submodule update --remote src/views/kelir
 ```
 
 ### 3. Installing the Main Provider (`KelirProvider`)
@@ -97,11 +106,18 @@ export default async function RootLayout({
 }
 ```
 
-> **Optional — per-site cache isolation.** Set `NEXT_PUBLIC_KELIR_STORAGE_KEY` in your
-> environment to scope the localStorage key to that value. This prevents two Kelir
-> consumers living on the **same origin** (e.g. two sites both served from
-> `localhost:3000`) from overwriting each other's persisted theme. When unset, the
-> default `kelir:theme` is used — unchanged behavior.
+> **Optional — per-site theme key isolation.** Set `NEXT_PUBLIC_KELIR_THEME_KEY` in
+> your environment so the localStorage key is scoped to that value. This prevents
+> two Kelir consumers living on the **same origin** — e.g. two projects both served
+> from `localhost:3000` during development — from overwriting each other's persisted
+> theme. When unset, the default `kelir:theme` is used — unchanged behavior.
+
+Example for local development (`.env.local`):
+
+```bash
+# .env.local — scope the theme so it cannot clash with other projects on :3000
+NEXT_PUBLIC_KELIR_THEME_KEY=my-project-name
+```
 
 ```tsx
 // src/app/page.tsx (Client Component)

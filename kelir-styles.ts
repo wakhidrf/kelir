@@ -17,16 +17,16 @@ import { scrollbarCss } from "./kelir-variants";
 
 export const THEME_ATTRIBUTE = "data-kelir-theme";
 
-// Optional per-site isolation. When NEXT_PUBLIC_KELIR_STORAGE_KEY is set, the
+// Optional per-site theme key. When NEXT_PUBLIC_KELIR_THEME_KEY is set, the
 // localStorage key used by next-themes is scoped to that value so multiple
-// Kelir consumers on the same origin (e.g. two sites on localhost:3000) do not
-// overwrite each other's persisted theme. When unset, the original default
+// Kelir consumers on the same origin (e.g. two projects on localhost:3000) do
+// not overwrite each other's persisted theme. When unset, the original default
 // (kelir:theme) is used — no behavioral change. Theme state is client-only;
 // no server cookie is involved.
-const configuredStorageKey = process.env.NEXT_PUBLIC_KELIR_STORAGE_KEY?.trim();
+const configuredThemeKey = process.env.NEXT_PUBLIC_KELIR_THEME_KEY?.trim();
 
 // localStorage key used by next-themes for persisting the active theme.
-export const THEME_STORAGE_KEY = configuredStorageKey || "kelir:theme";
+export const THEME_STORAGE_KEY = configuredThemeKey || "kelir:theme";
 
 interface ThemeFonts {
   active: string;
