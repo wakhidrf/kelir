@@ -471,3 +471,29 @@ export interface TooltipProps extends Omit<MuiTooltipProps, "children"> {
 export interface TypographyProps extends Omit<MuiTypographyProps, "variant"> {
   variant?: "h1" | "h2" | "body-md" | "label-caps";
 }
+
+// 64. Questionnaire
+export interface QuestionnaireQuestion {
+  id: string;
+  type: "single" | "multiple" | "freeform";
+  title: React.ReactNode;
+  description?: React.ReactNode;
+  options?: { label: string; value: string }[];
+  placeholder?: string;
+  required?: boolean;
+  skippable?: boolean;
+}
+
+export interface QuestionnaireProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
+  questions: QuestionnaireQuestion[];
+  value?: Record<string, string | string[]>;
+  defaultValue?: Record<string, string | string[]>;
+  onChange?: (value: Record<string, string | string[]>) => void;
+  onComplete?: (value: Record<string, string | string[]>) => void;
+  submitLabel?: React.ReactNode;
+  skipLabel?: React.ReactNode;
+  nextLabel?: React.ReactNode;
+  backLabel?: React.ReactNode;
+  completedLabel?: React.ReactNode;
+}

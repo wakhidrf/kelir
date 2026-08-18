@@ -203,9 +203,9 @@ export default function MyComponent() {
 
 ---
 
-## Complete List of 63 Project Kelir Components
+## Complete List of 64 Project Kelir Components
 
-Project Kelir has **63 components** organized into several main categories to make it easier to design structured and consistent user interfaces.
+Project Kelir has **64 components** organized into several main categories to make it easier to design structured and consistent user interfaces.
 
 ### 1. Inputs & Forms
 Components that capture user interaction and data input with integrated controls.
@@ -228,67 +228,68 @@ Components that capture user interaction and data input with integrated controls
 16. **Textarea**: A resizable multi-line text input field.
 17. **Toggle**: A two-state binary button (on/off) for quick switching.
 18. **Toggle Group**: A container holding multiple Toggle buttons for single or multiple selection.
+19. **Questionnaire**: A multi-step questionnaire with single-choice, multiple-choice, freeform, and skippable questions, complete with a progress indicator and a completion screen.
 
 ### 2. Data Display
 Components for displaying static data, visualizations, and message structures.
 
-19. **Accordion**: A stacked vertical content panel that can be collapsed or expanded.
-20. **Aspect Ratio**: A container that enforces the dimensional proportion of content (such as images or video).
-21. **Attachment**: A file attachment viewer with metadata, upload status, and a remove button.
-22. **Avatar**: A visual representation of a user profile as an image or an initials text fallback.
-23. **Badge**: A small colored label used to mark a status or category.
-24. **Bubble**: A conversation message bubble supporting sent/received variants, reactions, and collapse-expand.
-25. **Calendar**: A monthly calendar for day navigation and single/range date selection.
-26. **Card**: An information container panel consisting of a header, sub-header, body, and footer.
-27. **Carousel**: A horizontal content player with swipe effects and smooth transitions.
-28. **Chart**: Beautiful graphical data visualizations (Bar, Line, Area) powered by Recharts.
-29. **Collapsible**: A collapsible (collapse-expand) content panel for hiding or showing additional details.
-30. **Data Table**: An advanced data table with search, pagination, and sorting features.
-31. **Empty**: An appealing visual state for marking when data or content is empty.
-32. **Hover Card**: A preview card with additional content that appears when hovering over a link.
-33. **Item**: A versatile row component for lists, presenting media, title, description, and action buttons.
-34. **Kbd**: Displays keyboard shortcuts with an aesthetic physical keyboard key style.
-35. **Marker**: A status line marker, conversation separator, or labeled line divider in chats.
-36. **Message**: A message row component in a chat history complete with send time and status.
-37. **Message Scroller**: A smart chat scroll container that stabilizes new message position and loads history smoothly.
-38. **Progress**: A linear progress bar indicator for task completion.
-39. **Scroll Area**: A container with a custom scrollbar optimized for cross-browser consistency.
-40. **Separator**: A horizontal or vertical divider line between content elements with an optional labeled text.
-41. **Table**: A basic responsive table structure for presenting organized row-column data.
-42. **Tabs**: Tab-based content navigation for dividing information into separate panels.
-43. **Typography**: Dedicated text styling for headings, paragraphs, and small labels for consistency.
+20. **Accordion**: A stacked vertical content panel that can be collapsed or expanded.
+21. **Aspect Ratio**: A container that enforces the dimensional proportion of content (such as images or video).
+22. **Attachment**: A file attachment viewer with metadata, upload status, and a remove button.
+23. **Avatar**: A visual representation of a user profile as an image or an initials text fallback.
+24. **Badge**: A small colored label used to mark a status or category.
+25. **Bubble**: A conversation message bubble supporting sent/received variants, reactions, and collapse-expand.
+26. **Calendar**: A monthly calendar for day navigation and single/range date selection.
+27. **Card**: An information container panel consisting of a header, sub-header, body, and footer.
+28. **Carousel**: A horizontal content player with swipe effects and smooth transitions.
+29. **Chart**: Beautiful graphical data visualizations (Bar, Line, Area) powered by Recharts.
+30. **Collapsible**: A collapsible (collapse-expand) content panel for hiding or showing additional details.
+31. **Data Table**: An advanced data table with search, pagination, and sorting features.
+32. **Empty**: An appealing visual state for marking when data or content is empty.
+33. **Hover Card**: A preview card with additional content that appears when hovering over a link.
+34. **Item**: A versatile row component for lists, presenting media, title, description, and action buttons.
+35. **Kbd**: Displays keyboard shortcuts with an aesthetic physical keyboard key style.
+36. **Marker**: A status line marker, conversation separator, or labeled line divider in chats.
+37. **Message**: A message row component in a chat history complete with send time and status.
+38. **Message Scroller**: A smart chat scroll container that stabilizes new message position and loads history smoothly.
+39. **Progress**: A linear progress bar indicator for task completion.
+40. **Scroll Area**: A container with a custom scrollbar optimized for cross-browser consistency.
+41. **Separator**: A horizontal or vertical divider line between content elements with an optional labeled text.
+42. **Table**: A basic responsive table structure for presenting organized row-column data.
+43. **Tabs**: Tab-based content navigation for dividing information into separate panels.
+44. **Typography**: Dedicated text styling for headings, paragraphs, and small labels for consistency.
 
 ### 3. Navigation
 Components that guide user movement while exploring the application.
 
-44. **Breadcrumb**: A trail of the active page hierarchy as a guide for navigating back.
-45. **Command**: A command-palette style quick search dialog and instant command actions.
-46. **Menubar**: A persistent horizontal menu bar presenting a list of quick commands.
-47. **Navigation Menu**: A collection of the application's main navigation links with an active indicator.
-48. **Pagination**: Page-splitting controls for data to make browsing large data volumes easier.
-49. **Sidebar**: A customizable side navigation panel with header, menu body, and footer.
+45. **Breadcrumb**: A trail of the active page hierarchy as a guide for navigating back.
+46. **Command**: A command-palette style quick search dialog and instant command actions.
+47. **Menubar**: A persistent horizontal menu bar presenting a list of quick commands.
+48. **Navigation Menu**: A collection of the application's main navigation links with an active indicator.
+49. **Pagination**: Page-splitting controls for data to make browsing large data volumes easier.
+50. **Sidebar**: A customizable side navigation panel with header, menu body, and footer.
 
 ### 4. Feedback & Overlays
 Components for status notifications, interruption dialogs, and floating guides.
 
-50. **Alert**: Contextual warnings to draw important user attention (info, success, critical).
-51. **Alert Dialog**: A critical interruption modal dialog that requires a confirmation decision from the user.
-52. **Context Menu**: A floating action menu that appears when the user right-clicks on a certain area.
-53. **Dialog**: A modal window overlaid on the main screen for focused tasks.
-54. **Drawer**: An overlay panel that slides in from the edge of the screen (usually the bottom or side).
-55. **Dropdown Menu**: A floating list of actions triggered by pressing a menu button.
-56. **Popover**: A floating information balloon with rich content triggered when an element is clicked.
-57. **Sheet**: A side-sliding dialog extension for displaying supporting data.
-58. **Spinner**: A smooth circular loading indicator.
-59. **Toast**: A brief notification message that appears temporarily at the corner of the screen.
-60. **Tooltip**: A mini text explanation that appears when hovering over an element.
+51. **Alert**: Contextual warnings to draw important user attention (info, success, critical).
+52. **Alert Dialog**: A critical interruption modal dialog that requires a confirmation decision from the user.
+53. **Context Menu**: A floating action menu that appears when the user right-clicks on a certain area.
+54. **Dialog**: A modal window overlaid on the main screen for focused tasks.
+55. **Drawer**: An overlay panel that slides in from the edge of the screen (usually the bottom or side).
+56. **Dropdown Menu**: A floating list of actions triggered by pressing a menu button.
+57. **Popover**: A floating information balloon with rich content triggered when an element is clicked.
+58. **Sheet**: A side-sliding dialog extension for displaying supporting data.
+59. **Spinner**: A smooth circular loading indicator.
+60. **Toast**: A brief notification message that appears temporarily at the corner of the screen.
+61. **Tooltip**: A mini text explanation that appears when hovering over an element.
 
 ### 5. Layout
 Components that shape the structure and placement of elements.
 
-61. **Direction**: A context provider for text reading direction (LTR - Left to Right, or RTL - Right to Left).
-62. **Resizable**: A layout panel whose size can be dynamically adjusted with draggable dividers.
-63. **Skeleton**: An animated dimming-brightening placeholder frame for empty elements as a visualization before data finishes loading.
+62. **Direction**: A context provider for text reading direction (LTR - Left to Right, or RTL - Right to Left).
+63. **Resizable**: A layout panel whose size can be dynamically adjusted with draggable dividers.
+64. **Skeleton**: An animated dimming-brightening placeholder frame for empty elements as a visualization before data finishes loading.
 
 ---
 
