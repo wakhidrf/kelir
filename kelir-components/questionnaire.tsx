@@ -72,8 +72,7 @@ export function Questionnaire({
   const total = questions.length;
   const current = questions[step];
   const answered = current ? isAnswered(current, answers[current.id]) : true;
-  const canProceed =
-    !current?.required || current.skippable ? true : answered;
+  const canProceed = !current?.required || current.skippable ? true : answered;
   const isLast = step === total - 1;
   const pct = completed ? 100 : total === 0 ? 0 : ((step + 1) / total) * 100;
 

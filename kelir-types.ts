@@ -485,7 +485,10 @@ export interface QuestionnaireQuestion {
 }
 
 export interface QuestionnaireProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
+  extends Omit<
+    React.HTMLAttributes<HTMLDivElement>,
+    "onChange" | "defaultValue"
+  > {
   questions: QuestionnaireQuestion[];
   value?: Record<string, string | string[]>;
   defaultValue?: Record<string, string | string[]>;
