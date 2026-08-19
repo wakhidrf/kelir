@@ -27,9 +27,9 @@ Make sure your project has the following core dependencies:
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^9.2.0",
-    "@mui/material": "^9.2.0",
-    "next": "16.3.0",
+    "@mui/icons-material": "^9.3.1",
+    "@mui/material": "^9.3.1",
+    "next": "16.3.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   }
@@ -42,8 +42,8 @@ Install all Project Kelir dependencies at once with a single command:
 npm install \
   @emotion/react@^11.14.0 \
   @emotion/styled@^11.14.1 \
-  @mui/material@^9.2.0 \
-  @mui/icons-material@^9.2.0 \
+  @mui/material@^9.3.1 \
+  @mui/icons-material@^9.3.1 \
   react@^19.2.8 \
   react-dom@^19.2.8
 ```
