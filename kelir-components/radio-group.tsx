@@ -28,10 +28,10 @@ export function RadioGroup({ options, style, ...props }: RadioGroupProps) {
               sx={{
                 color: textSecondary,
                 "&.Mui-checked": {
-                  color: css.colors.primary,
+                  color: css.colors.textPrimary,
                 },
                 "&.Mui-checked:hover": {
-                  color: css.colors.primary,
+                  color: css.colors.textPrimary,
                 },
               }}
             />

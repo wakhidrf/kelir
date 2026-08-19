@@ -18,10 +18,17 @@ export function Checkbox({ label, ...props }: CheckboxProps) {
     >
       <MuiCheckbox
         {...props}
-        style={{
+        sx={{
           color: textSecondary,
-          ...props.style,
+          "&.Mui-checked": {
+            color: css.colors.textPrimary,
+          },
+          "&.Mui-checked:hover": {
+            color: css.colors.textPrimary,
+          },
+          ...props.sx,
         }}
+        style={props.style}
       />
       {label && (
         <span style={{ color: textPrimary, fontSize: "14px" }}>{label}</span>
