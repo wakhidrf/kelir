@@ -27,9 +27,9 @@ Make sure your project has the following core dependencies:
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^9.3.1",
-    "@mui/material": "^9.3.1",
-    "next": "16.3.1",
+    "@mui/icons-material": "^9.4.0",
+    "@mui/material": "^9.4.0",
+    "next": "16.3.3",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   }
@@ -42,8 +42,8 @@ Install all Project Kelir dependencies at once with a single command:
 npm install \
   @emotion/react@^11.14.0 \
   @emotion/styled@^11.14.1 \
-  @mui/material@^9.3.1 \
-  @mui/icons-material@^9.3.1 \
+  @mui/material@^9.4.0 \
+  @mui/icons-material@^9.4.0 \
   react@^19.2.8 \
   react-dom@^19.2.8
 ```
@@ -110,7 +110,7 @@ import { cookies } from "next/headers";
 import { THEME_COOKIE } from "@/views/kelir/kelir-styles";
 import type { Theme } from "@/views/kelir/kelir-types";
 
-export async function persistTheme(theme: Theme) {
+export async function persistThemeCookie(theme: Theme) {
   const cookieStore = await cookies();
   cookieStore.set(THEME_COOKIE, theme, {
     path: "/",
@@ -127,7 +127,7 @@ export async function persistTheme(theme: Theme) {
 import { cookies } from "next/headers";
 import { THEME_COOKIE } from "@/views/kelir/kelir-styles";
 
-export async function deleteTheme() {
+export async function deleteThemeCookie() {
   const cookieStore = await cookies();
   cookieStore.set(THEME_COOKIE, "", {
     path: "/",
