@@ -12,7 +12,7 @@ const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
-export function Select({ options, style, ...props }: SelectProps) {
+export function Select({ options, style, notched, ...props }: SelectProps) {
   const anchorRef = useRef<HTMLDivElement>(null);
   const [menuWidth, setMenuWidth] = useState<number | undefined>(undefined);
 
