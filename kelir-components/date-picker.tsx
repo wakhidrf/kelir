@@ -65,8 +65,18 @@ export function DatePicker({
   };
 
   const openCalendar = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // Tangkap target secara sinkron: pembacaan properti event di dalam
+    // updater tidak andal karena updater dieksekusi belakangan (setViewDate
+    // di atas sudah mengantre render hingga evaluasi eager dilewati).
+    const target = e.currentTarget;
     setViewDate(value ?? new Date());
-    setAnchorEl((prev) => (prev ? null : e.currentTarget));
+    setPickerMode("days");
+    setAnchorEl((prev) => (prev ? null : target));
+  };
+
+  const closeCalendar = () => {
+    setAnchorEl(null);
+    setPickerMode("days");
   };
 
   const handleSelect = (day: number) => {
@@ -77,6 +87,62 @@ export function DatePicker({
   const changeMonth = (delta: number) => {
     setViewDate(new Date(year, month + delta, 1));
   };
+
+  const setMonthYear = (newMonth: number, newYear: number) => {
+    setViewDate(new Date(newYear, newMonth, 1));
+  };
+
+  // Pilihan tahun: 30 tahun ke belakang hingga 30 tahun ke depan.
+  const thisYear = today.getFullYear();
+  const yearOptions = Array.from({ length: 61 }, (_, i) => thisYear - 30 + i);
+
+  // Tampilan kalender: hari, grid bulan, atau daftar tahun — semuanya inline
+  // di dalam satu popover agar tidak ada menu bertumpuk (masalah z-index).
+  const [pickerMode, setPickerMode] = React.useState<
+    "days" | "months" | "years"
+  >("days");
+  const yearsListRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (pickerMode === "years" && yearsListRef.current) {
+      const container = yearsListRef.current;
+      const selected = container.querySelector("[data-selected='true']");
+      if (selected instanceof HTMLElement) {
+        container.scrollTop =
+          selected.offsetTop -
+          container.clientHeight / 2 +
+          selected.clientHeight / 2;
+      }
+    }
+  }, [pickerMode]);
+
+  const modeButtonStyle: React.CSSProperties = {
+    backgroundColor: "transparent",
+    border: "none",
+    borderRadius: css.radius.sm,
+    color: textPrimary,
+    fontFamily: "inherit",
+    fontSize: "14px",
+    fontWeight: 700,
+    padding: "4px 8px",
+    cursor: "pointer",
+  };
+
+  const optionButtonStyle = (isSelected: boolean): React.CSSProperties => ({
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    padding: "8px 4px",
+    borderRadius: css.radius.sm,
+    border: "1px solid transparent",
+    backgroundColor: isSelected ? css.colors.primary : "transparent",
+    color: isSelected ? css.on.primary : textPrimary,
+    fontFamily: "inherit",
+    fontSize: "13px",
+    fontWeight: isSelected ? 700 : 400,
+    cursor: "pointer",
+  });
 
   const navButtonStyle: React.CSSProperties = {
     display: "flex",
@@ -155,7 +221,7 @@ export function DatePicker({
       <MuiPopover
         open={open}
         anchorEl={anchorEl}
-        onClose={() => setAnchorEl(null)}
+        onClose={closeCalendar}
         style={{ zIndex: popoverZIndex }}
         anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
         transformOrigin={{ vertical: "top", horizontal: "left" }}
@@ -195,13 +261,31 @@ export function DatePicker({
             </button>
             <div
               style={{
-                fontWeight: 600,
-                color: textPrimary,
-                fontFamily: "inherit",
-                fontSize: "14px",
+                display: "flex",
+                alignItems: "center",
+                gap: "2px",
               }}
             >
-              {MONTHS[month]} {year}
+              <button
+                type="button"
+                aria-label="Choose month"
+                onClick={() =>
+                  setPickerMode((m) => (m === "months" ? "days" : "months"))
+                }
+                style={modeButtonStyle}
+              >
+                {MONTHS[month]} &#9662;
+              </button>
+              <button
+                type="button"
+                aria-label="Choose year"
+                onClick={() =>
+                  setPickerMode((m) => (m === "years" ? "days" : "years"))
+                }
+                style={modeButtonStyle}
+              >
+                {year} &#9662;
+              </button>
             </div>
             <button
               type="button"
@@ -212,42 +296,92 @@ export function DatePicker({
               &#8250;
             </button>
           </div>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(7, 1fr)",
-              gap: css.layout.space.xs,
-            }}
-          >
-            {WEEKDAYS.map((weekday) => (
-              <div
-                key={weekday}
-                style={{
-                  textAlign: "center",
-                  fontSize: "11px",
-                  color: textSecondary,
-                  fontFamily: "inherit",
-                }}
-              >
-                {weekday}
-              </div>
-            ))}
-            {cells.map((cell) => {
-              const day = cell.day;
-              return day === null ? (
-                <div key={cell.key} />
-              ) : (
-                <button
-                  key={cell.key}
-                  type="button"
-                  onClick={() => handleSelect(day)}
-                  style={dayButtonStyle(day)}
+          {pickerMode === "days" ? (
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(7, 1fr)",
+                gap: css.layout.space.xs,
+              }}
+            >
+              {WEEKDAYS.map((weekday) => (
+                <div
+                  key={weekday}
+                  style={{
+                    textAlign: "center",
+                    fontSize: "11px",
+                    color: textSecondary,
+                    fontFamily: "inherit",
+                  }}
                 >
-                  {day}
+                  {weekday}
+                </div>
+              ))}
+              {cells.map((cell) => {
+                const day = cell.day;
+                return day === null ? (
+                  <div key={cell.key} />
+                ) : (
+                  <button
+                    key={cell.key}
+                    type="button"
+                    onClick={() => handleSelect(day)}
+                    style={dayButtonStyle(day)}
+                  >
+                    {day}
+                  </button>
+                );
+              })}
+            </div>
+          ) : pickerMode === "months" ? (
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(3, 1fr)",
+                gap: css.layout.space.xs,
+              }}
+            >
+              {MONTHS.map((name, index) => (
+                <button
+                  key={name}
+                  type="button"
+                  onClick={() => {
+                    setMonthYear(index, year);
+                    setPickerMode("days");
+                  }}
+                  style={optionButtonStyle(index === month)}
+                >
+                  {name.slice(0, 3)}
                 </button>
-              );
-            })}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div
+              ref={yearsListRef}
+              style={{
+                maxHeight: "210px",
+                overflowY: "auto",
+                display: "flex",
+                flexDirection: "column",
+                gap: "2px",
+              }}
+            >
+              {yearOptions.map((y) => (
+                <button
+                  key={y}
+                  type="button"
+                  data-selected={y === year}
+                  onClick={() => {
+                    setMonthYear(month, y);
+                    setPickerMode("days");
+                  }}
+                  style={optionButtonStyle(y === year)}
+                >
+                  {y}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </MuiPopover>
     </div>
