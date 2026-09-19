@@ -82,6 +82,28 @@ export function DatePicker({
     setViewDate(new Date(year, month + delta, 1));
   };
 
+  const setMonthYear = (newMonth: number, newYear: number) => {
+    setViewDate(new Date(newYear, newMonth, 1));
+  };
+
+  // Pilihan tahun: 30 tahun ke belakang hingga 30 tahun ke depan.
+  const thisYear = today.getFullYear();
+  const yearOptions = Array.from({ length: 61 }, (_, i) => thisYear - 30 + i);
+
+  const monthYearSelectStyle: React.CSSProperties = {
+    backgroundColor: neumorphicBg,
+    border: `1px solid ${css.border.light}`,
+    boxShadow: convexShadow,
+    borderRadius: css.radius.sm,
+    color: textPrimary,
+    fontFamily: "inherit",
+    fontSize: "14px",
+    fontWeight: 600,
+    padding: "4px 6px",
+    cursor: "pointer",
+    maxWidth: "110px",
+  };
+
   const navButtonStyle: React.CSSProperties = {
     display: "flex",
     alignItems: "center",
@@ -199,13 +221,35 @@ export function DatePicker({
             </button>
             <div
               style={{
-                fontWeight: 600,
-                color: textPrimary,
-                fontFamily: "inherit",
-                fontSize: "14px",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
               }}
             >
-              {MONTHS[month]} {year}
+              <select
+                aria-label="Month"
+                value={month}
+                onChange={(e) => setMonthYear(Number(e.target.value), year)}
+                style={monthYearSelectStyle}
+              >
+                {MONTHS.map((name, index) => (
+                  <option key={name} value={index}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+              <select
+                aria-label="Year"
+                value={year}
+                onChange={(e) => setMonthYear(month, Number(e.target.value))}
+                style={monthYearSelectStyle}
+              >
+                {yearOptions.map((y) => (
+                  <option key={y} value={y}>
+                    {y}
+                  </option>
+                ))}
+              </select>
             </div>
             <button
               type="button"
