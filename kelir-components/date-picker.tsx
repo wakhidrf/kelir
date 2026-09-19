@@ -65,8 +65,12 @@ export function DatePicker({
   };
 
   const openCalendar = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // Tangkap target secara sinkron: pembacaan properti event di dalam
+    // updater tidak andal karena updater dieksekusi belakangan (setViewDate
+    // di atas sudah mengantre render hingga evaluasi eager dilewati).
+    const target = e.currentTarget;
     setViewDate(value ?? new Date());
-    setAnchorEl((prev) => (prev ? null : e.currentTarget));
+    setAnchorEl((prev) => (prev ? null : target));
   };
 
   const handleSelect = (day: number) => {
