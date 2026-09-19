@@ -29,9 +29,9 @@ Make sure your project has the following core dependencies:
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^9.4.0",
     "@mui/material": "^9.4.0",
-    "next": "16.3.3",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "next": "16.3.5",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
   }
 }
 ```
@@ -44,8 +44,8 @@ npm install \
   @emotion/styled@^11.14.1 \
   @mui/material@^9.4.0 \
   @mui/icons-material@^9.4.0 \
-  react@^19.2.8 \
-  react-dom@^19.2.8
+  react@19.3.0 \
+  react-dom@19.3.0
 ```
 
 ### 2. Adding Project Kelir as a Git Submodule
@@ -214,7 +214,7 @@ Components that capture user interaction and data input with integrated controls
 2. **Button Group**: A container for grouping related buttons with consistent rounded corners.
 3. **Checkbox**: A binary choice with a label and check visualization.
 4. **Combobox**: An auto-complete text input with a list of suggested options.
-5. **Date Picker**: An interactive date picker with presets and ranges.
+5. **Date Picker**: An interactive date picker in a popover calendar with inline month-grid and year-list navigation.
 6. **Field**: Combines label, control, and helper text for an accessible form.
 7. **Input**: A basic text input for forms with integrated styling.
 8. **Input Group**: Combines a text input with additional icons or action buttons at the start/end (prefix/suffix).
