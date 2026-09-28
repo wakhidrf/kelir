@@ -19,11 +19,13 @@ export function AlertDialog({
   confirmText = "Confirm",
   onCancel,
   onConfirm,
+  disableScrollLock = true,
   ...props
 }: AlertDialogProps) {
   return (
     <MuiDialog
       {...props}
+      disableScrollLock={disableScrollLock}
       open={open}
       onClose={props.onClose ?? onCancel}
       slotProps={{

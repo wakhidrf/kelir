@@ -7,7 +7,12 @@ langkah reproduksi, usulan perbaikan, workaround sementara.
 
 ## ISSUE-001 — Select menggeser layout halaman saat dibuka
 
-**Status:** dilaporkan, belum diperbaiki
+**Status:** diperbaiki (2026-09-28, Opsi A)
+**Perbaikan:** `Select` kini menerima `MenuProps` konsumen dan
+menggabungkannya dengan default internal; `disableScrollLock` default
+`true` sehingga menu terbuka tanpa mengunci scroll body. `onOpen`
+konsumen yang sebelumnya tertimpa default internal kini ikut dipanggil
+(setelah pengukuran lebar menu).
 **Komponen:** `kelir-components/select.tsx` (`Select`)
 **Dilaporkan dari:** FEB Mart Unisla — kontrol urutan katalog
 (2026-09-28)
@@ -120,7 +125,11 @@ geser. Lihat `catalog-sections.tsx` di repo konsumen.
 
 ## ISSUE-002 — Dialog menggeser konten belakang di halaman berscrollbar
 
-**Status:** dilaporkan, belum diperbaiki
+**Status:** diperbaiki (2026-09-28, Opsi A)
+**Perbaikan:** `Dialog` dan `AlertDialog` kini default
+`disableScrollLock: true`; konsumen tetap bisa override lewat prop
+`disableScrollLock` (mis. `disableScrollLock={false}` bila ingin
+kunci-scroll).
 **Komponen:** `kelir-components/dialog.tsx` (`Dialog`);
 pola sama di `kelir-components/alert-dialog.tsx` (`AlertDialog`)
 **Dilaporkan dari:** FEB Mart Unisla — dialog "Tambah produk"
