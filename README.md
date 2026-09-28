@@ -29,7 +29,7 @@ Make sure your project has the following core dependencies:
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^9.4.0",
     "@mui/material": "^9.4.0",
-    "next": "16.3.5",
+    "next": "16.3.6",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   }
@@ -222,7 +222,7 @@ Components that capture user interaction and data input with integrated controls
 10. **Label**: An accessible text label directly connected to an input control element.
 11. **Native Select**: A native HTML select element styled to match the Project Kelir design language.
 12. **Radio Group**: A collection of single-choice options where only one option can be active at a time.
-13. **Select**: Displays an interactive list of choices triggered by a trigger button.
+13. **Select**: Displays an interactive list of choices triggered by a trigger button. The menu no longer locks page scroll, so opening it never shifts the layout; consumer `MenuProps` stay mergeable.
 14. **Slider**: A horizontal drag control for determining a value within a given range.
 15. **Switch**: A binary toggle with clear active transition visual feedback.
 16. **Textarea**: A resizable multi-line text input field.
@@ -273,9 +273,9 @@ Components that guide user movement while exploring the application.
 Components for status notifications, interruption dialogs, and floating guides.
 
 51. **Alert**: Contextual warnings to draw important user attention (info, success, critical).
-52. **Alert Dialog**: A critical interruption modal dialog that requires a confirmation decision from the user.
+52. **Alert Dialog**: A critical interruption modal dialog that requires a confirmation decision from the user. Scroll lock is off by default, so the background page does not shift.
 53. **Context Menu**: A floating action menu that appears when the user right-clicks on a certain area.
-54. **Dialog**: A modal window overlaid on the main screen for focused tasks.
+54. **Dialog**: A modal window overlaid on the main screen for focused tasks. Scroll lock is off by default, so the background page does not shift.
 55. **Drawer**: An overlay panel that slides in from the edge of the screen (usually the bottom or side).
 56. **Dropdown Menu**: A floating list of actions triggered by pressing a menu button.
 57. **Popover**: A floating information balloon with rich content triggered when an element is clicked.
