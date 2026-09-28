@@ -208,3 +208,59 @@ Teruskan `disableScrollLock` dari konsumen (didukung tipe
 ```tsx
 <Dialog open={createOpen} onClose={...} title="Tambah produk" disableScrollLock>
 ```
+
+---
+
+## ISSUE-003 — DataTable crash di Server Component (tanpa "use client")
+
+**Status:** dilaporkan, belum diperbaiki
+**Komponen:** `kelir-components/data-table.tsx` (`DataTable`)
+**Dilaporkan dari:** FEB Mart Unisla — `SellerMetricsView`
+(halaman `/developer/produk`, `/admin/produk`, `/seller`) (2026-09-28)
+
+### Ringkasan
+
+`DataTable` memakai `React.useState` untuk paginasi
+(`data-table.tsx:22`) tetapi file tidak berdirektif `"use client"`.
+Akibatnya setiap Server Component yang merendernya langsung crash
+saat runtime:
+
+```
+useState only works in Client Components. Add the "use client"
+directive at the top of the file to use it.
+at DataTable (kelir-components/data-table.tsx:22:41)
+```
+
+### Langkah reproduksi
+
+1. Render `<DataTable data={...} paginated />` dari Server Component
+   (tanpa batas client di antaranya).
+2. Buka halaman → runtime TypeError di atas (Next.js 16 + Turbopack).
+
+### Usulan perbaikan
+
+**Opsi A (disarankan) — tambah `"use client"` di `data-table.tsx`.**
+Satu baris; komponen memang interaktif (state halaman + tombol
+navigasi) sehingga batas client sudah semestinya di komponen itu
+sendiri, bukan dibebankan ke tiap konsumen.
+
+**Opsi B — audit komponen interaktif lain.** Kandidat yang memakai
+hook (`useState`/`useEffect`/dsb.): `calendar`, `carousel`,
+`collapsible`, `command`, `date-picker`, `hover-card`,
+`message-scroller`, `popover`, `questionnaire`, `resizable`,
+`bubble`, `textarea` — pastikan yang interaktif semuanya
+berdirektif client (perhatikan varian kutip: `'use client'` vs
+`"use client"`).
+
+### Kriteria selesai
+
+- [ ] `<DataTable>` dapat dirender dari Server Component tanpa error.
+- [ ] Paginasi tetap berfungsi (pindah halaman tidak me-reset).
+- [ ] `tsc` + `biome check` + build storybook/contoh (bila ada) hijau.
+
+### Workaround sementara (dipakai downstream)
+
+FEB Mart Unisla memberi `"use client"` pada pembungkusnya
+(`views/seller-metrics-view.tsx`) — props yang dilewatkan hanya data
+serializable dari server page, jadi aman. Lihat file tersebut di
+repo konsumen.
