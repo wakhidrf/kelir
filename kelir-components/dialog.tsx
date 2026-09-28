@@ -11,10 +11,17 @@ const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
-export function Dialog({ title, actions, children, ...props }: DialogProps) {
+export function Dialog({
+  title,
+  actions,
+  disableScrollLock = true,
+  children,
+  ...props
+}: DialogProps) {
   return (
     <MuiDialog
       {...props}
+      disableScrollLock={disableScrollLock}
       slotProps={{
         paper: {
           style: {

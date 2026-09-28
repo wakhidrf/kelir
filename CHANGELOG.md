@@ -1,5 +1,17 @@
 # Changelog — Kelir
 
+## 2026-09-28 — Select/Dialog/AlertDialog: no more layout shift (scroll lock off by default)
+
+### Fixed
+- **ISSUE-001 — Select shifted page layout when opened**: MUI `Menu` (Modal-based) enabled scroll lock by default — `overflow: hidden` on `<body>` removed the vertical scrollbar and the whole page jumped sideways. Fix: `Select` now defaults `MenuProps.disableScrollLock` to `true`. Consumer `MenuProps` (including `slotProps.paper`/`list`) are merged with the internal defaults instead of being overwritten, so `disableScrollLock` and menu styling stay controllable from outside. Object slots merge key-by-key (internal style underneath); callback slots `(ownerState) => props` pass through untouched.
+- **Select swallowed consumer `onOpen`**: the hardcoded `onOpen` (menu-width measurement) came after `{...props`, silently dropping any consumer handler. Fix: internal measurement runs first, then the consumer's `onOpen` is called.
+- **ISSUE-002 — Dialog/AlertDialog shifted background content**: same scroll-lock root cause. Fix: both default `disableScrollLock` to `true`; override with `disableScrollLock={false}` to restore scroll locking.
+
+### Verification
+- `tsc --noEmit` clean (submodule files typecheck via parent project)
+- Biome skips `src/views/kelir` by config — no lint signal for these files
+- Manual browser check still open: open/close on a scrollbar page (Chrome + Firefox, 1280px + 390px), confirm no shift and no visual regression
+
 ## 2026-09-19 — DatePicker: fix unopenable popover + inline month/year navigation
 
 ### Fixed

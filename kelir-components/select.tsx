@@ -12,7 +12,14 @@ const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
-export function Select({ options, style, notched, ...props }: SelectProps) {
+export function Select({
+  options,
+  style,
+  notched,
+  MenuProps,
+  onOpen,
+  ...props
+}: SelectProps) {
   const anchorRef = useRef<HTMLDivElement>(null);
   const [menuWidth, setMenuWidth] = useState<number | undefined>(undefined);
 
@@ -40,6 +47,13 @@ export function Select({ options, style, notched, ...props }: SelectProps) {
       backgroundClip: "padding-box",
     },
   };
+
+  // MenuProps konsumen digabung dengan default internal (bukan ditimpa).
+  // disableScrollLock default true: buka menu tidak mengunci scroll body,
+  // sehingga halaman berscrollbar tidak bergeser (ISSUE-001).
+  const { slotProps: menuSlotProps, ...restMenuProps } = MenuProps ?? {};
+  const { paper: paperSlot, list: listSlot, ...restSlots } =
+    menuSlotProps ?? {};
 
   return (
     <MuiSelect
@@ -81,36 +95,52 @@ export function Select({ options, style, notched, ...props }: SelectProps) {
           outlineOffset: css.focusRing.offset,
         },
       }}
-      onOpen={() => {
+      onOpen={(event) => {
         if (anchorRef.current) {
           setMenuWidth(anchorRef.current.getBoundingClientRect().width);
         }
+        onOpen?.(event);
       }}
       MenuProps={{
+        disableScrollLock: true,
+        ...restMenuProps,
         slotProps: {
-          paper: {
-            className: scrollbarClass,
-            sx: menuScrollbarSx,
-            style: {
-              backgroundColor: neumorphicBg,
-              borderRadius: css.radius.sm,
-              boxShadow: convexShadow,
-              border: `1px solid ${css.border.light}`,
-              backdropFilter: surfaceBlur,
-              WebkitBackdropFilter: surfaceBlur,
-              marginTop: css.layout.space.sm,
-              width: menuWidth ? `${menuWidth}px` : undefined,
-              maxHeight: "min(60vh, 360px)",
-              overflowY: "auto",
-            },
-          },
-          list: {
-            className: scrollbarClass,
-            sx: menuScrollbarSx,
-            style: {
-              width: "100%",
-            },
-          },
+          // Slot konsumen bisa berupa callback (ownerState) => props (MUI v9):
+          // teruskan utuh bila callback, gabung bila objek polos.
+          paper:
+            typeof paperSlot === "function"
+              ? paperSlot
+              : {
+                  ...paperSlot,
+                  className: paperSlot?.className ?? scrollbarClass,
+                  sx: paperSlot?.sx ?? menuScrollbarSx,
+                  style: {
+                    backgroundColor: neumorphicBg,
+                    borderRadius: css.radius.sm,
+                    boxShadow: convexShadow,
+                    border: `1px solid ${css.border.light}`,
+                    backdropFilter: surfaceBlur,
+                    WebkitBackdropFilter: surfaceBlur,
+                    marginTop: css.layout.space.sm,
+                    width: menuWidth ? `${menuWidth}px` : undefined,
+                    maxHeight: "min(60vh, 360px)",
+                    overflowY: "auto",
+                    ...paperSlot?.style,
+                  },
+                },
+          list:
+            typeof listSlot === "function"
+              ? listSlot
+              : {
+                  ...listSlot,
+                  className: listSlot?.className ?? scrollbarClass,
+                  sx: listSlot?.sx ?? menuScrollbarSx,
+                  style: {
+                    width: "100%",
+                    ...listSlot?.style,
+                  },
+                },
+          ...restSlots,
         },
       }}
     >
