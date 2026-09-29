@@ -267,7 +267,7 @@ repo konsumen.
 
 ## ISSUE-004 — Chart & DataTable tak mendukung judul di dalam card
 
-**Status:** dilaporkan, belum diperbaiki
+**Status:** diperbaiki 2026-09-29 — `title?: React.ReactNode` ditambahkan ke `ChartProps`/`DataTableProps` (di-`Omit` dari `title: string` bawaan agar tak bentrok tipe); heading dirender di dalam frame masing-masing (700, textPrimary, marginBottom sm)
 **Komponen:** `kelir-components/chart.tsx` (`Chart`),
 `kelir-components/data-table.tsx` (`DataTable`)
 **Dilaporkan dari:** FEB Mart Unisla — `SellerMetricsView`
