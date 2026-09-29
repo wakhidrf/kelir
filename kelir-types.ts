@@ -160,11 +160,13 @@ export interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 // 15. Chart
-export interface ChartProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface ChartProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
   data: unknown[];
   categories: string[];
   dataKey: string;
   type?: "bar" | "line" | "area";
+  title?: React.ReactNode;
 }
 
 // 16. Checkbox
@@ -210,11 +212,13 @@ export interface ContextMenuProps extends Omit<MuiMenuProps, "open"> {
 }
 
 // 21. Data Table
-export interface DataTableProps extends Omit<MuiTableProps, "children"> {
+export interface DataTableProps
+  extends Omit<MuiTableProps, "children" | "title"> {
   columns: { header: string; accessorKey: string }[];
   data: unknown[];
   paginated?: boolean;
   rowsPerPage?: number;
+  title?: React.ReactNode;
 }
 
 // 22. Date Picker

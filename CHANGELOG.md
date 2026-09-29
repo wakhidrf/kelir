@@ -1,5 +1,23 @@
 # Changelog — Kelir
 
+## 2026-09-29 — Chart/DataTable dukung prop title (ISSUE-004)
+
+### Fixed
+- **ISSUE-004 — Chart & DataTable tak mendukung judul di dalam card**: keduanya me-render bingkai card sendiri tetapi tak menerima prop judul, sehingga konsumen terpaksa membungkus dengan `<Card title>` (bingkai ganda). Fix: `title?: React.ReactNode` (opsional, backward-compatible) pada `ChartProps` dan `DataTableProps`, dirender sebagai heading di dalam frame masing-masing (`fontWeight: 700`, `color: textPrimary`, `marginBottom: space.sm`; DataTable sejajar padding sel 16px). Tanpa `title`, tampilan sama persis (render kondisional, tanpa elemen tambahan). Catatan tipe: `title: string` bawaan (`HTMLAttributes`/`MuiTableProps`, atribut tooltip) di-`Omit` agar tak bentrok dengan `ReactNode` — preseden sama seperti `DialogProps`/`CardProps`.
+
+### Verification
+- `tsc --noEmit` clean (submodule files typecheck via parent project)
+- Manual browser check masih terbuka: `<Chart title="...">` / `<DataTable title="...">` tampil di dalam bingkai; tanpa `title` tak ada perubahan visual
+
+## 2026-09-29 — "use client" untuk semua komponen interaktif (ISSUE-003)
+
+### Fixed
+- **ISSUE-003 — DataTable crash di Server Component**: `data-table.tsx` memakai `React.useState` untuk paginasi tanpa direktif `"use client"`, sehingga setiap Server Component yang merendernya langsung crash (`useState only works in Client Components`). Fix: direktif ditambahkan — plus audit Opsi B yang menemukan 19 file hook-pengguna lain juga belum berdirektif (tak satu pun file di `kelir-components` memilikinya). Total 20 file kini diawali `"use client";`: `bubble`, `calendar`, `carousel`, `collapsible`, `command`, `context-menu`, `data-table`, `date-picker`, `dropdown-menu`, `hover-card`, `input-otp`, `menubar`, `message-scroller`, `popover`, `questionnaire`, `resizable`, `select`, `tabs`, `textarea`, dan `kelir-switcher`.
+
+### Verification
+- `tsc --noEmit` clean (submodule files typecheck via parent project)
+- Manual browser check masih terbuka: render `<DataTable paginated>` dari Server Component, konfirmasi tanpa error dan paginasi tetap berfungsi
+
 ## 2026-09-28 — Select/Dialog/AlertDialog: no more layout shift (scroll lock off by default)
 
 ### Fixed

@@ -1,3 +1,5 @@
+"use client";
+
 import MuiPopover from "@mui/material/Popover";
 import { useTheme } from "@mui/material/styles";
 import * as React from "react";

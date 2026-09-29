@@ -222,7 +222,7 @@ Components that capture user interaction and data input with integrated controls
 10. **Label**: An accessible text label directly connected to an input control element.
 11. **Native Select**: A native HTML select element styled to match the Project Kelir design language.
 12. **Radio Group**: A collection of single-choice options where only one option can be active at a time.
-13. **Select**: Displays an interactive list of choices triggered by a trigger button. The menu no longer locks page scroll, so opening it never shifts the layout; consumer `MenuProps` stay mergeable.
+13. **Select**: Displays an interactive list of choices triggered by a trigger button. Opening it never shifts the page layout.
 14. **Slider**: A horizontal drag control for determining a value within a given range.
 15. **Switch**: A binary toggle with clear active transition visual feedback.
 16. **Textarea**: A resizable multi-line text input field.
@@ -242,9 +242,9 @@ Components for displaying static data, visualizations, and message structures.
 26. **Calendar**: A monthly calendar for day navigation and single/range date selection.
 27. **Card**: An information container panel consisting of a header, sub-header, body, and footer.
 28. **Carousel**: A horizontal content player with swipe effects and smooth transitions.
-29. **Chart**: Beautiful graphical data visualizations (Bar, Line, Area) powered by Recharts.
+29. **Chart**: Beautiful graphical data visualizations (Bar, Line, Area) powered by Recharts, with an optional title inside the card.
 30. **Collapsible**: A collapsible (collapse-expand) content panel for hiding or showing additional details.
-31. **Data Table**: An advanced data table with search, pagination, and sorting features.
+31. **Data Table**: An advanced data table with search, pagination, and sorting features, with an optional title inside the card.
 32. **Empty**: An appealing visual state for marking when data or content is empty.
 33. **Hover Card**: A preview card with additional content that appears when hovering over a link.
 34. **Item**: A versatile row component for lists, presenting media, title, description, and action buttons.
@@ -273,9 +273,9 @@ Components that guide user movement while exploring the application.
 Components for status notifications, interruption dialogs, and floating guides.
 
 51. **Alert**: Contextual warnings to draw important user attention (info, success, critical).
-52. **Alert Dialog**: A critical interruption modal dialog that requires a confirmation decision from the user. Scroll lock is off by default, so the background page does not shift.
+52. **Alert Dialog**: A critical interruption modal dialog that requires a confirmation decision from the user. Opening it never shifts the background page.
 53. **Context Menu**: A floating action menu that appears when the user right-clicks on a certain area.
-54. **Dialog**: A modal window overlaid on the main screen for focused tasks. Scroll lock is off by default, so the background page does not shift.
+54. **Dialog**: A modal window overlaid on the main screen for focused tasks. Opening it never shifts the background page.
 55. **Drawer**: An overlay panel that slides in from the edge of the screen (usually the bottom or side).
 56. **Dropdown Menu**: A floating list of actions triggered by pressing a menu button.
 57. **Popover**: A floating information balloon with rich content triggered when an element is clicked.

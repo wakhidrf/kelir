@@ -208,3 +208,107 @@ Teruskan `disableScrollLock` dari konsumen (didukung tipe
 ```tsx
 <Dialog open={createOpen} onClose={...} title="Tambah produk" disableScrollLock>
 ```
+
+---
+
+## ISSUE-003 — DataTable crash di Server Component (tanpa "use client")
+
+**Status:** diperbaiki 2026-09-29 — Opsi A + Opsi B: `"use client"` ditambahkan ke `data-table.tsx` dan ke 19 file hook-pengguna lain yang belum berdirektif (hasil audit penuh, tak satu pun file `kelir-components` memilikinya)
+**Komponen:** `kelir-components/data-table.tsx` (`DataTable`)
+**Dilaporkan dari:** FEB Mart Unisla — `SellerMetricsView`
+(halaman `/developer/produk`, `/admin/produk`, `/seller`) (2026-09-28)
+
+### Ringkasan
+
+`DataTable` memakai `React.useState` untuk paginasi
+(`data-table.tsx:22`) tetapi file tidak berdirektif `"use client"`.
+Akibatnya setiap Server Component yang merendernya langsung crash
+saat runtime:
+
+```
+useState only works in Client Components. Add the "use client"
+directive at the top of the file to use it.
+at DataTable (kelir-components/data-table.tsx:22:41)
+```
+
+### Langkah reproduksi
+
+1. Render `<DataTable data={...} paginated />` dari Server Component
+   (tanpa batas client di antaranya).
+2. Buka halaman → runtime TypeError di atas (Next.js 16 + Turbopack).
+
+### Usulan perbaikan
+
+**Opsi A (disarankan) — tambah `"use client"` di `data-table.tsx`.**
+Satu baris; komponen memang interaktif (state halaman + tombol
+navigasi) sehingga batas client sudah semestinya di komponen itu
+sendiri, bukan dibebankan ke tiap konsumen.
+
+**Opsi B — audit komponen interaktif lain.** Kandidat yang memakai
+hook (`useState`/`useEffect`/dsb.): `calendar`, `carousel`,
+`collapsible`, `command`, `date-picker`, `hover-card`,
+`message-scroller`, `popover`, `questionnaire`, `resizable`,
+`bubble`, `textarea` — pastikan yang interaktif semuanya
+berdirektif client (perhatikan varian kutip: `'use client'` vs
+`"use client"`).
+
+### Kriteria selesai
+
+- [ ] `<DataTable>` dapat dirender dari Server Component tanpa error.
+- [ ] Paginasi tetap berfungsi (pindah halaman tidak me-reset).
+- [ ] `tsc` + `biome check` + build storybook/contoh (bila ada) hijau.
+
+### Workaround sementara (dipakai downstream)
+
+FEB Mart Unisla memberi `"use client"` pada pembungkusnya
+(`views/seller-metrics-view.tsx`) — props yang dilewatkan hanya data
+serializable dari server page, jadi aman. Lihat file tersebut di
+repo konsumen.
+
+## ISSUE-004 — Chart & DataTable tak mendukung judul di dalam card
+
+**Status:** diperbaiki 2026-09-29 — `title?: React.ReactNode` ditambahkan ke `ChartProps`/`DataTableProps` (di-`Omit` dari `title: string` bawaan agar tak bentrok tipe); heading dirender di dalam frame masing-masing (700, textPrimary, marginBottom sm)
+**Komponen:** `kelir-components/chart.tsx` (`Chart`),
+`kelir-components/data-table.tsx` (`DataTable`)
+**Dilaporkan dari:** FEB Mart Unisla — `SellerMetricsView`
+(halaman `/seller`, `/admin`, `/developer`) (2026-09-29)
+
+### Ringkasan
+
+`Chart` dan `DataTable` masing-masing me-render bingkai card sendiri
+(surface + border + radius + convex shadow), tetapi tak satu pun
+menerima prop judul (`ChartProps` di `kelir-types.ts:163`,
+`DataTableProps` di `kelir-types.ts:213`). Konsumen yang butuh judul
+seksi terpaksa membungkus dengan `<Card title>` sehingga terjadi
+card di dalam card (bingkai ganda).
+
+### Langkah reproduksi
+
+1. Render `<Chart data={...} />` atau `<DataTable data={...} />`
+   dengan judul seksi, mis. `<Card title="Tren klik harian">`.
+2. Hasil: bingkai `Chart`/`DataTable` tampil di dalam bingkai `Card`
+   luar — dua lapis border/shadow.
+
+### Usulan perbaikan
+
+Tambah `title?: React.ReactNode` (opsional, backward-compatible)
+pada `ChartProps` dan `DataTableProps`, lalu render heading di dalam
+frame masing-masing dengan gaya setara judul `Card`
+(`fontWeight: 700`, `color: textPrimary`, `marginBottom: space.sm`).
+Konsumen cukup menulis `<Chart title="..." />` /
+`<DataTable title="..." />` tanpa `<Card>` pembungkus.
+
+### Kriteria selesai
+
+- [ ] `<Chart title="...">` dan `<DataTable title="...">`
+      merender judul di dalam bingkai card sendiri.
+- [ ] Tanpa `title`, tampilan sama persis seperti sekarang
+      (tidak ada elemen tambahan).
+- [ ] `tsc` + `biome check` + build storybook/contoh (bila ada) hijau.
+
+### Workaround sementara (dipakai downstream)
+
+FEB Mart Unisla melepas `<Card>` pembungkus dan memakai heading
+polos `SectionTitle` (h2, 16px, 700) di luar komponen —
+judul di luar card, bukan di dalam. Lihat
+`views/seller-metrics-view.tsx` di repo konsumen.

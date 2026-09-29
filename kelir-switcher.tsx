@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { Select } from "./kelir-components/select";
 import { useKelir } from "./kelir-provider";

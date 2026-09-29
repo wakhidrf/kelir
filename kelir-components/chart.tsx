@@ -30,6 +30,7 @@ export function Chart({
   categories,
   dataKey,
   type = "bar",
+  title,
   ...props
 }: ChartProps) {
   const rows = data as ChartRow[];
@@ -68,6 +69,18 @@ export function Chart({
         ...props.style,
       }}
     >
+      {title && (
+        <div
+          style={{
+            fontWeight: 700,
+            color: textPrimary,
+            marginBottom: css.layout.space.sm,
+            fontFamily: "inherit",
+          }}
+        >
+          {title}
+        </div>
+      )}
       <div style={{ position: "relative", height: plotHeight }}>
         {type === "bar" ? (
           <div

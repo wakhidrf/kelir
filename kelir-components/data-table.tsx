@@ -1,3 +1,5 @@
+"use client";
+
 import MuiTable from "@mui/material/Table";
 import MuiTableBody from "@mui/material/TableBody";
 import MuiTableCell from "@mui/material/TableCell";
@@ -17,6 +19,7 @@ export function DataTable({
   data,
   paginated = false,
   rowsPerPage = 5,
+  title,
   ...props
 }: DataTableProps) {
   const [page, setPage] = React.useState(0);
@@ -58,6 +61,19 @@ export function DataTable({
         fontFamily: "inherit",
       }}
     >
+      {title && (
+        <div
+          style={{
+            fontWeight: 700,
+            color: textPrimary,
+            padding: `${css.layout.space.md} ${css.layout.space.md} 0`,
+            marginBottom: css.layout.space.sm,
+            fontFamily: "inherit",
+          }}
+        >
+          {title}
+        </div>
+      )}
       <MuiTable {...props}>
         <MuiTableHead>
           <MuiTableRow>

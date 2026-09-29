@@ -1,3 +1,5 @@
+"use client";
+
 import Divider from "@mui/material/Divider";
 import MuiMenu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
