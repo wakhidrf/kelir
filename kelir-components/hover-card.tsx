@@ -1,3 +1,5 @@
+"use client";
+
 import Popper from "@mui/material/Popper";
 import * as React from "react";
 import type { HoverCardProps } from "../kelir-types";

@@ -1,3 +1,5 @@
+"use client";
+
 import MuiMenu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import * as React from "react";

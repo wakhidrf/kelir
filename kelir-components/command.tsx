@@ -1,3 +1,5 @@
+"use client";
+
 import SearchIcon from "@mui/icons-material/Search";
 import * as React from "react";
 import type { CommandProps } from "../kelir-types";

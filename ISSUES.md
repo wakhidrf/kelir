@@ -213,7 +213,7 @@ Teruskan `disableScrollLock` dari konsumen (didukung tipe
 
 ## ISSUE-003 — DataTable crash di Server Component (tanpa "use client")
 
-**Status:** dilaporkan, belum diperbaiki
+**Status:** diperbaiki 2026-09-29 — Opsi A + Opsi B: `"use client"` ditambahkan ke `data-table.tsx` dan ke 19 file hook-pengguna lain yang belum berdirektif (hasil audit penuh, tak satu pun file `kelir-components` memilikinya)
 **Komponen:** `kelir-components/data-table.tsx` (`DataTable`)
 **Dilaporkan dari:** FEB Mart Unisla — `SellerMetricsView`
 (halaman `/developer/produk`, `/admin/produk`, `/seller`) (2026-09-28)

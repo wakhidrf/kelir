@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import type { MessageScrollerProps } from "../kelir-types";
 import { css, scrollbarClass, scrollbarCss } from "../kelir-variants";
