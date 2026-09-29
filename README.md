@@ -242,9 +242,9 @@ Components for displaying static data, visualizations, and message structures.
 26. **Calendar**: A monthly calendar for day navigation and single/range date selection.
 27. **Card**: An information container panel consisting of a header, sub-header, body, and footer.
 28. **Carousel**: A horizontal content player with swipe effects and smooth transitions.
-29. **Chart**: Beautiful graphical data visualizations (Bar, Line, Area) powered by Recharts.
+29. **Chart**: Beautiful graphical data visualizations (Bar, Line, Area) powered by Recharts. Accepts an optional `title` rendered inside its own card frame.
 30. **Collapsible**: A collapsible (collapse-expand) content panel for hiding or showing additional details.
-31. **Data Table**: An advanced data table with search, pagination, and sorting features.
+31. **Data Table**: An advanced data table with search, pagination, and sorting features. Accepts an optional `title` rendered inside its own card frame, and is a Client Component (safe to render from Server Components).
 32. **Empty**: An appealing visual state for marking when data or content is empty.
 33. **Hover Card**: A preview card with additional content that appears when hovering over a link.
 34. **Item**: A versatile row component for lists, presenting media, title, description, and action buttons.
