@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import type { BubbleProps } from "../kelir-types";
 import { css } from "../kelir-variants";

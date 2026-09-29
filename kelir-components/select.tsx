@@ -1,3 +1,5 @@
+"use client";
+
 import MuiInputBase from "@mui/material/InputBase";
 import MenuItem from "@mui/material/MenuItem";
 import MuiSelect from "@mui/material/Select";

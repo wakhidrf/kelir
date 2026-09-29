@@ -1,5 +1,14 @@
 # Changelog — Kelir
 
+## 2026-09-29 — "use client" untuk semua komponen interaktif (ISSUE-003)
+
+### Fixed
+- **ISSUE-003 — DataTable crash di Server Component**: `data-table.tsx` memakai `React.useState` untuk paginasi tanpa direktif `"use client"`, sehingga setiap Server Component yang merendernya langsung crash (`useState only works in Client Components`). Fix: direktif ditambahkan — plus audit Opsi B yang menemukan 19 file hook-pengguna lain juga belum berdirektif (tak satu pun file di `kelir-components` memilikinya). Total 20 file kini diawali `"use client";`: `bubble`, `calendar`, `carousel`, `collapsible`, `command`, `context-menu`, `data-table`, `date-picker`, `dropdown-menu`, `hover-card`, `input-otp`, `menubar`, `message-scroller`, `popover`, `questionnaire`, `resizable`, `select`, `tabs`, `textarea`, dan `kelir-switcher`.
+
+### Verification
+- `tsc --noEmit` clean (submodule files typecheck via parent project)
+- Manual browser check masih terbuka: render `<DataTable paginated>` dari Server Component, konfirmasi tanpa error dan paginasi tetap berfungsi
+
 ## 2026-09-28 — Select/Dialog/AlertDialog: no more layout shift (scroll lock off by default)
 
 ### Fixed

@@ -1,3 +1,5 @@
+"use client";
+
 import MuiCollapse from "@mui/material/Collapse";
 import * as React from "react";
 import type { CollapsibleProps } from "../kelir-types";
