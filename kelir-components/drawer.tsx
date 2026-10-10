@@ -1,40 +1,47 @@
 import MuiDrawer from "@mui/material/Drawer";
+import MuiBox from "@mui/material/Box";
 import type { DrawerProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
-const convexShadow = css.shadows.convex;
-const neumorphicBg = css.colors.surface;
-const surfaceBlur = css.motion.blur.backdrop;
-const textPrimary = css.colors.textPrimary;
-
-export function Drawer({ title, children, ...props }: DrawerProps) {
+export function Drawer({
+  open,
+  onClose,
+  title,
+  children,
+  id,
+  "aria-label": ariaLabel,
+}: DrawerProps) {
   return (
     <MuiDrawer
-      {...props}
+      open={open}
+      // Adaptor zero-arg: MUI memanggil (event, reason); kontrak kit tanpa argumen.
+      onClose={() => onClose()}
+      id={id}
+      aria-label={ariaLabel}
       slotProps={{
         paper: {
           style: {
-            backgroundColor: neumorphicBg,
-            boxShadow: convexShadow,
+            backgroundColor: css.colors.surface,
+            boxShadow: css.shadows.convex,
             border: `1px solid ${css.border.light}`,
-            backdropFilter: surfaceBlur,
-            WebkitBackdropFilter: surfaceBlur,
+            backdropFilter: css.motion.blur.backdrop,
+            WebkitBackdropFilter: css.motion.blur.backdrop,
             fontFamily: "inherit",
           },
         },
       }}
     >
       {title && (
-        <div
-          style={{
+        <MuiBox
+          sx={{
             padding: `${css.layout.space.lg} ${css.layout.space.lg} 0`,
-            color: textPrimary,
+            color: css.colors.textPrimary,
             fontWeight: 700,
             fontSize: "16px",
           }}
         >
           {title}
-        </div>
+        </MuiBox>
       )}
       {children}
     </MuiDrawer>

@@ -2,23 +2,25 @@ import MuiButtonGroup from "@mui/material/ButtonGroup";
 import type { ButtonGroupProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
-const convexShadow = css.shadows.convex;
-const neumorphicBg = css.colors.surface;
-const textPrimary = css.colors.textPrimary;
-
-export function ButtonGroup({ children, ...props }: ButtonGroupProps) {
+export function ButtonGroup({
+  children,
+  disabled,
+  id,
+  "aria-label": ariaLabel,
+}: ButtonGroupProps) {
   return (
     <MuiButtonGroup
-      {...props}
-      style={{
-        backgroundColor: neumorphicBg,
+      disabled={disabled}
+      id={id}
+      aria-label={ariaLabel}
+      sx={{
+        backgroundColor: css.colors.surface,
         borderRadius: css.radius.sm,
-        boxShadow: convexShadow,
+        boxShadow: css.shadows.convex,
         border: `1px solid ${css.border.light}`,
-        color: textPrimary,
+        color: css.colors.textPrimary,
         fontFamily: "inherit",
         gap: css.layout.space.sm,
-        ...props.style,
       }}
     >
       {children}

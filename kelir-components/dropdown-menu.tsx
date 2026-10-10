@@ -13,32 +13,35 @@ const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
-type TriggerElementProps = {
-  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
-};
-
-export function DropdownMenu({ trigger, items, ...props }: DropdownMenuProps) {
+export function DropdownMenu({ trigger, items }: DropdownMenuProps) {
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
 
-  const triggerElement = React.isValidElement(trigger)
-    ? (trigger as React.ReactElement<TriggerElementProps>)
-    : undefined;
-
-  const triggerNode = triggerElement
-    ? React.cloneElement(triggerElement, {
-        onClick: (event: React.MouseEvent<HTMLElement>) => {
-          triggerElement.props.onClick?.(event);
-          setAnchorEl(event.currentTarget);
-        },
-      })
-    : trigger;
+  function handleTriggerClick(event: React.MouseEvent<HTMLElement>) {
+    setAnchorEl(event.currentTarget);
+  }
 
   return (
     <>
-      {triggerNode}
+      {/* Tombol pemicu milik kit: trigger TEKS, klik ditangani kit. */}
+      <button
+        type="button"
+        onClick={handleTriggerClick}
+        style={{
+          border: "none",
+          background: "none",
+          cursor: "pointer",
+          padding: `6px ${css.layout.space.md}`,
+          borderRadius: css.radius.sm,
+          fontSize: "13px",
+          fontWeight: 600,
+          color: textSecondary,
+          fontFamily: "inherit",
+        }}
+      >
+        {trigger}
+      </button>
       <MuiMenu
-        {...props}
         open={open}
         onClose={() => setAnchorEl(null)}
         anchorEl={anchorEl}

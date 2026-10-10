@@ -8,10 +8,23 @@ const neumorphicBg = css.colors.surface;
 const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 
-export function Alert({ title, children, ...props }: AlertProps) {
+// Notifikasi inline sealed (Gel.2 STYLE.md §6): basis MUI; `severity`
+// diteruskan (ikon + role alert bawaan MUI), visual milik kit — tanpa
+// ...rest, tanpa style/sx/className konsumen. Closable hanya bila onClose ada.
+export function Alert({
+  title,
+  children,
+  severity,
+  onClose,
+  id,
+  "aria-label": ariaLabel,
+}: AlertProps) {
   return (
     <MuiAlert
-      {...props}
+      severity={severity}
+      onClose={onClose ? () => onClose() : undefined}
+      id={id}
+      aria-label={ariaLabel}
       style={{
         backgroundColor: neumorphicBg,
         borderRadius: css.radius.sm,
@@ -21,7 +34,6 @@ export function Alert({ title, children, ...props }: AlertProps) {
         WebkitBackdropFilter: surfaceBlur,
         color: textPrimary,
         fontFamily: "inherit",
-        ...props.style,
       }}
     >
       {title && (

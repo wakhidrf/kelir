@@ -5,46 +5,42 @@ import * as React from "react";
 import type { CollapsibleProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
-const textPrimary = css.colors.textPrimary;
-
-type TriggerElementProps = {
-  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
-};
-
+// Collapsible sealed (Gel.3c-6 STYLE.md §6): trigger slot TEKS — kit yang
+// me-render pemicu + menangani klik (tanpa cloneElement ke konsumen).
+// open TERKONTROL + defaultOpen + onOpenChange semantik.
 export function Collapsible({
   trigger,
   children,
+  open,
   defaultOpen = false,
-  ...props
+  onOpenChange,
 }: CollapsibleProps) {
-  const [open, setOpen] = React.useState(defaultOpen);
+  const [inner, setInner] = React.useState(defaultOpen);
+  const isOpen = open ?? inner;
 
-  const triggerElement = React.isValidElement(trigger)
-    ? (trigger as React.ReactElement<TriggerElementProps>)
-    : undefined;
-
-  const triggerNode = triggerElement
-    ? React.cloneElement(triggerElement, {
-        onClick: (event: React.MouseEvent<HTMLElement>) => {
-          triggerElement.props.onClick?.(event);
-          setOpen((value) => !value);
-        },
-      })
-    : trigger;
+  function toggle() {
+    const next = !isOpen;
+    if (open === undefined) setInner(next);
+    onOpenChange?.(next);
+  }
 
   return (
-    <div
-      {...props}
-      style={{
-        fontFamily: "inherit",
-        color: textPrimary,
-        ...props.style,
-      }}
-    >
-      <div style={{ cursor: "pointer", display: "inline-block" }}>
-        {triggerNode}
+    <div style={{ fontFamily: "inherit", color: css.colors.textPrimary }}>
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={toggle}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            toggle();
+          }
+        }}
+        style={{ cursor: "pointer", display: "inline-block", fontWeight: 600 }}
+      >
+        {trigger}
       </div>
-      <MuiCollapse in={open}>{children}</MuiCollapse>
+      <MuiCollapse in={isOpen}>{children}</MuiCollapse>
     </div>
   );
 }

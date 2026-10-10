@@ -1,19 +1,13 @@
 import type { AccordionProps as MuiAccordionProps } from "@mui/material/Accordion";
-import type { AlertProps as MuiAlertProps } from "@mui/material/Alert";
 import type { AutocompleteProps as MuiAutocompleteProps } from "@mui/material/Autocomplete";
 import type { AvatarProps as MuiAvatarProps } from "@mui/material/Avatar";
 import type { BadgeProps as MuiBadgeProps } from "@mui/material/Badge";
 import type { BreadcrumbsProps as MuiBreadcrumbsProps } from "@mui/material/Breadcrumbs";
 import type { ButtonProps as MuiButtonProps } from "@mui/material/Button";
 import type { ButtonGroupProps as MuiButtonGroupProps } from "@mui/material/ButtonGroup";
-import type { CardProps as MuiCardProps } from "@mui/material/Card";
-import type { CheckboxProps as MuiCheckboxProps } from "@mui/material/Checkbox";
-import type { CircularProgressProps as MuiCircularProgressProps } from "@mui/material/CircularProgress";
 import type { DialogProps as MuiDialogProps } from "@mui/material/Dialog";
-import type { DividerProps as MuiDividerProps } from "@mui/material/Divider";
 import type { DrawerProps as MuiDrawerProps } from "@mui/material/Drawer";
 import type { FormControlProps as MuiFormControlProps } from "@mui/material/FormControl";
-import type { InputBaseProps as MuiInputBaseProps } from "@mui/material/InputBase";
 import type { InputLabelProps as MuiInputLabelProps } from "@mui/material/InputLabel";
 import type { LinearProgressProps as MuiLinearProgressProps } from "@mui/material/LinearProgress";
 import type { ListItemProps as MuiListItemProps } from "@mui/material/ListItem";
@@ -21,18 +15,13 @@ import type { MenuProps as MuiMenuProps } from "@mui/material/Menu";
 import type { NativeSelectProps as MuiNativeSelectProps } from "@mui/material/NativeSelect";
 import type { PaginationProps as MuiPaginationProps } from "@mui/material/Pagination";
 import type { PopoverProps as MuiPopoverProps } from "@mui/material/Popover";
-import type { RadioGroupProps as MuiRadioGroupProps } from "@mui/material/RadioGroup";
-import type { SelectProps as MuiSelectProps } from "@mui/material/Select";
 import type { SkeletonProps as MuiSkeletonProps } from "@mui/material/Skeleton";
 import type { SliderProps as MuiSliderProps } from "@mui/material/Slider";
-import type { SnackbarProps as MuiSnackbarProps } from "@mui/material/Snackbar";
-import type { SwitchProps as MuiSwitchProps } from "@mui/material/Switch";
 import type { TableProps as MuiTableProps } from "@mui/material/Table";
 import type { TabsProps as MuiTabsProps } from "@mui/material/Tabs";
 import type { ToggleButtonProps as MuiToggleButtonProps } from "@mui/material/ToggleButton";
 import type { ToggleButtonGroupProps as MuiToggleButtonGroupProps } from "@mui/material/ToggleButtonGroup";
 import type { TooltipProps as MuiTooltipProps } from "@mui/material/Tooltip";
-import type { TypographyProps as MuiTypographyProps } from "@mui/material/Typography";
 import type * as React from "react";
 
 // Global contexts & states
@@ -61,37 +50,75 @@ export interface KelirContextValue {
   unregisterSwitcher: () => void;
 }
 
+// 0. KelirProvider — satu-satunya titik visual yang legit (P1c STYLE.md §3c).
+// Props sah HANYA: `defaultTheme` (union tertutup Theme) + `children`.
+// Ganti tema runtime bukan via props tambahan, melainkan via context
+// `useKelir().setTheme` / `KelirSwitcher`. Props visual lain = pelanggaran.
+export interface KelirProviderProps {
+  children: React.ReactNode;
+  /** Consumer-provided default theme — for this app the theme cookie already
+   *  resolved on the server, so the first render matches the persisted choice
+   *  and there is no flash. */
+  defaultTheme: Theme;
+}
+
 // 1. Accordion
-export interface AccordionProps extends Omit<MuiAccordionProps, "children"> {
-  summary: React.ReactNode;
-  details: React.ReactNode;
+// 1. Accordion - ringkasan lipat sealed berbasis MUI (Gel.3c-6 STYLE.md §6).
+// `summary`/`details` slot TEKS; `expanded?` TERKONTROL + `defaultExpanded?`
+// + `onChange?(expanded)` semantik tanpa event; `disabled?`.
+// Tanpa children/slotProps/style/sx/className/onChange-event-MUI.
+export interface AccordionProps {
+  summary: string;
+  details: string;
+  expanded?: boolean;
+  defaultExpanded?: boolean;
+  onChange?: (expanded: boolean) => void;
+  disabled?: boolean;
 }
 
-// 2. Alert
-export interface AlertProps extends Omit<MuiAlertProps, "title"> {
-  title?: React.ReactNode;
+// 2. Alert — notifikasi inline sealed berbasis MUI (Gel.2 STYLE.md §6).
+// `severity` MAKNA wajib; `title` slot teks; `onClose?` = closable.
+// Tanpa style/sx/className/severity-MUI-mentah.
+export interface AlertProps {
+  title?: string;
+  children: React.ReactNode;
+  severity: "error" | "warning" | "info" | "success";
+  onClose?: () => void;
+  id?: string;
+  "aria-label"?: string;
 }
 
-// 3. Alert Dialog
-export interface AlertDialogProps
-  extends Omit<MuiDialogProps, "open" | "title"> {
+// 3. Alert Dialog — konfirmasi destruktif sealed berbasis MUI (Gel.2).
+// PERILAKU (`open`/`onCancel`/`onConfirm` semantik); `title`/`description`
+// slot teks; label tombol string. Escape/backdrop = cancel.
+// `disableScrollLock` hardcode milik kit. Tanpa ...rest/style/sx/className.
+export interface AlertDialogProps {
   open: boolean;
-  title: React.ReactNode;
-  description: React.ReactNode;
-  cancelText?: React.ReactNode;
-  confirmText?: React.ReactNode;
+  title: string;
+  description: string;
+  cancelText?: string;
+  confirmText?: string;
   onCancel?: () => void;
   onConfirm?: () => void;
+  id?: string;
+  "aria-label"?: string;
 }
 
 // 4. Aspect Ratio
-export interface AspectRatioProps extends React.HTMLAttributes<HTMLDivElement> {
+// 4. AspectRatio - bingkai rasio sealed (Gel.3c-6 STYLE.md §6).
+// `ratio?` angka; `children` slot media (img/video/kit).
+// Tanpa style/sx/className.
+export interface AspectRatioProps {
   ratio?: number;
   children: React.ReactNode;
 }
 
 // 5. Attachment
-export interface AttachmentProps extends React.HTMLAttributes<HTMLDivElement> {
+// 5. Attachment - kartu berkas sealed (Gel.3c-7 STYLE.md §6).
+// `name` TEKS; `size?`/`type?`/`url?` string; `status?` MAKNA;
+// `progress?` angka 0-100; `onRemove?` semantik tanpa event.
+// Tanpa style/sx/className.
+export interface AttachmentProps {
   name: string;
   size?: string;
   type?: string;
@@ -101,25 +128,47 @@ export interface AttachmentProps extends React.HTMLAttributes<HTMLDivElement> {
   onRemove?: () => void;
 }
 
-// 6. Avatar
-export interface AvatarProps extends MuiAvatarProps {
+// 6. Avatar — identitas visual sealed berbasis MUI (Gel.3a STYLE.md §6).
+// `src?/alt?/fallbackText?` ISI; `size?` MAKNA (small/medium/large → px
+// milik kit). Tanpa ...rest/style/sx/className/onClick MUI.
+export interface AvatarProps {
+  src?: string;
+  alt?: string;
   fallbackText?: string;
+  size?: "small" | "medium" | "large";
+  id?: string;
+  "aria-label"?: string;
 }
 
-// 7. Badge
-export interface BadgeProps
-  extends Omit<MuiBadgeProps, "children" | "variant"> {
-  children: React.ReactNode;
+// 7. Badge — label status sealed (Gel.3a STYLE.md §6).
+// `variant?` MAKNA (default primary); `children` teks status.
+// Tanpa ...rest/style/sx/className/onClick.
+export interface BadgeProps {
   variant?: "primary" | "secondary" | "destructive" | "outline";
+  children: string;
+  id?: string;
+  "aria-label"?: string;
 }
 
 // 8. Breadcrumb
-export interface BreadcrumbProps extends MuiBreadcrumbsProps {
-  items: { label: React.ReactNode; href?: string; active?: boolean }[];
+// 8. Breadcrumb — navigasi remah sealed berbasis MUI (Gel.3c-4 §6).
+// `items` label TEKS + href?/active? MAKNA. Tanpa ...rest/style/sx.
+export interface BreadcrumbItem {
+  label: string;
+  href?: string;
+  active?: boolean;
+}
+export interface BreadcrumbProps {
+  items: BreadcrumbItem[];
+  id?: string;
+  "aria-label"?: string;
 }
 
 // 9. Bubble
-export interface BubbleProps extends React.HTMLAttributes<HTMLDivElement> {
+// 9. Bubble - gelembung chat sealed (Gel.3c-7 STYLE.md §6).
+// `variant?`/`align?` MAKNA; `reactions?` string[]; `collapsible?` perilaku
+// lipat internal; `children` slot isi pesan. Tanpa style/sx/className.
+export interface BubbleProps {
   variant?: "sent" | "received";
   align?: "left" | "right";
   reactions?: string[];
@@ -127,380 +176,776 @@ export interface BubbleProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 
-// 10. Button
-export interface ButtonProps extends Omit<MuiButtonProps, "variant"> {
+// 10. Button — sealed eksplisit (P1c STYLE.md §6): tanpa warisan MUI,
+// children string + slot ikon. type default "button"; "reset" disengaja
+// tidak ada (minta via kelir-request).
+export interface ButtonProps {
+  children: string;
+  startIcon?: React.ReactNode;
+  endIcon?: React.ReactNode;
   variant?: "primary" | "secondary" | "destructive" | "outline" | "ghost";
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  type?: "button" | "submit";
+  disabled?: boolean;
+  "aria-label"?: string;
+  "aria-describedby"?: string;
+  id?: string;
+}
+
+// 10b. IconButton — tombol ikon-only (P1c STYLE.md §6): icon + aria-label
+// wajib (WCAG 2.5.3 ditegakkan oleh bentuk komponen).
+export interface IconButtonProps {
+  icon: React.ReactNode;
+  "aria-label": string;
+  variant?: "primary" | "secondary" | "destructive" | "outline" | "ghost";
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  type?: "button" | "submit";
+  disabled?: boolean;
+  "aria-describedby"?: string;
+  id?: string;
 }
 
 // 11. Button Group
-export interface ButtonGroupProps extends MuiButtonGroupProps {
+// 11. ButtonGroup — grup tombol sealed berbasis MUI (Gel.3b STYLE.md §6).
+// `children` tombol Kelir; `disabled?` PERILAKU. Tanpa ...rest/style/sx.
+export interface ButtonGroupProps {
   children: React.ReactNode;
+  disabled?: boolean;
+  id?: string;
+  "aria-label"?: string;
 }
 
 // 12. Calendar
-export interface CalendarProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
+// 12. Calendar - kalender pilih tanggal sealed (Gel.3c-8 STYLE.md §6).
+// `value?` TERKONTROL (Date) + `onChange?(date)` semantik tanpa event.
+// Navigasi bulan + visual milik kit. Tanpa style/sx/className.
+export interface CalendarProps {
   value?: Date;
   onChange?: (date: Date) => void;
 }
 
-// 13. Card
-export interface CardProps extends Omit<MuiCardProps, "title"> {
-  title?: React.ReactNode;
-  subtitle?: React.ReactNode;
+// 13. Card — kartu sealed berbasis MUI (P1c STYLE.md §6).
+// Slot teks (`title`/`subtitle`) = string; slot aksi/isi
+// (`headerActions`/`footer`/`children`) = ReactNode (tombol/komponen Kelir).
+// Tanpa style/sx/className/warna/font mentah — semua dari token kit.
+export interface CardProps {
+  title?: string;
+  subtitle?: string;
   headerActions?: React.ReactNode;
   footer?: React.ReactNode;
+  children?: React.ReactNode;
+  id?: string;
+  "aria-label"?: string;
 }
 
 // 14. Carousel
-export interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
-  items: React.ReactNode[];
+// 14. Carousel - korsel sealed (Gel.3c-10 STYLE.md §6).
+// `items` slot slide[]; `autoPlay?`/`interval?` PERILAKU putar.
+// Navigasi + dot + visual milik kit. Tanpa style/sx/className.
+export interface CarouselProps<TItem extends React.ReactNode = React.ReactNode> {
+  items: TItem[];
   autoPlay?: boolean;
   interval?: number;
 }
 
 // 15. Chart
-export interface ChartProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
-  data: unknown[];
+// 15. Chart - grafik data sealed (Gel.3c-11 STYLE.md §6).
+// `data` baris-bebas (P2 generik ketat); `categories` string[];
+// `dataKey` string; `type?` MAKNA; `title?` slot TEKS.
+// Render bar/line/area + visual milik kit. Tanpa style/sx/className.
+export interface ChartProps<
+  TDatum extends object = Record<string, unknown>,
+> {
+  data: TDatum[];
   categories: string[];
   dataKey: string;
   type?: "bar" | "line" | "area";
-  title?: React.ReactNode;
+  title?: string;
 }
 
-// 16. Checkbox
-export interface CheckboxProps extends MuiCheckboxProps {
-  label?: React.ReactNode;
+// 16. Checkbox — pilihan biner sealed berbasis MUI (Gel.2 STYLE.md §6).
+// `onChange` semantik (boolean); `label` slot teks. Tanpa ...rest/style/sx.
+export interface CheckboxProps {
+  checked?: boolean;
+  defaultChecked?: boolean;
+  onChange?: (checked: boolean) => void;
+  label?: string;
+  disabled?: boolean;
+  id?: string;
+  "aria-label"?: string;
 }
 
 // 17. Collapsible
-export interface CollapsibleProps extends React.HTMLAttributes<HTMLDivElement> {
-  trigger: React.ReactNode;
+// 17. Collapsible - lipatan sealed berbasis MUI Collapse (Gel.3c-6 STYLE.md §6).
+// `trigger` slot TEKS (kit yang me-render + menangani klik);
+// `open?` TERKONTROL + `defaultOpen?` + `onOpenChange?(open)` semantik.
+// Tanpa cloneElement/onClick-konsumen/style/sx/className.
+export interface CollapsibleProps {
+  trigger: string;
   children: React.ReactNode;
+  open?: boolean;
   defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 // 18. Combobox
-export interface ComboboxProps
-  extends Omit<
-    MuiAutocompleteProps<string, boolean, boolean, boolean>,
-    "renderInput"
-  > {
+// 18. Combobox - pilih-satu sealed berbasis MUI Autocomplete (Gel.3c-11 §6).
+// `options` string[]; `value?/defaultValue?` TERKONTROL;
+// `onChange?(value)` semantik tanpa event; `label?`/`placeholder?` TEKS;
+// `disabled?`. multiple/freeSolo disengaja tidak ada (minta via kelir-request).
+// Wiring ref/input MUI internal milik kit. Tanpa ...rest/style/sx.
+export interface ComboboxProps {
+  options: string[];
+  value?: string | null;
+  defaultValue?: string | null;
+  onChange?: (value: string | null) => void;
   label?: string;
   placeholder?: string;
+  disabled?: boolean;
 }
 
 // 19. Command
-export interface CommandProps extends React.HTMLAttributes<HTMLDivElement> {
+// 19. Command - palet perintah sealed (Gel.3c-8 STYLE.md §6).
+// `placeholder?` TEKS; `groups` CommandGroup[] (filter + visual milik kit;
+// `onSelect?` tiap item semantik tanpa event). Tanpa style/sx/className.
+export interface CommandItem {
+  label: string;
+  value: string;
+  icon?: React.ReactNode;
+  onSelect?: () => void;
+}
+export interface CommandGroup {
+  heading: string;
+  items: CommandItem[];
+}
+export interface CommandProps {
   placeholder?: string;
-  groups: {
-    heading: string;
-    items: {
-      label: string;
-      value: string;
-      icon?: React.ReactNode;
-      onSelect?: () => void;
-    }[];
-  }[];
+  groups: CommandGroup[];
 }
 
 // 20. Context Menu
-export interface ContextMenuProps extends Omit<MuiMenuProps, "open"> {
-  trigger: React.ReactNode;
-  menuItems: { label: string; icon?: React.ReactNode; onClick?: () => void }[];
+// 20. ContextMenu - menu klik-kanan sealed berbasis MUI (Gel.3c-8 STYLE.md §6).
+// `trigger` slot TEKS (kit render area klik-kanan + tangani event, tanpa
+// cloneElement); `menuItems` ContextMenuItem[] (`onClick?` semantik).
+// Posisi + visual milik kit. Tanpa style/sx/className/slotProps.
+export interface ContextMenuItem {
+  label: string;
+  icon?: React.ReactNode;
+  onClick?: () => void;
+}
+export interface ContextMenuProps {
+  trigger: string;
+  menuItems: ContextMenuItem[];
 }
 
 // 21. Data Table
-export interface DataTableProps
-  extends Omit<MuiTableProps, "children" | "title"> {
-  columns: { header: string; accessorKey: string }[];
+// 21. DataTable - tabel + paginasi sealed berbasis MUI (Gel.3c-11 STYLE.md §6).
+// `columns` DataTableColumn[]; `data` baris-bebas (P2 generik ketat);
+// `paginated?`/`rowsPerPage?` PERILAKU; `title?` slot TEKS.
+// Halaman + visual milik kit. Tanpa style/sx/className.
+export interface DataTableColumn {
+  header: string;
+  accessorKey: string;
+}
+export interface DataTableProps {
+  columns: DataTableColumn[];
   data: unknown[];
   paginated?: boolean;
   rowsPerPage?: number;
-  title?: React.ReactNode;
+  title?: string;
 }
 
 // 22. Date Picker
-export interface DatePickerProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
+// 22. DatePicker - pemilih tanggal sealed (Gel.3c-8 STYLE.md §6).
+// `value?` TERKONTROL (Date) + `onChange?(date?)` semantik;
+// `placeholder?` TEKS. Popover + mode hari/bulan/tahun milik kit.
+export interface DatePickerProps {
   value?: Date;
   onChange?: (date?: Date) => void;
   placeholder?: string;
 }
 
-// 23. Dialog
-export interface DialogProps extends Omit<MuiDialogProps, "title"> {
-  title?: React.ReactNode;
+// 23. Dialog — dialog sealed berbasis MUI (P1c STYLE.md §6).
+// PERILAKU (`open`/`onClose` semantik tanpa event) milik konsumen;
+// `title` slot teks (string); `children`/`actions` slot isi/aksi.
+// `disableScrollLock` keputusan kit (hardcode). Tanpa style/sx/className.
+export interface DialogProps {
+  open: boolean;
+  onClose: () => void;
+  title?: string;
+  children?: React.ReactNode;
   actions?: React.ReactNode;
+  id?: string;
+  "aria-label"?: string;
 }
 
 // 24. Direction
-export interface DirectionProps extends React.HTMLAttributes<HTMLDivElement> {
+// 24. Direction - arah teks sealed (Gel.3c-6 STYLE.md §6).
+// `dir` MAKNA wajib; `children` slot. Tanpa style/sx/className.
+export interface DirectionProps {
   dir: "ltr" | "rtl";
   children: React.ReactNode;
 }
 
 // 25. Drawer
-export interface DrawerProps extends Omit<MuiDrawerProps, "title"> {
-  title?: React.ReactNode;
+// 25. Drawer — laci samping sealed berbasis MUI (Gel.3c-5 STYLE.md §6).
+// `open` TERKONTROL PENUH (wajib); `onClose` semantik tanpa event/reason
+// (preseden Dialog); `title?` slot TEKS; anchor default kiri milik kit.
+// Tanpa ...rest/style/sx/slotProps MUI.
+export interface DrawerProps {
+  open: boolean;
+  onClose: () => void;
+  title?: string;
+  children?: React.ReactNode;
+  id?: string;
+  "aria-label"?: string;
 }
 
 // 26. Dropdown Menu
-export interface DropdownMenuProps
-  extends Omit<MuiMenuProps, "open" | "anchorEl"> {
-  trigger: React.ReactNode;
-  items: {
-    label: string;
-    icon?: React.ReactNode;
-    onClick?: () => void;
-    divider?: boolean;
-  }[];
+// 26. DropdownMenu - menu klik sealed berbasis MUI (Gel.3c-9 STYLE.md §6).
+// `trigger` slot TEKS (kit render tombol pemicu + tangani klik, tanpa
+// cloneElement, preseden Collapsible/ContextMenu); `items`
+// DropdownMenuItem[] (`onClick?` semantik). Posisi + visual milik kit.
+export interface DropdownMenuItem {
+  label: string;
+  icon?: React.ReactNode;
+  onClick?: () => void;
+  divider?: boolean;
+}
+export interface DropdownMenuProps {
+  trigger: string;
+  items: DropdownMenuItem[];
 }
 
 // 27. Empty
-export interface EmptyProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
-  title?: React.ReactNode;
-  description?: React.ReactNode;
+// 27. Empty — status kosong sealed (Gel.3c STYLE.md §6).
+// `title?/description?` slot TEKS; `action?/icon?` slot ReactNode.
+// Tanpa ...rest/style/sx/className/onClick.
+export interface EmptyProps {
+  title?: string;
+  description?: string;
   action?: React.ReactNode;
   icon?: React.ReactNode;
+  id?: string;
+  "aria-label"?: string;
 }
 
 // 28. Field
-export interface FieldProps extends MuiFormControlProps {
-  label?: React.ReactNode;
-  helperText?: React.ReactNode;
+// 27. Field — pembungkus label + kontrol + helper sealed (Gel.3b §6).
+// `label?/helperText?` slot TEKS; `error?` MAKNA; `children` kontrol.
+// fullWidth hardcode milik kit. Tanpa ...rest/style/sx/className.
+export interface FieldProps {
+  label?: string;
+  helperText?: string;
   error?: boolean;
   children: React.ReactNode;
+  id?: string;
+  "aria-label"?: string;
 }
 
 // 29. Hover Card
-export interface HoverCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  trigger: React.ReactNode;
+// 29. HoverCard - kartu hover sealed berbasis MUI Popper (Gel.3c-7 STYLE.md §6).
+// `trigger` slot jangkar ELEMEN (butuh node untuk posisi, preseden Tooltip); `children` slot isi.
+// Placement + timer + visual milik kit. Tanpa style/sx/className.
+export interface HoverCardProps {
+  trigger: React.ReactElement;
   children: React.ReactNode;
 }
 
-// 30. Input
-export interface InputProps extends Omit<MuiInputBaseProps, "size"> {
+// 30. Input — field teks sealed berbasis MUI (P1c STYLE.md §6).
+// ISI (`value`/`defaultValue`/`placeholder`), PERILAKU (`onChange` semantik
+// menerima string, bukan event; `type`; `disabled`), MAKNA (`size`).
+// Tanpa style/sx/className/warna/font mentah — semua dari token kit.
+export interface InputProps {
+  value?: string;
+  defaultValue?: string;
+  onChange?: (value: string) => void;
+  placeholder?: string;
+  type?: "text" | "password" | "email" | "number" | "search" | "tel" | "url";
+  disabled?: boolean;
   size?: "small" | "medium";
+  id?: string;
+  "aria-label"?: string;
 }
 
 // 31. Input Group
-export interface InputGroupProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "prefix"> {
-  prefix?: React.ReactNode;
-  suffix?: React.ReactNode;
+// 31. InputGroup — grup adornment sealed (Gel.3c-3 STYLE.md §6).
+// `prefix?/suffix?` slot TEKS; `children` kontrol. Tanpa ...rest/style.
+export interface InputGroupProps {
+  prefix?: string;
+  suffix?: string;
   children: React.ReactNode;
+  id?: string;
+  "aria-label"?: string;
 }
 
-// 32. Input Otp
-export interface InputOtpProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
+// 32. InputOtp — kode sekali-pakai sealed (Gel.3c-3 STYLE.md §6).
+// `value/onChange(string)` semantik; `length?` MAKNA (default 4).
+// Tanpa ...rest/style/className.
+export interface InputOtpProps {
   value: string;
   onChange: (value: string) => void;
   length?: number;
+  id?: string;
+  "aria-label"?: string;
 }
 
 // 33. Item
-export interface ItemProps extends Omit<MuiListItemProps, "title"> {
-  title: React.ReactNode;
-  description?: React.ReactNode;
+// 33. Item — baris daftar sealed berbasis MUI (Gel.3c-5 STYLE.md §6).
+// `title/description?` slot TEKS; `media?/action?` slot komponen sealed.
+// Tanpa ...rest/style/sx/slotProps MUI.
+export interface ItemProps {
+  title: string;
+  description?: string;
   media?: React.ReactNode;
   action?: React.ReactNode;
+  id?: string;
+  "aria-label"?: string;
 }
 
 // 34. Kbd
-export interface KbdProps extends React.HTMLAttributes<HTMLElement> {
-  children: React.ReactNode;
+// 34. Kbd — tombol keyboard sealed (Gel.3c STYLE.md §6).
+// `children` teks tombol. Tanpa ...rest/style/sx/className.
+export interface KbdProps {
+  children: string;
+  id?: string;
+  "aria-label"?: string;
 }
 
-// 35. Label
-export interface LabelProps extends MuiInputLabelProps {
-  children: React.ReactNode;
+// 35. Label — label kontrol sealed berbasis MUI (Gel.3c STYLE.md §6).
+// `children` teks label; `htmlFor?` asosiasi MAKNA. Tanpa ...rest/style/sx.
+export interface LabelProps {
+  children: string;
+  htmlFor?: string;
+  id?: string;
+  "aria-label"?: string;
 }
 
-// 36. Marker
-export interface MarkerProps extends React.HTMLAttributes<HTMLDivElement> {
+// 36. Marker — penanda semantik sealed berbasis MUI (P1c STYLE.md §6).
+// `variant` bentuk (status/note/border/separator); `intent` MAKNA
+// (primary/secondary/error/success/warning) — bukan `color` mentah.
+// Tanpa style/className/event HTML — semua visual dari token kit.
+export interface MarkerProps {
   variant?: "status" | "note" | "border" | "separator";
-  color?: "primary" | "secondary" | "error" | "success" | "warning";
+  intent?: "primary" | "secondary" | "error" | "success" | "warning";
   children: React.ReactNode;
+  id?: string;
+  "aria-label"?: string;
 }
 
 // 37. Menubar
-export interface MenubarProps extends React.HTMLAttributes<HTMLDivElement> {
-  menus: {
-    trigger: string;
-    items: { label: string; onClick?: () => void }[];
-  }[];
+// 37. Menubar - bilah menu sealed berbasis MUI (Gel.3c-9 STYLE.md §6).
+// `menus` MenubarMenu[] (trigger TEKS + items; `onClick?` semantik).
+// Menu terbuka + visual milik kit. Tanpa style/sx/className.
+export interface MenubarItem {
+  label: string;
+  onClick?: () => void;
+}
+export interface MenubarMenu {
+  trigger: string;
+  items: MenubarItem[];
+}
+export interface MenubarProps {
+  menus: MenubarMenu[];
 }
 
 // 38. Message
-export interface MessageProps extends React.HTMLAttributes<HTMLDivElement> {
+// 38. Message — gelembung chat sealed (Gel.3b STYLE.md §6).
+// `sender/time?/text` slot TEKS; `avatar?` slot media; `align?` MAKNA.
+// Tanpa ...rest/style/sx/className/onClick.
+export interface MessageProps {
   avatar?: React.ReactNode;
   sender: string;
   time?: string;
   text: string;
   align?: "left" | "right";
+  id?: string;
+  "aria-label"?: string;
 }
 
 // 39. Message Scroller
-export interface MessageScrollerProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+// 39. MessageScroller - gulir pesan sealed (Gel.3c-9 STYLE.md §6).
+// `children` slot pesan; `onLoadMore?`/`hasMore?` PERILAKU muat-atas;
+// `maxHeight?` PERILAKU (default milik kit). Scrollbar milik kit.
+export interface MessageScrollerProps {
   children: React.ReactNode;
   onLoadMore?: () => void;
   hasMore?: boolean;
+  maxHeight?: string | number;
 }
 
 // 40. Native Select
-export interface NativeSelectProps extends MuiNativeSelectProps {
-  options: { label: string; value: string }[];
+// 40. NativeSelect — select native sealed berbasis MUI (Gel.3c-3 §6).
+// `options` label/value string; `onChange` semantik (string, tanpa event);
+// `label?` slot teks (Typography sealed). Tanpa ...rest/style/onChange MUI.
+export interface NativeSelectOption {
+  label: string;
+  value: string;
+}
+export interface NativeSelectProps {
+  options: NativeSelectOption[];
+  value?: string;
+  defaultValue?: string;
+  onChange?: (value: string) => void;
+  label?: string;
+  disabled?: boolean;
+  id?: string;
+  "aria-label"?: string;
 }
 
 // 41. Navigation Menu
-export interface NavigationMenuProps extends React.HTMLAttributes<HTMLElement> {
-  items: {
-    label: string;
-    href?: string;
-    onClick?: () => void;
-    active?: boolean;
-  }[];
+// 41. NavigationMenu - menu navigasi sealed (Gel.3c-9 STYLE.md §6).
+// `items` NavigationMenuItem[] (label TEKS; href?/onClick? semantik tanpa
+// event — adaptor zero-arg di sisi kit; active? MAKNA). Visual milik kit.
+export interface NavigationMenuItem {
+  label: string;
+  href?: string;
+  onClick?: () => void;
+  active?: boolean;
+}
+export interface NavigationMenuProps {
+  items: NavigationMenuItem[];
 }
 
 // 42. Pagination
-export interface PaginationProps extends MuiPaginationProps {}
+// 42. Pagination — halaman sealed berbasis MUI (Gel.3c-5 STYLE.md §6).
+// `count` wajib; `page?/defaultPage?` TERKONTROL PENUH; `onChange` semantik
+// (page number, tanpa event). Ukuran/warna milik kit. Tanpa ...rest/style/sx.
+export interface PaginationProps {
+  count: number;
+  page?: number;
+  defaultPage?: number;
+  onChange?: (page: number) => void;
+  disabled?: boolean;
+  id?: string;
+  "aria-label"?: string;
+}
 
 // 43. Popover
-export interface PopoverProps extends Omit<MuiPopoverProps, "open"> {
+// 43. Popover — lapisan konteks sealed berbasis MUI (Gel.3c-4 §6).
+// `trigger` slot pemicu; `open?` TERKONTROL PENUH vs internal (tak-beri-open
+// = kelola sendiri); `onClose` semantik tanpa event/reason (preseden Dialog).
+// anchorEl/posisi milik kit (trigger). Tanpa ...rest/style/sx/slotProps MUI.
+export interface PopoverProps {
   trigger: React.ReactNode;
   children: React.ReactNode;
   open?: boolean;
+  onClose?: () => void;
+  id?: string;
+  "aria-label"?: string;
 }
 
 // 44. Progress
-export interface ProgressProps extends MuiLinearProgressProps {}
+// 44. Progress — status loading sealed berbasis MUI (Gel.3c-2 §6).
+// `value?` 0–100; `variant?` MAKNA (default determinate). Tanpa ...rest/style.
+export interface ProgressProps {
+  value?: number;
+  variant?: "determinate" | "indeterminate";
+  id?: string;
+  "aria-label"?: string;
+}
 
-// 45. Radio Group
-export interface RadioGroupProps extends MuiRadioGroupProps {
+// 45. RadioGroup — pilihan tunggal sealed berbasis MUI (Gel.2 §6).
+// `options` label/value string; `onChange` semantik (string).
+export interface RadioGroupProps {
   options: { label: string; value: string }[];
+  value?: string;
+  defaultValue?: string;
+  onChange?: (value: string) => void;
+  disabled?: boolean;
+  id?: string;
+  "aria-label"?: string;
 }
 
 // 46. Resizable
-export interface ResizableProps extends React.HTMLAttributes<HTMLDivElement> {
-  panels: React.ReactNode[];
+// 46. Resizable - panel geser sealed (Gel.3c-10 STYLE.md §6).
+// `panels` slot[]; `directions?` MAKNA. Drag + visual milik kit.
+export interface ResizableProps<TPanel extends React.ReactNode = React.ReactNode> {
+  panels: TPanel[];
   directions?: "horizontal" | "vertical";
 }
 
 // 47. Scroll Area
-export interface ScrollAreaProps extends React.HTMLAttributes<HTMLDivElement> {
+// 47. ScrollArea - area gulir sealed (Gel.3c-7 STYLE.md §6).
+// `maxHeight?` PERILAKU (batas gulir); `children` slot.
+// Scrollbar + visual milik kit. Tanpa style/sx/className.
+export interface ScrollAreaProps {
   maxHeight?: string | number;
   children: React.ReactNode;
 }
 
-// 48. Select
-export interface SelectProps extends Omit<MuiSelectProps, "children"> {
-  options: { label: string; value: string }[];
+// 48. Select — dropdown sealed berbasis MUI (P1c STYLE.md §6).
+// ISI (`options` label/value string, `value`/`defaultValue`/`placeholder`),
+// PERILAKU (`onChange` semantik menerima string; `disabled`), MAKNA (`label`).
+// Menu/paper/scrollbar/lebar menu = perilaku milik kit. Tanpa style/sx/
+// className/MenuProps/onOpen mentah.
+export interface SelectOption {
+  label: string;
+  value: string;
+}
+export interface SelectProps {
+  options: SelectOption[];
+  value?: string;
+  defaultValue?: string;
+  onChange?: (value: string) => void;
+  label?: string;
+  placeholder?: string;
+  disabled?: boolean;
+  size?: "small" | "medium";
+  id?: string;
+  "aria-label"?: string;
 }
 
-// 49. Separator
-export interface SeparatorProps extends MuiDividerProps {
+// 49. Separator — pemisah sealed berbasis MUI (P1c STYLE.md §6).
+// `label?` teks; `orientation?` arah. Tanpa style/sx/className/variant MUI.
+export interface SeparatorProps {
   label?: string;
+  orientation?: "horizontal" | "vertical";
+  id?: string;
+  "aria-label"?: string;
 }
 
 // 50. Sheet
-export interface SheetProps extends DrawerProps {}
+// 50. Sheet — lembar bawah sealed berbasis MUI (Gel.3c-5 STYLE.md §6).
+// Seperti Drawer + anchor bottom hardcode milik kit (bukan warisan Drawer —
+// warisan transitif dilarang agar kontrak tiap komponen terbaca mandiri).
+export interface SheetProps {
+  open: boolean;
+  onClose: () => void;
+  title?: string;
+  children?: React.ReactNode;
+  id?: string;
+  "aria-label"?: string;
+}
 
 // 51. Sidebar
-export interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
+// 51. Sidebar — navigasi samping sealed (Gel.3c STYLE.md §6).
+// `header?/footer?/children` slot; lebar/tinggi milik kit. Tanpa ...rest/style.
+export interface SidebarProps {
   header?: React.ReactNode;
   footer?: React.ReactNode;
   children: React.ReactNode;
+  id?: string;
+  "aria-label"?: string;
 }
 
-// 52. Skeleton
-export interface SkeletonProps extends MuiSkeletonProps {}
+// 52. Skeleton — placeholder loading sealed berbasis MUI (Gel.3a §6).
+// `variant?` bentuk; `width?/height?` DIMENSI (string|number, milik konsumen
+// sebagai data layout); `animation?` PERILAKU. Tanpa style/sx/className.
+export interface SkeletonProps {
+  variant?: "text" | "rectangular" | "circular" | "rounded";
+  width?: string | number;
+  height?: string | number;
+  animation?: "pulse" | "wave" | false;
+  id?: string;
+  "aria-label"?: string;
+}
 
 // 53. Slider
-export interface SliderProps extends MuiSliderProps {}
+// 53. Slider — geser nilai tunggal sealed berbasis MUI (Gel.3c-4 §6).
+// Nilai TUNGGAL (number, bukan range); `onChange` semantik (number).
+// Tanpa ...rest/style/sx/onChange MUI.
+export interface SliderProps {
+  value?: number;
+  defaultValue?: number;
+  onChange?: (value: number) => void;
+  min?: number;
+  max?: number;
+  step?: number;
+  disabled?: boolean;
+  id?: string;
+  "aria-label"?: string;
+}
 
-// 54. Spinner
-export interface SpinnerProps extends MuiCircularProgressProps {}
+// 54. Spinner — indikator loading sealed berbasis MUI (P1c STYLE.md §6).
+// `size?` MAKNA (small/medium/large → px milik kit). Tanpa style/sx/
+// className/variant/value MUI (indeterminate milik kit).
+export interface SpinnerProps {
+  size?: "small" | "medium" | "large";
+  id?: string;
+  "aria-label"?: string;
+}
 
-// 55. Switch
-export interface SwitchProps extends MuiSwitchProps {
-  label?: React.ReactNode;
+// 55. Switch — sakelar sealed berbasis MUI (Gel.2 STYLE.md §6).
+// `onChange` semantik (boolean); `label?` slot teks. Tanpa ...rest/style/sx.
+export interface SwitchProps {
+  checked?: boolean;
+  defaultChecked?: boolean;
+  onChange?: (checked: boolean) => void;
+  label?: string;
+  disabled?: boolean;
+  id?: string;
+  "aria-label"?: string;
 }
 
 // 56. Table
-export interface TableProps extends MuiTableProps {
+// 56. Table - tabel data sealed berbasis MUI (Gel.3c-10 STYLE.md §6).
+// `headers` TEKS[]; `rows` sel[][]. Lebar + visual milik kit.
+export interface TableProps<TCell extends React.ReactNode = React.ReactNode> {
   headers: string[];
-  rows: React.ReactNode[][];
+  rows: TCell[][];
 }
 
 // 57. Tabs
-export interface TabsProps extends Omit<MuiTabsProps, "children"> {
-  items: { label: string; content: React.ReactNode; value: string }[];
+// 57. Tabs — tab terkontrol/tak-terkontrol sealed berbasis MUI (Gel.3c-2 §6).
+// `items` label/value string + content; `value?/defaultValue?/onChange?(string)`
+// semantik (tanpa event). Tanpa ...rest/style/sx/className.
+export interface TabsItem {
+  label: string;
+  content: React.ReactNode;
+  value: string;
+}
+export interface TabsProps {
+  items: TabsItem[];
+  value?: string;
   defaultValue?: string;
+  onChange?: (value: string) => void;
+  id?: string;
+  "aria-label"?: string;
 }
 
 // 58. Textarea
-export interface TextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+// 58. Textarea — area teks sealed (Gel.3c-3 STYLE.md §6).
+// `label?/helperText?` slot TEKS; `error?` MAKNA; `onChange` semantik
+// (string, tanpa event, preseden Input); focus-ring milik kit.
+// Tanpa ...rest/style/onFocus/onBlur/event.
+export interface TextareaProps {
   label?: string;
   error?: boolean;
   helperText?: string;
+  value?: string;
+  defaultValue?: string;
+  onChange?: (value: string) => void;
+  placeholder?: string;
+  rows?: number;
+  disabled?: boolean;
+  id?: string;
+  "aria-label"?: string;
 }
 
-// 59. Toast
-export interface ToastProps extends MuiSnackbarProps {
+// 59. Toast — notifikasi sementara sealed berbasis MUI (Gel.2 §6).
+// `message` slot teks; `actionButton?` slot aksi (tombol Kelir);
+// `open`/`onClose` semantik; `autoHideDuration?` PERILAKU (ms, bukan motion
+// visual — durasi tampil, bukan durasi animasi §1.2). Tanpa ...rest/style.
+export interface ToastProps {
   message: string;
   actionButton?: React.ReactNode;
+  open: boolean;
+  onClose: () => void;
+  autoHideDuration?: number;
+  id?: string;
+  "aria-label"?: string;
 }
 
 // 60. Toggle
-export interface ToggleProps extends MuiToggleButtonProps {}
+// 60. Toggle — tombol tekan sealed berbasis MUI (Gel.3c-2 STYLE.md §6).
+// Model pressed (aria-pressed milik kit), bukan selected MUI; `children` teks.
+// Tanpa ...rest/style/sx/className/value/selected MUI.
+export interface ToggleProps {
+  pressed?: boolean;
+  defaultPressed?: boolean;
+  onPressedChange?: (pressed: boolean) => void;
+  children: string;
+  disabled?: boolean;
+  id?: string;
+  "aria-label"?: string;
+}
 
-// 61. Toggle Group
-export interface ToggleGroupProps
-  extends Omit<MuiToggleButtonGroupProps, "children"> {
-  options: { label: string; value: string; icon?: React.ReactNode }[];
+// 61. ToggleGroup — grup pilihan tunggal sealed berbasis MUI (Gel.3c-2 §6).
+// exclusive hardcode milik kit (selalu satu terpilih); `onChange` semantik
+// (string, tanpa event). Tanpa ...rest/style/sx/exclusive/onChange MUI.
+export interface ToggleGroupOption {
+  label: string;
+  value: string;
+  icon?: React.ReactNode;
+}
+export interface ToggleGroupProps {
+  options: ToggleGroupOption[];
+  value?: string;
+  defaultValue?: string;
+  onChange?: (value: string) => void;
+  disabled?: boolean;
+  id?: string;
+  "aria-label"?: string;
 }
 
 // 62. Tooltip
-export interface TooltipProps extends Omit<MuiTooltipProps, "children"> {
+// 62. Tooltip — info hover sealed berbasis MUI (Gel.3c-4 STYLE.md §6).
+// `title` TEKS; `children` elemen pemicu. slotProps konsumen-merge dihapus —
+// visual tooltip milik kit penuh. Tanpa ...rest/style/sx/slotProps.
+export interface TooltipProps {
+  title: string;
   children: React.ReactElement;
+  id?: string;
+  "aria-label"?: string;
 }
 
-// 63. Typography
-export interface TypographyProps extends Omit<MuiTypographyProps, "variant"> {
-  variant?: "h1" | "h2" | "body-md" | "label-caps";
+// 63. Typography — teks sealed berbasis MUI (P1c STYLE.md §6).
+// `variant` = hierarki VISUAL (union tertutup milik kit); `as`/`level` =
+// hierarki DOKUMEN (elemen heading yang benar; hierarki dokumen ≠ visual).
+// Tanpa style/sx/className/warna/font mentah — semua dari token kit.
+export interface TypographyProps {
+  children: React.ReactNode;
+  variant?: "h1" | "h2" | "h3" | "body-md" | "body-sm" | "caption" | "label-caps";
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "div";
+  level?: 1 | 2 | 3 | 4 | 5 | 6;
+  id?: string;
+  "aria-label"?: string;
 }
 
 // 64. Questionnaire
+// Render dipecah modul internal (progress/item/nav/complete/model, P2 selesai).
+export interface QuestionnaireOption {
+  label: string;
+  value: string;
+}
 export interface QuestionnaireQuestion {
   id: string;
   type: "single" | "multiple" | "freeform";
-  title: React.ReactNode;
-  description?: React.ReactNode;
-  options?: { label: string; value: string }[];
+  title: string;
+  description?: string;
+  options?: QuestionnaireOption[];
   placeholder?: string;
   required?: boolean;
   skippable?: boolean;
 }
 
-export interface QuestionnaireProps
-  extends Omit<
-    React.HTMLAttributes<HTMLDivElement>,
-    "onChange" | "defaultValue"
-  > {
+export interface QuestionnaireProps {
   questions: QuestionnaireQuestion[];
   value?: Record<string, string | string[]>;
   defaultValue?: Record<string, string | string[]>;
   onChange?: (value: Record<string, string | string[]>) => void;
   onComplete?: (value: Record<string, string | string[]>) => void;
-  submitLabel?: React.ReactNode;
-  skipLabel?: React.ReactNode;
-  nextLabel?: React.ReactNode;
-  backLabel?: React.ReactNode;
-  completedLabel?: React.ReactNode;
+  submitLabel?: string;
+  skipLabel?: string;
+  nextLabel?: string;
+  backLabel?: string;
+  completedLabel?: string;
+}
+
+// 65. Stack — primitif layout vertikal/horizontal (P1b STYLE.md).
+// Gap union tertutup dari token css.layout.space; tanpa warna/border/shadow.
+export interface StackProps {
+  children: React.ReactNode;
+  gap?: "xs" | "sm" | "md" | "lg";
+  direction?: "row" | "column";
+  id?: string;
+  "aria-label"?: string;
+}
+
+// 66. Grid — primitif layout kolom (P1b STYLE.md).
+// Columns union tertutup (bukan angka bebas); gap dari css.layout.space.
+export interface GridProps {
+  children: React.ReactNode;
+  columns?: 1 | 2 | 3 | 4 | 6 | 12;
+  gap?: "xs" | "sm" | "md" | "lg";
+  id?: string;
+  "aria-label"?: string;
+}
+
+// 67. Spacer — jarak vertikal semantik (P1b STYLE.md).
+// Size union tertutup dari token css.layout.space.
+export interface SpacerProps {
+  size?: "xs" | "sm" | "md" | "lg";
+  id?: string;
 }

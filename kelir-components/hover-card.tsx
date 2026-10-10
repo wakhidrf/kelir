@@ -9,7 +9,7 @@ const neumorphicBg = css.colors.surface;
 const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 
-export function HoverCard({ trigger, children, ...props }: HoverCardProps) {
+export function HoverCard({ trigger, children }: HoverCardProps) {
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const triggerRef = React.useRef<HTMLButtonElement | null>(null);
   const closeTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -36,11 +36,9 @@ export function HoverCard({ trigger, children, ...props }: HoverCardProps) {
 
   return (
     <div
-      {...props}
       style={{
         display: "inline-block",
         position: "relative",
-        ...props.style,
       }}
     >
       <button

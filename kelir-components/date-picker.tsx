@@ -33,8 +33,6 @@ export function DatePicker({
   value,
   onChange,
   placeholder,
-  style,
-  ...props
 }: DatePickerProps) {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null,
@@ -193,11 +191,9 @@ export function DatePicker({
 
   return (
     <div
-      {...props}
       style={{
         width: "100%",
         fontFamily: "inherit",
-        ...style,
       }}
     >
       <button

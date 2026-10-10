@@ -30,7 +30,7 @@ export const THEME_READY_ATTRIBUTE = "data-kelir-ready";
 // on <html> in sync and also re-includes these rules through kelirStyleCss.
 export const hideBeforeReadyCss = `
   html[data-kelir-ready="false"] body {
-    visibility: hidden;
+    visibility: hidden !important;
     background-color: #ffffff;
     color: #000000;
   }
@@ -227,9 +227,13 @@ const baseCss = `
     min-height: 100%;
     display: flex;
     flex-direction: column;
-    background-color: var(--color-background-base, #f5f6f7);
-    color: var(--color-text-primary, #1f2328);
-    font-family: var(--kelir-font-active, sans-serif);
+    /* Kritikal (§3b STYLE.md): !important di dalam layer mengalahkan CSS
+       normal tanpa layer dari konsumen — tanpa ini override polos pengimpor
+       menang atas stylesheet kit. Daftar kritis dibatasi: background, warna
+       teks, font. Di luar daftar ini dilarang !important. */
+    background-color: var(--color-background-base, #f5f6f7) !important;
+    color: var(--color-text-primary, #1f2328) !important;
+    font-family: var(--kelir-font-active, sans-serif) !important;
     color-scheme: var(--kelir-color-scheme, light);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -289,7 +293,13 @@ export function kelirStyleCss(): string {
   const blocks = themes.map(
     (theme) => `${themeSelector(theme)} {\n  ${themeVars(theme)}\n}`,
   );
-  return `${baseCss}\n${keyframes}\n${blocks.join("\n\n")}\n\n${scrollbarCss}`;
+  // Seluruh stylesheet kit dikunci dalam @layer kelir (§3b STYLE.md) agar
+  // urutan prioritas deterministik. KOREKSI v4 yang keliru: layer saja TIDAK
+  // cukup (CSS tanpa layer mengalahkan CSS ber-layer) — deklarasi kritis
+  // memakai !important di dalam layer, yang mengalahkan CSS normal tanpa
+  // layer. Jaring terakhir: screenshot regression per tema (§9).
+  const inner = `${baseCss}\n${keyframes}\n${blocks.join("\n\n")}\n\n${scrollbarCss}`;
+  return `@layer kelir {\n${inner}\n}`;
 }
 
 // Font stylesheets rendered by KelirProvider so they load before the content

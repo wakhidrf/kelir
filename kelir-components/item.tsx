@@ -1,35 +1,32 @@
+import MuiBox from "@mui/material/Box";
 import MuiListItem from "@mui/material/ListItem";
 import MuiListItemAvatar from "@mui/material/ListItemAvatar";
 import MuiListItemText from "@mui/material/ListItemText";
 import type { ItemProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
-const convexShadow = css.shadows.convex;
-const neumorphicBg = css.colors.surface;
-const textPrimary = css.colors.textPrimary;
-const textSecondary = css.colors.textSecondary;
-
 export function Item({
   title,
   description,
   media,
   action,
-  ...props
+  id,
+  "aria-label": ariaLabel,
 }: ItemProps) {
   return (
     <MuiListItem
-      {...props}
-      style={{
+      id={id}
+      aria-label={ariaLabel}
+      sx={{
         display: "flex",
         alignItems: "center",
         gap: css.layout.space.md,
         padding: `${css.layout.space.md} ${css.layout.space.lg}`,
         borderRadius: css.radius.sm,
-        backgroundColor: neumorphicBg,
+        backgroundColor: css.colors.surface,
         border: `1px solid ${css.border.light}`,
-        boxShadow: convexShadow,
+        boxShadow: css.shadows.convex,
         fontFamily: "inherit",
-        ...props.style,
       }}
     >
       {media && <MuiListItemAvatar>{media}</MuiListItemAvatar>}
@@ -39,7 +36,7 @@ export function Item({
         slotProps={{
           primary: {
             style: {
-              color: textPrimary,
+              color: css.colors.textPrimary,
               fontWeight: 600,
               fontSize: "14px",
               fontFamily: "inherit",
@@ -47,7 +44,7 @@ export function Item({
           },
           secondary: {
             style: {
-              color: textSecondary,
+              color: css.colors.textSecondary,
               fontSize: "13px",
               fontFamily: "inherit",
             },
@@ -55,9 +52,9 @@ export function Item({
         }}
       />
       {action && (
-        <div style={{ flexShrink: 0, marginLeft: css.layout.space.md }}>
+        <MuiBox sx={{ flexShrink: 0, marginLeft: css.layout.space.md }}>
           {action}
-        </div>
+        </MuiBox>
       )}
     </MuiListItem>
   );

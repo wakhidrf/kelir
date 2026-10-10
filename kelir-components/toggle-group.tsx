@@ -1,38 +1,37 @@
 import MuiToggleButton from "@mui/material/ToggleButton";
 import MuiToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import type * as React from "react";
 import type { ToggleGroupProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
-const convexShadow = css.shadows.convex;
-const concaveShadow = css.shadows.concave;
-const neumorphicBg = css.colors.surface;
-const textPrimary = css.colors.textPrimary;
-
 export function ToggleGroup({
   options,
-  exclusive,
-  ...props
+  value,
+  defaultValue,
+  onChange,
+  disabled,
+  id,
+  "aria-label": ariaLabel,
 }: ToggleGroupProps) {
-  const handleChange = (
-    event: React.MouseEvent<HTMLElement>,
-    newValue: unknown,
-  ) => {
-    props.onChange?.(newValue as never, event as never);
-  };
-
   return (
     <MuiToggleButtonGroup
-      {...props}
-      exclusive={exclusive ?? true}
-      onChange={handleChange}
+      exclusive
+      value={value}
+      defaultValue={defaultValue}
+      onChange={(_e, newValue: string | null) => {
+        // Exclusive milik kit = selalu satu terpilih; klik ulang diabaikan
+        // (bukan deselect) agar kontrak onChange(string) total.
+        if (newValue !== null) onChange?.(newValue);
+      }}
+      disabled={disabled}
+      id={id}
+      aria-label={ariaLabel}
       sx={{
         display: "inline-flex",
         gap: css.layout.space.sm,
-        backgroundColor: neumorphicBg,
+        backgroundColor: css.colors.surface,
         borderRadius: css.radius.sm,
         border: `1px solid ${css.border.light}`,
-        boxShadow: convexShadow,
+        boxShadow: css.shadows.convex,
         padding: "6px",
       }}
     >
@@ -40,28 +39,29 @@ export function ToggleGroup({
         <MuiToggleButton
           key={option.value}
           value={option.value}
+          aria-label={option.label}
           sx={{
             display: "inline-flex",
             alignItems: "center",
             gap: "6px",
-            backgroundColor: neumorphicBg,
+            backgroundColor: css.colors.surface,
             borderRadius: css.radius.sm,
             border: `1px solid ${css.border.light}`,
-            boxShadow: convexShadow,
-            color: textPrimary,
+            boxShadow: css.shadows.convex,
+            color: css.colors.textPrimary,
             fontFamily: "inherit",
             fontSize: "14px",
             textTransform: "none",
             padding: `${css.layout.space.sm} 14px`,
             "&:hover": {
-              backgroundColor: neumorphicBg,
-              boxShadow: concaveShadow,
+              backgroundColor: css.colors.surface,
+              boxShadow: css.shadows.concave,
             },
             "&.Mui-selected": {
               backgroundColor: css.colors.primary,
               color: css.on.primary,
               borderColor: css.colors.primary,
-              boxShadow: concaveShadow,
+              boxShadow: css.shadows.concave,
             },
             "&.Mui-selected:hover": {
               backgroundColor: css.colors.primary,

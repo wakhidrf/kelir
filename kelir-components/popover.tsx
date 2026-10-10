@@ -6,28 +6,36 @@ import * as React from "react";
 import type { PopoverProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
-const convexShadow = css.shadows.convex;
-const neumorphicBg = css.colors.surface;
-const surfaceBlur = css.motion.blur.backdrop;
-const textPrimary = css.colors.textPrimary;
-
 type TriggerElementProps = {
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 };
 
-export function Popover({ trigger, children, ...props }: PopoverProps) {
+export function Popover({
+  trigger,
+  children,
+  open: openProp,
+  onClose,
+  id,
+  "aria-label": ariaLabel,
+}: PopoverProps) {
   const wrapperRef = React.useRef<HTMLDivElement>(null);
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const [internalOpen, setInternalOpen] = React.useState(false);
 
-  const open = props.open ?? internalOpen;
+  const open = openProp ?? internalOpen;
   const popoverZIndex = useTheme().zIndex.modal + 1;
 
+  // TerkONTROL penuh: tanpa klik trigger tak ada anchor — jangkar ke wrapper.
   React.useEffect(() => {
-    if (props.open && wrapperRef.current) {
+    if (openProp && wrapperRef.current) {
       setAnchorEl(wrapperRef.current);
     }
-  }, [props.open]);
+  }, [openProp]);
+
+  const close = () => {
+    if (openProp === undefined) setInternalOpen(false);
+    onClose?.();
+  };
 
   const triggerElement = React.isValidElement(trigger)
     ? (trigger as React.ReactElement<TriggerElementProps>)
@@ -38,7 +46,7 @@ export function Popover({ trigger, children, ...props }: PopoverProps) {
         onClick: (event: React.MouseEvent<HTMLElement>) => {
           triggerElement.props.onClick?.(event);
           setAnchorEl(event.currentTarget);
-          setInternalOpen((value) => !value);
+          if (openProp === undefined) setInternalOpen((value) => !value);
         },
       })
     : trigger;
@@ -47,24 +55,22 @@ export function Popover({ trigger, children, ...props }: PopoverProps) {
     <div ref={wrapperRef} style={{ display: "inline-block" }}>
       {triggerNode}
       <MuiPopover
-        {...props}
         open={open}
         anchorEl={anchorEl}
-        style={{ ...props.style, zIndex: popoverZIndex }}
-        onClose={(event, reason) => {
-          setInternalOpen(false);
-          props.onClose?.(event, reason);
-        }}
+        onClose={close}
+        id={id}
+        aria-label={ariaLabel}
+        style={{ zIndex: popoverZIndex }}
         slotProps={{
           paper: {
             style: {
-              backgroundColor: neumorphicBg,
+              backgroundColor: css.colors.surface,
               borderRadius: css.radius.sm,
-              boxShadow: convexShadow,
+              boxShadow: css.shadows.convex,
               border: `1px solid ${css.border.light}`,
-              backdropFilter: surfaceBlur,
-              WebkitBackdropFilter: surfaceBlur,
-              color: textPrimary,
+              backdropFilter: css.motion.blur.backdrop,
+              WebkitBackdropFilter: css.motion.blur.backdrop,
+              color: css.colors.textPrimary,
               fontFamily: "inherit",
             },
           },

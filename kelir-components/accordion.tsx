@@ -5,38 +5,45 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import type { AccordionProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
-const neumorphicBg = css.colors.surface;
-const textPrimary = css.colors.textPrimary;
-const textSecondary = css.colors.textSecondary;
-
-export function Accordion({ summary, details, ...props }: AccordionProps) {
+// Accordion sealed (Gel.3c-6 STYLE.md §6): summary/details slot TEKS,
+// expanded TERKONTROL + onChange semantik; visual milik kit.
+export function Accordion({
+  summary,
+  details,
+  expanded,
+  defaultExpanded,
+  onChange,
+  disabled,
+}: AccordionProps) {
   return (
     <MuiAccordion
-      {...props}
-      style={{
-        backgroundColor: neumorphicBg,
+      expanded={expanded}
+      defaultExpanded={defaultExpanded}
+      // Adaptor semantik: MUI kirim (event, expanded); kontrak kit boolean saja.
+      onChange={onChange ? (_e, next) => onChange(next) : undefined}
+      disabled={disabled}
+      disableGutters
+      sx={{
+        backgroundColor: css.colors.surface,
         borderRadius: css.radius.sm,
         boxShadow: css.shadows.card,
         border: `1px solid ${css.border.light}`,
         marginBottom: css.layout.space.sm,
         fontFamily: "inherit",
-        ...props.style,
-      }}
-      disableGutters
-      sx={{
         "&::before": { display: "none" },
-        ...props.sx,
       }}
     >
       <AccordionSummary
-        expandIcon={<ExpandMoreIcon style={{ color: textPrimary }} />}
+        expandIcon={<ExpandMoreIcon style={{ color: css.colors.textPrimary }} />}
       >
-        <div style={{ fontWeight: 600, color: textPrimary }}>{summary}</div>
+        <div style={{ fontWeight: 600, color: css.colors.textPrimary }}>
+          {summary}
+        </div>
       </AccordionSummary>
       <AccordionDetails
         style={{
           borderTop: `1px solid ${css.divider}`,
-          color: textSecondary,
+          color: css.colors.textSecondary,
         }}
       >
         {details}

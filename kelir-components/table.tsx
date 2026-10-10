@@ -10,7 +10,10 @@ import { css } from "../kelir-variants";
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
-export function Table({ headers, rows, style, ...props }: TableProps) {
+export function Table<TCell extends React.ReactNode = React.ReactNode>({
+  headers,
+  rows,
+}: TableProps<TCell>) {
   return (
     <TableContainer
       style={{
@@ -20,11 +23,9 @@ export function Table({ headers, rows, style, ...props }: TableProps) {
         backgroundColor: css.colors.surface,
         overflowX: "auto",
         fontFamily: "inherit",
-        ...style,
       }}
     >
       <MuiTable
-        {...props}
         sx={{
           minWidth: 650,
           "& .MuiTableCell-root": {

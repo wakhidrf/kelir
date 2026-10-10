@@ -28,12 +28,11 @@ const navButtonStyles: React.CSSProperties = {
   transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
 };
 
-export function Carousel({
+export function Carousel<TItem extends React.ReactNode = React.ReactNode>({
   items,
   autoPlay = false,
   interval = 3000,
-  ...props
-}: CarouselProps) {
+}: CarouselProps<TItem>) {
   const [index, setIndex] = React.useState(0);
   const count = items.length;
   const slides = items.map((item, slideIndex) => ({ item, slideIndex }));
@@ -52,7 +51,6 @@ export function Carousel({
 
   return (
     <div
-      {...props}
       style={{
         backgroundColor: neumorphicBg,
         borderRadius: css.radius.sm,
@@ -61,7 +59,6 @@ export function Carousel({
         padding: css.layout.space.lg,
         color: textPrimary,
         fontFamily: "inherit",
-        ...props.style,
       }}
     >
       <div style={{ position: "relative" }}>

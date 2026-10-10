@@ -13,7 +13,6 @@ export function Bubble({
   reactions,
   collapsible = false,
   children,
-  ...props
 }: BubbleProps) {
   const [collapsed, setCollapsed] = React.useState(false);
   const isSent = variant === "sent";
@@ -48,13 +47,11 @@ export function Bubble({
 
   return (
     <div
-      {...props}
       style={{
         display: "flex",
         flexDirection: "column",
         alignItems: side === "right" ? "flex-end" : "flex-start",
         width: "100%",
-        ...props.style,
       }}
     >
       {collapsible ? (

@@ -3,24 +3,16 @@ import { css, scrollbarClass, scrollbarCss } from "../kelir-variants";
 
 const textPrimary = css.colors.textPrimary;
 
-export function ScrollArea({
-  maxHeight,
-  className,
-  children,
-  style,
-  ...props
-}: ScrollAreaProps) {
+export function ScrollArea({ maxHeight, children }: ScrollAreaProps) {
   return (
     <div
-      {...props}
-      className={[scrollbarClass, className].filter(Boolean).join(" ")}
+      className={scrollbarClass}
       style={{
         maxHeight: maxHeight,
         overflowY: "auto",
         overflowX: "hidden",
         fontFamily: "inherit",
         color: textPrimary,
-        ...style,
       }}
     >
       <style>{scrollbarCss}</style>

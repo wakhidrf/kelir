@@ -1,20 +1,20 @@
+import MuiBox from "@mui/material/Box";
 import type { SidebarProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 import { ScrollArea } from "./scroll-area";
-
-const textPrimary = css.colors.textPrimary;
 
 export function Sidebar({
   header,
   footer,
   children,
-  style,
-  ...props
+  id,
+  "aria-label": ariaLabel,
 }: SidebarProps) {
   return (
-    <div
-      {...props}
-      style={{
+    <MuiBox
+      id={id}
+      aria-label={ariaLabel}
+      sx={{
         display: "flex",
         flexDirection: "column",
         minWidth: "220px",
@@ -24,17 +24,22 @@ export function Sidebar({
         borderRadius: css.radius.sm,
         boxShadow: css.shadows.convex,
         border: `1px solid ${css.border.light}`,
-        color: textPrimary,
+        color: css.colors.textPrimary,
         fontFamily: "inherit",
         overflow: "hidden",
-        ...style,
       }}
     >
-      {header && <div style={{ flexShrink: 0 }}>{header}</div>}
-      <ScrollArea style={{ flex: 1, minHeight: 0, width: "100%" }}>
-        {children}
-      </ScrollArea>
-      {footer && <div style={{ flexShrink: 0 }}>{footer}</div>}
-    </div>
+      {header && (
+        <MuiBox sx={{ flexShrink: 0 }}>{header}</MuiBox>
+      )}
+      {/* Komposisi internal kit-ke-kit: pembungkus flex milik Sidebar,
+          ScrollArea sealed tanpa style. */}
+      <div style={{ flex: 1, minHeight: 0, width: "100%" }}>
+        <ScrollArea>{children}</ScrollArea>
+      </div>
+      {footer && (
+        <MuiBox sx={{ flexShrink: 0 }}>{footer}</MuiBox>
+      )}
+    </MuiBox>
   );
 }

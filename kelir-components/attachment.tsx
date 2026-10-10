@@ -20,7 +20,6 @@ export function Attachment({
   status = "idle",
   progress = 0,
   onRemove,
-  ...props
 }: AttachmentProps) {
   const nameNode = url ? (
     <a href={url} style={{ textDecoration: "none", color: "inherit" }}>
@@ -41,7 +40,6 @@ export function Attachment({
 
   return (
     <div
-      {...props}
       style={{
         display: "flex",
         alignItems: "center",
@@ -54,7 +52,6 @@ export function Attachment({
         color: textPrimary,
         fontFamily: "inherit",
         fontSize: "14px",
-        ...props.style,
       }}
     >
       <div
@@ -141,7 +138,8 @@ export function Attachment({
       {onRemove && (
         <button
           type="button"
-          onClick={onRemove}
+          // Adaptor zero-arg: kontrak kit tanpa event.
+          onClick={() => onRemove()}
           aria-label={`Delete ${name}`}
           style={{
             display: "flex",

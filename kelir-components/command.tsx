@@ -11,8 +11,6 @@ const textSecondary = css.colors.textSecondary;
 export function Command({
   placeholder,
   groups,
-  style,
-  ...props
 }: CommandProps) {
   const [query, setQuery] = React.useState("");
 
@@ -33,7 +31,6 @@ export function Command({
 
   return (
     <div
-      {...props}
       style={{
         backgroundColor: css.colors.surface,
         borderRadius: css.radius.sm,
@@ -42,7 +39,6 @@ export function Command({
         color: textPrimary,
         fontFamily: "inherit",
         overflow: "hidden",
-        ...style,
       }}
     >
       <div
@@ -60,6 +56,8 @@ export function Command({
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={placeholder}
+          // A11y milik kit: placeholder bukan label (aturan axe label).
+          aria-label={placeholder ?? "Cari perintah"}
           style={{
             flex: 1,
             border: "none",

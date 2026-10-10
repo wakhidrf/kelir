@@ -1,8 +1,6 @@
+import MuiBox from "@mui/material/Box";
 import type { MessageProps } from "../kelir-types";
 import { css } from "../kelir-variants";
-
-const textPrimary = css.colors.textPrimary;
-const textSecondary = css.colors.textSecondary;
 
 export function Message({
   avatar,
@@ -10,44 +8,51 @@ export function Message({
   time,
   text,
   align = "left",
-  style,
-  ...props
+  id,
+  "aria-label": ariaLabel,
 }: MessageProps) {
   const isRight = align === "right";
-
   return (
-    <div
-      {...props}
-      style={{
+    <MuiBox
+      id={id}
+      aria-label={ariaLabel}
+      sx={{
         display: "flex",
         flexDirection: "column",
         alignItems: isRight ? "flex-end" : "flex-start",
         gap: css.layout.space.xs,
         fontFamily: "inherit",
-        ...style,
       }}
     >
-      <div
-        style={{
+      <MuiBox
+        sx={{
           display: "flex",
           alignItems: "center",
           gap: css.layout.space.sm,
           fontSize: "12px",
           fontWeight: 600,
-          color: textSecondary,
+          color: css.colors.textSecondary,
         }}
       >
-        {avatar && <span style={{ display: "inline-flex" }}>{avatar}</span>}
-        <span>{sender}</span>
-        {time && <span style={{ fontWeight: 400, opacity: 0.7 }}>{time}</span>}
-      </div>
-      <div
-        style={{
+        {avatar && (
+          <MuiBox component="span" sx={{ display: "inline-flex" }}>
+            {avatar}
+          </MuiBox>
+        )}
+        <MuiBox component="span">{sender}</MuiBox>
+        {time && (
+          <MuiBox component="span" sx={{ fontWeight: 400, opacity: 0.7 }}>
+            {time}
+          </MuiBox>
+        )}
+      </MuiBox>
+      <MuiBox
+        sx={{
           maxWidth: "80%",
           padding: "10px 14px",
           borderRadius: isRight ? "14px 14px 4px 14px" : "14px 14px 14px 4px",
           backgroundColor: isRight ? css.colors.primary : css.colors.surface,
-          color: isRight ? css.on.primary : textPrimary,
+          color: isRight ? css.on.primary : css.colors.textPrimary,
           boxShadow: css.shadows.convex,
           border: `1px solid ${css.border.light}`,
           fontSize: "14px",
@@ -56,7 +61,7 @@ export function Message({
         }}
       >
         {text}
-      </div>
-    </div>
+      </MuiBox>
+    </MuiBox>
   );
 }

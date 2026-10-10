@@ -7,11 +7,10 @@ import { css } from "../kelir-variants";
 const neumorphicBg = css.colors.surface;
 const concaveShadow = css.shadows.concave;
 
-export function Resizable({
+export function Resizable<TPanel extends React.ReactNode = React.ReactNode>({
   panels,
   directions = "horizontal",
-  ...props
-}: ResizableProps) {
+}: ResizableProps<TPanel>) {
   const isVertical = directions === "vertical";
   const containerRef = React.useRef<HTMLDivElement>(null);
   const elementIdCache = React.useRef(new WeakMap<object, string>());
@@ -21,7 +20,7 @@ export function Resizable({
     panels.map(() => 100 / panels.length),
   );
 
-  const getPanelKey = (panel: React.ReactNode): string => {
+  const getPanelKey = (panel: TPanel): string => {
     if (React.isValidElement(panel)) {
       if (panel.key != null) return `kelir-${String(panel.key)}`;
       const cached = elementIdCache.current.get(panel);
@@ -75,7 +74,6 @@ export function Resizable({
 
   return (
     <div
-      {...props}
       ref={containerRef}
       style={{
         display: "flex",
@@ -84,7 +82,6 @@ export function Resizable({
         height: isVertical ? "360px" : undefined,
         userSelect: "none",
         fontFamily: "inherit",
-        ...props.style,
       }}
     >
       {panels.map((panel, index) => (

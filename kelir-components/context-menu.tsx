@@ -12,15 +12,7 @@ const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
-type TriggerElementProps = {
-  onContextMenu?: (event: React.MouseEvent<HTMLElement>) => void;
-};
-
-export function ContextMenu({
-  trigger,
-  menuItems,
-  ...props
-}: ContextMenuProps) {
+export function ContextMenu({ trigger, menuItems }: ContextMenuProps) {
   const [anchorPosition, setAnchorPosition] = React.useState<{
     top: number;
     left: number;
@@ -28,25 +20,18 @@ export function ContextMenu({
 
   const open = anchorPosition !== null;
 
-  const triggerElement = React.isValidElement(trigger)
-    ? (trigger as React.ReactElement<TriggerElementProps>)
-    : undefined;
-
-  const triggerNode = triggerElement
-    ? React.cloneElement(triggerElement, {
-        onContextMenu: (event: React.MouseEvent<HTMLElement>) => {
-          triggerElement.props.onContextMenu?.(event);
-          event.preventDefault();
-          setAnchorPosition({ top: event.clientY, left: event.clientX });
-        },
-      })
-    : trigger;
+  function handleContextMenu(event: React.MouseEvent<HTMLElement>) {
+    event.preventDefault();
+    setAnchorPosition({ top: event.clientY, left: event.clientX });
+  }
 
   return (
     <>
-      {triggerNode}
+      {/* Area klik-kanan milik kit: trigger TEKS, event ditangani kit. */}
+      <div onContextMenu={handleContextMenu} style={{ display: "inline-block" }}>
+        {trigger}
+      </div>
       <MuiMenu
-        {...props}
         open={open}
         onClose={() => setAnchorPosition(null)}
         anchorReference="anchorPosition"

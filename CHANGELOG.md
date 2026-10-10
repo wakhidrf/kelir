@@ -1,5 +1,21 @@
 # Changelog — Kelir
 
+## 2026-10-10 — Kontrak paten 69/69 sealed (epik Gel.2–Gel.3c-11 + P1b/P1d/P2)
+
+### Added
+- **Seluruh 69 kontrak sealed**: semua `*Props` di `kelir-types.ts` eksplisit (tanpa warisan MUI/HTML); tiap komponen punya `*.test-d.tsx` (JSX + `@ts-expect-error` di baris prop) + `*.test.tsx` (paksa spread via `any` + `axe`) — pola §6b STYLE.md.
+- **Generik ketat (P2)**: `Chart<TDatum extends object>`, `Table<TCell>`, `Carousel<TItem>`, `Resizable<TPanel>` — default kompatibel, inferensi jalan.
+- **A11y milik kit (P2)**: Toast `role=status` + `aria-live=polite`; Dialog focus-trap terbukti; Tooltip/Popover pemicu fokusabel; Menu ArrowDown; Command input + Questionnaire textarea `aria-label`.
+- **Screenshot regression (P1d)**: `scripts/kelir-shots.mjs` dep-free (Chrome/Edge via CDP) + baseline 11 tema di `__shots__/`.
+- **Showcase 64→68**: demo Grid, IconButton, Spacer, Stack; README Complete List + counter disinkronkan.
+
+### Changed (breaking, sadar)
+- Slot teks turun ke `string`; pemicu render-sendiri (tanpa `cloneElement`); `onChange/onClose/onRemove` semantik tanpa event (adaptor zero-arg milik kit); Combobox pilih-satu; `MessageScroller.style.maxHeight` → prop `maxHeight`.
+- **Questionnaire dipecah (P2)**: orkestrasi + 5 modul SRP (`model/progress/item/nav/complete`); kontrak publik nol-ubah.
+
+### Verification
+- `tsc` bersih; `npm run test` 142/142 (70 file); `lint` (Biome) bersih; `build` OK; `kelir:guard` 0 ERROR; `kelir:drift` OK (69 §5 vs 85 interface); `kelir:status:check` OK (69/69 sealed); `kelir:shots:check` OK (11 tema identik baseline).
+
 ## 2026-09-29 — Chart/DataTable dukung prop title (ISSUE-004)
 
 ### Fixed

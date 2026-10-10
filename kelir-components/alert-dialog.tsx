@@ -11,6 +11,9 @@ const neumorphicBg = css.colors.surface;
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
+// Konfirmasi sealed (Gel.2 STYLE.md §6): basis MUI; tombol via Button sealed
+// (ghost/cancel + destructive/confirm); Escape/backdrop = onCancel.
+// Tanpa ...rest, tanpa style/sx/className, tanpa disableScrollLock konsumen.
 export function AlertDialog({
   open,
   title,
@@ -19,15 +22,20 @@ export function AlertDialog({
   confirmText = "Confirm",
   onCancel,
   onConfirm,
-  disableScrollLock = true,
-  ...props
+  id,
+  "aria-label": ariaLabel,
 }: AlertDialogProps) {
+  const titleId = `${id ?? "kelir-alert-dialog"}-title`;
+  const descId = `${id ?? "kelir-alert-dialog"}-description`;
   return (
     <MuiDialog
-      {...props}
-      disableScrollLock={disableScrollLock}
       open={open}
-      onClose={props.onClose ?? onCancel}
+      onClose={() => onCancel?.()}
+      id={id}
+      aria-label={ariaLabel}
+      aria-labelledby={titleId}
+      aria-describedby={descId}
+      disableScrollLock
       slotProps={{
         paper: {
           style: {
@@ -43,11 +51,15 @@ export function AlertDialog({
         },
       }}
     >
-      <DialogTitle style={{ color: textPrimary, fontWeight: 700 }}>
+      <DialogTitle
+        id={titleId}
+        style={{ color: textPrimary, fontWeight: 700 }}
+      >
         {title}
       </DialogTitle>
       <DialogContent>
         <div
+          id={descId}
           style={{ color: textSecondary, fontSize: "14px", lineHeight: "1.6" }}
         >
           {description}

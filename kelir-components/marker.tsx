@@ -1,3 +1,4 @@
+import MuiBox from "@mui/material/Box";
 import type * as React from "react";
 import type { MarkerProps } from "../kelir-types";
 import { css, statusColors } from "../kelir-variants";
@@ -5,8 +6,8 @@ import { css, statusColors } from "../kelir-variants";
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
-const markerColors: Record<
-  NonNullable<MarkerProps["color"]>,
+const markerPalettes: Record<
+  NonNullable<MarkerProps["intent"]>,
   { bg: string; fg: string }
 > = {
   primary: { bg: css.colors.primary, fg: css.on.primary },
@@ -16,13 +17,18 @@ const markerColors: Record<
   warning: statusColors.warning,
 };
 
+// Penanda semantik sealed (P1c STYLE.md §6): basis MUI (MuiBox) untuk
+// multi-platform; `intent` = MAKNA (bukan warna mentah); tanpa warisan
+// HTMLAttributes, tanpa style/className/event konsumen. Visual per varian
+// milik kit sepenuhnya.
 export function Marker({
   variant = "status",
-  color = "primary",
+  intent = "primary",
   children,
-  style,
+  id,
+  "aria-label": ariaLabel,
 }: MarkerProps) {
-  const palette = markerColors[color];
+  const palette = markerPalettes[intent];
 
   const getContainer = (): React.CSSProperties => {
     if (variant === "status") {
@@ -74,11 +80,10 @@ export function Marker({
   const container: React.CSSProperties = {
     ...getContainer(),
     fontFamily: "inherit",
-    ...style,
   };
 
   return (
-    <div style={container}>
+    <MuiBox id={id} aria-label={ariaLabel} style={container}>
       {variant === "status" && (
         <span
           style={{
@@ -121,6 +126,6 @@ export function Marker({
           }}
         />
       )}
-    </div>
+    </MuiBox>
   );
 }
