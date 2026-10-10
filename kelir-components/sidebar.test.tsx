@@ -22,6 +22,12 @@ describe("Sidebar sealed + responsif (ISSUE-005 §6b)", () => {
     expect(nav.textContent).toContain("Menu");
     expect(nav.textContent).toContain("Item 1");
     expect(nav.textContent).toContain("v1");
+    // Area tengah bounded (ScrollArea maxHeight 100%) → scroll internal
+    // hidup bila root bounded; jsdom tak punya layout, jadi assert wiring.
+    const scrollers = Array.from(nav.querySelectorAll("div")).filter(
+      (d) => (d as HTMLElement).style.maxHeight === "100%",
+    );
+    expect(scrollers.length).toBe(1);
   });
 
   it("mode overlay: Drawer + Escape memicu onOpenChange(false)", () => {

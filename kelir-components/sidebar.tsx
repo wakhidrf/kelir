@@ -22,9 +22,11 @@ function SidebarBody({
   return (
     <>
       {header && <MuiBox sx={{ flexShrink: 0 }}>{header}</MuiBox>}
-      {/* Komposisi internal kit-ke-kit: area tengah isi sisa ruang. */}
-      <MuiBox sx={{ flex: 1, minHeight: 0, width: "100%", overflow: "hidden" }}>
-        <ScrollArea>{children}</ScrollArea>
+      {/* Komposisi internal kit-ke-kit: area tengah isi sisa ruang dan
+          scroll di dalam (ScrollArea bounded via maxHeight 100% bila root
+          bounded; bila root tak bounded, isi tumbuh mengikuti halaman). */}
+      <MuiBox sx={{ flex: 1, minHeight: 0, width: "100%" }}>
+        <ScrollArea maxHeight="100%">{children}</ScrollArea>
       </MuiBox>
       {footer && <MuiBox sx={{ flexShrink: 0 }}>{footer}</MuiBox>}
     </>
@@ -89,7 +91,11 @@ export function Sidebar({
         flexDirection: "column",
         position: "sticky",
         top: 0,
-        height: "100dvh",
+        // Ikuti parent bila bounded (mis. kotak 680px showcase → scroll
+        // internal); bila tak bounded, tumbuh mengikuti halaman; dibatasi
+        // viewport agar tak pernah lebih tinggi dari layar.
+        height: "100%",
+        maxHeight: "100dvh",
         width: SIDEBAR_WIDTH,
         flexShrink: 0,
         backgroundColor: css.colors.surface,
