@@ -11,17 +11,22 @@ const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
+// Kartu sealed (P1c STYLE.md §6): basis MUI (MuiCard + sub-komponen) untuk
+// multi-platform; hanya props kontrak yang dipakai — tanpa ...rest ke DOM,
+// tanpa style/sx/className konsumen. Gaya header/konten/footer milik kit.
 export function Card({
   title,
   subtitle,
   headerActions,
   footer,
   children,
-  ...props
+  id,
+  "aria-label": ariaLabel,
 }: CardProps) {
   return (
     <MuiCard
-      {...props}
+      id={id}
+      aria-label={ariaLabel}
       style={{
         backgroundColor: neumorphicBg,
         borderRadius: css.radius.sm,
@@ -30,7 +35,6 @@ export function Card({
         backdropFilter: surfaceBlur,
         WebkitBackdropFilter: surfaceBlur,
         fontFamily: "inherit",
-        ...props.style,
       }}
     >
       {(title || subtitle || headerActions) && (

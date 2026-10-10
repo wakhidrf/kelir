@@ -10,8 +10,7 @@ export function MessageScroller({
   children,
   onLoadMore,
   hasMore,
-  style,
-  ...props
+  maxHeight = "300px",
 }: MessageScrollerProps) {
   const containerRef = React.useRef<HTMLDivElement>(null);
 
@@ -37,15 +36,13 @@ export function MessageScroller({
   return (
     <div
       ref={containerRef}
-      {...props}
-      className={[scrollbarClass, props.className].filter(Boolean).join(" ")}
+      className={scrollbarClass}
       onScroll={handleScroll}
       style={{
         overflowY: "auto",
-        maxHeight: style?.maxHeight ?? "300px",
+        maxHeight: maxHeight,
         fontFamily: "inherit",
         color: textSecondary,
-        ...style,
       }}
     >
       <style>{scrollbarCss}</style>

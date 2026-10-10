@@ -51,7 +51,7 @@ function isSameDay(a: Date, b: Date) {
   );
 }
 
-export function Calendar({ value, onChange, ...props }: CalendarProps) {
+export function Calendar({ value, onChange }: CalendarProps) {
   const [viewDate, setViewDate] = React.useState(() => value ?? new Date());
 
   React.useEffect(() => {
@@ -66,7 +66,6 @@ export function Calendar({ value, onChange, ...props }: CalendarProps) {
 
   return (
     <div
-      {...props}
       style={{
         backgroundColor: neumorphicBg,
         borderRadius: css.radius.sm,
@@ -75,7 +74,6 @@ export function Calendar({ value, onChange, ...props }: CalendarProps) {
         padding: css.layout.space.lg,
         color: textPrimary,
         fontFamily: "inherit",
-        ...props.style,
       }}
     >
       <div

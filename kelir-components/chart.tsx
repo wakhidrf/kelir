@@ -25,14 +25,14 @@ function getValue(row: ChartRow, key: string) {
   return typeof row[key] === "number" ? (row[key] as number) : 0;
 }
 
-export function Chart({
+export function Chart<TDatum extends object = ChartRow>({
   data,
   categories,
   dataKey,
   type = "bar",
   title,
-  ...props
-}: ChartProps) {
+}: ChartProps<TDatum>) {
+  // Akses kunci dinamis milik kit: cast internal + guard typeof di getValue.
   const rows = data as ChartRow[];
   const first = rows[0] ?? {};
   const categoriesAreSeries =
@@ -54,7 +54,6 @@ export function Chart({
 
   return (
     <div
-      {...props}
       style={{
         display: "flex",
         flexDirection: "column",
@@ -66,7 +65,6 @@ export function Chart({
         padding: css.layout.space.lg,
         color: textPrimary,
         fontFamily: "inherit",
-        ...props.style,
       }}
     >
       {title && (

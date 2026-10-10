@@ -1,19 +1,16 @@
 "use client";
 
+import MuiBox from "@mui/material/Box";
 import * as React from "react";
 import type { InputOtpProps } from "../kelir-types";
 import { css } from "../kelir-variants";
-
-const concaveShadow = css.shadows.concave;
-const neumorphicBg = css.colors.surface;
-const textPrimary = css.colors.textPrimary;
 
 export function InputOtp({
   value,
   onChange,
   length = 4,
-  style,
-  ...props
+  id,
+  "aria-label": ariaLabel,
 }: InputOtpProps) {
   const inputRefs = React.useRef<Array<HTMLInputElement | null>>([]);
   const [focusedIndex, setFocusedIndex] = React.useState<number | null>(null);
@@ -84,13 +81,14 @@ export function InputOtp({
   };
 
   return (
-    <div
-      {...props}
-      style={{
+    <MuiBox
+      role="group"
+      id={id}
+      aria-label={ariaLabel ?? "Kode verifikasi"}
+      sx={{
         display: "flex",
         gap: css.layout.space.sm,
         fontFamily: "inherit",
-        ...style,
       }}
     >
       {slots.map((slot) => (
@@ -115,13 +113,13 @@ export function InputOtp({
             height: "52px",
             textAlign: "center",
             boxSizing: "border-box",
-            backgroundColor: neumorphicBg,
+            backgroundColor: css.colors.surface,
             borderRadius: css.radius.sm,
             border: `1px solid ${
               focusedIndex === slot ? css.colors.primary : css.border.light
             }`,
-            boxShadow: concaveShadow,
-            color: textPrimary,
+            boxShadow: css.shadows.concave,
+            color: css.colors.textPrimary,
             fontFamily: "inherit",
             fontSize: "18px",
             fontWeight: 600,
@@ -130,6 +128,6 @@ export function InputOtp({
           }}
         />
       ))}
-    </div>
+    </MuiBox>
   );
 }

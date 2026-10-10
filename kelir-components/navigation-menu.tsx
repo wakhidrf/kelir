@@ -4,20 +4,14 @@ import { css } from "../kelir-variants";
 
 const textSecondary = css.colors.textSecondary;
 
-export function NavigationMenu({
-  items,
-  style,
-  ...props
-}: NavigationMenuProps) {
+export function NavigationMenu({ items }: NavigationMenuProps) {
   return (
     <nav
-      {...props}
       style={{
         display: "flex",
         flexDirection: "column",
         gap: css.layout.space.xs,
         fontFamily: "inherit",
-        ...style,
       }}
     >
       {items.map((item) => {
@@ -62,7 +56,8 @@ export function NavigationMenu({
             <a
               key={item.label}
               href={item.href}
-              onClick={item.onClick}
+              // Adaptor zero-arg: kontrak kit tanpa event.
+              onClick={() => item.onClick?.()}
               style={{ ...itemStyle, textDecoration: "none" }}
             >
               {content}
@@ -74,7 +69,8 @@ export function NavigationMenu({
           <button
             key={item.label}
             type="button"
-            onClick={item.onClick}
+            // Adaptor zero-arg: kontrak kit tanpa event.
+            onClick={() => item.onClick?.()}
             style={itemStyle}
           >
             {content}

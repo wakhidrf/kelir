@@ -10,7 +10,11 @@ import {
   persistThemeCookie,
 } from "@/controllers/theme-actions";
 import { fontLinks, kelirStyleCss, THEME_ATTRIBUTE } from "./kelir-styles";
-import type { KelirContextValue, Theme } from "./kelir-types";
+import type {
+  KelirContextValue,
+  KelirProviderProps,
+  Theme,
+} from "./kelir-types";
 import { rounded, variants } from "./kelir-variants";
 
 export const KelirContext = React.createContext<KelirContextValue | null>(null);
@@ -21,14 +25,6 @@ export function useKelir() {
     throw new Error("useKelir must be used within a KelirProvider");
   }
   return context;
-}
-
-interface KelirProviderProps {
-  children: React.ReactNode;
-  /** Consumer-provided default theme — for this app the theme cookie already
-   *  resolved on the server, so the first render matches the persisted choice
-   *  and there is no flash. */
-  defaultTheme: Theme;
 }
 
 export function KelirProvider({ children, defaultTheme }: KelirProviderProps) {

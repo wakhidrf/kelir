@@ -1,44 +1,36 @@
 import MuiTooltip from "@mui/material/Tooltip";
-import type * as React from "react";
 import type { TooltipProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
-const convexShadow = css.shadows.convex;
-const neumorphicBg = css.colors.surface;
-const surfaceBlur = css.motion.blur.backdrop;
-const textPrimary = css.colors.textPrimary;
-
-type SlotStyle = { style?: React.CSSProperties };
-
-export function Tooltip({ children, ...props }: TooltipProps) {
-  const tooltipSlot = props.slotProps?.tooltip as SlotStyle | undefined;
-  const arrowSlot = props.slotProps?.arrow as SlotStyle | undefined;
-
+export function Tooltip({
+  title,
+  children,
+  id,
+  "aria-label": ariaLabel,
+}: TooltipProps) {
   return (
     <MuiTooltip
-      {...props}
+      title={title}
+      arrow
+      id={id}
+      aria-label={ariaLabel}
       slotProps={{
-        ...props.slotProps,
         tooltip: {
-          ...(tooltipSlot ?? {}),
           style: {
-            backgroundColor: neumorphicBg,
+            backgroundColor: css.colors.surface,
             borderRadius: css.radius.sm,
-            boxShadow: convexShadow,
+            boxShadow: css.shadows.convex,
             border: `1px solid ${css.border.light}`,
-            backdropFilter: surfaceBlur,
-            WebkitBackdropFilter: surfaceBlur,
-            color: textPrimary,
+            backdropFilter: css.motion.blur.backdrop,
+            WebkitBackdropFilter: css.motion.blur.backdrop,
+            color: css.colors.textPrimary,
             fontSize: "12px",
             fontFamily: "inherit",
-            ...tooltipSlot?.style,
           },
         },
         arrow: {
-          ...(arrowSlot ?? {}),
           style: {
-            color: neumorphicBg,
-            ...arrowSlot?.style,
+            color: css.colors.surface,
           },
         },
       }}

@@ -1,0 +1,35 @@
+import { Stack } from "./stack";
+
+// Type-test negatif (§6/§6b STYLE.md): JSX langsung + nilai literal.
+// children layout = ReactNode (boleh komponen Kelir apa pun); gap/direction
+// union tertutup; tanpa style/sx/className/slot passthrough, tanpa ...rest.
+export function stackContractChecks() {
+  const okColumn = (
+    <Stack gap="md" direction="column" id="a" aria-label="b">
+      <span>isi</span>
+    </Stack>
+  );
+  const okRow = (
+    <Stack gap="xs" direction="row">
+      teks
+    </Stack>
+  );
+
+  // @ts-expect-error — style passthrough haram (layout milik Stack)
+  const noStyle = <Stack style={{ marginTop: 8 }}>isi</Stack>;
+  // @ts-expect-error — sx passthrough haram
+  const noSx = <Stack sx={{ mt: 1 }}>isi</Stack>;
+  // @ts-expect-error — className passthrough haram
+  const noClassName = <Stack className="my-stack">isi</Stack>;
+  // @ts-expect-error — gap angka bebas haram (union tertutup)
+  const noRawGap = <Stack gap={24}>isi</Stack>;
+  // @ts-expect-error — direction bebas haram (row|column saja)
+  const noRawDirection = <Stack direction="row-reverse">isi</Stack>;
+  // @ts-expect-error — prop tak dikenal tidak diteruskan ke DOM
+  const noRest = <Stack title="x">isi</Stack>;
+  // NOTE: atribut data-* (mis. data-testid untuk test hook) DIIZINKAN oleh
+  // tipe React 19 pada komponen kustom — ditoleransi karena tak berefek
+  // visual; semua prop lain di luar kontrak ditolak (§6b STYLE.md).
+
+  return { okColumn, okRow, noStyle, noSx, noClassName, noRawGap, noRawDirection, noRest };
+}

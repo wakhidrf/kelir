@@ -8,12 +8,35 @@ const neumorphicBg = css.colors.surface;
 const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 
-export function Toast({ message, actionButton, ...props }: ToastProps) {
+// Notifikasi sementara sealed (Gel.2 STYLE.md §6): basis MUI; `onClose`
+// semantik (alasan MUI dibuang); konten + aksi milik kit. Tanpa ...rest,
+// tanpa style/sx/className/anchorOrigin konsumen.
+export function Toast({
+  message,
+  actionButton,
+  open,
+  onClose,
+  autoHideDuration = 6000,
+  id,
+  "aria-label": ariaLabel,
+}: ToastProps) {
   return (
-    <MuiSnackbar {...props}>
+    <MuiSnackbar
+      open={open}
+      onClose={(_e, _reason) => onClose()}
+      autoHideDuration={autoHideDuration}
+      id={id}
+      aria-label={ariaLabel}
+    >
       <SnackbarContent
         message={
-          <span style={{ color: textPrimary, fontSize: "14px" }}>
+          // A11y milik kit (P2 PLAN.md): pesan = live region sopan agar
+          // screen reader mengumumkan notifikasi tanpa mencuri fokus.
+          <span
+            role="status"
+            aria-live="polite"
+            style={{ color: textPrimary, fontSize: "14px" }}
+          >
             {message}
           </span>
         }

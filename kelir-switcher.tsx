@@ -23,9 +23,9 @@ export function KelirSwitcher() {
     <Select
       size="small"
       value={theme}
-      onChange={(e) => setTheme(e.target.value as Theme)}
+      onChange={(v) => setTheme(v as Theme)}
       options={themes.map((t) => ({ value: t.slug, label: t.label }))}
-      style={{ fontFamily: "inherit", fontSize: "13px", fontWeight: 500 }}
+      aria-label="Pilih tema"
     />
   );
 }

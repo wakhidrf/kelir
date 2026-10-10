@@ -9,7 +9,20 @@ const neumorphicBg = css.colors.surface;
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
-export function Button({ variant = "primary", ...props }: ButtonProps) {
+// Sealed (P1c STYLE.md §6): props eksplisit, tanpa ...rest ke DOM, tanpa
+// style/sx/className passthrough. Visual di bawah milik Kelir sepenuhnya.
+export function Button({
+  children,
+  startIcon,
+  endIcon,
+  variant = "primary",
+  onClick,
+  type = "button",
+  disabled,
+  "aria-label": ariaLabel,
+  "aria-describedby": ariaDescribedby,
+  id,
+}: ButtonProps) {
   const isPrimary = variant === "primary";
   const isSecondary = variant === "secondary";
   const isDestructive = variant === "destructive";
@@ -24,7 +37,6 @@ export function Button({ variant = "primary", ...props }: ButtonProps) {
       padding: "10px 20px",
       transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
       fontFamily: "inherit",
-      ...props.style,
     };
 
     if (isPrimary) {
@@ -62,8 +74,15 @@ export function Button({ variant = "primary", ...props }: ButtonProps) {
 
   return (
     <MuiButton
-      {...props}
       variant="text"
+      disabled={disabled}
+      onClick={onClick}
+      type={type}
+      id={id}
+      aria-label={ariaLabel}
+      aria-describedby={ariaDescribedby}
+      startIcon={startIcon}
+      endIcon={endIcon}
       style={getStyles()}
       sx={{
         "&:hover": {
@@ -96,6 +115,8 @@ export function Button({ variant = "primary", ...props }: ButtonProps) {
           opacity: 1,
         },
       }}
-    />
+    >
+      {children}
+    </MuiButton>
   );
 }

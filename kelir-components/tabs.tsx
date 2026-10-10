@@ -1,28 +1,37 @@
 "use client";
 
+import MuiBox from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import MuiTabs from "@mui/material/Tabs";
 import * as React from "react";
 import type { TabsProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
-const textPrimary = css.colors.textPrimary;
-const textSecondary = css.colors.textSecondary;
-
-export function Tabs({ items, defaultValue, style, ...props }: TabsProps) {
+export function Tabs({
+  items,
+  value: valueProp,
+  defaultValue,
+  onChange,
+  id,
+  "aria-label": ariaLabel,
+}: TabsProps) {
   const firstValue = items[0]?.value;
-  const [value, setValue] = React.useState<string>(
+  const [inner, setInner] = React.useState<string>(
     defaultValue ?? firstValue ?? "",
   );
+  const value = valueProp ?? inner;
+  const select = (next: string) => {
+    if (valueProp === undefined) setInner(next);
+    onChange?.(next);
+  };
 
   const activeItem = items.find((item) => item.value === value);
 
   return (
-    <div style={{ fontFamily: "inherit", ...style }}>
+    <MuiBox id={id} aria-label={ariaLabel} sx={{ fontFamily: "inherit" }}>
       <MuiTabs
-        {...props}
         value={activeItem ? value : false}
-        onChange={(_e, newValue: string) => setValue(newValue)}
+        onChange={(_e, newValue: string) => select(newValue)}
         textColor="inherit"
         slotProps={{
           indicator: {
@@ -39,20 +48,23 @@ export function Tabs({ items, defaultValue, style, ...props }: TabsProps) {
             key={item.value}
             value={item.value}
             label={item.label}
-            style={{
+            sx={{
               fontFamily: "inherit",
               fontSize: "13px",
               fontWeight: 600,
               textTransform: "none",
-              color: item.value === value ? textPrimary : textSecondary,
+              color:
+                item.value === value
+                  ? css.colors.textPrimary
+                  : css.colors.textSecondary,
               minHeight: "44px",
             }}
           />
         ))}
       </MuiTabs>
-      <div style={{ paddingTop: css.layout.space.md }}>
+      <MuiBox sx={{ paddingTop: css.layout.space.md }}>
         {activeItem?.content ?? null}
-      </div>
-    </div>
+      </MuiBox>
+    </MuiBox>
   );
 }

@@ -1,58 +1,50 @@
+import MuiBox from "@mui/material/Box";
 import type { InputGroupProps } from "../kelir-types";
 import { css } from "../kelir-variants";
-
-const convexShadow = css.shadows.convex;
-const neumorphicBg = css.colors.surface;
-const textSecondary = css.colors.textSecondary;
 
 export function InputGroup({
   prefix,
   suffix,
   children,
-  style,
-  ...props
+  id,
+  "aria-label": ariaLabel,
 }: InputGroupProps) {
+  const adornmentSx = {
+    color: css.colors.textSecondary,
+    fontSize: "14px",
+    fontWeight: 600,
+    whiteSpace: "nowrap",
+    display: "inline-flex",
+  } as const;
   return (
-    <div
-      {...props}
-      style={{
+    <MuiBox
+      id={id}
+      aria-label={ariaLabel}
+      sx={{
         display: "flex",
         alignItems: "center",
         gap: css.layout.space.sm,
-        backgroundColor: neumorphicBg,
+        backgroundColor: css.colors.surface,
         borderRadius: css.radius.sm,
         border: `1px solid ${css.border.light}`,
-        boxShadow: convexShadow,
+        boxShadow: css.shadows.convex,
         padding: `${css.layout.space.xs} ${css.layout.space.sm}`,
         fontFamily: "inherit",
-        ...style,
       }}
     >
       {prefix && (
-        <span
-          style={{
-            color: textSecondary,
-            fontSize: "14px",
-            whiteSpace: "nowrap",
-            display: "inline-flex",
-          }}
-        >
+        <MuiBox component="span" sx={adornmentSx}>
           {prefix}
-        </span>
+        </MuiBox>
       )}
-      <div style={{ flex: 1, display: "flex", minWidth: 0 }}>{children}</div>
+      <MuiBox sx={{ flex: 1, display: "flex", minWidth: 0 }}>
+        {children}
+      </MuiBox>
       {suffix && (
-        <span
-          style={{
-            color: textSecondary,
-            fontSize: "14px",
-            whiteSpace: "nowrap",
-            display: "inline-flex",
-          }}
-        >
+        <MuiBox component="span" sx={adornmentSx}>
           {suffix}
-        </span>
+        </MuiBox>
       )}
-    </div>
+    </MuiBox>
   );
 }

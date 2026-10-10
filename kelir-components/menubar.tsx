@@ -9,7 +9,7 @@ import { css } from "../kelir-variants";
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
-export function Menubar({ menus, style, ...props }: MenubarProps) {
+export function Menubar({ menus }: MenubarProps) {
   const [openIndex, setOpenIndex] = React.useState<number | null>(null);
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
 
@@ -25,7 +25,6 @@ export function Menubar({ menus, style, ...props }: MenubarProps) {
 
   return (
     <div
-      {...props}
       style={{
         display: "flex",
         alignItems: "center",
@@ -36,7 +35,6 @@ export function Menubar({ menus, style, ...props }: MenubarProps) {
         boxShadow: css.shadows.convex,
         border: `1px solid ${css.border.light}`,
         fontFamily: "inherit",
-        ...style,
       }}
     >
       {menus.map((menu, index) => (

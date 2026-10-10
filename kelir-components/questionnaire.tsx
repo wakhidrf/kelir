@@ -1,45 +1,31 @@
 "use client";
 
 import * as React from "react";
-import type { QuestionnaireProps, QuestionnaireQuestion } from "../kelir-types";
+import type { QuestionnaireProps } from "../kelir-types";
 import { css } from "../kelir-variants";
-import { Button } from "./button";
-import { Checkbox } from "./checkbox";
-import { RadioGroup } from "./radio-group";
-import { Textarea } from "./textarea";
-
-type AnswerValue = string | string[];
-type Answers = Record<string, AnswerValue>;
+import { QuestionnaireComplete } from "./questionnaire-complete";
+import { QuestionnaireItem } from "./questionnaire-item";
+import {
+  type Answers,
+  type AnswerValue,
+  isAnswered,
+} from "./questionnaire-model";
+import { QuestionnaireNav } from "./questionnaire-nav";
+import { QuestionnaireProgress } from "./questionnaire-progress";
 
 const surface = css.colors.surface;
-const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 const borderLight = css.border.light;
-const primary = css.colors.primary;
-const onPrimary = css.on.primary;
-const track = css.track;
 const convex = css.shadows.convex;
 const blur = css.motion.blur.backdrop;
-const radiusSm = css.radius.sm;
 const radiusLg = css.radius.lg;
-const spaceXs = css.layout.space.xs;
-const spaceSm = css.layout.space.sm;
-const spaceMd = css.layout.space.md;
 const spaceLg = css.layout.space.lg;
 const spaceXl = css.layout.space.xl;
-const typeH2 = css.typography.scale.h2;
 const typeBody = css.typography.scale.body;
 
-function isAnswered(
-  question: QuestionnaireQuestion,
-  value: AnswerValue | undefined,
-): boolean {
-  if (question.type === "multiple") {
-    return Array.isArray(value) && value.length > 0;
-  }
-  return typeof value === "string" && value.trim().length > 0;
-}
-
+// Questionnaire sealed: orkestrasi state + langkah (pecah P2 PLAN.md §8).
+// Kontrak publik tak berubah; render dipecah ke modul internal
+// (progress/item/nav/complete/model). Tanpa ...rest/style/sx/className.
 export function Questionnaire({
   questions,
   value,
@@ -51,8 +37,6 @@ export function Questionnaire({
   nextLabel = "Next",
   backLabel = "Back",
   completedLabel,
-  style,
-  ...props
 }: QuestionnaireProps) {
   const isControlled = value !== undefined;
   const seed = (defaultValue ?? value ?? {}) as Answers;
@@ -76,7 +60,6 @@ export function Questionnaire({
   const answered = current ? isAnswered(current, answers[current.id]) : true;
   const canProceed = !current?.required || current.skippable ? true : answered;
   const isLast = step === total - 1;
-  const pct = completed ? 100 : total === 0 ? 0 : ((step + 1) / total) * 100;
 
   const goNext = () => {
     if (!canProceed) return;
@@ -106,60 +89,13 @@ export function Questionnaire({
     setCompleted(false);
   };
 
-  const renderQuestion = (question: QuestionnaireQuestion) => {
-    const answer = answers[question.id];
-    if (question.type === "single") {
-      return (
-        <RadioGroup
-          value={(typeof answer === "string" ? answer : "") as string}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setAnswer(question.id, e.target.value)
-          }
-          options={question.options ?? []}
-        />
-      );
-    }
-    if (question.type === "multiple") {
-      const selected = Array.isArray(answer) ? answer : [];
-      return (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: spaceSm,
-          }}
-        >
-          {(question.options ?? []).map((option) => (
-            <Checkbox
-              key={option.value}
-              label={option.label}
-              checked={selected.includes(option.value)}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                const checked = e.target.checked;
-                const nextSelected = checked
-                  ? [...selected, option.value]
-                  : selected.filter((v) => v !== option.value);
-                setAnswer(question.id, nextSelected);
-              }}
-            />
-          ))}
-        </div>
-      );
-    }
-    return (
-      <Textarea
-        placeholder={question.placeholder}
-        value={(typeof answer === "string" ? answer : "") as string}
-        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-          setAnswer(question.id, e.target.value)
-        }
-      />
-    );
-  };
+  const answeredCount = Object.keys(answers).filter((id) => {
+    const q = questions.find((item) => item.id === id);
+    return q ? isAnswered(q, answers[id]) : false;
+  }).length;
 
   return (
     <div
-      {...props}
       style={{
         width: "100%",
         maxWidth: "520px",
@@ -174,7 +110,6 @@ export function Questionnaire({
         flexDirection: "column",
         gap: spaceLg,
         fontFamily: "inherit",
-        ...style,
       }}
     >
       {total === 0 ? (
@@ -188,182 +123,36 @@ export function Questionnaire({
           No questions to display.
         </div>
       ) : completed ? (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: spaceMd,
-            alignItems: "center",
-            textAlign: "center",
-          }}
-        >
-          <div
-            style={{
-              width: 56,
-              height: 56,
-              borderRadius: "50%",
-              backgroundColor: primary,
-              color: onPrimary,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "28px",
-              boxShadow: convex,
-            }}
-          >
-            ✓
-          </div>
-          <div
-            style={{
-              fontSize: typeH2,
-              fontWeight: 700,
-              color: textPrimary,
-            }}
-          >
-            {completedLabel ?? "Thank you!"}
-          </div>
-          <div style={{ fontSize: typeBody, color: textSecondary }}>
-            {
-              Object.keys(answers).filter((id) => {
-                const q = questions.find((item) => item.id === id);
-                return q ? isAnswered(q, answers[id]) : false;
-              }).length
-            }{" "}
-            of {total} questions answered.
-          </div>
-          <Button variant="ghost" onClick={restart}>
-            Restart
-          </Button>
-        </div>
+        <QuestionnaireComplete
+          answeredCount={answeredCount}
+          total={total}
+          completedLabel={completedLabel}
+          onRestart={restart}
+        />
       ) : (
-        <>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: spaceSm,
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                fontSize: "12px",
-                fontWeight: 600,
-                letterSpacing: "0.5px",
-                textTransform: "uppercase",
-                color: textSecondary,
-              }}
-            >
-              <span>
-                Step {step + 1} of {total}
-              </span>
-              <span>{Math.round(pct)}%</span>
-            </div>
-            <div
-              style={{
-                height: 6,
-                borderRadius: radiusSm,
-                backgroundColor: track,
-                overflow: "hidden",
-              }}
-            >
-              <div
-                style={{
-                  height: "100%",
-                  width: `${pct}%`,
-                  backgroundColor: primary,
-                  borderRadius: radiusSm,
-                  transition: `width ${css.motion.duration.base} ${css.motion.easing.curve}`,
-                }}
-              />
-            </div>
-          </div>
-
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: spaceSm }}
-          >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: spaceXs,
-                flexWrap: "wrap",
-              }}
-            >
-              <h3
-                style={{
-                  margin: 0,
-                  fontSize: typeH2,
-                  fontWeight: 700,
-                  color: textPrimary,
-                }}
-              >
-                {current.title}
-              </h3>
-              {current.required && !current.skippable && (
-                <span style={{ color: primary, fontSize: "14px" }}>*</span>
-              )}
-              {current.skippable && (
-                <span
-                  style={{
-                    fontSize: "11px",
-                    fontWeight: 600,
-                    color: textSecondary,
-                    border: `1px solid ${borderLight}`,
-                    borderRadius: radiusSm,
-                    padding: "2px 8px",
-                  }}
-                >
-                  optional
-                </span>
-              )}
-            </div>
-            {current.description && (
-              <p
-                style={{
-                  margin: 0,
-                  fontSize: typeBody,
-                  color: textSecondary,
-                  lineHeight: 1.5,
-                }}
-              >
-                {current.description}
-              </p>
-            )}
-          </div>
-
-          <div>{renderQuestion(current)}</div>
-
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              gap: spaceSm,
-              flexWrap: "wrap",
-            }}
-          >
-            <div>
-              {step > 0 && (
-                <Button variant="ghost" onClick={goBack}>
-                  {backLabel}
-                </Button>
-              )}
-            </div>
-            <div style={{ display: "flex", gap: spaceSm, flexWrap: "wrap" }}>
-              {current.skippable && (
-                <Button variant="ghost" onClick={skip}>
-                  {skipLabel}
-                </Button>
-              )}
-              <Button variant="primary" disabled={!canProceed} onClick={goNext}>
-                {isLast ? submitLabel : nextLabel}
-              </Button>
-            </div>
-          </div>
-        </>
+        current && (
+          <>
+            <QuestionnaireProgress step={step} total={total} />
+            <QuestionnaireItem
+              question={current}
+              answer={answers[current.id]}
+              onAnswer={(next) => setAnswer(current.id, next)}
+            />
+            <QuestionnaireNav
+              backLabel={backLabel}
+              skipLabel={skipLabel}
+              nextLabel={nextLabel}
+              submitLabel={submitLabel}
+              canGoBack={step > 0}
+              canSkip={current.skippable ?? false}
+              canProceed={canProceed}
+              isLast={isLast}
+              onBack={goBack}
+              onSkip={skip}
+              onNext={goNext}
+            />
+          </>
+        )
       )}
     </div>
   );

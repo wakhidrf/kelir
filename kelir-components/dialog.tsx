@@ -11,17 +11,28 @@ const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
+// Dialog sealed (P1c STYLE.md §6): basis MUI untuk multi-platform; hanya
+// props kontrak — tanpa ...rest ke DOM, tanpa style/sx/className konsumen.
+// `onClose` semantik (tanpa event/reason MUI). `disableScrollLock` keputusan
+// kit. `aria-labelledby` dipasang otomatis dari title (a11y milik kit).
 export function Dialog({
+  open,
+  onClose,
   title,
-  actions,
-  disableScrollLock = true,
   children,
-  ...props
+  actions,
+  id,
+  "aria-label": ariaLabel,
 }: DialogProps) {
+  const titleId = title ? `${id ?? "kelir-dialog"}-title` : undefined;
   return (
     <MuiDialog
-      {...props}
-      disableScrollLock={disableScrollLock}
+      open={open}
+      onClose={() => onClose()}
+      id={id}
+      aria-label={ariaLabel}
+      aria-labelledby={titleId}
+      disableScrollLock
       slotProps={{
         paper: {
           style: {
@@ -37,7 +48,7 @@ export function Dialog({
       }}
     >
       {title && (
-        <DialogTitle style={{ color: textPrimary, fontWeight: 700 }}>
+        <DialogTitle id={titleId} style={{ color: textPrimary, fontWeight: 700 }}>
           {title}
         </DialogTitle>
       )}

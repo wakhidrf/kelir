@@ -2,28 +2,32 @@ import MuiBreadcrumbs from "@mui/material/Breadcrumbs";
 import type { BreadcrumbProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
-const textPrimary = css.colors.textPrimary;
-const textSecondary = css.colors.textSecondary;
-
-export function Breadcrumb({ items, ...props }: BreadcrumbProps) {
+export function Breadcrumb({ items, id, "aria-label": ariaLabel }: BreadcrumbProps) {
   return (
     <MuiBreadcrumbs
-      {...props}
-      style={{
-        color: textSecondary,
+      id={id}
+      aria-label={ariaLabel ?? "Breadcrumb"}
+      sx={{
+        color: css.colors.textSecondary,
         fontFamily: "inherit",
         fontSize: "14px",
-        ...props.style,
       }}
     >
-      {items.map((item, index) => {
-        const active = item.active ?? index === items.length - 1;
-        const style = {
-          color: active ? textPrimary : textSecondary,
-          fontWeight: active ? 700 : 400,
-          cursor: item.href ? "pointer" : "default",
-        };
-        const label = <span style={style}>{item.label}</span>;
+      {items.map((item) => {
+        const active = item.active ?? false;
+        const label = (
+          <span
+            style={{
+              color: active
+                ? css.colors.textPrimary
+                : css.colors.textSecondary,
+              fontWeight: active ? 700 : 400,
+              cursor: item.href && !active ? "pointer" : "default",
+            }}
+          >
+            {item.label}
+          </span>
+        );
         if (item.href && !active) {
           return (
             <a
@@ -35,11 +39,7 @@ export function Breadcrumb({ items, ...props }: BreadcrumbProps) {
             </a>
           );
         }
-        return (
-          <span key={typeof item.label === "string" ? item.label : item.href}>
-            {label}
-          </span>
-        );
+        return <span key={item.label}>{label}</span>;
       })}
     </MuiBreadcrumbs>
   );

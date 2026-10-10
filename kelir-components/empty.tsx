@@ -1,23 +1,21 @@
 import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
+import MuiBox from "@mui/material/Box";
 import type { EmptyProps } from "../kelir-types";
 import { css } from "../kelir-variants";
-
-const convexShadow = css.shadows.convex;
-const neumorphicBg = css.colors.surface;
-const textPrimary = css.colors.textPrimary;
-const textSecondary = css.colors.textSecondary;
 
 export function Empty({
   title,
   description,
   action,
   icon,
-  ...props
+  id,
+  "aria-label": ariaLabel,
 }: EmptyProps) {
   return (
-    <div
-      {...props}
-      style={{
+    <MuiBox
+      id={id}
+      aria-label={ariaLabel}
+      sx={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -25,17 +23,16 @@ export function Empty({
         gap: css.layout.space.md,
         padding: `${css.layout.space["4xl"]} ${css.layout.space["2xl"]}`,
         textAlign: "center",
-        backgroundColor: neumorphicBg,
+        backgroundColor: css.colors.surface,
         borderRadius: css.radius.sm,
-        boxShadow: convexShadow,
+        boxShadow: css.shadows.convex,
         border: `1px solid ${css.border.light}`,
-        color: textPrimary,
+        color: css.colors.textPrimary,
         fontFamily: "inherit",
-        ...props.style,
       }}
     >
-      <div
-        style={{
+      <MuiBox
+        sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -44,26 +41,31 @@ export function Empty({
           borderRadius: "999px",
           backgroundColor: css.colors.primary,
           color: css.on.primary,
-          boxShadow: convexShadow,
+          boxShadow: css.shadows.convex,
         }}
       >
-        {icon ?? <SentimentDissatisfiedIcon style={{ fontSize: 32 }} />}
-      </div>
+        {icon ?? <SentimentDissatisfiedIcon sx={{ fontSize: 32 }} />}
+      </MuiBox>
       {title && (
-        <div style={{ fontSize: "16px", fontWeight: 700 }}>{title}</div>
+        <MuiBox component="span" sx={{ fontSize: "16px", fontWeight: 700 }}>
+          {title}
+        </MuiBox>
       )}
       {description && (
-        <div
-          style={{
+        <MuiBox
+          component="span"
+          sx={{
             fontSize: "14px",
-            color: textSecondary,
+            color: css.colors.textSecondary,
             maxWidth: "320px",
           }}
         >
           {description}
-        </div>
+        </MuiBox>
       )}
-      {action && <div style={{ marginTop: css.layout.space.xs }}>{action}</div>}
-    </div>
+      {action && (
+        <MuiBox sx={{ marginTop: css.layout.space.xs }}>{action}</MuiBox>
+      )}
+    </MuiBox>
   );
 }

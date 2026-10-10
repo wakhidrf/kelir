@@ -1,55 +1,45 @@
 "use client";
 
+import MuiBox from "@mui/material/Box";
 import * as React from "react";
 import type { TextareaProps } from "../kelir-types";
 import { css } from "../kelir-variants";
-
-const concaveShadow = css.shadows.concave;
-const neumorphicBg = css.colors.surface;
-const surfaceBlur = css.motion.blur.backdrop;
-const textPrimary = css.colors.textPrimary;
-const textSecondary = css.colors.textSecondary;
+import { Typography } from "./typography";
 
 export function Textarea({
   label,
   error,
   helperText,
-  style,
-  onFocus,
-  onBlur,
-  ...props
+  value,
+  defaultValue,
+  onChange,
+  placeholder,
+  rows,
+  disabled,
+  id,
+  "aria-label": ariaLabel,
 }: TextareaProps) {
   const [focused, setFocused] = React.useState(false);
 
   return (
-    <div style={{ width: "100%" }}>
-      {label && (
-        <div
-          style={{
-            marginBottom: "6px",
-            fontSize: "14px",
-            fontWeight: 600,
-            color: textPrimary,
-            fontFamily: "inherit",
-          }}
-        >
-          {label}
-        </div>
-      )}
+    <MuiBox sx={{ width: "100%" }}>
+      {label && <Typography variant="label-caps">{label}</Typography>}
       <textarea
-        {...props}
-        onFocus={(e) => {
-          setFocused(true);
-          onFocus?.(e);
-        }}
-        onBlur={(e) => {
-          setFocused(false);
-          onBlur?.(e);
-        }}
+        value={value}
+        defaultValue={defaultValue}
+        onChange={(e) => onChange?.(e.target.value)}
+        placeholder={placeholder}
+        rows={rows}
+        disabled={disabled}
+        id={id}
+        aria-label={ariaLabel ?? label}
+        aria-invalid={error || undefined}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
         style={{
           width: "100%",
           boxSizing: "border-box",
-          backgroundColor: neumorphicBg,
+          backgroundColor: css.colors.surface,
           borderRadius: css.radius.sm,
           border: `1px solid ${
             error
@@ -58,11 +48,11 @@ export function Textarea({
                 ? css.colors.primary
                 : css.border.light
           }`,
-          boxShadow: concaveShadow,
-          backdropFilter: surfaceBlur,
-          WebkitBackdropFilter: surfaceBlur,
+          boxShadow: css.shadows.concave,
+          backdropFilter: css.motion.blur.backdrop,
+          WebkitBackdropFilter: css.motion.blur.backdrop,
           padding: "10px 14px",
-          color: textPrimary,
+          color: css.colors.textPrimary,
           fontFamily: "inherit",
           fontSize: "14px",
           outline: focused
@@ -71,21 +61,20 @@ export function Textarea({
           outlineOffset: css.focusRing.offset,
           resize: "vertical",
           transition: `border ${css.motion.duration.hover} ${css.motion.easing.curve}`,
-          ...style,
         }}
       />
       {helperText && (
-        <div
-          style={{
+        <MuiBox
+          sx={{
             marginTop: css.layout.space.xs,
             fontSize: "12px",
-            color: error ? css.destructive : textSecondary,
+            color: error ? css.destructive : css.colors.textSecondary,
             fontFamily: "inherit",
           }}
         >
           {helperText}
-        </div>
+        </MuiBox>
       )}
-    </div>
+    </MuiBox>
   );
 }

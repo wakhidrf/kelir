@@ -20,7 +20,6 @@ export function DataTable({
   paginated = false,
   rowsPerPage = 5,
   title,
-  ...props
 }: DataTableProps) {
   const [page, setPage] = React.useState(0);
   const pageCount = Math.max(1, Math.ceil(data.length / rowsPerPage));
@@ -74,7 +73,7 @@ export function DataTable({
           {title}
         </div>
       )}
-      <MuiTable {...props}>
+      <MuiTable>
         <MuiTableHead>
           <MuiTableRow>
             {columns.map((col) => (

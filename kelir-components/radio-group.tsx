@@ -7,22 +7,36 @@ import { css } from "../kelir-variants";
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
-export function RadioGroup({ options, style, ...props }: RadioGroupProps) {
+// Pilihan tunggal sealed (Gel.2 STYLE.md §6): basis MUI; `onChange` semantik
+// (string); opsi label/value milik kit. Tanpa ...rest, tanpa style konsumen.
+export function RadioGroup({
+  options,
+  value,
+  defaultValue,
+  onChange,
+  disabled = false,
+  id,
+  "aria-label": ariaLabel,
+}: RadioGroupProps) {
   return (
     <MuiRadioGroup
-      {...props}
+      value={value}
+      defaultValue={defaultValue}
+      onChange={(e) => onChange?.(e.target.value)}
+      id={id}
+      aria-label={ariaLabel}
       style={{
         display: "flex",
         flexDirection: "column",
         gap: css.layout.space.sm,
         fontFamily: "inherit",
-        ...style,
       }}
     >
       {options.map((option) => (
         <FormControlLabel
           key={option.value}
           value={option.value}
+          disabled={disabled}
           control={
             <MuiRadio
               sx={{

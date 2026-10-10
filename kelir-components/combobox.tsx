@@ -1,7 +1,8 @@
 import MuiAutocomplete from "@mui/material/Autocomplete";
+import MuiInputBase from "@mui/material/InputBase";
 import type { ComboboxProps } from "../kelir-types";
 import { css } from "../kelir-variants";
-import { Input } from "./input";
+import { getInputStyle, inputFocusSx } from "./input";
 import { Label } from "./label";
 
 const convexShadow = css.shadows.convex;
@@ -10,25 +11,40 @@ const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
-export function Combobox({ label, placeholder, ...props }: ComboboxProps) {
+export function Combobox({
+  options,
+  value,
+  defaultValue,
+  onChange,
+  label,
+  placeholder,
+  disabled,
+}: ComboboxProps) {
   return (
-    <MuiAutocomplete
-      {...props}
+    <MuiAutocomplete<string, false, false, false>
+      options={options}
+      value={value ?? null}
+      defaultValue={defaultValue ?? undefined}
+      // Adaptor semantik: MUI kirim (event, value); kontrak kit value saja.
+      onChange={onChange ? (_e, next) => onChange(next) : undefined}
+      disabled={disabled}
       renderInput={(params) => {
         const { ref, ...inputRootProps } = params.slotProps.input;
         return (
           <div style={{ position: "relative", width: "100%" }}>
-            {label && (
-              <Label htmlFor={params.id} style={{ marginBottom: "6px" }}>
-                {label}
-              </Label>
-            )}
-            <Input
+            {label && <Label htmlFor={params.id}>{label}</Label>}
+            {/* Komposit internal: render MuiInputBase langsung (bukan Input
+            yang sealed) karena Autocomplete WAJIB wiring ref/inputProps/
+            adornment MUI ke elemen input. Visual tetap milik kit via
+            helper internal getInputStyle/inputFocusSx — bukan style konsumen. */}
+            <MuiInputBase
               inputRef={ref}
               inputProps={params.slotProps.htmlInput}
               placeholder={placeholder}
               fullWidth
               {...inputRootProps}
+              style={getInputStyle("medium")}
+              sx={inputFocusSx}
             />
           </div>
         );
