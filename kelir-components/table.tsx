@@ -17,7 +17,7 @@ export function Table<TCell extends React.ReactNode = React.ReactNode>({
   return (
     <TableContainer
       style={{
-        borderRadius: css.radius.sm,
+        borderRadius: css.radius.card,
         boxShadow: css.shadows.convex,
         border: `1px solid ${css.border.light}`,
         backgroundColor: css.colors.surface,

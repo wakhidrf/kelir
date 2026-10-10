@@ -3,7 +3,8 @@
 import MuiInputBase from "@mui/material/InputBase";
 import MenuItem from "@mui/material/MenuItem";
 import MuiSelect from "@mui/material/Select";
-import { useRef, useState } from "react";
+import { forwardRef, useRef, useState } from "react";
+import type { CSSProperties } from "react";
 import type { SelectProps } from "../kelir-types";
 import { css, scrollbarClass } from "../kelir-variants";
 import { Stack } from "./stack";
@@ -25,13 +26,13 @@ const menuScrollbarSx = {
   "&::-webkit-scrollbar": { width: 10, height: 10 },
   "&::-webkit-scrollbar-track": {
     background: css.track,
-    borderRadius: css.radius.sm,
+    borderRadius: css.control.radius,
   },
   "&::-webkit-scrollbar-thumb": {
     background: `color-mix(in srgb, ${css.colors.textSecondary} 45%, transparent)`,
     border: "2px solid transparent",
     backgroundClip: "padding-box",
-    borderRadius: css.radius.sm,
+    borderRadius: css.control.radius,
   },
   "&::-webkit-scrollbar-thumb:hover": {
     background: css.colors.primary,
@@ -45,6 +46,18 @@ const menuScrollbarSx = {
 // onOpen konsumen. `onChange` semantik (string). Lebar menu mengikuti anchor,
 // disableScrollLock, scrollbar, paper = perilaku milik kit. Label dirender
 // kit via Stack + Typography (bukan InputLabel mentah konsumen).
+//
+// Pembungkus input internal: MUI Select menyuntik `notched: true` ke elemen
+// `input` (Select.js), tetapi MuiInputBase tak mengonsumsinya sehingga jatuh
+// ke div → React dev warning "non-boolean attribute notched". Dibuang di sini;
+// ref + props lain diteruskan agar wiring fokus/ukur MUI tetap utuh.
+const KelirSelectInput = forwardRef<
+  HTMLDivElement,
+  { notched?: unknown; style?: CSSProperties } & Record<string, unknown>
+>(function KelirSelectInput(props, ref) {
+  const { notched: _notched, ...rest } = props;
+  return <MuiInputBase ref={ref} fullWidth {...rest} />;
+});
 export function Select({
   options,
   value,
@@ -75,11 +88,10 @@ export function Select({
         id={id}
         aria-label={ariaLabel ?? label}
         input={
-          <MuiInputBase
-            fullWidth
+          <KelirSelectInput
             style={{
               backgroundColor: neumorphicBg,
-              borderRadius: css.radius.sm,
+              borderRadius: css.control.radius,
               boxShadow: concaveShadow,
               border: `1px solid ${css.border.light}`,
               backdropFilter: surfaceBlur,
@@ -133,7 +145,7 @@ export function Select({
               sx: menuScrollbarSx,
               style: {
                 backgroundColor: neumorphicBg,
-                borderRadius: css.radius.sm,
+                borderRadius: css.radius.surface,
                 boxShadow: convexShadow,
                 border: `1px solid ${css.border.light}`,
                 backdropFilter: surfaceBlur,

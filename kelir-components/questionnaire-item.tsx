@@ -17,7 +17,7 @@ const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 const borderLight = css.border.light;
 const primary = css.colors.primary;
-const radiusSm = css.radius.sm;
+const radiusControl = css.control.radius;
 const spaceXs = css.layout.space.xs;
 const spaceSm = css.layout.space.sm;
 const typeH2 = css.typography.scale.h2;
@@ -61,7 +61,7 @@ export function QuestionnaireItem({
                 fontWeight: 600,
                 color: textSecondary,
                 border: `1px solid ${borderLight}`,
-                borderRadius: radiusSm,
+                borderRadius: radiusControl,
                 padding: "2px 8px",
               }}
             >

@@ -37,7 +37,7 @@ export function Dialog({
         paper: {
           style: {
             backgroundColor: neumorphicBg,
-            borderRadius: css.radius.md,
+            borderRadius: css.radius.prominent,
             boxShadow: convexShadow,
             border: `1px solid ${css.border.light}`,
             backdropFilter: surfaceBlur,

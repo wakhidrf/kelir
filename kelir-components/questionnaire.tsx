@@ -18,6 +18,8 @@ const textSecondary = css.colors.textSecondary;
 const borderLight = css.border.light;
 const convex = css.shadows.convex;
 const blur = css.motion.blur.backdrop;
+// Skala mentah tersisa (ISSUE-006): kontainer besar disengaja lg;
+// faktor-ukuran-peran (card kecil vs besar) pekerjaan susulan.
 const radiusLg = css.radius.lg;
 const spaceLg = css.layout.space.lg;
 const spaceXl = css.layout.space.xl;

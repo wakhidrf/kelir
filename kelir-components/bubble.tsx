@@ -21,7 +21,7 @@ export function Bubble({
   const bubbleStyles: React.CSSProperties = {
     maxWidth: "80%",
     padding: "10px 14px",
-    borderRadius: css.radius.md,
+    borderRadius: css.radius.prominent,
     fontSize: "14px",
     lineHeight: 1.5,
     fontFamily: "inherit",

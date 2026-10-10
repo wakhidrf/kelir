@@ -29,7 +29,7 @@ export function IconButton({
 
   const getStyles = (): React.CSSProperties => {
     const base: React.CSSProperties = {
-      borderRadius: css.radius.sm,
+      borderRadius: css.radius.button,
       textTransform: "none",
       fontWeight: 600,
       padding: "10px",

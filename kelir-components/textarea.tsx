@@ -40,7 +40,7 @@ export function Textarea({
           width: "100%",
           boxSizing: "border-box",
           backgroundColor: css.colors.surface,
-          borderRadius: css.radius.sm,
+          borderRadius: css.control.radius,
           border: `1px solid ${
             error
               ? css.destructive

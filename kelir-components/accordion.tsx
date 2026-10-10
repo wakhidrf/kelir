@@ -25,7 +25,7 @@ export function Accordion({
       disableGutters
       sx={{
         backgroundColor: css.colors.surface,
-        borderRadius: css.radius.sm,
+        borderRadius: css.radius.card,
         boxShadow: css.shadows.card,
         border: `1px solid ${css.border.light}`,
         marginBottom: css.layout.space.sm,

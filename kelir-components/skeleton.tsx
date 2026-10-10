@@ -20,7 +20,7 @@ export function Skeleton({
       aria-label={ariaLabel}
       sx={{
         backgroundColor: css.track,
-        borderRadius: variant === "circular" ? undefined : css.radius.sm,
+        borderRadius: variant === "circular" ? undefined : css.radius.card,
       }}
     />
   );

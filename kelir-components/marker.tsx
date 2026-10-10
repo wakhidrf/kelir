@@ -50,7 +50,7 @@ export function Marker({
         fontSize: "13px",
         lineHeight: "1.5",
         padding: "10px 14px",
-        borderRadius: css.radius.sm,
+        borderRadius: css.control.radius,
         backgroundColor: palette.bg,
         color: palette.fg,
       };

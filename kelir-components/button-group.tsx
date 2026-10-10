@@ -15,7 +15,7 @@ export function ButtonGroup({
       aria-label={ariaLabel}
       sx={{
         backgroundColor: css.colors.surface,
-        borderRadius: css.radius.sm,
+        borderRadius: css.radius.button,
         boxShadow: css.shadows.convex,
         border: `1px solid ${css.border.light}`,
         color: css.colors.textPrimary,

@@ -87,7 +87,7 @@ export function HoverCard({ trigger, children }: HoverCardProps) {
             maxWidth: "280px",
             padding: `${css.layout.space.md} ${css.layout.space.lg}`,
             backgroundColor: neumorphicBg,
-            borderRadius: css.radius.sm,
+            borderRadius: css.radius.surface,
             boxShadow: css.shadows.card,
             border: `1px solid ${css.border.medium}`,
             backdropFilter: surfaceBlur,

@@ -114,7 +114,7 @@ export function InputOtp({
             textAlign: "center",
             boxSizing: "border-box",
             backgroundColor: css.colors.surface,
-            borderRadius: css.radius.sm,
+            borderRadius: css.control.radius,
             border: `1px solid ${
               focusedIndex === slot ? css.colors.primary : css.border.light
             }`,

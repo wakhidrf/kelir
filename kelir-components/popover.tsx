@@ -65,7 +65,7 @@ export function Popover({
           paper: {
             style: {
               backgroundColor: css.colors.surface,
-              borderRadius: css.radius.sm,
+              borderRadius: css.radius.surface,
               boxShadow: css.shadows.convex,
               border: `1px solid ${css.border.light}`,
               backdropFilter: css.motion.blur.backdrop,

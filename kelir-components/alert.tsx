@@ -27,7 +27,7 @@ export function Alert({
       aria-label={ariaLabel}
       style={{
         backgroundColor: neumorphicBg,
-        borderRadius: css.radius.sm,
+        borderRadius: css.radius.card,
         boxShadow: cardShadow,
         border: `1px solid ${css.border.light}`,
         backdropFilter: surfaceBlur,

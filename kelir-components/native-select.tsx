@@ -32,7 +32,7 @@ export function NativeSelect({
             fullWidth
             style={{
               backgroundColor: css.colors.surface,
-              borderRadius: css.radius.sm,
+              borderRadius: css.control.radius,
               boxShadow: css.shadows.concave,
               border: `1px solid ${css.border.light}`,
               backdropFilter: css.motion.blur.backdrop,

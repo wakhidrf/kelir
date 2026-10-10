@@ -31,7 +31,7 @@ export function Toggle({
       aria-label={ariaLabel ?? children}
       sx={{
         backgroundColor: css.colors.surface,
-        borderRadius: css.radius.sm,
+        borderRadius: css.radius.button,
         border: `1px solid ${css.border.light}`,
         boxShadow: css.shadows.convex,
         color: css.colors.textPrimary,

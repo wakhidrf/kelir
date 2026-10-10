@@ -53,7 +53,7 @@ export function Combobox({
         width: "100%",
         "& .MuiAutocomplete-paper": {
           backgroundColor: neumorphicBg,
-          borderRadius: css.radius.sm,
+          borderRadius: css.radius.surface,
           boxShadow: convexShadow,
           border: `1px solid ${css.border.light}`,
           backdropFilter: surfaceBlur,
@@ -64,7 +64,7 @@ export function Combobox({
           padding: css.layout.space.xs,
         },
         "& .MuiAutocomplete-option": {
-          borderRadius: css.radius.sm,
+          borderRadius: css.radius.button,
           color: textPrimary,
           fontFamily: "inherit",
           fontSize: "14px",

@@ -30,7 +30,7 @@ export function Menubar({ menus }: MenubarProps) {
         alignItems: "center",
         gap: css.layout.space.xs,
         padding: "6px 10px",
-        borderRadius: css.radius.sm,
+        borderRadius: css.radius.surface,
         backgroundColor: css.colors.surface,
         boxShadow: css.shadows.convex,
         border: `1px solid ${css.border.light}`,
@@ -49,7 +49,7 @@ export function Menubar({ menus }: MenubarProps) {
               background: "none",
               cursor: "pointer",
               padding: `6px ${css.layout.space.md}`,
-              borderRadius: css.radius.sm,
+              borderRadius: css.radius.button,
               fontSize: "13px",
               fontWeight: 600,
               color: openIndex === index ? css.on.primary : textSecondary,
@@ -70,7 +70,7 @@ export function Menubar({ menus }: MenubarProps) {
               paper: {
                 style: {
                   backgroundColor: css.colors.surface,
-                  borderRadius: css.radius.sm,
+                  borderRadius: css.radius.surface,
                   boxShadow: css.shadows.convex,
                   border: `1px solid ${css.border.light}`,
                   backdropFilter: css.motion.blur.backdrop,

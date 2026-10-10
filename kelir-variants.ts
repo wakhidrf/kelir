@@ -85,6 +85,12 @@ export function createCss(
       sm: `var(--radius-sm, ${themeRounded.sm})`,
       md: `var(--radius-md, ${themeRounded.md})`,
       lg: `var(--radius-lg, ${themeRounded.lg})`,
+      // Peran (ISSUE-006): komponen memakai token peran, skala mentah
+      // hanya di definisi tema. Default = nilai kini (nol-ubah visual).
+      button: `var(--radius-button, var(--radius-sm, ${themeRounded.sm}))`,
+      card: `var(--radius-card, var(--radius-sm, ${themeRounded.sm}))`,
+      surface: `var(--radius-surface, var(--radius-sm, ${themeRounded.sm}))`,
+      prominent: `var(--radius-prominent, var(--radius-md, ${themeRounded.md}))`,
     },
     control: {
       padding: "var(--control-padding, 12px)",

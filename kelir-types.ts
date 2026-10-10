@@ -719,12 +719,19 @@ export interface SheetProps {
 }
 
 // 51. Sidebar
-// 51. Sidebar — navigasi samping sealed (Gel.3c STYLE.md §6).
-// `header?/footer?/children` slot; lebar/tinggi milik kit. Tanpa ...rest/style.
+// 51. Sidebar — navigasi samping sealed (Gel.3c STYLE.md §6; responsif ISSUE-005).
+// `header?/footer?/children` slot; `mode` putuskan docked-vs-overlay
+// (auto = docked ≥ md 900px, overlay di bawahnya); `open` hanya overlay
+// (terkontrol + tak-terkontrol via defaultOpen); lebar/tinggi milik kit.
+// Tanpa ...rest/style.
 export interface SidebarProps {
   header?: React.ReactNode;
   footer?: React.ReactNode;
   children: React.ReactNode;
+  mode?: "auto" | "docked" | "overlay";
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
   id?: string;
   "aria-label"?: string;
 }

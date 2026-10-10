@@ -41,7 +41,7 @@ export function NavigationMenu({ items }: NavigationMenuProps) {
           cursor: "pointer",
           textAlign: "left",
           padding: "10px 14px",
-          borderRadius: css.radius.sm,
+          borderRadius: css.radius.button,
           fontSize: "14px",
           fontWeight: 600,
           color: item.active ? css.on.primary : textSecondary,

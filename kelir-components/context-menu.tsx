@@ -40,7 +40,7 @@ export function ContextMenu({ trigger, menuItems }: ContextMenuProps) {
           paper: {
             style: {
               backgroundColor: neumorphicBg,
-              borderRadius: css.radius.sm,
+              borderRadius: css.radius.surface,
               boxShadow: convexShadow,
               border: `1px solid ${css.border.light}`,
               backdropFilter: surfaceBlur,
@@ -61,7 +61,7 @@ export function ContextMenu({ trigger, menuItems }: ContextMenuProps) {
             style={{
               color: textPrimary,
               fontSize: "14px",
-              borderRadius: css.radius.sm,
+              borderRadius: css.radius.button,
               gap: css.layout.space.sm,
             }}
           >

@@ -1,7 +1,7 @@
 import { Sidebar } from "./sidebar";
 
 // Type-test negatif (§6/§6b STYLE.md): JSX langsung + nilai literal.
-// Sidebar header/footer/children slot; dimensi milik kit.
+// Sidebar header/footer/children slot; mode/open responsif; dimensi milik kit.
 export function sidebarContractChecks() {
   const ok = (
     <Sidebar header={<div>Menu</div>} footer={<div>v1</div>}>
@@ -9,6 +9,12 @@ export function sidebarContractChecks() {
     </Sidebar>
   );
   const okBare = <Sidebar>polos</Sidebar>;
+  const okDocked = <Sidebar mode="docked" aria-label="Navigasi">x</Sidebar>;
+  const okOverlay = (
+    <Sidebar mode="overlay" open onOpenChange={() => {}}>
+      x
+    </Sidebar>
+  );
 
   // @ts-expect-error - style milik kit
   const noStyle = <Sidebar style={{ width: "300px" }}>x</Sidebar>;
@@ -16,5 +22,7 @@ export function sidebarContractChecks() {
   const noClassName = <Sidebar className="nav">x</Sidebar>;
   // @ts-expect-error - onClick bukan kontrak Sidebar
   const noOnClick = <Sidebar onClick={() => {}}>x</Sidebar>;
-  return { ok, okBare, noStyle, noClassName, noOnClick };
+  // @ts-expect-error - mode di luar union
+  const noMode = <Sidebar mode="rail">x</Sidebar>;
+  return { ok, okBare, okDocked, okOverlay, noStyle, noClassName, noOnClick, noMode };
 }

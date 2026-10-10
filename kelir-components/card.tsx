@@ -29,7 +29,7 @@ export function Card({
       aria-label={ariaLabel}
       style={{
         backgroundColor: neumorphicBg,
-        borderRadius: css.radius.sm,
+        borderRadius: css.radius.card,
         boxShadow: cardShadow,
         border: `1px solid ${css.border.medium}`,
         backdropFilter: surfaceBlur,

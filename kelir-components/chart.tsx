@@ -59,7 +59,7 @@ export function Chart<TDatum extends object = ChartRow>({
         flexDirection: "column",
         gap: css.layout.space.md,
         backgroundColor: neumorphicBg,
-        borderRadius: css.radius.sm,
+        borderRadius: css.radius.card,
         boxShadow: convexShadow,
         border: `1px solid ${css.border.light}`,
         padding: css.layout.space.lg,

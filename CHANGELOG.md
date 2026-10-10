@@ -1,5 +1,17 @@
 # Changelog — Kelir
 
+## 2026-10-10 — Sidebar responsif + token radius peran (ISSUE-005/006)
+
+### Added
+- **Sidebar responsif (ISSUE-005)**: `mode?: "auto"|"docked"|"overlay"` (default `auto`: docked ≥ 900px, overlay di bawahnya), `open?/defaultOpen?/onOpenChange?` untuk overlay; overlay pakai-ulang `Drawer` (trap/Escape/backdrop/`inert`/fokus kembali); docked `position: sticky + 100dvh` + landmark `<nav>`; lebar token `--sidebar-width` (default 260px), overlay `min(..., 85vw)`; area tengah `flex: 1; min-height: 0` (konsumen tak susun `ScrollArea` sendiri); `div` internal → `MuiBox`. `aria-label` tetap opsional (tak-breaking); `collapsed` ditunda.
+- **Token radius peran (ISSUE-006)**: `css.radius.button/card/surface/prominent` (+ `css.control.radius` yang sudah ada); 67 titik beralih peran, default = nilai kini (nol-ubah visual); skala mentah hanya di definisi tema. Sisa skala: kontainer Questionnaire `lg` (disengaja, komentar `ISSUE-006` — faktor-ukuran susulan).
+
+### Verification
+- `tsc` bersih; `npm run test` 143/143 (70 file, +1 Sidebar overlay/Escape); `kelir:drift` OK; `kelir:guard` 0 ERROR; `kelir:status:check` 69/69.
+
+### Fixed
+- **ISSUE-007 — console error `notched` di Select**: MUI menyuntik `notched: true` ke elemen `input`, `MuiInputBase` meneruskannya ke `div`. Pembungkus internal `KelirSelectInput` (strip `notched`, teruskan ref) + runtime-test spy `console.error` (gagal di kode lama, lolos di baru).
+
 ## 2026-10-10 — Kontrak paten 69/69 sealed (epik Gel.2–Gel.3c-11 + P1b/P1d/P2)
 
 ### Added

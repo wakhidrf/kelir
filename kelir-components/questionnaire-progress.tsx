@@ -10,7 +10,7 @@ interface QuestionnaireProgressProps {
 const textSecondary = css.colors.textSecondary;
 const track = css.track;
 const primary = css.colors.primary;
-const radiusSm = css.radius.sm;
+const radiusControl = css.control.radius;
 const spaceSm = css.layout.space.sm;
 
 export function QuestionnaireProgress({
@@ -46,7 +46,7 @@ export function QuestionnaireProgress({
       <div
         style={{
           height: 6,
-          borderRadius: radiusSm,
+          borderRadius: radiusControl,
           backgroundColor: track,
           overflow: "hidden",
         }}
@@ -56,7 +56,7 @@ export function QuestionnaireProgress({
             height: "100%",
             width: `${pct}%`,
             backgroundColor: primary,
-            borderRadius: radiusSm,
+            borderRadius: radiusControl,
             transition: `width ${css.motion.duration.base} ${css.motion.easing.curve}`,
           }}
         />

@@ -104,7 +104,7 @@ export function Resizable<TPanel extends React.ReactNode = React.ReactNode>({
                 cursor: isVertical ? "row-resize" : "col-resize",
                 backgroundColor: neumorphicBg,
                 boxShadow: concaveShadow,
-                borderRadius: css.radius.sm,
+                borderRadius: css.control.radius,
               }}
             />
           )}

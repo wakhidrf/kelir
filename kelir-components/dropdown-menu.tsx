@@ -32,7 +32,7 @@ export function DropdownMenu({ trigger, items }: DropdownMenuProps) {
           background: "none",
           cursor: "pointer",
           padding: `6px ${css.layout.space.md}`,
-          borderRadius: css.radius.sm,
+          borderRadius: css.radius.button,
           fontSize: "13px",
           fontWeight: 600,
           color: textSecondary,
@@ -49,7 +49,7 @@ export function DropdownMenu({ trigger, items }: DropdownMenuProps) {
           paper: {
             style: {
               backgroundColor: neumorphicBg,
-              borderRadius: css.radius.sm,
+              borderRadius: css.radius.surface,
               boxShadow: convexShadow,
               border: `1px solid ${css.border.light}`,
               backdropFilter: surfaceBlur,
@@ -78,7 +78,7 @@ export function DropdownMenu({ trigger, items }: DropdownMenuProps) {
               style={{
                 color: textPrimary,
                 fontSize: "14px",
-                borderRadius: css.radius.sm,
+                borderRadius: css.radius.button,
                 gap: css.layout.space.sm,
               }}
             >
