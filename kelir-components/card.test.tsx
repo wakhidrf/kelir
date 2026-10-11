@@ -85,4 +85,34 @@ describe("Card sealed (§6b)", () => {
     expect(root?.style.display).not.toBe("flex");
     expect(root?.style.overflow).not.toBe("hidden");
   });
+
+  it("flag: strip status absolut di sisi kartu; default tanpa strip", () => {
+    renderSealed(
+      <Card title="Judul" flag="danger">
+        Isi strip
+      </Card>,
+    );
+    let root = screen.getByText("Judul") as HTMLElement | null;
+    while (root?.parentElement && !root.className.includes("MuiCard-root")) {
+      root = root.parentElement;
+    }
+    expect(root).not.toBeNull();
+    expect(root?.style.position).toBe("relative");
+    const strip = root?.querySelector(
+      '[aria-hidden="true"]',
+    ) as HTMLElement | null;
+    expect(strip).not.toBeNull();
+    expect(strip?.style.position).toBe("absolute");
+    expect(strip?.style.backgroundColor).not.toBe("");
+  });
+
+  it("tanpa flag: root tanpa position, tanpa strip (nol-ubah visual)", () => {
+    renderSealed(<Card title="Judul">Isi</Card>);
+    let root = screen.getByText("Judul") as HTMLElement | null;
+    while (root?.parentElement && !root.className.includes("MuiCard-root")) {
+      root = root.parentElement;
+    }
+    expect(root?.style.position).toBe("");
+    expect(root?.querySelector('[aria-hidden="true"]')).toBeNull();
+  });
 });

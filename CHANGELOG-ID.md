@@ -19,6 +19,14 @@
 | Elipsis Typography | Pembungkus ellipsis sendiri | `truncate?` (default `false`): elipsis satu-baris milik kit |
 | Lebar halaman | Pembungkus maxWidth sendiri | `Container` (`maxWidth?` `sm\|md\|lg\|xl`, `padding?` dari space layout) - murni layout, tanpa warna/border/shadow |
 | Gambar logo/media | `<img>` mentah dengan objectFit | `Image` (`src`, `alt?`, `height?`, `fit?` `contain\|cover`, `radius?`) - netral, tanpa shadow/border bawaan |
+| Bungkus baris | Pembungkus flex-wrap sendiri | `Stack wrap?` (default `false`) - baris/kolom membungkus milik kit |
+| Item flex | Pembungkus `flex: 1` / `flexShrink: 0` sendiri | `FlexItem` (`grow?`, `shrink?`) - boolean tertutup, tanpa angka bebas; default blok biasa |
+| Lebar halaman, vertikal | Pembungkus padding vertikal + overflow sendiri | `Container paddingBlock?` (`none\|sm\|md\|lg\|xl\|2xl`, default `none`) dan `clip?` (default `false`) dari skala space yang sama |
+| Cangkang aplikasi | Cangkang viewport ditulis ulang tiap app | `Shell` (baris atau `stacked?`), `Content` (satu area scroll, padding responsif, latar), `TopBar` (`left?`/`right?`, surface) - murni layout, tanpa warna/border/shadow kustom |
+| Ubin ikon/logo | Kotak padding sendiri | `Tile` (`tone?` `primary\|secondary\|plain`, `size?` `sm\|md\|lg` ke px milik kit; tanpa size ubin-ikon fleksibel) |
+| Spanduk status + flag kartu | Spanduk tinta dan strip sendiri | `Banner` (`tone?` `danger\|warn\|neutral`) dengan teks mewarisi warna; `Card flag?` (`danger\|warn`, strip sisi absolut, default tanpa strip) |
+| Tautan panjang, kode verifikasi | Pembungkus break-all / letter-spacing sendiri | `Typography breakAll?` (default `false`) dan `tracking?` (`normal\|wide`, spasi renggang 6px milik kit) |
+| Tautan sebaris | `<a>` mentah dengan `style=` | `Link` (`href` wajib, `children` teks, `external?` untuk ikon tab-baru + target + rel) - textPrimary, tanpa underline |
 | Radius sudut | - | Sudut kini mengikuti token tema per peran (`button`/`card`/`surface`/`prominent`) - tampilan sama, tiap tema bisa membentuknya |
 | Keandalan | - | Setiap komponen diliput test tipe, runtime, dan aksesibilitas di 11 tema; `Questionnaire` dipecah jadi 5 modul dengan prop identik; generik lebih ketat (`Chart`/`Table`/`Carousel`/`Resizable`) |
 | Aksesibilitas | Sebagian | Built-in di mana-mana: pengumuman Toast, focus trap Dialog, pemicu Tooltip/Popover yang bisa difokus, tombol panah Menu, input berlabel |

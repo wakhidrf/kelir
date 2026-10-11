@@ -17,6 +17,12 @@ const paddings = {
   "2xl": css.layout.space["2xl"],
 } as const;
 
+// `paddingBlock?` memakai skala space yang sama (`none` = 0).
+const paddingBlocks = {
+  none: "0",
+  ...paddings,
+} as const;
+
 // Penampung lebar halaman sealed (P1b STYLE.md): maxWidth + margin auto +
 // gutter dari token css.layout. Murni layout — tanpa warna/border/shadow.
 // Basis MUI (MuiBox) agar di tree tema; visual milik kit. Tanpa ...rest ke
@@ -25,6 +31,8 @@ export function Container({
   children,
   maxWidth = "xl",
   padding = "xl",
+  paddingBlock = "none",
+  clip = false,
   id,
   "aria-label": ariaLabel,
 }: ContainerProps) {
@@ -39,6 +47,9 @@ export function Container({
         marginRight: "auto",
         paddingLeft: paddings[padding],
         paddingRight: paddings[padding],
+        paddingTop: paddingBlocks[paddingBlock],
+        paddingBottom: paddingBlocks[paddingBlock],
+        ...(clip ? ({ overflow: "hidden" } as const) : null),
       }}
     >
       {children}

@@ -32,6 +32,11 @@ export function cardContractChecks() {
       Isi scroll internal
     </Card>
   );
+  const okFlag = (
+    <Card title="Judul" flag="warn">
+      Isi berstrip status
+    </Card>
+  );
 
   // @ts-expect-error — style passthrough haram
   const noStyle = <Card style={{ margin: 8 }}>isi</Card>;
@@ -45,6 +50,8 @@ export function cardContractChecks() {
   const noRawAlign = <Card title="x" headerAlign="middle">isi</Card>;
   // @ts-expect-error — scrollable non-boolean haram
   const noRawScrollable = <Card title="x" scrollable="yes">isi</Card>;
+  // @ts-expect-error — flag bebas haram (danger/warn)
+  const noRawFlag = <Card title="x" flag="info">isi</Card>;
   // @ts-expect-error — prop tak dikenal tidak diteruskan ke DOM
   const noRest = <Card title="x" onClick={() => {}}>isi</Card>;
 
@@ -54,12 +61,14 @@ export function cardContractChecks() {
     okCentered,
     okEnd,
     okScrollable,
+    okFlag,
     noStyle,
     noSx,
     noClassName,
     noNodeTitle,
     noRawAlign,
     noRawScrollable,
+    noRawFlag,
     noRest,
   };
 }
