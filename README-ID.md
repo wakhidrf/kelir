@@ -3,9 +3,9 @@
 
 ## Asal-Usul Nama & Konsep
 
-Nama **Project Kelir** diambil dari pertunjukan wayang kulit tradisional — *kelir* adalah layar kain yang dipakai sebagai panggung wayang kulit. Filosofi ini menggambarkan Project Kelir sebagai sebuah "layar" yang mampu menampilkan berbagai wajah desain (tema) yang berbeda di atas satu rangkaian komponen yang sama.
+Nama **Project Kelir** diambil dari pertunjukan wayang kulit tradisional - *kelir* adalah layar kain yang dipakai sebagai panggung wayang kulit. Filosofi ini menggambarkan Project Kelir sebagai sebuah "layar" yang mampu menampilkan berbagai wajah desain (tema) yang berbeda di atas satu rangkaian komponen yang sama.
 
-Project Kelir mengintegrasikan berbagai file **`DESIGN.md`** — masing-masing mewakili bahasa desainnya sendiri — menjadi satu sistem desain multi-tema yang koheren. Setiap bahasa desain didefinisikan terpisah dalam filenya masing-masing, lalu disatukan dalam satu arsitektur sehingga mudah dipilih atau diganti.
+Project Kelir mengintegrasikan berbagai file **`DESIGN.md`** - masing-masing mewakili bahasa desainnya sendiri - menjadi satu sistem desain multi-tema yang koheren. Setiap bahasa desain didefinisikan terpisah dalam filenya masing-masing, lalu disatukan dalam satu arsitektur sehingga mudah dipilih atau diganti.
 
 ## Keterbatasan Saat Ini
 
@@ -71,7 +71,7 @@ git submodule update --remote src/views/kelir
 
 Taruh `KelirProvider` di `layout.tsx`. Tema bersifat **server-driven**: layout root
 membaca cookie tema yang tersimpan (bila ada) dan menaruh `data-kelir-theme`
-langsung di `<html>`, sehingga HTML SSR pertama sudah bertema — tanpa flash,
+langsung di `<html>`, sehingga HTML SSR pertama sudah bertema - tanpa flash,
 tanpa skrip inline klien, tanpa localStorage. `setTheme` menerapkan tema seketika
 di klien (atribut) dan menyimpannya kembali lewat Server Action yang mengatur
 cookie, sehingga respons SSR berikutnya sudah membawa tema yang tersimpan.
@@ -105,7 +105,7 @@ export default async function RootLayout({
 ```
 
 ```tsx
-// src/controllers/theme-actions.ts (Server Action — sets the cookie)
+// src/controllers/theme-actions.ts (Server Action - sets the cookie)
 "use server";
 
 import { cookies } from "next/headers";
@@ -123,7 +123,7 @@ export async function persistThemeCookie(theme: Theme) {
 ```
 
 ```tsx
-// src/controllers/theme-actions.ts (Server Action — removes the cookie)
+// src/controllers/theme-actions.ts (Server Action - removes the cookie)
 "use server";
 
 import { cookies } from "next/headers";
@@ -153,7 +153,7 @@ export default function Home() {
 ```
 
 ```tsx
-// src/app/page.tsx (Client Component) — programmatic access
+// src/app/page.tsx (Client Component) - programmatic access
 "use client";
 
 import { useKelir } from "@/views/kelir/kelir-provider";
@@ -166,14 +166,14 @@ export default function Home() {
 
 > **Persistensi tema.** Layout root menyajikan tema tersimpan dari
 > `THEME_COOKIE` (`kelir_theme`), dan `setTheme` milik `KelirProvider` menyimpan
-> cookie tersebut lewat Server Action. Tanpa env key dan tanpa localStorage — HTML
+> cookie tersebut lewat Server Action. Tanpa env key dan tanpa localStorage - HTML
 > SSR-nya sendiri sudah bertema, sehingga tidak ada flash ke default server saat
 > muat atau refresh.
 >
 > **Tanpa switcher = tanpa tema tersimpan.** `KelirSwitcher` (atau picker apa pun)
 > memanggil `registerSwitcher`/`unregisterSwitcher` lewat `useKelir()`. Selama salah
 > satunya terpasang, `setTheme` menyimpan ke cookie. Jika halaman **tidak** memiliki
-> switcher terpasang, provider menghapus cookie tema dan `setTheme` menjadi transien —
+> switcher terpasang, provider menghapus cookie tema dan `setTheme` menjadi transien -
 > origin bersama (mis. `localhost:3000` yang dipakai beberapa proyek) tidak pernah
 > menyimpan pilihan tema yang bocor. Server tetap menyajikan tema cookie bila cookie
 > basi masih ada, tetapi cookie itu dihapus begitu halaman tanpa switcher terhidrasi.
@@ -205,14 +205,14 @@ export default function MyComponent() {
 }
 ```
 
-## Aturan Pakai — Kontrak Tersegel (v7)
+### 5. Aturan Pakai (Kontrak Tersegel v7)
 
 `kelir-types.ts` adalah sumber kebenaran tunggal: hanya prop yang tertulis di
 interface `*Props` komponen Anda yang boleh diteruskan. Versi ringkas:
 
 - **Anda mengisi isi + makna + perilaku.** Kode Anda memasok teks, opsi, data,
-  dan handler (`onClick`, `onChange`, `value`, `open`). Semua yang visual —
-  warna, radius, spasi, font, bayangan, animasi — milik Kelir dan mengikuti
+  dan handler (`onClick`, `onChange`, `value`, `open`). Semua yang visual -
+  warna, radius, spasi, font, bayangan, animasi - milik Kelir dan mengikuti
   tema aktif secara otomatis.
 - **Jangan men-style dari luar.** Tanpa `style`/`sx`/`className`, tanpa warna
   atau ukuran mentah, tanpa `slotProps`/`classes`/`slot`, tanpa
@@ -220,14 +220,14 @@ interface `*Props` komponen Anda yang boleh diteruskan. Versi ringkas:
   (satu-satunya pengecualian adalah `data-testid` untuk test Anda sendiri).
 - **Pilih dari daftar tetap.** Prop seperti `variant`, `size`, `gap`, `align`,
   `shape`, atau `mode` hanya menerima nilai yang tercantum di
-  `kelir-types.ts` — misalnya `Button variant="primary"`, `Grid columns={6}`,
+  `kelir-types.ts` - misalnya `Button variant="primary"`, `Grid columns={6}`,
   `Stack gap="md"`. Nilai karangan sendiri tak akan cocok dengan token tema.
 - **Tata letak pakai primitif kit.** Pakai `Stack`, `Grid`, atau `Spacer` dari
   `kelir-components` (lihat §4 di atas), bukan pembungkus `div` polos.
 - **Satu sakelar visual.** `KelirProvider` hanya menerima `defaultTheme` +
   `children`, tanpa yang lain. Ganti tema saat runtime lewat
   `useKelir().setTheme` atau `KelirSwitcher` yang sudah jadi (lihat §3 di
-  atas) — jangan pernah menimpa warna.
+  atas) - jangan pernah menimpa warna.
 - **Label milik Anda, perilaku milik kami.** Anda memasok nama aksesibel
   (`aria-label`, `id`, `htmlFor`); focus trap, pengumuman live, dan dukungan
   keyboard sudah built-in di setiap komponen. Satu-satunya komponen yang
@@ -336,7 +336,7 @@ Komponen yang membentuk struktur dan penempatan elemen.
 
 Project Kelir menyediakan tema-tema berikut (satu bahasa desain `DESIGN.md` tiap
 tema), bisa dipilih saat runtime via `KelirProvider`/`KelirSwitcher`. Daftar di
-bawah sudah lengkap — pertahankan format `N. **theme-id**:` bila menambah tema.
+bawah sudah lengkap - pertahankan format `N. **theme-id**:` bila menambah tema.
 
 1. **aurora-ui**: Gradien aurora mengalir di atas kanvas gelap.
 2. **claymorphism**: Bentuk tanah liat yang chunky dan lembut dengan border membulat tebal.

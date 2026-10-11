@@ -3,9 +3,9 @@
 
 ## Origin of the Name & Concept
 
-The name **Project Kelir** is taken from the traditional wayang shadow-puppet performance — *kelir* is the cloth screen used as the stage for wayang shadow puppetry. This philosophy represents Project Kelir as a "screen" capable of displaying various different design faces (themes) on top of one single set of components.
+The name **Project Kelir** is taken from the traditional wayang shadow-puppet performance - *kelir* is the cloth screen used as the stage for wayang shadow puppetry. This philosophy represents Project Kelir as a "screen" capable of displaying various different design faces (themes) on top of one single set of components.
 
-Project Kelir integrates various **`DESIGN.md`** files — each representing its own design language — into one coherent multi-theme design system. Each design language is defined separately in its own file, then unified under a single architecture so it can be selected or swapped with ease.
+Project Kelir integrates various **`DESIGN.md`** files - each representing its own design language - into one coherent multi-theme design system. Each design language is defined separately in its own file, then unified under a single architecture so it can be selected or swapped with ease.
 
 ## Current Limitations
 
@@ -71,7 +71,7 @@ git submodule update --remote src/views/kelir
 
 Place `KelirProvider` in `layout.tsx`. The theme is **server-driven**: the root
 layout reads the persisted theme cookie (if any) and lays `data-kelir-theme`
-straight onto `<html>`, so the very first SSR HTML is already themed — no flash,
+straight onto `<html>`, so the very first SSR HTML is already themed - no flash,
 no client inline script, no localStorage. `setTheme` applies the theme instantly
 on the client (attribute) and persists it back through a Server Action that sets
 the cookie, so the next SSR response already ships the saved theme.
@@ -105,7 +105,7 @@ export default async function RootLayout({
 ```
 
 ```tsx
-// src/controllers/theme-actions.ts (Server Action — sets the cookie)
+// src/controllers/theme-actions.ts (Server Action - sets the cookie)
 "use server";
 
 import { cookies } from "next/headers";
@@ -123,7 +123,7 @@ export async function persistThemeCookie(theme: Theme) {
 ```
 
 ```tsx
-// src/controllers/theme-actions.ts (Server Action — removes the cookie)
+// src/controllers/theme-actions.ts (Server Action - removes the cookie)
 "use server";
 
 import { cookies } from "next/headers";
@@ -153,7 +153,7 @@ export default function Home() {
 ```
 
 ```tsx
-// src/app/page.tsx (Client Component) — programmatic access
+// src/app/page.tsx (Client Component) - programmatic access
 "use client";
 
 import { useKelir } from "@/views/kelir/kelir-provider";
@@ -166,14 +166,14 @@ export default function Home() {
 
 > **Theme persistence.** The root layout serves the saved theme from the
 > `THEME_COOKIE` (`kelir_theme`), and `KelirProvider`'s `setTheme` persists that
-> cookie through a Server Action. No env key and no localStorage — the SSR HTML
+> cookie through a Server Action. No env key and no localStorage - the SSR HTML
 > itself is already themed, so there is no flash to a server default on load or
 > refresh.
 
 > **No switcher = no persisted theme.** `KelirSwitcher` (or any picker) calls
 > `registerSwitcher`/`unregisterSwitcher` via `useKelir()`. As long as one is
 > mounted, `setTheme` persists to the cookie. If the page has **no** mounted
-> switcher, the provider deletes the theme cookie and `setTheme` stays transient —
+> switcher, the provider deletes the theme cookie and `setTheme` stays transient -
 > a shared origin (e.g. `localhost:3000` reused by several projects) never keeps a
 > leaked theme choice. The server still serves the cookie theme if a stale cookie
 > existed, but it is removed once the no-switcher page hydrates.
@@ -205,28 +205,28 @@ export default function MyComponent() {
 }
 ```
 
-## Usage Rules — The Sealed Contract (v7)
+### 5. Usage Rules (Sealed Contract v7)
 
 `kelir-types.ts` is the single source of truth: only the props written in your
 component's `*Props` interface may be passed. The short version:
 
 - **You fill content + meaning + behavior.** Your code provides text, options,
   data, and handlers (`onClick`, `onChange`, `value`, `open`). Everything
-  visual — colors, radius, spacing, fonts, shadows, animations — belongs to
+  visual - colors, radius, spacing, fonts, shadows, animations - belongs to
   Kelir and follows the active theme automatically.
 - **Never style from the outside.** No `style`/`sx`/`className`, no raw
   colors or sizes, no `slotProps`/`classes`/`slot`, no
   `dangerouslySetInnerHTML`, and no `data-*` attributes for styling (the only
   exception is `data-testid` for your own tests).
 - **Pick from fixed choices.** Props like `variant`, `size`, `gap`, `align`,
-  `shape`, or `mode` accept only the values listed in `kelir-types.ts` — for
+  `shape`, or `mode` accept only the values listed in `kelir-types.ts` - for
   example `Button variant="primary"`, `Grid columns={6}`, `Stack gap="md"`.
   A value you invent yourself won't match the theme tokens.
 - **Lay out with kit primitives.** Use `Stack`, `Grid`, or `Spacer` from
   `kelir-components` (see §4 above), not plain `div` wrappers.
 - **One visual switch.** `KelirProvider` takes `defaultTheme` + `children`
   and nothing else visual. Change themes at runtime with
-  `useKelir().setTheme` or the ready-made `KelirSwitcher` (see §3 above) —
+  `useKelir().setTheme` or the ready-made `KelirSwitcher` (see §3 above) -
   never by overriding colors.
 - **Labels are yours, behavior is ours.** You provide accessible names
   (`aria-label`, `id`, `htmlFor`); focus traps, live announcements, and
@@ -335,7 +335,7 @@ Components that shape the structure and placement of elements.
 
 Project Kelir ships the following themes (one `DESIGN.md` design language each),
 selectable at runtime via `KelirProvider`/`KelirSwitcher`. The list below is
-complete — keep the `N. **theme-id**:` format when adding a theme.
+complete - keep the `N. **theme-id**:` format when adding a theme.
 
 1. **aurora-ui**: Flowing aurora gradients over a dark canvas.
 2. **claymorphism**: Soft chunky clay shapes with thick rounded borders.
