@@ -188,20 +188,50 @@ export default function Home() {
 Impor komponen Project Kelir langsung dari `src/views/kelir/kelir-components` seperti contoh berikut:
 
 ```tsx
-import { Button } from "@/views/kelir/kelir-components/button";
-import { Switch } from "@/views/kelir/kelir-components/switch";
 import { Badge } from "@/views/kelir/kelir-components/badge";
+import { Button } from "@/views/kelir/kelir-components/button";
+import { Stack } from "@/views/kelir/kelir-components/stack";
+import { Switch } from "@/views/kelir/kelir-components/switch";
 
 export default function MyComponent() {
   return (
-    <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-      <Button variant="primary">Click Me</Button>
-      <Switch label="Enable Feature" checked={true} />
-      <Badge variant="secondary">New Info</Badge>
-    </div>
+    // Kontrak tersegel: tata letak via primitif kit (Stack), jangan div ber-style.
+    <Stack direction="row" gap="md">
+      <Button variant="primary">Klik Saya</Button>
+      <Switch label="Aktifkan Fitur" defaultChecked />
+      <Badge variant="secondary">Info Baru</Badge>
+    </Stack>
   );
 }
 ```
+
+## Aturan Pakai — Kontrak Tersegel (STYLE v7)
+
+Daftar putih lengkap ada di `STYLE.md` §5 proyek konsumen. Versi ringkas untuk
+pengimpor:
+
+- **Anda hanya mengisi isi + makna + perilaku.** Semua visual milik Kelir:
+  tanpa `style`/`sx`/`className`, tanpa warna, radius, spasi, atau dimensi
+  mentah, tanpa `slotProps`/`classes`/`slot`, tanpa `dangerouslySetInnerHTML`.
+- **Hanya union tertutup.** Setiap prop semantik mencantumkan unionnya di
+  `STYLE.md` §5 (`Button variant/align`, `Stack`/`Grid gap`, `Grid columns
+  1|2|3|4|6|12`, `Input type/size`, `IconButton shape`, `Sidebar
+  mode/trigger/overlayHeight`, `Drawer paperHeight`, `Typography variant/as/level`,
+  `Skeleton variant/animation`). Union yang tak tertulis berarti belum diputus —
+  ajukan request, jangan mengarang sendiri.
+- **Tata letak memakai primitif kit.** Pembungkus `div` polos untuk layout adalah
+  error sejak v7 — pakai `Stack`, `Grid`, atau `Spacer` (lihat §4 di atas).
+- **`data-*` untuk styling dilarang** (dijaga lint); satu-satunya allowlist adalah
+  `data-testid` sebagai test hook.
+- **Provider satu-satunya sakelar visual.** `KelirProvider` hanya menerima
+  `defaultTheme` (union tema tertutup) + `children`, tanpa prop visual lain;
+  ganti saat runtime via `useKelir().setTheme` atau `KelirSwitcher` (lihat §3 di
+  atas).
+- **Aksesibilitas dibagi.** Anda memasok label (`aria-label`, `aria-describedby`,
+  `id`, `htmlFor`); trap, live-region, dan perilaku keyboard milik Kelir
+  (dibuktikan per komponen lewat runtime test).
+- Satu pengecualian tercatat, bukan preseden: `Skeleton width/height`
+  (placeholder loading butuh dimensi intrinsik).
 
 ---
 

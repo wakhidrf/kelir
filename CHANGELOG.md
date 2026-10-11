@@ -1,102 +1,31 @@
 # Changelog — Kelir
 
-## 2026-10-10 — Sidebar responsif + token radius peran (ISSUE-005/006)
+## v7 Contract vs Before
 
-### Added
-- **Sidebar responsif (ISSUE-005)**: `mode?: "auto"|"docked"|"overlay"` (default `auto`: docked ≥ 900px, overlay di bawahnya), `open?/defaultOpen?/onOpenChange?` untuk overlay; overlay pakai-ulang `Drawer` (trap/Escape/backdrop/`inert`/fokus kembali); docked `position: sticky + 100dvh` + landmark `<nav>`; lebar token `--sidebar-width` (default 260px), overlay `min(..., 85vw)`; area tengah `flex: 1; min-height: 0` (konsumen tak susun `ScrollArea` sendiri); `div` internal → `MuiBox`. `aria-label` tetap opsional (tak-breaking); `collapsed` ditunda.
-- **Token radius peran (ISSUE-006)**: `css.radius.button/card/surface/prominent` (+ `css.control.radius` yang sudah ada); 67 titik beralih peran, default = nilai kini (nol-ubah visual); skala mentah hanya di definisi tema. Sisa skala: kontainer Questionnaire `lg` (disengaja, komentar `ISSUE-006` — faktor-ukuran susulan).
+| Feature / Rule | Before v7 | v7 |
+|---|---|---|
+| Layout primitives (`Stack`/`Grid`/`Spacer`) | Plain wrappers tolerated (interim) | Plain non-kit wrapper = error; `Stack gap?/direction?`, `Grid columns? 1\|2\|3\|4\|6\|12 + gap?`, `Spacer size?` (all `xs\|sm\|md\|lg`) |
+| `Skeleton` dimensions | `width`/`height` banned like every component | Recorded exception (not a precedent); `animation` stays a closed status union (`pulse\|wave\|false`) |
+| Closed unions | Partial — `Grid`/`Typography`/`Input` still open | Completed: `Grid columns`, `Typography as/level`, `Input type/size` |
+| `data-*` attributes | Unregulated styling backdoor | Allowlist `data-testid` only, lint-enforced |
+| `Sidebar` responsive | No mode/trigger/height props | `mode auto\|docked\|overlay` (default `auto`), `open?/defaultOpen?/onOpenChange?`, `trigger none\|hamburger\|chevron`, `overlayHeight full\|content`; overlay reuses `Drawer`; content padding 8px, `<` tab 4px |
+| `Drawer` paper | Full-height only | `paperHeight full\|auto` (auto wraps content via `fit-content`, no transform); card-like right corners; `aria-label` also on the dialog paper |
+| `Button` / `IconButton` | Center-only buttons; shape unregulated | `Button align center\|start`; `IconButton shape rounded\|circle\|square` (default `rounded`); overlay trigger is `primary` |
+| Radius tokens | Raw scale at every call site | `css.radius.button/card/surface/prominent` + `css.control.radius`; 67 call sites, zero visual change |
+| Test rules | Inside STYLE.md | Moved to `KELIR-TESTING.md`; sealed = `test-d.tsx` + runtime spread-`any` + `axe` per component |
+| `Questionnaire` | Single file | 5 SRP modules, zero contract change |
+| Generics | Loose | Strict with compatible defaults (`Chart`/`Table`/`Carousel`/`Resizable`) |
+| Kit-owned a11y | Ad-hoc | Proven per component: Toast live-region, Dialog trap, focusable Tooltip/Popover triggers, Menu arrows, labeled Command/Questionnaire inputs |
+| Screenshot regression | None | `kelir-shots.mjs` (dep-free CDP) + 11-theme baselines + `kelir:shots:check` |
 
-### Verification
-- `tsc` bersih; `npm run test` 143/143 (70 file, +1 Sidebar overlay/Escape); `kelir:drift` OK; `kelir:guard` 0 ERROR; `kelir:status:check` 69/69.
+## History
 
-### Fixed
-- **ISSUE-007 — console error `notched` di Select**: MUI menyuntik `notched: true` ke elemen `input`, `MuiInputBase` meneruskannya ke `div`. Pembungkus internal `KelirSelectInput` (strip `notched`, teruskan ref) + runtime-test spy `console.error` (gagal di kode lama, lolos di baru).
-- **ISSUE-010 — IconButton shape + trigger primary**: `IconButton shape?: "rounded"|"circle"|"square"` (default rounded, nol-ubah); pemicu Sidebar overlay jadi `primary`.
-- **ISSUE-009 — nav ringkas + tombol rata kiri**: `Drawer paperHeight?: "full"|"auto"` (paper bungkus isi + tengah vertikal via margin auto — tanpa transform agar tak bentrok transisi Slide); `Button align?: "center"|"start"` (kolom ikon lurus di tombol full-width); Sidebar overlay teruskan sebagai `overlayHeight content`. Koreksi teori: `height:auto` + `top/bottom:0` meregang penuh (margin auto jadi nol) — harus `fit-content` (terbukti: paper 152px, top 346 tengah persis). Slider hantu tepi paper
-(paper overflowY auto + pecahan 151.5 vs 150): paper mode content kini
-`overflowY visible` — paper tak pernah scroll sendiri; scroll milik
-ScrollArea dalam (prinsip: slider hanya di mode full).
-- **ISSUE-008 — varian trigger + tinggi overlay Sidebar**: `trigger?: "none"|"hamburger"|"chevron"` (IconButton portal meluncur sinkron drawer; label Buka/Tutup); `overlayHeight?: "full"|"content"`. Drawer paper lengkung kanan ala card; overlay maksimal 50vw; teks panjang wrap. Isi overlay napas 16px dari tepi paper; tab `<` berjarak 8px dari tepi drawer. Koreksi hidrasi: `noSsr` MUI mengembalikan nilai asli saat render pertama → server + render pertama selalu docked, overlay setelah mount (terbukti `renderToString`). Bonus temuan axe: `aria-label` Drawer kini juga di paper `role=dialog` (sebelumnya hanya root → dialog tak bernama).
-- **ISSUE-005 susulan — daftar terpotong**: root docked `height: 100dvh` + `flexShrink: 0` memotong isi di parent bounded; area tengah tak scroll (ScrollArea unbounded). Root kini `height: 100%` + `maxHeight: 100dvh`, tengah `ScrollArea maxHeight="100%"` (scroll internal bila bounded, tumbuh bila tidak).
-
-## 2026-10-10 — Kontrak paten 69/69 sealed (epik Gel.2–Gel.3c-11 + P1b/P1d/P2)
-
-### Added
-- **Seluruh 69 kontrak sealed**: semua `*Props` di `kelir-types.ts` eksplisit (tanpa warisan MUI/HTML); tiap komponen punya `*.test-d.tsx` (JSX + `@ts-expect-error` di baris prop) + `*.test.tsx` (paksa spread via `any` + `axe`) — pola §6b STYLE.md.
-- **Generik ketat (P2)**: `Chart<TDatum extends object>`, `Table<TCell>`, `Carousel<TItem>`, `Resizable<TPanel>` — default kompatibel, inferensi jalan.
-- **A11y milik kit (P2)**: Toast `role=status` + `aria-live=polite`; Dialog focus-trap terbukti; Tooltip/Popover pemicu fokusabel; Menu ArrowDown; Command input + Questionnaire textarea `aria-label`.
-- **Screenshot regression (P1d)**: `scripts/kelir-shots.mjs` dep-free (Chrome/Edge via CDP) + baseline 11 tema di `__shots__/`.
-- **Showcase 64→68**: demo Grid, IconButton, Spacer, Stack; README Complete List + counter disinkronkan.
-
-### Changed (breaking, sadar)
-- Slot teks turun ke `string`; pemicu render-sendiri (tanpa `cloneElement`); `onChange/onClose/onRemove` semantik tanpa event (adaptor zero-arg milik kit); Combobox pilih-satu; `MessageScroller.style.maxHeight` → prop `maxHeight`.
-- **Questionnaire dipecah (P2)**: orkestrasi + 5 modul SRP (`model/progress/item/nav/complete`); kontrak publik nol-ubah.
-
-### Verification
-- `tsc` bersih; `npm run test` 142/142 (70 file); `lint` (Biome) bersih; `build` OK; `kelir:guard` 0 ERROR; `kelir:drift` OK (69 §5 vs 85 interface); `kelir:status:check` OK (69/69 sealed); `kelir:shots:check` OK (11 tema identik baseline).
-
-## 2026-09-29 — Chart/DataTable dukung prop title (ISSUE-004)
-
-### Fixed
-- **ISSUE-004 — Chart & DataTable tak mendukung judul di dalam card**: keduanya me-render bingkai card sendiri tetapi tak menerima prop judul, sehingga konsumen terpaksa membungkus dengan `<Card title>` (bingkai ganda). Fix: `title?: React.ReactNode` (opsional, backward-compatible) pada `ChartProps` dan `DataTableProps`, dirender sebagai heading di dalam frame masing-masing (`fontWeight: 700`, `color: textPrimary`, `marginBottom: space.sm`; DataTable sejajar padding sel 16px). Tanpa `title`, tampilan sama persis (render kondisional, tanpa elemen tambahan). Catatan tipe: `title: string` bawaan (`HTMLAttributes`/`MuiTableProps`, atribut tooltip) di-`Omit` agar tak bentrok dengan `ReactNode` — preseden sama seperti `DialogProps`/`CardProps`.
-
-### Verification
-- `tsc --noEmit` clean (submodule files typecheck via parent project)
-- Manual browser check masih terbuka: `<Chart title="...">` / `<DataTable title="...">` tampil di dalam bingkai; tanpa `title` tak ada perubahan visual
-
-## 2026-09-29 — "use client" untuk semua komponen interaktif (ISSUE-003)
-
-### Fixed
-- **ISSUE-003 — DataTable crash di Server Component**: `data-table.tsx` memakai `React.useState` untuk paginasi tanpa direktif `"use client"`, sehingga setiap Server Component yang merendernya langsung crash (`useState only works in Client Components`). Fix: direktif ditambahkan — plus audit Opsi B yang menemukan 19 file hook-pengguna lain juga belum berdirektif (tak satu pun file di `kelir-components` memilikinya). Total 20 file kini diawali `"use client";`: `bubble`, `calendar`, `carousel`, `collapsible`, `command`, `context-menu`, `data-table`, `date-picker`, `dropdown-menu`, `hover-card`, `input-otp`, `menubar`, `message-scroller`, `popover`, `questionnaire`, `resizable`, `select`, `tabs`, `textarea`, dan `kelir-switcher`.
-
-### Verification
-- `tsc --noEmit` clean (submodule files typecheck via parent project)
-- Manual browser check masih terbuka: render `<DataTable paginated>` dari Server Component, konfirmasi tanpa error dan paginasi tetap berfungsi
-
-## 2026-09-28 — Select/Dialog/AlertDialog: no more layout shift (scroll lock off by default)
-
-### Fixed
-- **ISSUE-001 — Select shifted page layout when opened**: MUI `Menu` (Modal-based) enabled scroll lock by default — `overflow: hidden` on `<body>` removed the vertical scrollbar and the whole page jumped sideways. Fix: `Select` now defaults `MenuProps.disableScrollLock` to `true`. Consumer `MenuProps` (including `slotProps.paper`/`list`) are merged with the internal defaults instead of being overwritten, so `disableScrollLock` and menu styling stay controllable from outside. Object slots merge key-by-key (internal style underneath); callback slots `(ownerState) => props` pass through untouched.
-- **Select swallowed consumer `onOpen`**: the hardcoded `onOpen` (menu-width measurement) came after `{...props}`, silently dropping any consumer handler. Fix: internal measurement runs first, then the consumer's `onOpen` is called.
-- **ISSUE-002 — Dialog/AlertDialog shifted background content**: same scroll-lock root cause. Fix: both default `disableScrollLock` to `true`; override with `disableScrollLock={false}` to restore scroll locking.
-
-### Verification
-- `tsc --noEmit` clean (submodule files typecheck via parent project)
-- Biome skips `src/views/kelir` by config — no lint signal for these files
-- Manual browser check still open: open/close on a scrollbar page (Chrome + Firefox, 1280px + 390px), confirm no shift and no visual regression
-
-## 2026-09-19 — DatePicker: fix unopenable popover + inline month/year navigation
-
-### Fixed
-- **DatePicker popover never opened**: `e.currentTarget` was read inside the `setAnchorEl` updater. Because `setViewDate()` is called first in the same handler, React skips eager evaluation and runs the updater later during render, when the event's `currentTarget` is no longer valid — the anchor stayed `null`, so clicking the trigger showed no calendar and no error. Fix: capture the target synchronously (same pattern as `popover.tsx`).
-
-### Added
-- **Inline month/year navigation**: the header labels (e.g. "September ▾", "2026 ▾") toggle a 3×4 month grid and a scrollable year list (current year ± 30, auto-scrolled to the active year) inside the same popover. Selecting an option returns to the day view. The ‹ › month-stepping arrows are unchanged. Deliberately inline instead of nested `Select` dropdowns — a nested menu (z-index `modal`) would render beneath the calendar popover (`modal + 1`) and be unclickable.
-
-## 2026-09-01 — Fix: suppress 'notched' boolean attribute warning in Select
-
-### Fixed
-- **Select component**: Destructure `notched` prop to prevent React 18+ warning about boolean attributes passed to native DOM elements.
-
-### Details
-MUI's `Select` with outlined variant internally uses a `notched` boolean prop for the label notch. When Kelir's `Select` spreads all props (`...props`) to `MuiSelect`, this internal prop reaches the native `<input>` element, causing React to warn:
-
-```
-Received `true` for a non-boolean attribute `notched`.
-If you want to write it to the DOM, pass a string instead: notched="true" or notched={value.toString()}.
-```
-
-**Fix**: Explicitly destructure `notched` in the component signature so it's consumed and not forwarded.
-
-```tsx
-// Before
-export function Select({ options, style, ...props }: SelectProps) { ... }
-
-// After
-export function Select({ options, style, notched, ...props }: SelectProps) { ... }
-```
-
-### Verification
-- No more console warnings when using `Select` with outlined variant
-- All existing tests pass
-- TypeScript compilation clean
+| Date | Change | Verification |
+|---|---|---|
+| 2026-10-10 | Sidebar responsive + role radius tokens (ISSUE-005/006); follow-ups `notched` (007), trigger variants (008), `paperHeight`/`align` (009), `IconButton shape` (010); overlay `min(..., 50vw)`; hydration: server + first render always docked | `tsc`; test 143/143; drift; guard 0 ERROR; status 69/69 |
+| 2026-10-10 | All 69 contracts sealed (Gel.2–Gel.3c-11 + P1b/P1d/P2); breaking: text slots to `string`, no `cloneElement`, semantic event-free handlers, single-pick Combobox, `MessageScroller maxHeight` prop | `tsc`; test 142/142; lint; build; guard; drift; shots 11/11 |
+| 2026-09-29 | `Chart`/`DataTable` support `title?` (ISSUE-004) | `tsc`; manual browser check open |
+| 2026-09-29 | `"use client"` on all 20 interactive components (ISSUE-003) | `tsc`; manual browser check open |
+| 2026-09-28 | Scroll lock off by default on `Select`/`Dialog`/`AlertDialog` (ISSUE-001/002); consumer `MenuProps`/`onOpen` merged, not overwritten | `tsc`; manual browser check open |
+| 2026-09-19 | DatePicker popover anchor fix + inline month/year navigation | — |
+| 2026-09-01 | `Select` strips internal `notched` prop (React boolean-attribute warning) | Tests pass; `tsc` |

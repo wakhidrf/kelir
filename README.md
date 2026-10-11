@@ -188,20 +188,49 @@ export default function Home() {
 Import Project Kelir components directly from `src/views/kelir/kelir-components` as in the following example:
 
 ```tsx
-import { Button } from "@/views/kelir/kelir-components/button";
-import { Switch } from "@/views/kelir/kelir-components/switch";
 import { Badge } from "@/views/kelir/kelir-components/badge";
+import { Button } from "@/views/kelir/kelir-components/button";
+import { Stack } from "@/views/kelir/kelir-components/stack";
+import { Switch } from "@/views/kelir/kelir-components/switch";
 
 export default function MyComponent() {
   return (
-    <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+    // Sealed contract: layout via kit primitives (Stack), never a styled div.
+    <Stack direction="row" gap="md">
       <Button variant="primary">Click Me</Button>
-      <Switch label="Enable Feature" checked={true} />
+      <Switch label="Enable Feature" defaultChecked />
       <Badge variant="secondary">New Info</Badge>
-    </div>
+    </Stack>
   );
 }
 ```
+
+## Usage Rules — The Sealed Contract (STYLE v7)
+
+The full whitelist is `STYLE.md` §5 in the consuming project. The short version
+for importers:
+
+- **You fill content + meaning + behavior only.** All visuals belong to Kelir:
+  no `style`/`sx`/`className`, no raw colors, radius, spacing, or dimensions,
+  no `slotProps`/`classes`/`slot`, no `dangerouslySetInnerHTML`.
+- **Only closed unions.** Every semantic prop lists its union in `STYLE.md` §5
+  (`Button variant/align`, `Stack`/`Grid gap`, `Grid columns 1|2|3|4|6|12`,
+  `Input type/size`, `IconButton shape`, `Sidebar mode/trigger/overlayHeight`,
+  `Drawer paperHeight`, `Typography variant/as/level`, `Skeleton
+  variant/animation`). An unlisted union is undecided — file a request, don't
+  invent one.
+- **Layout uses kit primitives.** A plain `div` wrapper for layout is an error
+  since v7 — use `Stack`, `Grid`, or `Spacer` (see §4 above).
+- **`data-*` for styling is banned** (lint-enforced); the single allowlist is
+  `data-testid` as a test hook.
+- **The provider is the only visual switch.** `KelirProvider` takes
+  `defaultTheme` (closed theme union) + `children`, nothing else visual; switch
+  at runtime via `useKelir().setTheme` or `KelirSwitcher` (see §3 above).
+- **Accessibility is split.** You supply labels (`aria-label`,
+  `aria-describedby`, `id`, `htmlFor`); traps, live-regions, and keyboard
+  behavior are Kelir's (proven per component by runtime tests).
+- One recorded exception, not a precedent: `Skeleton width/height` (loading
+  placeholders need intrinsic dimensions).
 
 ---
 
@@ -301,7 +330,7 @@ Components that shape the structure and placement of elements.
 ---
 
 <!-- kelir-doc: themes -->
-## Daftar Tema
+## Theme List
 
 Project Kelir ships the following themes (one `DESIGN.md` design language each),
 selectable at runtime via `KelirProvider`/`KelirSwitcher`. Entries below are
