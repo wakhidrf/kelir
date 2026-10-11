@@ -6,7 +6,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import MuiBox from "@mui/material/Box";
 import MuiIconButton from "@mui/material/IconButton";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import type { SidebarProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 import { Drawer } from "./drawer";
@@ -101,6 +102,11 @@ export function Sidebar({
 
   const [uncontrolled, setUncontrolled] = useState(defaultOpen);
   const overlayOpen = open ?? uncontrolled;
+  // Portal butuh mount (hindari hydration mismatch: server tak render portal).
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   const handleClose = () => {
     onOpenChange?.(false);
     if (open === undefined) setUncontrolled(false);
@@ -145,7 +151,6 @@ export function Sidebar({
             sx={{
               display: "flex",
               flexDirection: "column",
-              position: "relative",
               width: OVERLAY_WIDTH,
               // full = drawer penuh; content = bungkus isi (paper Drawer
               // tetap jadi latar).
@@ -159,29 +164,37 @@ export function Sidebar({
             <SidebarBody header={header} footer={footer}>
               {children}
             </SidebarBody>
-            {/* Terbuka: tab tutup MENEMPEL di tepi kanan drawer
-                (left 100%, tengah vertikal, ikut meluncur) — pola referensi
-                dashboard OTW. Di dalam modal: tanpa perang z-index. */}
-            {trigger !== "none" && (
-              <MuiBox
-                sx={{
-                  position: "absolute",
-                  left: "100%",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                }}
-              >
-                <TriggerTab
-                  label={openLabel}
-                  expanded={true}
-                  controlsId={id}
-                  onToggle={handleTriggerToggle}
-                  icon={<ChevronLeftIcon sx={{ fontSize: 18 }} />}
-                />
-              </MuiBox>
-            )}
           </MuiBox>
         </Drawer>
+        {/* Terbuka: tab tutup via Portal ke body, fixed di tepi kanan drawer
+            (left = lebar drawer, tengah vertikal, ikut konsep pola OTW).
+            Alasan portal: paper Drawer MUI ber-overflowY auto yang MEMOTONG
+            tab di left:100% bila dirender di dalam paper; portal lepas dari
+            paper sekaligus dari stacking context mana pun — tanpa z-war. */}
+        {trigger !== "none" &&
+          overlayOpen &&
+          mounted &&
+          typeof document !== "undefined" &&
+          createPortal(
+            <MuiBox
+              sx={{
+                position: "fixed",
+                left: OVERLAY_WIDTH,
+                top: "50%",
+                transform: "translateY(-50%)",
+                zIndex: 1400,
+              }}
+            >
+              <TriggerTab
+                label={openLabel}
+                expanded={true}
+                controlsId={id}
+                onToggle={handleTriggerToggle}
+                icon={<ChevronLeftIcon sx={{ fontSize: 18 }} />}
+              />
+            </MuiBox>,
+            document.body,
+          )}
       </>
     );
   }
