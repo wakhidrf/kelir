@@ -1,5 +1,6 @@
 "use client";
 
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MenuIcon from "@mui/icons-material/Menu";
 import MuiBox from "@mui/material/Box";
@@ -67,19 +68,34 @@ export function Sidebar({
     onOpenChange?.(true);
     if (open === undefined) setUncontrolled(true);
   };
+  // Pemicu toggle persistent: saat terbuka naik di atas backdrop Drawer
+  // (z 1400 > modal 1300) dengan ikon tutup; saat tertutup ikon buka.
+  const handleTriggerToggle = () => {
+    if (overlayOpen) handleClose();
+    else handleTriggerOpen();
+  };
 
   if (resolved === "overlay") {
     return (
       <>
-        {/* Pemicu tepi milik kit (ISSUE-008): hanya overlay, render in-flow
-            di titik penempatan (terlihat saat tertutup; saat terbuka
-            tertutup backdrop Drawer). */}
+        {/* Pemicu tepi toggle milik kit (ISSUE-008): hanya overlay, render
+            in-flow di titik penempatan. Tertutup: ikon buka (hamburger /
+            chevron kanan). Terbuka: naik di atas backdrop (z 1400) dengan
+            ikon tutup (chevron kiri; hamburger tetap). */}
         {trigger !== "none" && (
           <MuiIconButton
-            aria-label={ariaLabel ? `Buka ${ariaLabel}` : "Buka navigasi"}
+            aria-label={
+              overlayOpen
+                ? ariaLabel
+                  ? `Tutup ${ariaLabel}`
+                  : "Tutup navigasi"
+                : ariaLabel
+                  ? `Buka ${ariaLabel}`
+                  : "Buka navigasi"
+            }
             aria-expanded={overlayOpen}
             aria-controls={id}
-            onClick={handleTriggerOpen}
+            onClick={handleTriggerToggle}
             sx={{
               width: "28px",
               height: "64px",
@@ -92,9 +108,12 @@ export function Sidebar({
               borderLeft: "none",
               boxShadow: css.shadows.convex,
               color: css.colors.textPrimary,
+              zIndex: overlayOpen ? 1400 : "auto",
             }}
           >
-            {trigger === "hamburger" ? (
+            {overlayOpen ? (
+              <ChevronLeftIcon fontSize="small" />
+            ) : trigger === "hamburger" ? (
               <MenuIcon fontSize="small" />
             ) : (
               <ChevronRightIcon fontSize="small" />

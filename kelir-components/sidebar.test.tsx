@@ -71,5 +71,13 @@ describe("Sidebar sealed + responsif (ISSUE-005 §6b)", () => {
     const drawer = document.querySelector(".MuiDrawer-root") as HTMLElement;
     expect(drawer.textContent).toContain("Item 1");
     await expectNoAxeViolations(drawer);
+    // Toggle: pemicu tetap terlihat di atas backdrop dengan ikon tutup;
+    // klik lagi menutup.
+    const closer = container.querySelector(
+      'button[aria-label="Tutup Navigasi"]',
+    ) as HTMLElement;
+    fireEvent.click(closer);
+    expect(onOpenChange).toHaveBeenCalledWith(false);
+    expect(closer.getAttribute("aria-expanded")).toBe("false");
   });
 });
