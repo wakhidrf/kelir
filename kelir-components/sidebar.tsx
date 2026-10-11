@@ -59,6 +59,7 @@ function TriggerTab({
       aria-expanded={expanded}
       aria-controls={controlsId}
       onClick={onToggle}
+      disableRipple
       sx={{
         width: "28px",
         height: "64px",
@@ -68,10 +69,14 @@ function TriggerTab({
         borderBottomRightRadius: css.radius.button,
         // Badan opak dari kanvas tema (surface tema kaca itu translusen;
         // tab tepi harus terbaca seperti handle custom lama yang opak).
-              backgroundColor: css.colors.baseBackground,
-              border: `1px solid ${css.border.light}`,
-              borderLeft: "none",
-              color: css.colors.textPrimary,
+        backgroundColor: css.colors.baseBackground,
+        border: `1px solid ${css.border.light}`,
+        borderLeft: "none",
+        color: css.colors.textPrimary,
+        // Tab statis: tanpa cucian hover/ripple MUI (temuan visual mobile).
+        "&:hover": {
+          backgroundColor: css.colors.baseBackground,
+        },
       }}
     >
       {icon}
