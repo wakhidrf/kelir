@@ -1,13 +1,13 @@
 <!-- kelir-doc: intro -->
 ## Asal-Usul Nama & Konsep
 
-Nama ini diambil dari pertunjukan wayang kulit tradisional - layar kain yang dipakai sebagai panggung. Filosofi ini menggambarkan pustaka ini sebagai sebuah "layar" yang mampu menampilkan berbagai wajah desain (tema) yang berbeda di atas satu rangkaian komponen yang sama.
+Nama **Project Kelir** diambil dari pertunjukan wayang kulit tradisional - *kelir* adalah layar kain yang dipakai sebagai panggung wayang kulit. Filosofi ini menggambarkan Project Kelir sebagai sebuah "layar" yang mampu menampilkan berbagai wajah desain (tema) yang berbeda di atas satu rangkaian komponen yang sama.
 
-Pustaka ini mengintegrasikan berbagai file **`DESIGN.md`** - masing-masing mewakili bahasa desainnya sendiri - menjadi satu sistem desain multi-tema yang koheren. Setiap bahasa desain didefinisikan terpisah dalam filenya masing-masing, lalu disatukan dalam satu arsitektur sehingga mudah dipilih atau diganti.
+Project Kelir mengintegrasikan berbagai file **`DESIGN.md`** - masing-masing mewakili bahasa desainnya sendiri - menjadi satu sistem desain multi-tema yang koheren. Setiap bahasa desain didefinisikan terpisah dalam filenya masing-masing, lalu disatukan dalam satu arsitektur sehingga mudah dipilih atau diganti.
 
 ## Keterbatasan Saat Ini
 
-Dukungan saat ini terbatas untuk proyek **Next.js dengan TypeScript**. Sebelum integrasi, proyek target juga perlu dibersihkan dari UI/UX lain yang sudah terpasang, seperti Tailwind CSS.
+Project Kelir saat ini terbatas untuk proyek **Next.js dengan TypeScript**. Sebelum mengintegrasikan Project Kelir, proyek juga perlu dibersihkan dari UI/UX lain yang sudah terpasang, seperti Tailwind CSS.
 
 ## Tipografi Per Tema
 

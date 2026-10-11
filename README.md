@@ -1,13 +1,13 @@
 <!-- kelir-doc: intro -->
 ## Origin of the Name & Concept
 
-The name is taken from the traditional wayang shadow-puppet performance - the cloth screen used as the stage for the puppets. This philosophy presents the library as a "screen" capable of displaying various different design faces (themes) on top of one single set of components.
+The name **Project Kelir** is taken from the traditional wayang shadow-puppet performance - *kelir* is the cloth screen used as the stage for wayang shadow puppetry. This philosophy represents Project Kelir as a "screen" capable of displaying various different design faces (themes) on top of one single set of components.
 
-The library integrates various **`DESIGN.md`** files - each representing its own design language - into one coherent multi-theme design system. Each design language is defined separately in its own file, then unified under a single architecture so it can be selected or swapped with ease.
+Project Kelir integrates various **`DESIGN.md`** files - each representing its own design language - into one coherent multi-theme design system. Each design language is defined separately in its own file, then unified under a single architecture so it can be selected or swapped with ease.
 
 ## Current Limitations
 
-Support is currently limited to **Next.js with TypeScript** projects. Before integration, the target project also needs to be cleaned of any other UI/UX already installed, such as Tailwind CSS.
+Project Kelir is currently limited to **Next.js with TypeScript** projects. Before integrating Project Kelir, the project also needs to be cleaned of any other UI/UX already installed, such as Tailwind CSS.
 
 ## Per-Theme Typography
 
