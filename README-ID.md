@@ -300,6 +300,7 @@ Komponen yang membentuk struktur dan penempatan elemen.
 
 ---
 
+<!-- kelir-doc: themes -->
 ## Daftar Tema
 
 Project Kelir menyediakan tema-tema berikut (satu bahasa desain `DESIGN.md` tiap

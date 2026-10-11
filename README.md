@@ -300,6 +300,7 @@ Components that shape the structure and placement of elements.
 
 ---
 
+<!-- kelir-doc: themes -->
 ## Daftar Tema
 
 Project Kelir ships the following themes (one `DESIGN.md` design language each),
