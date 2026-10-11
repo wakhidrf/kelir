@@ -65,13 +65,16 @@ function TriggerTab({
         height: "64px",
         padding: 0,
         borderRadius: 0,
-        borderTopRightRadius: css.radius.button,
-        borderBottomRightRadius: css.radius.button,
-        // Badan opak dari kanvas tema (surface tema kaca itu translusen;
-        // tab tepi harus terbaca seperti handle custom lama yang opak).
-        backgroundColor: css.colors.baseBackground,
-        border: `1px solid ${css.border.light}`,
-        borderLeft: "none",
+              borderTopRightRadius: css.radius.button,
+              borderBottomRightRadius: css.radius.button,
+              // Menyambung dengan paper Drawer: resep SAMA PERSIS (surface +
+              // blur + border) agar tab terbaca sebagai lanjutan drawer,
+              // bukan tombol lepas.
+              backgroundColor: css.colors.surface,
+              backdropFilter: css.motion.blur.backdrop,
+              WebkitBackdropFilter: css.motion.blur.backdrop,
+              border: `1px solid ${css.border.light}`,
+              borderLeft: "none",
         color: css.colors.textPrimary,
         // Tab statis: tanpa cucian hover/ripple MUI (temuan visual mobile).
         "&:hover": {
