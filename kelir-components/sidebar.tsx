@@ -103,9 +103,13 @@ export function Sidebar({
               width: "28px",
               height: "64px",
               padding: 0,
-              // position WAJIB: z-index diabaikan pada elemen static —
-              // inilah alasan ikon tutup tak muncul di balik backdrop.
-              position: "relative",
+              // Tertutup: in-flow di titik penempatan. Terbuka: fixed tengah
+              // tepi kiri viewport (titik SAMA seperti saat tertutup) + di
+              // atas backdrop — tak tergantung layout induk.
+              // position WAJIB: z-index diabaikan pada elemen static.
+              position: overlayOpen ? "fixed" : "relative",
+              left: overlayOpen ? 0 : undefined,
+              top: overlayOpen ? "calc(50% - 32px)" : undefined,
               borderRadius: 0,
               borderTopRightRadius: css.radius.button,
               borderBottomRightRadius: css.radius.button,
