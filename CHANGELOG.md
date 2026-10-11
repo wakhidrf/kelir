@@ -15,6 +15,10 @@
 | `Sidebar` landmark name | `aria-label` optional | `aria-label` required |
 | Alignment values | `left\|right` (Button, Card, Typography, Message, Bubble) | `start\|end` (logical values; identical in LTR, correct in RTL) |
 | Card content | Fixed content area | Scrollable body via `scrollable?` (default `false`): content scrolls inside, header/footer stay fixed; outer height stays with the consumer |
+| Stack alignment | Direction + gap only | `align?` (`start\|center\|end\|stretch`, default `stretch`) and `justify?` (`start\|center\|end\|space-between`, default `start`) — closed logical unions, no visual change by default |
+| Typography truncation | DIY ellipsis wrappers | `truncate?` (default `false`): single-line ellipsis owned by the kit |
+| Page width | DIY maxWidth wrappers | `Container` (`maxWidth?` `sm\|md\|lg\|xl`, `padding?` from layout space) — pure layout, no color/border/shadow |
+| Logo/media images | Raw `<img>` with objectFit | `Image` (`src`, `alt?`, `height?`, `fit?` `contain\|cover`, `radius?`) — neutral, no shadow/border by default |
 | Corner radius | - | Corners now follow per-role theme tokens (`button`/`card`/`surface`/`prominent`) - same look today, but each theme can shape them |
 | Reliability | - | Every component is covered by type, runtime, and accessibility tests across all 11 themes; `Questionnaire` was split into 5 modules with identical props; stricter generics (`Chart`/`Table`/`Carousel`/`Resizable`) |
 | Accessibility | Partial | Built in everywhere: Toast announcements, Dialog focus trap, focusable Tooltip/Popover triggers, Menu arrow keys, labeled inputs |

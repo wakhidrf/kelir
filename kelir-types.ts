@@ -914,6 +914,7 @@ export interface TooltipProps {
 // `variant` = hierarki VISUAL (union tertutup milik kit); `as`/`level` =
 // hierarki DOKUMEN (elemen heading yang benar; hierarki dokumen ≠ visual);
 // `align` = perataan TEKS (union tertutup; default `left`, nol-ubah visual).
+// `truncate?` = elipsis satu-baris milik kit (default `false`).
 // Tanpa style/sx/className/warna/font mentah — semua dari token kit.
 export interface TypographyProps {
   children: React.ReactNode;
@@ -921,6 +922,7 @@ export interface TypographyProps {
   as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "div";
   level?: 1 | 2 | 3 | 4 | 5 | 6;
   align?: "start" | "center" | "end" | "justify";
+  truncate?: boolean;
   id?: string;
   "aria-label"?: string;
 }
@@ -956,11 +958,15 @@ export interface QuestionnaireProps {
 }
 
 // 65. Stack — primitif layout vertikal/horizontal (P1b STYLE.md).
-// Gap union tertutup dari token css.layout.space; tanpa warna/border/shadow.
+// Gap union tertutup dari token css.layout.space; `align`/`justify` union
+// tertutup perataan flex (nilai logis, RTL-benar); default = perilaku lama
+// (stretch/start, nol-ubah visual). Tanpa warna/border/shadow.
 export interface StackProps {
   children: React.ReactNode;
   gap?: "xs" | "sm" | "md" | "lg";
   direction?: "row" | "column";
+  align?: "start" | "center" | "end" | "stretch";
+  justify?: "start" | "center" | "end" | "space-between";
   id?: string;
   "aria-label"?: string;
 }
@@ -980,4 +986,34 @@ export interface GridProps {
 export interface SpacerProps {
   size?: "xs" | "sm" | "md" | "lg";
   id?: string;
+}
+
+// 68. Container — penampung lebar halaman (P1b STYLE.md).
+// `maxWidth?` MAKNA (sm/md/lg/xl → px milik kit, default xl = token
+// container); `padding?` gutter halaman dari token css.layout.space
+// (default xl = token sidePadding). Murni layout: tanpa warna/border/
+// shadow/font. Tanpa ...rest/style/sx/className.
+export interface ContainerProps {
+  children: React.ReactNode;
+  maxWidth?: "sm" | "md" | "lg" | "xl";
+  padding?: "sm" | "md" | "lg" | "xl" | "2xl";
+  id?: string;
+  "aria-label"?: string;
+}
+
+// 69. Image — media netral sealed (P1b STYLE.md).
+// `src` wajib; `alt?` selalu dirender sebagai atribut (string kosong bila
+// tak diisi → lolos axe image-alt). `height?` MAKNA (xs/sm/md/lg/xl → px
+// milik kit, default md); lebar mengikuti rasio asli. `fit?`
+// (contain/cover, default contain); `radius?` dari token radius kit
+// (default none — netral seperti Stack, tanpa shadow/border).
+// Tanpa ...rest/style/sx/className.
+export interface ImageProps {
+  src: string;
+  alt?: string;
+  height?: "xs" | "sm" | "md" | "lg" | "xl";
+  fit?: "contain" | "cover";
+  radius?: "none" | "sm" | "md" | "lg";
+  id?: string;
+  "aria-label"?: string;
 }
