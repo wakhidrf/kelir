@@ -33,4 +33,19 @@ describe("Card sealed (§6b)", () => {
     expect(el).not.toBeNull();
     expectSealed(el as Element);
   });
+
+  it("headerAlign=center: judul + subjudul rata tengah; default kiri", () => {
+    renderSealed(
+      <Card title="Judul" subtitle="Sub" headerAlign="center">
+        Isi
+      </Card>,
+    );
+    expect(screen.getByText("Judul").style.textAlign).toBe("center");
+    expect(screen.getByText("Sub").style.textAlign).toBe("center");
+  });
+
+  it("tanpa headerAlign: judul tetap rata kiri (nol-ubah visual)", () => {
+    renderSealed(<Card title="Judul">Isi</Card>);
+    expect(screen.getByText("Judul").style.textAlign).toBe("left");
+  });
 });

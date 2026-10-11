@@ -13,11 +13,13 @@ const textSecondary = css.colors.textSecondary;
 
 // Kartu sealed (P1c STYLE.md §6): basis MUI (MuiCard + sub-komponen) untuk
 // multi-platform; hanya props kontrak yang dipakai — tanpa ...rest ke DOM,
-// tanpa style/sx/className konsumen. Gaya header/konten/footer milik kit.
+// tanpa style/sx/className konsumen. Gaya header/konten/footer milik kit;
+// `headerAlign` mengatur textAlign judul + subjudul (default `left`).
 export function Card({
   title,
   subtitle,
   headerActions,
+  headerAlign = "left",
   footer,
   children,
   id,
@@ -45,10 +47,18 @@ export function Card({
           slotProps={{
             title: {
               variant: "h6",
-              style: { fontWeight: 700, color: textPrimary },
+              style: {
+                fontWeight: 700,
+                color: textPrimary,
+                textAlign: headerAlign,
+              },
             },
             subheader: {
-              style: { color: textSecondary, fontSize: "14px" },
+              style: {
+                color: textSecondary,
+                fontSize: "14px",
+                textAlign: headerAlign,
+              },
             },
           }}
         />

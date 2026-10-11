@@ -17,6 +17,11 @@ export function cardContractChecks() {
     </Card>
   );
   const okBare = <Card>Isi saja</Card>;
+  const okCentered = (
+    <Card title="Judul" subtitle="Sub" headerAlign="center">
+      Isi rata tengah
+    </Card>
+  );
 
   // @ts-expect-error — style passthrough haram
   const noStyle = <Card style={{ margin: 8 }}>isi</Card>;
@@ -26,8 +31,20 @@ export function cardContractChecks() {
   const noClassName = <Card className="my-card">isi</Card>;
   // @ts-expect-error — title non-string haram (slot teks = string)
   const noNodeTitle = <Card title={<span>Judul</span>}>isi</Card>;
+  // @ts-expect-error — headerAlign bebas haram (left/center/right)
+  const noRawAlign = <Card title="x" headerAlign="middle">isi</Card>;
   // @ts-expect-error — prop tak dikenal tidak diteruskan ke DOM
   const noRest = <Card title="x" onClick={() => {}}>isi</Card>;
 
-  return { okFull, okBare, noStyle, noSx, noClassName, noNodeTitle, noRest };
+  return {
+    okFull,
+    okBare,
+    okCentered,
+    noStyle,
+    noSx,
+    noClassName,
+    noNodeTitle,
+    noRawAlign,
+    noRest,
+  };
 }

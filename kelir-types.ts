@@ -232,11 +232,13 @@ export interface CalendarProps {
 // 13. Card — kartu sealed berbasis MUI (P1c STYLE.md §6).
 // Slot teks (`title`/`subtitle`) = string; slot aksi/isi
 // (`headerActions`/`footer`/`children`) = ReactNode (tombol/komponen Kelir).
+// `headerAlign` = perataan judul + subjudul header (default `left`).
 // Tanpa style/sx/className/warna/font mentah — semua dari token kit.
 export interface CardProps {
   title?: string;
   subtitle?: string;
   headerActions?: React.ReactNode;
+  headerAlign?: "left" | "center" | "right";
   footer?: React.ReactNode;
   children?: React.ReactNode;
   id?: string;
