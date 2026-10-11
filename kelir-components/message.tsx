@@ -7,11 +7,11 @@ export function Message({
   sender,
   time,
   text,
-  align = "left",
+  align = "start",
   id,
   "aria-label": ariaLabel,
 }: MessageProps) {
-  const isRight = align === "right";
+  const isEnd = align === "end";
   return (
     <MuiBox
       id={id}
@@ -19,7 +19,7 @@ export function Message({
       sx={{
         display: "flex",
         flexDirection: "column",
-        alignItems: isRight ? "flex-end" : "flex-start",
+        alignItems: isEnd ? "flex-end" : "flex-start",
         gap: css.layout.space.xs,
         fontFamily: "inherit",
       }}
@@ -50,9 +50,9 @@ export function Message({
         sx={{
           maxWidth: "80%",
           padding: "10px 14px",
-          borderRadius: isRight ? "14px 14px 4px 14px" : "14px 14px 14px 4px",
-          backgroundColor: isRight ? css.colors.primary : css.colors.surface,
-          color: isRight ? css.on.primary : css.colors.textPrimary,
+          borderRadius: isEnd ? "14px 14px 4px 14px" : "14px 14px 14px 4px",
+          backgroundColor: isEnd ? css.colors.primary : css.colors.surface,
+          color: isEnd ? css.on.primary : css.colors.textPrimary,
           boxShadow: css.shadows.convex,
           border: `1px solid ${css.border.light}`,
           fontSize: "14px",

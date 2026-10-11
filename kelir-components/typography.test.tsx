@@ -33,7 +33,7 @@ describe("Typography sealed (§6b)", () => {
     expect(el.tagName).toBe("P");
   });
 
-  it("align=center: teks rata tengah; default rata kiri", () => {
+  it("align=center: teks rata tengah; default rata start", () => {
     renderSealed(
       <Typography variant="body-md" align="center">
         Tengah
@@ -42,8 +42,8 @@ describe("Typography sealed (§6b)", () => {
     expect(screen.getByText("Tengah").style.textAlign).toBe("center");
   });
 
-  it("tanpa align: textAlign tetap left (nol-ubah visual)", () => {
+  it("tanpa align: textAlign tetap start (kiri di LTR, nol-ubah visual)", () => {
     renderSealed(<Typography variant="body-md">Kiri</Typography>);
-    expect(screen.getByText("Kiri").style.textAlign).toBe("left");
+    expect(screen.getByText("Kiri").style.textAlign).toBe("start");
   });
 });

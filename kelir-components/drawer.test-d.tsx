@@ -31,7 +31,7 @@ export function drawerContractChecks() {
     />
   );
   const okAuto = (
-    <Drawer open onClose={() => {}} paperHeight="auto">
+    <Drawer open onClose={() => {}} height="auto">
       <p>Isi</p>
     </Drawer>
   );
@@ -39,8 +39,8 @@ export function drawerContractChecks() {
     <Drawer
       open
       onClose={() => {}}
-      // @ts-expect-error - paperHeight di luar union
-      paperHeight="half"
+      // @ts-expect-error - height di luar union
+      height="half"
     />
   );
   return { ok, noOpen, noOnClose, noEventClose, noNodeTitle, noAnchor, okAuto, noPaperHeight };

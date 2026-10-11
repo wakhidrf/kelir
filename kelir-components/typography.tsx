@@ -91,7 +91,7 @@ export function Typography({
   variant = "body-md",
   as,
   level,
-  align = "left",
+  align = "start",
   id,
   "aria-label": ariaLabel,
 }: TypographyProps) {

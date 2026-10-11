@@ -34,7 +34,7 @@ describe("Card sealed (§6b)", () => {
     expectSealed(el as Element);
   });
 
-  it("headerAlign=center: judul + subjudul rata tengah; default kiri", () => {
+  it("headerAlign=center: judul + subjudul rata tengah; default start", () => {
     renderSealed(
       <Card title="Judul" subtitle="Sub" headerAlign="center">
         Isi
@@ -44,8 +44,8 @@ describe("Card sealed (§6b)", () => {
     expect(screen.getByText("Sub").style.textAlign).toBe("center");
   });
 
-  it("tanpa headerAlign: judul tetap rata kiri (nol-ubah visual)", () => {
+  it("tanpa headerAlign: judul tetap rata start (kiri di LTR, nol-ubah visual)", () => {
     renderSealed(<Card title="Judul">Isi</Card>);
-    expect(screen.getByText("Judul").style.textAlign).toBe("left");
+    expect(screen.getByText("Judul").style.textAlign).toBe("start");
   });
 });

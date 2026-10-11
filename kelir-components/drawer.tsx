@@ -8,7 +8,7 @@ export function Drawer({
   onClose,
   title,
   children,
-  paperHeight = "full",
+  height = "full",
   id,
   "aria-label": ariaLabel,
 }: DrawerProps) {
@@ -40,7 +40,7 @@ export function Drawer({
             // content TAK PERNAH scroll sendiri (pecahan subpixel 151.5 vs
             // 150 memicu slider hantu); scroll milik ScrollArea dalam bila
             // konten melebihi cap.
-            ...(paperHeight === "auto"
+            ...(height === "auto"
               ? {
                   height: "fit-content",
                   maxHeight: "90dvh",

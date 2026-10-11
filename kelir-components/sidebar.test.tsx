@@ -13,14 +13,14 @@ import { Sidebar } from "./sidebar";
 describe("Sidebar sealed + responsif (ISSUE-005 §6b)", () => {
   it("menolak style/className yang dipaksa via spread", () => {
     const { container } = renderSealed(
-      <Sidebar {...forceSpread({ header: "Menu" })}>Item 1</Sidebar>,
+      <Sidebar {...forceSpread({ header: "Menu" })} aria-label="Navigasi">Item 1</Sidebar>,
     );
     expectSealed(container.firstElementChild as HTMLElement);
   });
 
   it("mode docked: landmark nav berisi header + isi + footer", () => {
     const { container } = renderSealed(
-      <Sidebar mode="docked" header={<div>Menu</div>} footer={<div>v1</div>}>
+      <Sidebar mode="docked" header={<div>Menu</div>} footer={<div>v1</div>} aria-label="Navigasi">
         <div>Item 1</div>
       </Sidebar>,
     );
@@ -74,7 +74,7 @@ describe("Sidebar sealed + responsif (ISSUE-005 §6b)", () => {
     const { container } = renderSealed(
       <Sidebar
         mode="overlay"
-        trigger="chevron"
+        triggerVariant="chevron"
         onOpenChange={onOpenChange}
         aria-label="Navigasi"
       >

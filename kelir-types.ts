@@ -170,7 +170,7 @@ export interface BreadcrumbProps {
 // lipat internal; `children` slot isi pesan. Tanpa style/sx/className.
 export interface BubbleProps {
   variant?: "sent" | "received";
-  align?: "left" | "right";
+  align?: "start" | "end";
   reactions?: string[];
   collapsible?: boolean;
   children: React.ReactNode;
@@ -185,11 +185,15 @@ export interface ButtonProps {
   endIcon?: React.ReactNode;
   variant?: "primary" | "secondary" | "destructive" | "outline" | "ghost";
   // Perataan isi (khusus tombol full-width mis. nav): center (default,
-  // ikon+teks di tengah) atau start (rata kiri, kolom ikon lurus).
-  align?: "center" | "start";
+  // ikon+teks di tengah), start (rata awal, kolom ikon lurus), atau end.
+  // Nilai logis: benar di LTR maupun RTL.
+  align?: "center" | "start" | "end";
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   type?: "button" | "submit";
   disabled?: boolean;
+  // Boleh, TAPI wajib mengawali teks terlihat (WCAG 2.5.3 Label in Name).
+  // Tipe React 19 mentoleransi semua aria-* sehingga penolakan tak bisa
+  // di-type-test — ditegakkan via review (§2, §11).
   "aria-label"?: string;
   "aria-describedby"?: string;
   id?: string;
@@ -232,13 +236,13 @@ export interface CalendarProps {
 // 13. Card — kartu sealed berbasis MUI (P1c STYLE.md §6).
 // Slot teks (`title`/`subtitle`) = string; slot aksi/isi
 // (`headerActions`/`footer`/`children`) = ReactNode (tombol/komponen Kelir).
-// `headerAlign` = perataan judul + subjudul header (default `left`).
+// `headerAlign` = perataan judul + subjudul header (default `start`).
 // Tanpa style/sx/className/warna/font mentah — semua dari token kit.
 export interface CardProps {
   title?: string;
   subtitle?: string;
   headerActions?: React.ReactNode;
-  headerAlign?: "left" | "center" | "right";
+  headerAlign?: "start" | "center" | "end";
   footer?: React.ReactNode;
   children?: React.ReactNode;
   id?: string;
@@ -404,9 +408,9 @@ export interface DrawerProps {
   onClose: () => void;
   title?: string;
   children?: React.ReactNode;
-  // Tinggi paper: full (default, drawer setinggi layar) atau auto
-  // (bungkus isi + tengah vertikal — mis. nav ringkas 3 tombol).
-  paperHeight?: "full" | "auto";
+  // Tinggi: full (default, drawer setinggi layar) atau auto
+  // (bungkus isi + tengah vertikal - mis. nav ringkas 3 tombol).
+  height?: "full" | "auto";
   id?: string;
   "aria-label"?: string;
 }
@@ -568,7 +572,7 @@ export interface MessageProps {
   sender: string;
   time?: string;
   text: string;
-  align?: "left" | "right";
+  align?: "start" | "end";
   id?: string;
   "aria-label"?: string;
 }
@@ -732,9 +736,11 @@ export interface SheetProps {
 // 51. Sidebar — navigasi samping sealed (Gel.3c STYLE.md §6; responsif ISSUE-005).
 // `header?/footer?/children` slot; `mode` putuskan docked-vs-overlay
 // (auto = docked ≥ md 900px, overlay di bawahnya); `open` hanya overlay
-// (terkontrol + tak-terkontrol via defaultOpen); `trigger` pemicu tepi
-// milik kit khusus overlay (none/hamburger/chevron); `overlayHeight`
-// full/content khusus overlay; lebar/tinggi milik kit. Tanpa ...rest/style.
+// (terkontrol + tak-terkontrol via defaultOpen); `triggerVariant` pemicu tepi
+// milik kit khusus overlay (none/hamburger/chevron) — union gaya tombol,
+// bukan slot (slot-trigger komponen lain tak terkait); `overlayHeight`
+// full/auto khusus overlay (`none` = tombol sendiri, pakai elemen native);
+// lebar/tinggi milik kit. Tanpa ...rest/style.
 export interface SidebarProps {
   header?: React.ReactNode;
   footer?: React.ReactNode;
@@ -743,10 +749,11 @@ export interface SidebarProps {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
-  trigger?: "none" | "hamburger" | "chevron";
-  overlayHeight?: "full" | "content";
+  triggerVariant?: "none" | "hamburger" | "chevron";
+  overlayHeight?: "full" | "auto";
   id?: string;
-  "aria-label"?: string;
+  // Wajib: landmark nav butuh nama (tombol buka/tutup menurunkannya).
+  "aria-label": string;
 }
 
 // 52. Skeleton — placeholder loading sealed berbasis MUI (Gel.3a §6).
@@ -910,7 +917,7 @@ export interface TypographyProps {
   variant?: "h1" | "h2" | "h3" | "body-md" | "body-sm" | "caption" | "label-caps";
   as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "div";
   level?: 1 | 2 | 3 | 4 | 5 | 6;
-  align?: "left" | "center" | "right" | "justify";
+  align?: "start" | "center" | "end" | "justify";
   id?: string;
   "aria-label"?: string;
 }

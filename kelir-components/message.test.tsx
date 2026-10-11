@@ -22,7 +22,7 @@ describe("Message sealed (Gel.3b §6b)", () => {
         sender="Admin Kelir"
         time="10:15"
         text="Selamat datang!"
-        align="right"
+        align="end"
       />,
     );
     expect(screen.getByText("Admin Kelir")).toBeDefined();

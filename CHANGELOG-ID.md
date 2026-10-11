@@ -1,5 +1,16 @@
 ## Changelog
 
+## Rename kontrak (mayor — migrasi konsumen)
+
+| Lama | Baru |
+|---|---|
+| `Sidebar trigger?` | `triggerVariant?` (union sama; union gaya tombol, bukan slot) |
+| `Drawer paperHeight?` | `height?` (`full\|auto` sama) |
+| `Sidebar overlayHeight?`: `full\|content` | `full\|auto` |
+| `Sidebar` tanpa `aria-label` | `aria-label` wajib (nama landmark nav) |
+| `align` / `headerAlign` `left\|right` (Button, Card, Typography, Message, Bubble) | `start\|end` (nilai logis; sama di LTR, benar di RTL) |
+| `Button align` | bertambah `end` |
+
 | Fitur / Aturan | Sebelum v7 | v7 |
 |---|---|---|
 | Tata letak halaman | Anda menulis pembungkus sendiri | Pakai `Stack` (`gap`, `direction`), `Grid` (`columns` dari daftar tetap, `gap`), dan `Spacer` (`size`) milik kit - pembungkus `div` polos tak lagi diterima |

@@ -25,9 +25,9 @@ describe("Drawer sealed (Gel.3c-5 §6b)", () => {
     expect(onClose).toHaveBeenCalledWith();
   });
 
-  it("paperHeight auto: paper bungkus isi (slotProps paper inline)", () => {
+  it("height auto: paper bungkus isi (slotProps paper inline)", () => {
     renderSealed(
-      <Drawer open onClose={() => {}} title="Menu" paperHeight="auto">
+      <Drawer open onClose={() => {}} title="Menu" height="auto">
         <p>Isi</p>
       </Drawer>,
     );

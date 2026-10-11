@@ -16,7 +16,7 @@ export function Bubble({
 }: BubbleProps) {
   const [collapsed, setCollapsed] = React.useState(false);
   const isSent = variant === "sent";
-  const side = align ?? (isSent ? "right" : "left");
+  const side = align ?? (isSent ? "end" : "start");
 
   const bubbleStyles: React.CSSProperties = {
     maxWidth: "80%",
@@ -50,7 +50,7 @@ export function Bubble({
       style={{
         display: "flex",
         flexDirection: "column",
-        alignItems: side === "right" ? "flex-end" : "flex-start",
+        alignItems: side === "end" ? "flex-end" : "flex-start",
         width: "100%",
       }}
     >

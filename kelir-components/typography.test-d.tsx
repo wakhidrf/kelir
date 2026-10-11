@@ -10,6 +10,11 @@ export function typographyContractChecks() {
       tengah
     </Typography>
   );
+  const okStart = (
+    <Typography variant="body-md" align="start">
+      awal
+    </Typography>
+  );
   const okHeading = (
     <Typography variant="h1" as="h1" id="t" aria-label="judul">
       Judul
@@ -41,7 +46,7 @@ export function typographyContractChecks() {
   const noRawAs = <Typography as="section">teks</Typography>;
   // @ts-expect-error — level bebas haram (1-6)
   const noRawLevel = <Typography level={7}>teks</Typography>;
-  // @ts-expect-error — align bebas haram (left/center/right/justify)
+  // @ts-expect-error — align bebas haram (start/center/end/justify)
   const noRawAlign = <Typography align="middle">teks</Typography>;
   // @ts-expect-error — prop tak dikenal tidak diteruskan ke DOM
   // (data-* ditoleransi tipe React 19 sebagai test hook; lihat stack.test-d)
@@ -50,6 +55,7 @@ export function typographyContractChecks() {
   return {
     okBody,
     okAlign,
+    okStart,
     okHeading,
     okSplit,
     okAllVariants,

@@ -39,7 +39,13 @@ export function Button({
       transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
       fontFamily: "inherit",
       // Perataan eksplisit (inline → teruji): default center = perilaku MUI.
-      justifyContent: align === "start" ? "flex-start" : "center",
+      // Nilai logis start/end: flex-start/end mengikuti arah tulisan (RTL).
+      justifyContent:
+        align === "start"
+          ? "flex-start"
+          : align === "end"
+            ? "flex-end"
+            : "center",
     };
 
     if (isPrimary) {

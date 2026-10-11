@@ -1,5 +1,16 @@
 ## Changelog
 
+## Contract renames (mayor — migrate consumers)
+
+| Old | New |
+|---|---|
+| `Sidebar trigger?` | `triggerVariant?` (same union; a button-style union, not a slot) |
+| `Drawer paperHeight?` | `height?` (same `full\|auto`) |
+| `Sidebar overlayHeight?`: `full\|content` | `full\|auto` |
+| `Sidebar` without `aria-label` | `aria-label` required (nav landmark name) |
+| `align` / `headerAlign` `left\|right` (Button, Card, Typography, Message, Bubble) | `start\|end` (logical values; identical in LTR, correct in RTL) |
+| `Button align` | gains `end` |
+
 | Feature / Rule | Before v7 | v7 |
 |---|---|---|
 | Page layout | You wrote your own wrappers | Use the kit's `Stack` (`gap`, `direction`), `Grid` (`columns` from a fixed set, `gap`), and `Spacer` (`size`) - plain `div` wrappers are no longer accepted |

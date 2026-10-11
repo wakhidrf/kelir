@@ -57,4 +57,14 @@ describe("Button sealed (§6b)", () => {
     const el = screen.getByRole("button", { name: "Galeri" });
     expect(el.style.justifyContent).toBe("center");
   });
+
+  it("aria-label yang cocok dengan teks diteruskan (Label in Name)", () => {
+    renderSealed(
+      <Button variant="primary" onClick={() => {}} aria-label="Simpan draf">
+        Simpan
+      </Button>,
+    );
+    const el = screen.getByRole("button", { name: "Simpan draf" });
+    expect(el.getAttribute("aria-label")).toBe("Simpan draf");
+  });
 });

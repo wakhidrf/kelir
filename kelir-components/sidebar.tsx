@@ -56,7 +56,7 @@ export function Sidebar({
   open,
   defaultOpen = false,
   onOpenChange,
-  trigger = "none",
+  triggerVariant = "none",
   overlayHeight = "full",
   id,
   "aria-label": ariaLabel,
@@ -112,15 +112,15 @@ export function Sidebar({
           onClose={handleClose}
           id={id}
           aria-label={ariaLabel}
-          paperHeight={overlayHeight === "content" ? "auto" : "full"}
+          height={overlayHeight === "auto" ? "auto" : "full"}
         >
           <MuiBox
             sx={{
               display: "flex",
               flexDirection: "column",
               width: OVERLAY_WIDTH,
-              // full = drawer penuh; content = bungkus isi (paper Drawer
-              // ikut memendek + tengah vertikal via paperHeight).
+              // full = drawer penuh; auto = bungkus isi (paper Drawer
+              // ikut memendek + tengah vertikal via height).
               height: overlayHeight === "full" ? "100%" : "auto",
               maxHeight: overlayHeight === "full" ? "100dvh" : "90dvh",
               // Napas isi dari tepi paper (khusus overlay; docked punya
@@ -128,11 +128,11 @@ export function Sidebar({
               padding: css.layout.space.sm,
               color: css.colors.textPrimary,
               fontFamily: "inherit",
-              // content = paper setinggi isi; bila meluap (68 tombol di HP),
+              // auto = paper setinggi isi; bila meluap (68 tombol di HP),
               // scroll di dalam paper — bukan kepotong. full = paper yang
               // scroll, isi terkunci 100%.
               overflowX: "hidden",
-              overflowY: overlayHeight === "content" ? "auto" : "hidden",
+              overflowY: overlayHeight === "auto" ? "auto" : "hidden",
             }}
           >
             <SidebarBody header={header} footer={footer}>
@@ -145,7 +145,7 @@ export function Sidebar({
             = transisi Slide MUI) — bukan muncul instan. Tertutup: mundur
             selebar drawer hingga x≈0. Portal lepas dari paper (overflowY auto
             memotong) dan stacking context — tanpa z-war. */}
-        {trigger !== "none" &&
+        {triggerVariant !== "none" &&
           mounted &&
           typeof document !== "undefined" &&
           createPortal(
@@ -172,7 +172,7 @@ export function Sidebar({
                 icon={
                   overlayOpen ? (
                     <ChevronLeftIcon sx={{ fontSize: 18 }} />
-                  ) : trigger === "hamburger" ? (
+                    ) : triggerVariant === "hamburger" ? (
                     <MenuIcon sx={{ fontSize: 18 }} />
                   ) : (
                     <ChevronRightIcon sx={{ fontSize: 18 }} />
