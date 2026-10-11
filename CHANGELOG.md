@@ -1,11 +1,5 @@
 ## Changelog
 
-## Minor — Card `scrollable?`
-
-| Component | Change |
-|---|---|
-| `Card` | gains `scrollable?: boolean` (default `false`): flex-column card with internally scrolling content; header/footer stay fixed. Outer height stays with the consumer. Zero visual change when unset. |
-
 ## Contract renames (mayor — migrate consumers)
 
 | Old | New |
@@ -26,6 +20,7 @@
 | `Sidebar` | Fixed sidebar, no options | `mode` (`auto` docks on desktop and overlays on mobile), `trigger` (`none`/`hamburger`/`chevron`), `overlayHeight` (`full`/`content`) |
 | `Drawer` | Always full-height | `paperHeight` (`full`, or `auto` to hug the content and center it); rounded card-like edge; a named dialog for screen readers |
 | Buttons | Centered text only; free-form icon buttons | `Button align` (`center`/`start`); `IconButton shape` (`rounded`/`circle`/`square`), always with `aria-label` |
+| Card content | Fixed content area | Scrollable body via `scrollable?` (default `false`): content scrolls inside, header/footer stay fixed; outer height stays with the consumer |
 | Corner radius | - | Corners now follow per-role theme tokens (`button`/`card`/`surface`/`prominent`) - same look today, but each theme can shape them |
 | Reliability | - | Every component is covered by type, runtime, and accessibility tests across all 11 themes; `Questionnaire` was split into 5 modules with identical props; stricter generics (`Chart`/`Table`/`Carousel`/`Resizable`) |
 | Accessibility | Partial | Built in everywhere: Toast announcements, Dialog focus trap, focusable Tooltip/Popover triggers, Menu arrow keys, labeled inputs |

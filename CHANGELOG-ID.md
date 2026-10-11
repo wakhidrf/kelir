@@ -1,11 +1,5 @@
 ## Changelog
 
-## Minor — Card `scrollable?`
-
-| Komponen | Perubahan |
-|---|---|
-| `Card` | bertambah `scrollable?: boolean` (default `false`): kartu kolom flex dengan isi scroll internal; header/footer tetap. Tinggi luar tetap milik konsumen. Nol ubah visual bila tak diisi. |
-
 ## Rename kontrak (mayor — migrasi konsumen)
 
 | Lama | Baru |
@@ -26,6 +20,7 @@
 | `Sidebar` | Sidebar tetap, tanpa opsi | `mode` (`auto`: docked di desktop, overlay di mobile), `trigger` (`none`/`hamburger`/`chevron`), `overlayHeight` (`full`/`content`) |
 | `Drawer` | Selalu full-height | `paperHeight` (`full`, atau `auto` yang membungkus isi dan menengahkannya); tepi kanan membulat ala card; dialog bernama untuk screen reader |
 | Tombol | Teks hanya rata tengah; tombol ikon bebas bentuk | `Button align` (`center`/`start`); `IconButton shape` (`rounded`/`circle`/`square`), selalu dengan `aria-label` |
+| Isi Card | Area isi tetap | Badan scroll via `scrollable?` (default `false`): isi scroll di dalam, header/footer tetap; tinggi luar tetap milik konsumen |
 | Radius sudut | - | Sudut kini mengikuti token tema per peran (`button`/`card`/`surface`/`prominent`) - tampilan sama, tiap tema bisa membentuknya |
 | Keandalan | - | Setiap komponen diliput test tipe, runtime, dan aksesibilitas di 11 tema; `Questionnaire` dipecah jadi 5 modul dengan prop identik; generik lebih ketat (`Chart`/`Table`/`Carousel`/`Resizable`) |
 | Aksesibilitas | Sebagian | Built-in di mana-mana: pengumuman Toast, focus trap Dialog, pemicu Tooltip/Popover yang bisa difokus, tombol panah Menu, input berlabel |
