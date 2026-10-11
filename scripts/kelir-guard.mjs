@@ -3,6 +3,11 @@
 // diimpor proyek lain (kit selalu di <proyek>/src/views/kelir).
 // Mode: --strict (exit 1 bila ERROR) vs default warn (exit 0 + laporan).
 // Cakupan: konsumen (src minus src/views/kelir) + kelir-components (hardcode).
+// Presisi (2026-10-11, STYLE §9): (a) intrinsik + className SAJA bukan cue —
+// consumer-CSS (stylesheet kelas milik app) adalah pola resmi (§8-P0/P1);
+// cue tersisa untuk style inline (escape hatch riil). (b) data-kelir-*
+// dikecualikan dari cek data-* (namespace milik kit = wiring kontrak
+// Provider dari kelir-styles, bukan slot leak).
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -45,10 +50,12 @@ for (const f of walk(SRC)) {
       const m = ln.match(new RegExp(`\\b${p}\\s*[:=]`));
       if (m && /<[A-Z]/.test(ln)) add(warn, f, i + 1, `props terlarang '${p}' pada komponen (perlu review: Kelir?)`);
     }
-    if (/<[a-z][a-zA-Z0-9]*[^>]*(style|className)\s*=/.test(ln))
-      add(warn, f, i + 1, "slot heuristik: intrinsik ber-style/className di file pengimpor kelir");
+    if (/<[a-z][a-zA-Z0-9]*[^>]*style\s*=/.test(ln))
+      add(warn, f, i + 1, "slot heuristik: intrinsik ber-style inline di file pengimpor kelir");
   });
-  if (/data-[a-z-]+\s*=/.test(src) && /(style|StyleSheet|css)/.test(src))
+  const dataAttrs = [...src.matchAll(/data-[a-z-]+\s*=/g)].map((m) => m[0].split("=")[0].trim());
+  const foreignData = dataAttrs.filter((a) => !a.startsWith("data-kelir-"));
+  if (foreignData.length > 0 && /(style|StyleSheet|css)/.test(src))
     add(warn, f, 1, "data-* + styling terdeteksi (cek manual: untuk styling?)");
 }
 
