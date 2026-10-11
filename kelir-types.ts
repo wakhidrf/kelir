@@ -184,6 +184,9 @@ export interface ButtonProps {
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
   variant?: "primary" | "secondary" | "destructive" | "outline" | "ghost";
+  // Perataan isi (khusus tombol full-width mis. nav): center (default,
+  // ikon+teks di tengah) atau start (rata kiri, kolom ikon lurus).
+  align?: "center" | "start";
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   type?: "button" | "submit";
   disabled?: boolean;
@@ -397,6 +400,9 @@ export interface DrawerProps {
   onClose: () => void;
   title?: string;
   children?: React.ReactNode;
+  // Tinggi paper: full (default, drawer setinggi layar) atau auto
+  // (bungkus isi + tengah vertikal — mis. nav ringkas 3 tombol).
+  paperHeight?: "full" | "auto";
   id?: string;
   "aria-label"?: string;
 }

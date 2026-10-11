@@ -19,6 +19,8 @@ const k: ButtonProps = { children: "x", classes: {} };
 const j = <Button style={{}}>x</Button>;
 // @ts-expect-error — children non-string ditolak (kontrak: string + slot ikon)
 const n = <Button>{42}</Button>;
+// @ts-expect-error — align di luar union
+const a = <Button align="justify">x</Button>;
 
 export { Button };
 export type { ButtonProps };

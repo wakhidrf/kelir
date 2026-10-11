@@ -138,16 +138,22 @@ export function Sidebar({
     const closedLabel = ariaLabel ? `Buka ${ariaLabel}` : "Buka navigasi";
     return (
       <>
-        <Drawer open={overlayOpen} onClose={handleClose} id={id} aria-label={ariaLabel}>
+        <Drawer
+          open={overlayOpen}
+          onClose={handleClose}
+          id={id}
+          aria-label={ariaLabel}
+          paperHeight={overlayHeight === "content" ? "auto" : "full"}
+        >
           <MuiBox
             sx={{
               display: "flex",
               flexDirection: "column",
               width: OVERLAY_WIDTH,
               // full = drawer penuh; content = bungkus isi (paper Drawer
-              // tetap jadi latar).
+              // ikut memendek + tengah vertikal via paperHeight).
               height: overlayHeight === "full" ? "100%" : "auto",
-              maxHeight: "100dvh",
+              maxHeight: overlayHeight === "full" ? "100dvh" : "90dvh",
               color: css.colors.textPrimary,
               fontFamily: "inherit",
               overflow: "hidden",

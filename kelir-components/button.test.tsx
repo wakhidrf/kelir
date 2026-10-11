@@ -37,4 +37,24 @@ describe("Button sealed (§6b)", () => {
     );
     await expectNoAxeViolations(container);
   });
+
+  it("align start meratakan isi ke kiri (nav full-width)", () => {
+    renderSealed(
+      <Button variant="ghost" align="start" onClick={() => {}}>
+        Beranda
+      </Button>,
+    );
+    const el = screen.getByRole("button", { name: "Beranda" });
+    expect(el.style.justifyContent).toBe("flex-start");
+  });
+
+  it("align default tetap center", () => {
+    renderSealed(
+      <Button variant="ghost" onClick={() => {}}>
+        Galeri
+      </Button>,
+    );
+    const el = screen.getByRole("button", { name: "Galeri" });
+    expect(el.style.justifyContent).toBe("center");
+  });
 });

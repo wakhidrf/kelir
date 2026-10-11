@@ -16,6 +16,7 @@ export function Button({
   startIcon,
   endIcon,
   variant = "primary",
+  align = "center",
   onClick,
   type = "button",
   disabled,
@@ -37,6 +38,8 @@ export function Button({
       padding: "10px 20px",
       transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
       fontFamily: "inherit",
+      // Perataan eksplisit (inline → teruji): default center = perilaku MUI.
+      justifyContent: align === "start" ? "flex-start" : "center",
     };
 
     if (isPrimary) {

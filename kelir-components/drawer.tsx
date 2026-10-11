@@ -8,6 +8,7 @@ export function Drawer({
   onClose,
   title,
   children,
+  paperHeight = "full",
   id,
   "aria-label": ariaLabel,
 }: DrawerProps) {
@@ -27,6 +28,18 @@ export function Drawer({
             backdropFilter: css.motion.blur.backdrop,
             WebkitBackdropFilter: css.motion.blur.backdrop,
             fontFamily: "inherit",
+            // auto = paper bungkus isi + tengah vertikal (fixed top/bottom 0
+            // + margin auto; tanpa transform agar tak bentrok transisi Slide).
+            ...(paperHeight === "auto"
+              ? {
+                  height: "auto",
+                  maxHeight: "90dvh",
+                  top: 0,
+                  bottom: 0,
+                  marginTop: "auto",
+                  marginBottom: "auto",
+                }
+              : {}),
           },
           // Nama dialog (role=dialog ada di paper, bukan root) — temuan axe
           // via Sidebar overlay (ISSUE-008). Root tetap berlabel seperti semula.
