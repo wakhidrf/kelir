@@ -39,6 +39,7 @@ function SidebarBody({
 }
 
 // Tab tepi pemicu (ISSUE-008): 28x64, sudut kanan ikut token peran.
+// Tanpa shadow: di atas backdrop shadow justru terlihat seperti blur kotor.
 function TriggerTab({
   label,
   expanded,
@@ -67,11 +68,10 @@ function TriggerTab({
         borderBottomRightRadius: css.radius.button,
         // Badan opak dari kanvas tema (surface tema kaca itu translusen;
         // tab tepi harus terbaca seperti handle custom lama yang opak).
-        backgroundColor: css.colors.baseBackground,
-        border: `1px solid ${css.border.light}`,
-        borderLeft: "none",
-        boxShadow: css.shadows.convex,
-        color: css.colors.textPrimary,
+              backgroundColor: css.colors.baseBackground,
+              border: `1px solid ${css.border.light}`,
+              borderLeft: "none",
+              color: css.colors.textPrimary,
       }}
     >
       {icon}
@@ -130,22 +130,6 @@ export function Sidebar({
     const closedLabel = ariaLabel ? `Buka ${ariaLabel}` : "Buka navigasi";
     return (
       <>
-        {/* Tertutup: tab buka in-flow di titik penempatan. */}
-        {trigger !== "none" && !overlayOpen && (
-          <TriggerTab
-            label={closedLabel}
-            expanded={false}
-            controlsId={id}
-            onToggle={handleTriggerToggle}
-            icon={
-              trigger === "hamburger" ? (
-                <MenuIcon sx={{ fontSize: 18 }} />
-              ) : (
-                <ChevronRightIcon sx={{ fontSize: 18 }} />
-              )
-            }
-          />
-        )}
         <Drawer open={overlayOpen} onClose={handleClose} id={id} aria-label={ariaLabel}>
           <MuiBox
             sx={{
@@ -166,13 +150,13 @@ export function Sidebar({
             </SidebarBody>
           </MuiBox>
         </Drawer>
-        {/* Terbuka: tab tutup via Portal ke body, fixed di tepi kanan drawer
-            (left = lebar drawer, tengah vertikal, ikut konsep pola OTW).
-            Alasan portal: paper Drawer MUI ber-overflowY auto yang MEMOTONG
-            tab di left:100% bila dirender di dalam paper; portal lepas dari
-            paper sekaligus dari stacking context mana pun — tanpa z-war. */}
+        {/* Satu tab portal untuk buka+tutup: fixed setinggi tepi drawer,
+            meluncur SINKRON dengan paper (durasi+easing = transisi Slide MUI:
+            buka 225ms ease-out, tutup 195ms ease-in) — bukan muncul instan.
+            Tertutup: mundur selebar drawer hingga x≈0 (titik tepi layar).
+            Portal lepas dari paper (overflowY auto memotong left:100%) dan
+            dari stacking context mana pun — tanpa z-war. */}
         {trigger !== "none" &&
-          overlayOpen &&
           mounted &&
           typeof document !== "undefined" &&
           createPortal(
@@ -181,16 +165,29 @@ export function Sidebar({
                 position: "fixed",
                 left: OVERLAY_WIDTH,
                 top: "50%",
-                transform: "translateY(-50%)",
+                transform: `translateY(-50%)${
+                  overlayOpen ? "" : ` translateX(calc(-1 * (${OVERLAY_WIDTH})))`
+                }`,
+                transition: overlayOpen
+                  ? "transform 225ms cubic-bezier(0, 0, 0.2, 1)"
+                  : "transform 195ms cubic-bezier(0.4, 0, 1, 1)",
                 zIndex: 1400,
               }}
             >
               <TriggerTab
-                label={openLabel}
-                expanded={true}
+                label={overlayOpen ? openLabel : closedLabel}
+                expanded={overlayOpen}
                 controlsId={id}
                 onToggle={handleTriggerToggle}
-                icon={<ChevronLeftIcon sx={{ fontSize: 18 }} />}
+                icon={
+                  overlayOpen ? (
+                    <ChevronLeftIcon sx={{ fontSize: 18 }} />
+                  ) : trigger === "hamburger" ? (
+                    <MenuIcon sx={{ fontSize: 18 }} />
+                  ) : (
+                    <ChevronRightIcon sx={{ fontSize: 18 }} />
+                  )
+                }
               />
             </MuiBox>,
             document.body,

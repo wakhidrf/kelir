@@ -61,7 +61,7 @@ describe("Sidebar sealed + responsif (ISSUE-005 §6b)", () => {
         <div>Item 1</div>
       </Sidebar>,
     );
-    const trigger = container.querySelector(
+    const trigger = document.querySelector(
       'button[aria-label="Buka Navigasi"]',
     ) as HTMLElement;
     expect(trigger.getAttribute("aria-expanded")).toBe("false");
