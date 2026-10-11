@@ -205,32 +205,33 @@ export default function MyComponent() {
 }
 ```
 
-## Usage Rules — The Sealed Contract (STYLE v7)
+## Usage Rules — The Sealed Contract (v7)
 
-The full whitelist is `STYLE.md` §5 in the consuming project. The short version
-for importers:
+`kelir-types.ts` is the single source of truth: only the props written in your
+component's `*Props` interface may be passed. The short version:
 
-- **You fill content + meaning + behavior only.** All visuals belong to Kelir:
-  no `style`/`sx`/`className`, no raw colors, radius, spacing, or dimensions,
-  no `slotProps`/`classes`/`slot`, no `dangerouslySetInnerHTML`.
-- **Only closed unions.** Every semantic prop lists its union in `STYLE.md` §5
-  (`Button variant/align`, `Stack`/`Grid gap`, `Grid columns 1|2|3|4|6|12`,
-  `Input type/size`, `IconButton shape`, `Sidebar mode/trigger/overlayHeight`,
-  `Drawer paperHeight`, `Typography variant/as/level`, `Skeleton
-  variant/animation`). An unlisted union is undecided — file a request, don't
-  invent one.
-- **Layout uses kit primitives.** A plain `div` wrapper for layout is an error
-  since v7 — use `Stack`, `Grid`, or `Spacer` (see §4 above).
-- **`data-*` for styling is banned** (lint-enforced); the single allowlist is
-  `data-testid` as a test hook.
-- **The provider is the only visual switch.** `KelirProvider` takes
-  `defaultTheme` (closed theme union) + `children`, nothing else visual; switch
-  at runtime via `useKelir().setTheme` or `KelirSwitcher` (see §3 above).
-- **Accessibility is split.** You supply labels (`aria-label`,
-  `aria-describedby`, `id`, `htmlFor`); traps, live-regions, and keyboard
-  behavior are Kelir's (proven per component by runtime tests).
-- One recorded exception, not a precedent: `Skeleton width/height` (loading
-  placeholders need intrinsic dimensions).
+- **You fill content + meaning + behavior.** Your code provides text, options,
+  data, and handlers (`onClick`, `onChange`, `value`, `open`). Everything
+  visual — colors, radius, spacing, fonts, shadows, animations — belongs to
+  Kelir and follows the active theme automatically.
+- **Never style from the outside.** No `style`/`sx`/`className`, no raw
+  colors or sizes, no `slotProps`/`classes`/`slot`, no
+  `dangerouslySetInnerHTML`, and no `data-*` attributes for styling (the only
+  exception is `data-testid` for your own tests).
+- **Pick from fixed choices.** Props like `variant`, `size`, `gap`, `align`,
+  `shape`, or `mode` accept only the values listed in `kelir-types.ts` — for
+  example `Button variant="primary"`, `Grid columns={6}`, `Stack gap="md"`.
+  A value you invent yourself won't match the theme tokens.
+- **Lay out with kit primitives.** Use `Stack`, `Grid`, or `Spacer` from
+  `kelir-components` (see §4 above), not plain `div` wrappers.
+- **One visual switch.** `KelirProvider` takes `defaultTheme` + `children`
+  and nothing else visual. Change themes at runtime with
+  `useKelir().setTheme` or the ready-made `KelirSwitcher` (see §3 above) —
+  never by overriding colors.
+- **Labels are yours, behavior is ours.** You provide accessible names
+  (`aria-label`, `id`, `htmlFor`); focus traps, live announcements, and
+  keyboard support are built into every component. The only component that
+  takes dimensions is `Skeleton` (`width`/`height` for loading placeholders).
 
 ---
 
@@ -333,9 +334,8 @@ Components that shape the structure and placement of elements.
 ## Theme List
 
 Project Kelir ships the following themes (one `DESIGN.md` design language each),
-selectable at runtime via `KelirProvider`/`KelirSwitcher`. Entries below are
-the single source of truth for the theme count (parsed by consumers — keep the
-`N. **theme-id**:` format).
+selectable at runtime via `KelirProvider`/`KelirSwitcher`. The list below is
+complete — keep the `N. **theme-id**:` format when adding a theme.
 
 1. **aurora-ui**: Flowing aurora gradients over a dark canvas.
 2. **claymorphism**: Soft chunky clay shapes with thick rounded borders.

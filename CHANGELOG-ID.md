@@ -1,31 +1,28 @@
 # Changelog — Kelir
 
-## Kontrak v7 vs Sebelumnya
+## v7 vs Sebelumnya
 
 | Fitur / Aturan | Sebelum v7 | v7 |
 |---|---|---|
-| Primitif layout (`Stack`/`Grid`/`Spacer`) | Pembungkus polos ditoleransi (interim) | Pembungkus non-kit = error; `Stack gap?/direction?`, `Grid columns? 1\|2\|3\|4\|6\|12 + gap?`, `Spacer size?` (semua `xs\|sm\|md\|lg`) |
-| Dimensi `Skeleton` | `width`/`height` dilarang seperti semua komponen | Pengecualian tercatat (bukan preseden); `animation` tetap union status tertutup (`pulse\|wave\|false`) |
-| Union tertutup | Sebagian — `Grid`/`Typography`/`Input` masih terbuka | Dilengkapi: `Grid columns`, `Typography as/level`, `Input type/size` |
-| Atribut `data-*` | Pintu belakang styling yang tak diatur | Allowlist `data-testid` saja, dijaga lint |
-| `Sidebar` responsif | Tanpa prop mode/trigger/tinggi | `mode auto\|docked\|overlay` (default `auto`), `open?/defaultOpen?/onOpenChange?`, `trigger none\|hamburger\|chevron`, `overlayHeight full\|content`; overlay pakai-ulang `Drawer`; isi padding 8px, tab `<` 4px |
-| Paper `Drawer` | Hanya full-height | `paperHeight full\|auto` (auto membungkus isi via `fit-content`, tanpa transform); sudut kanan ala card; `aria-label` juga di paper dialog |
-| `Button` / `IconButton` | Tombol hanya rata tengah; shape tak diatur | `Button align center\|start`; `IconButton shape rounded\|circle\|square` (default `rounded`); trigger overlay = `primary` |
-| Token radius | Skala mentah di tiap titik pakai | `css.radius.button/card/surface/prominent` + `css.control.radius`; 67 titik, nol-ubah visual |
-| Aturan test | Di dalam STYLE.md | Pindah ke `KELIR-TESTING.md`; sealed = `test-d.tsx` + runtime spread-`any` + `axe` per komponen |
-| `Questionnaire` | Satu file | 5 modul SRP, kontrak nol-ubah |
-| Generik | Longgar | Ketat dengan default kompatibel (`Chart`/`Table`/`Carousel`/`Resizable`) |
-| A11y milik kit | Ad-hoc | Terbukti per komponen: Toast live-region, Dialog trap, pemicu Tooltip/Popover fokusabel, panah Menu, input Command/Questionnaire berlabel |
-| Screenshot regression | Belum ada | `kelir-shots.mjs` (CDP dep-free) + baseline 11 tema + `kelir:shots:check` |
+| Tata letak halaman | Anda menulis pembungkus sendiri | Pakai `Stack` (`gap`, `direction`), `Grid` (`columns` dari daftar tetap, `gap`), dan `Spacer` (`size`) milik kit — pembungkus `div` polos tak lagi diterima |
+| Ukuran `Skeleton` | Tak ada cara mengatur ukuran placeholder loading | `width`/`height` boleh hanya di `Skeleton`; `animation` adalah `pulse\|wave\|false` |
+| Nilai prop | Sebagian prop menerima apa saja | Daftar pilihan tetap di mana-mana (`Grid columns`, `Typography as`/`level`, `Input type`/`size`, dan lainnya) — lihat `kelir-types.ts` |
+| Test hook | — | `data-testid` satu-satunya atribut `data-*` yang boleh Anda pakai |
+| `Sidebar` | Sidebar tetap, tanpa opsi | `mode` (`auto`: docked di desktop, overlay di mobile), `trigger` (`none`/`hamburger`/`chevron`), `overlayHeight` (`full`/`content`) |
+| `Drawer` | Selalu full-height | `paperHeight` (`full`, atau `auto` yang membungkus isi dan menengahkannya); tepi kanan membulat ala card; dialog bernama untuk screen reader |
+| Tombol | Teks hanya rata tengah; tombol ikon bebas bentuk | `Button align` (`center`/`start`); `IconButton shape` (`rounded`/`circle`/`square`), selalu dengan `aria-label` |
+| Radius sudut | — | Sudut kini mengikuti token tema per peran (`button`/`card`/`surface`/`prominent`) — tampilan sama, tiap tema bisa membentuknya |
+| Keandalan | — | Setiap komponen diliput test tipe, runtime, dan aksesibilitas di 11 tema; `Questionnaire` dipecah jadi 5 modul dengan prop identik; generik lebih ketat (`Chart`/`Table`/`Carousel`/`Resizable`) |
+| Aksesibilitas | Sebagian | Built-in di mana-mana: pengumuman Toast, focus trap Dialog, pemicu Tooltip/Popover yang bisa difokus, tombol panah Menu, input berlabel |
 
 ## Riwayat
 
-| Tanggal | Perubahan | Verifikasi |
+| Tanggal | Perubahan | Artinya bagi Anda |
 |---|---|---|
-| 2026-10-10 | Sidebar responsif + token radius peran (ISSUE-005/006); susulan `notched` (007), varian trigger (008), `paperHeight`/`align` (009), `IconButton shape` (010); overlay `min(..., 50vw)`; hidrasi: server + render pertama selalu docked | `tsc`; test 143/143; drift; guard 0 ERROR; status 69/69 |
-| 2026-10-10 | Seluruh 69 kontrak sealed (Gel.2–Gel.3c-11 + P1b/P1d/P2); breaking: slot teks ke `string`, tanpa `cloneElement`, handler semantik tanpa event, Combobox pilih-satu, prop `MessageScroller maxHeight` | `tsc`; test 142/142; lint; build; guard; drift; shots 11/11 |
-| 2026-09-29 | `Chart`/`DataTable` dukung `title?` (ISSUE-004) | `tsc`; cek browser manual terbuka |
-| 2026-09-29 | `"use client"` di 20 komponen interaktif (ISSUE-003) | `tsc`; cek browser manual terbuka |
-| 2026-09-28 | Scroll lock default mati di `Select`/`Dialog`/`AlertDialog` (ISSUE-001/002); `MenuProps`/`onOpen` konsumen digabung, bukan ditimpa | `tsc`; cek browser manual terbuka |
-| 2026-09-19 | Fix anchor popover DatePicker + navigasi bulan/tahun inline | — |
-| 2026-09-01 | `Select` menyetrip prop internal `notched` (warning atribut boolean React) | Test lolos; `tsc` |
+| 2026-10-10 | Sidebar responsif + token radius per peran, plus perbaikan susulan (`Select`, varian trigger, tinggi `Drawer`, perataan tombol, `shape` `IconButton`) | Sidebar menyesuaikan mobile sendiri; sisanya tampil sama — tanpa tindakan |
+| 2026-10-10 | Seluruh 69 kontrak komponen dikunci. Breaking: slot teks kini `string` polos, handler tanpa objek event, Combobox pilih satu nilai, `MessageScroller` menerima `maxHeight` | Periksa render prop kustom dan argumen event Anda saat upgrade |
+| 2026-09-29 | `Chart` dan `DataTable` menerima `title?` inline | Bungkus `<Card title>` ekstra bisa dilepas |
+| 2026-09-29 | Semua komponen interaktif jalan di dalam Server Component | Impor di mana saja; `"use client"` cukup di file interaktif Anda sendiri |
+| 2026-09-28 | Membuka `Select`/`Dialog`/`AlertDialog` tak lagi menggeser layout halaman | Tanpa tindakan — kini perilaku default |
+| 2026-09-19 | DatePicker terbuka andal, dengan pilih bulan/tahun inline | Tanpa tindakan |
+| 2026-09-01 | `Select` tak lagi mencetak warning React | Tanpa tindakan |

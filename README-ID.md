@@ -205,33 +205,34 @@ export default function MyComponent() {
 }
 ```
 
-## Aturan Pakai — Kontrak Tersegel (STYLE v7)
+## Aturan Pakai — Kontrak Tersegel (v7)
 
-Daftar putih lengkap ada di `STYLE.md` §5 proyek konsumen. Versi ringkas untuk
-pengimpor:
+`kelir-types.ts` adalah sumber kebenaran tunggal: hanya prop yang tertulis di
+interface `*Props` komponen Anda yang boleh diteruskan. Versi ringkas:
 
-- **Anda hanya mengisi isi + makna + perilaku.** Semua visual milik Kelir:
-  tanpa `style`/`sx`/`className`, tanpa warna, radius, spasi, atau dimensi
-  mentah, tanpa `slotProps`/`classes`/`slot`, tanpa `dangerouslySetInnerHTML`.
-- **Hanya union tertutup.** Setiap prop semantik mencantumkan unionnya di
-  `STYLE.md` §5 (`Button variant/align`, `Stack`/`Grid gap`, `Grid columns
-  1|2|3|4|6|12`, `Input type/size`, `IconButton shape`, `Sidebar
-  mode/trigger/overlayHeight`, `Drawer paperHeight`, `Typography variant/as/level`,
-  `Skeleton variant/animation`). Union yang tak tertulis berarti belum diputus —
-  ajukan request, jangan mengarang sendiri.
-- **Tata letak memakai primitif kit.** Pembungkus `div` polos untuk layout adalah
-  error sejak v7 — pakai `Stack`, `Grid`, atau `Spacer` (lihat §4 di atas).
-- **`data-*` untuk styling dilarang** (dijaga lint); satu-satunya allowlist adalah
-  `data-testid` sebagai test hook.
-- **Provider satu-satunya sakelar visual.** `KelirProvider` hanya menerima
-  `defaultTheme` (union tema tertutup) + `children`, tanpa prop visual lain;
-  ganti saat runtime via `useKelir().setTheme` atau `KelirSwitcher` (lihat §3 di
-  atas).
-- **Aksesibilitas dibagi.** Anda memasok label (`aria-label`, `aria-describedby`,
-  `id`, `htmlFor`); trap, live-region, dan perilaku keyboard milik Kelir
-  (dibuktikan per komponen lewat runtime test).
-- Satu pengecualian tercatat, bukan preseden: `Skeleton width/height`
-  (placeholder loading butuh dimensi intrinsik).
+- **Anda mengisi isi + makna + perilaku.** Kode Anda memasok teks, opsi, data,
+  dan handler (`onClick`, `onChange`, `value`, `open`). Semua yang visual —
+  warna, radius, spasi, font, bayangan, animasi — milik Kelir dan mengikuti
+  tema aktif secara otomatis.
+- **Jangan men-style dari luar.** Tanpa `style`/`sx`/`className`, tanpa warna
+  atau ukuran mentah, tanpa `slotProps`/`classes`/`slot`, tanpa
+  `dangerouslySetInnerHTML`, dan tanpa atribut `data-*` untuk styling
+  (satu-satunya pengecualian adalah `data-testid` untuk test Anda sendiri).
+- **Pilih dari daftar tetap.** Prop seperti `variant`, `size`, `gap`, `align`,
+  `shape`, atau `mode` hanya menerima nilai yang tercantum di
+  `kelir-types.ts` — misalnya `Button variant="primary"`, `Grid columns={6}`,
+  `Stack gap="md"`. Nilai karangan sendiri tak akan cocok dengan token tema.
+- **Tata letak pakai primitif kit.** Pakai `Stack`, `Grid`, atau `Spacer` dari
+  `kelir-components` (lihat §4 di atas), bukan pembungkus `div` polos.
+- **Satu sakelar visual.** `KelirProvider` hanya menerima `defaultTheme` +
+  `children`, tanpa yang lain. Ganti tema saat runtime lewat
+  `useKelir().setTheme` atau `KelirSwitcher` yang sudah jadi (lihat §3 di
+  atas) — jangan pernah menimpa warna.
+- **Label milik Anda, perilaku milik kami.** Anda memasok nama aksesibel
+  (`aria-label`, `id`, `htmlFor`); focus trap, pengumuman live, dan dukungan
+  keyboard sudah built-in di setiap komponen. Satu-satunya komponen yang
+  menerima dimensi adalah `Skeleton` (`width`/`height` untuk placeholder
+  loading).
 
 ---
 
@@ -334,9 +335,8 @@ Komponen yang membentuk struktur dan penempatan elemen.
 ## Daftar Tema
 
 Project Kelir menyediakan tema-tema berikut (satu bahasa desain `DESIGN.md` tiap
-tema), bisa dipilih saat runtime via `KelirProvider`/`KelirSwitcher`. Entri di
-bawah adalah single source of truth untuk hitungan tema (diparse konsumen —
-pertahankan format `N. **theme-id**:`).
+tema), bisa dipilih saat runtime via `KelirProvider`/`KelirSwitcher`. Daftar di
+bawah sudah lengkap — pertahankan format `N. **theme-id**:` bila menambah tema.
 
 1. **aurora-ui**: Gradien aurora mengalir di atas kanvas gelap.
 2. **claymorphism**: Bentuk tanah liat yang chunky dan lembut dengan border membulat tebal.
