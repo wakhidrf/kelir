@@ -15,6 +15,10 @@
 | Nama landmark `Sidebar` | `aria-label` opsional | `aria-label` wajib |
 | Nilai alignment | `left\|right` (Button, Card, Typography, Message, Bubble) | `start\|end` (nilai logis; sama di LTR, benar di RTL) |
 | Isi Card | Area isi tetap | Badan scroll via `scrollable?` (default `false`): isi scroll di dalam, header/footer tetap; tinggi luar tetap milik konsumen |
+| Perataan Stack | Hanya direction + gap | `align?` (`start\|center\|end\|stretch`, default `stretch`) dan `justify?` (`start\|center\|end\|space-between`, default `start`) - union logis tertutup, tanpa ubah visual bila default |
+| Elipsis Typography | Pembungkus ellipsis sendiri | `truncate?` (default `false`): elipsis satu-baris milik kit |
+| Lebar halaman | Pembungkus maxWidth sendiri | `Container` (`maxWidth?` `sm\|md\|lg\|xl`, `padding?` dari space layout) - murni layout, tanpa warna/border/shadow |
+| Gambar logo/media | `<img>` mentah dengan objectFit | `Image` (`src`, `alt?`, `height?`, `fit?` `contain\|cover`, `radius?`) - netral, tanpa shadow/border bawaan |
 | Radius sudut | - | Sudut kini mengikuti token tema per peran (`button`/`card`/`surface`/`prominent`) - tampilan sama, tiap tema bisa membentuknya |
 | Keandalan | - | Setiap komponen diliput test tipe, runtime, dan aksesibilitas di 11 tema; `Questionnaire` dipecah jadi 5 modul dengan prop identik; generik lebih ketat (`Chart`/`Table`/`Carousel`/`Resizable`) |
 | Aksesibilitas | Sebagian | Built-in di mana-mana: pengumuman Toast, focus trap Dialog, pemicu Tooltip/Popover yang bisa difokus, tombol panah Menu, input berlabel |

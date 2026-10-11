@@ -248,9 +248,9 @@ sehingga tak pernah basi:
 ---
 
 <!-- kelir-doc: components -->
-## Daftar Lengkap 68 Komponen Project Kelir
+## Daftar Lengkap 70 Komponen Project Kelir
 
-Project Kelir memiliki **68 komponen** yang dikelompokkan ke beberapa kategori utama agar mudah merancang antarmuka yang terstruktur dan konsisten.
+Project Kelir memiliki **70 komponen** yang dikelompokkan ke beberapa kategori utama agar mudah merancang antarmuka yang terstruktur dan konsisten.
 
 ### 1. Input & Formulir
 Komponen yang menangkap interaksi pengguna dan input data dengan kontrol terintegrasi.
@@ -338,7 +338,9 @@ Komponen yang membentuk struktur dan penempatan elemen.
 65. **Resizable**: Panel tata letak yang ukurannya bisa diatur dinamis dengan pembagi seret.
 66. **Skeleton**: Bingkai placeholder animasi redup-terang untuk elemen kosong sebagai visualisasi sebelum data selesai dimuat.
 67. **Spacer**: Primitif whitespace gap-tetap dengan union ukuran tertutup.
-68. **Stack**: Primitif tumpukan vertikal/horizontal dengan union gap dan direction tertutup.
+68. **Stack**: Primitif tumpukan vertikal/horizontal dengan union gap, direction, align, dan justify tertutup.
+69. **Container**: Primitif penampung lebar halaman dengan union maxWidth dan padding tertutup dari token layout.
+70. **Image**: Primitif media netral dengan union height, fit, dan radius tertutup (tanpa shadow/border bawaan).
 
 ---
 

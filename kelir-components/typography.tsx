@@ -85,13 +85,15 @@ const defaultElement: Record<Variant, "h1" | "h2" | "h3" | "p"> = {
 // heading + aria-level bila elemennya non-heading (tampilan body tapi outline
 // dokumen setara heading) - hierarki dokumen ≠ visual. Bila `as` sudah
 // heading, level bawaan elemen yang berlaku. `align` = textAlign milik kit
-// (default `left`).
+// (default `left`); `truncate?` = elipsis satu-baris milik kit (default
+// `false`, properti dihilangkan penuh saat mati).
 export function Typography({
   children,
   variant = "body-md",
   as,
   level,
   align = "start",
+  truncate = false,
   id,
   "aria-label": ariaLabel,
 }: TypographyProps) {
@@ -113,6 +115,13 @@ export function Typography({
         margin: 0,
         ...variantStyles[variant],
         textAlign: align,
+        ...(truncate
+          ? ({
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            } as const)
+          : null),
       }}
     >
       {children}

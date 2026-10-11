@@ -15,6 +15,11 @@ export function typographyContractChecks() {
       awal
     </Typography>
   );
+  const okTruncate = (
+    <Typography variant="body-md" truncate>
+      satu baris
+    </Typography>
+  );
   const okHeading = (
     <Typography variant="h1" as="h1" id="t" aria-label="judul">
       Judul
@@ -48,6 +53,8 @@ export function typographyContractChecks() {
   const noRawLevel = <Typography level={7}>teks</Typography>;
   // @ts-expect-error — align bebas haram (start/center/end/justify)
   const noRawAlign = <Typography align="middle">teks</Typography>;
+  // @ts-expect-error — truncate non-boolean haram
+  const noRawTruncate = <Typography truncate="yes">teks</Typography>;
   // @ts-expect-error — prop tak dikenal tidak diteruskan ke DOM
   // (data-* ditoleransi tipe React 19 sebagai test hook; lihat stack.test-d)
   const noRest = <Typography title="x">teks</Typography>;
@@ -56,6 +63,7 @@ export function typographyContractChecks() {
     okBody,
     okAlign,
     okStart,
+    okTruncate,
     okHeading,
     okSplit,
     okAllVariants,
@@ -66,6 +74,7 @@ export function typographyContractChecks() {
     noRawAs,
     noRawLevel,
     noRawAlign,
+    noRawTruncate,
     noRest,
   };
 }

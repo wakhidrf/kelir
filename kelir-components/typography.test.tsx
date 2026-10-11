@@ -46,4 +46,23 @@ describe("Typography sealed (§6b)", () => {
     renderSealed(<Typography variant="body-md">Kiri</Typography>);
     expect(screen.getByText("Kiri").style.textAlign).toBe("start");
   });
+
+  it("truncate: elipsis satu-baris milik kit; default mati penuh", () => {
+    renderSealed(
+      <Typography variant="body-md" truncate>
+        Panjang
+      </Typography>,
+    );
+    const el = screen.getByText("Panjang");
+    expect(el.style.whiteSpace).toBe("nowrap");
+    expect(el.style.overflow).toBe("hidden");
+    expect(el.style.textOverflow).toBe("ellipsis");
+  });
+
+  it("tanpa truncate: properti elipsis tak dirender", () => {
+    renderSealed(<Typography variant="body-md">Biasa</Typography>);
+    const el = screen.getByText("Biasa");
+    expect(el.style.whiteSpace).toBe("");
+    expect(el.style.textOverflow).toBe("");
+  });
 });

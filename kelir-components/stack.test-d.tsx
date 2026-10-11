@@ -14,6 +14,11 @@ export function stackContractChecks() {
       teks
     </Stack>
   );
+  const okAlign = (
+    <Stack direction="row" align="center" justify="space-between">
+      <span>baris</span>
+    </Stack>
+  );
 
   // @ts-expect-error — style passthrough haram (layout milik Stack)
   const noStyle = <Stack style={{ marginTop: 8 }}>isi</Stack>;
@@ -25,11 +30,15 @@ export function stackContractChecks() {
   const noRawGap = <Stack gap={24}>isi</Stack>;
   // @ts-expect-error — direction bebas haram (row|column saja)
   const noRawDirection = <Stack direction="row-reverse">isi</Stack>;
+  // @ts-expect-error — align bebas haram (start|center|end|stretch)
+  const noRawAlign = <Stack align="baseline">isi</Stack>;
+  // @ts-expect-error — justify bebas haram (start|center|end|space-between)
+  const noRawJustify = <Stack justify="space-around">isi</Stack>;
   // @ts-expect-error — prop tak dikenal tidak diteruskan ke DOM
   const noRest = <Stack title="x">isi</Stack>;
   // NOTE: atribut data-* (mis. data-testid untuk test hook) DIIZINKAN oleh
   // tipe React 19 pada komponen kustom — ditoleransi karena tak berefek
   // visual; semua prop lain di luar kontrak ditolak (§6b STYLE.md).
 
-  return { okColumn, okRow, noStyle, noSx, noClassName, noRawGap, noRawDirection, noRest };
+  return { okColumn, okRow, okAlign, noStyle, noSx, noClassName, noRawGap, noRawDirection, noRawAlign, noRawJustify, noRest };
 }

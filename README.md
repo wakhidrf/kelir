@@ -247,9 +247,9 @@ goes stale:
 ---
 
 <!-- kelir-doc: components -->
-## Complete List of 68 Project Kelir Components
+## Complete List of 70 Project Kelir Components
 
-Project Kelir has **68 components** organized into several main categories to make it easier to design structured and consistent user interfaces.
+Project Kelir has **70 components** organized into several main categories to make it easier to design structured and consistent user interfaces.
 
 ### 1. Inputs & Forms
 Components that capture user interaction and data input with integrated controls.
@@ -337,7 +337,9 @@ Components that shape the structure and placement of elements.
 65. **Resizable**: A layout panel whose size can be dynamically adjusted with draggable dividers.
 66. **Skeleton**: An animated dimming-brightening placeholder frame for empty elements as a visualization before data finishes loading.
 67. **Spacer**: A fixed-gap whitespace primitive with a closed size union.
-68. **Stack**: A vertical/horizontal stack primitive with closed gap and direction unions.
+68. **Stack**: A vertical/horizontal stack primitive with closed gap, direction, align, and justify unions.
+69. **Container**: A page-width containment primitive with closed maxWidth and padding unions from layout tokens.
+70. **Image**: A neutral media primitive with closed height, fit, and radius unions (no shadow/border by default).
 
 ---
 
