@@ -195,7 +195,7 @@ import { Switch } from "@/views/kelir/kelir-components/switch";
 
 export default function MyComponent() {
   return (
-    // Kontrak tersegel: tata letak via primitif kit (Stack), jangan div ber-style.
+    // Tata letak via primitif kit (Stack), jangan div ber-style.
     <Stack direction="row" gap="md">
       <Button variant="primary">Klik Saya</Button>
       <Switch label="Aktifkan Fitur" defaultChecked />
@@ -205,10 +205,13 @@ export default function MyComponent() {
 }
 ```
 
-### 5. Aturan Pakai (Kontrak Tersegel v7)
+### 5. Aturan Pakai
 
-`kelir-types.ts` adalah sumber kebenaran tunggal: hanya prop yang tertulis di
-interface `*Props` komponen Anda yang boleh diteruskan. Versi ringkas:
+Tiap kartu komponen di tab Galeri menampilkan tiga hal: pratinjau live yang
+bisa diklik, prop persis yang boleh Anda teruskan (misalnya Button:
+`variant?: 'primary' | 'secondary' | 'destructive' | 'outline' | 'ghost'`),
+dan contoh kode yang bisa disalin. Aturan di bawah inilah yang ditegakkan
+kartu-kartu itu:
 
 - **Anda mengisi isi + makna + perilaku.** Kode Anda memasok teks, opsi, data,
   dan handler (`onClick`, `onChange`, `value`, `open`). Semua yang visual -
@@ -218,19 +221,22 @@ interface `*Props` komponen Anda yang boleh diteruskan. Versi ringkas:
   atau ukuran mentah, tanpa `slotProps`/`classes`/`slot`, tanpa
   `dangerouslySetInnerHTML`, dan tanpa atribut `data-*` untuk styling
   (satu-satunya pengecualian adalah `data-testid` untuk test Anda sendiri).
-- **Pilih dari daftar tetap.** Prop seperti `variant`, `size`, `gap`, `align`,
-  `shape`, atau `mode` hanya menerima nilai yang tercantum di
-  `kelir-types.ts` - misalnya `Button variant="primary"`, `Grid columns={6}`,
-  `Stack gap="md"`. Nilai karangan sendiri tak akan cocok dengan token tema.
+- **Pilih dari daftar di tiap kartu.** Prop seperti `variant`, `size`, `gap`,
+  `align`, `shape`, atau `mode` hanya menerima nilai yang tertera di kartu -
+  coba `Button variant="primary"`, `Grid columns={6}`, `Stack gap="md"`.
+  Nilai karangan sendiri tak cocok dengan tema, dan pratinjau tak akan
+  menampilkannya.
 - **Tata letak pakai primitif kit.** Pakai `Stack`, `Grid`, atau `Spacer` dari
   `kelir-components` (lihat §4 di atas), bukan pembungkus `div` polos.
 - **Satu sakelar visual.** `KelirProvider` hanya menerima `defaultTheme` +
   `children`, tanpa yang lain. Ganti tema saat runtime lewat
   `useKelir().setTheme` atau `KelirSwitcher` yang sudah jadi (lihat §3 di
-  atas) - jangan pernah menimpa warna.
+  atas) - jangan pernah menimpa warna. Ganti-ganti tema di Galeri untuk
+  melihat semua pratinjau berubah sekaligus.
 - **Label milik Anda, perilaku milik kami.** Anda memasok nama aksesibel
   (`aria-label`, `id`, `htmlFor`); focus trap, pengumuman live, dan dukungan
-  keyboard sudah built-in di setiap komponen. Satu-satunya komponen yang
+  keyboard sudah built-in di setiap komponen - telusuri pratinjau Galeri
+  dengan keyboard (Tab) untuk merasakannya. Satu-satunya komponen yang
   menerima dimensi adalah `Skeleton` (`width`/`height` untuk placeholder
   loading).
 
