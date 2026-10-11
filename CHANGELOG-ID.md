@@ -1,7 +1,5 @@
 ## Changelog
 
-## v7 vs Sebelumnya
-
 | Fitur / Aturan | Sebelum v7 | v7 |
 |---|---|---|
 | Tata letak halaman | Anda menulis pembungkus sendiri | Pakai `Stack` (`gap`, `direction`), `Grid` (`columns` dari daftar tetap, `gap`), dan `Spacer` (`size`) milik kit - pembungkus `div` polos tak lagi diterima |

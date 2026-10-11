@@ -1,7 +1,5 @@
 ## Changelog
 
-## v7 vs Before
-
 | Feature / Rule | Before v7 | v7 |
 |---|---|---|
 | Page layout | You wrote your own wrappers | Use the kit's `Stack` (`gap`, `direction`), `Grid` (`columns` from a fixed set, `gap`), and `Spacer` (`size`) - plain `div` wrappers are no longer accepted |
