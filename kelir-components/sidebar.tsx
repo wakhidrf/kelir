@@ -16,6 +16,8 @@ import { ScrollArea } from "./scroll-area";
 // Lebar milik kit (ISSUE-005): overlay maksimal separuh halaman.
 const SIDEBAR_WIDTH = "var(--sidebar-width, 260px)";
 const OVERLAY_WIDTH = `min(${SIDEBAR_WIDTH}, 50vw)`;
+// Napas tab pemicu dari tepi drawer saat terbuka (ISSUE-008).
+const TRIGGER_GAP = css.layout.space.sm;
 // Ambang internal kit (md MUI); bukan angka konsumen.
 const DESKTOP_QUERY = "(min-width: 900px)";
 
@@ -121,6 +123,9 @@ export function Sidebar({
               // ikut memendek + tengah vertikal via paperHeight).
               height: overlayHeight === "full" ? "100%" : "auto",
               maxHeight: overlayHeight === "full" ? "100dvh" : "90dvh",
+              // Napas isi dari tepi paper (khusus overlay; docked punya
+              // padding konten milik konsumen masing-masing).
+              padding: css.layout.space.lg,
               color: css.colors.textPrimary,
               fontFamily: "inherit",
               overflow: "hidden",
@@ -143,7 +148,9 @@ export function Sidebar({
             <MuiBox
               sx={{
                 position: "fixed",
-                left: OVERLAY_WIDTH,
+                // Terbuka: 8px dari tepi drawer (napas); tertutup: mundur
+                // selebar drawer hingga tepi layar (flush, seperti semula).
+                left: `calc(${OVERLAY_WIDTH} + ${TRIGGER_GAP})`,
                 top: "50%",
                 transform: `translateY(-50%)${
                   overlayOpen ? "" : ` translateX(calc(-1 * (${OVERLAY_WIDTH})))`
