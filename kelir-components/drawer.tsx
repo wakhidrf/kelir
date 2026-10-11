@@ -28,6 +28,9 @@ export function Drawer({
             WebkitBackdropFilter: css.motion.blur.backdrop,
             fontFamily: "inherit",
           },
+          // Nama dialog (role=dialog ada di paper, bukan root) — temuan axe
+          // via Sidebar overlay (ISSUE-008). Root tetap berlabel seperti semula.
+          ...(ariaLabel ? { "aria-label": ariaLabel } : {}),
         },
       }}
     >

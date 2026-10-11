@@ -1,7 +1,12 @@
 // @vitest-environment jsdom
 import { fireEvent } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-import { expectSealed, forceSpread, renderSealed } from "./sealed-test-helper";
+import {
+  expectNoAxeViolations,
+  expectSealed,
+  forceSpread,
+  renderSealed,
+} from "./sealed-test-helper";
 import { Sidebar } from "./sidebar";
 
 describe("Sidebar sealed + responsif (ISSUE-005 §6b)", () => {
@@ -42,5 +47,29 @@ describe("Sidebar sealed + responsif (ISSUE-005 §6b)", () => {
     expect(drawer.textContent).toContain("Item 1");
     fireEvent.keyDown(drawer, { key: "Escape", code: "Escape" });
     expect(onOpenChange).toHaveBeenCalledWith(false);
+  });
+
+  it("trigger chevron: klik membuka overlay tak-terkontrol + ramah SR", async () => {
+    const onOpenChange = vi.fn();
+    const { container } = renderSealed(
+      <Sidebar
+        mode="overlay"
+        trigger="chevron"
+        onOpenChange={onOpenChange}
+        aria-label="Navigasi"
+      >
+        <div>Item 1</div>
+      </Sidebar>,
+    );
+    const trigger = container.querySelector(
+      'button[aria-label="Buka Navigasi"]',
+    ) as HTMLElement;
+    expect(trigger.getAttribute("aria-expanded")).toBe("false");
+    fireEvent.click(trigger);
+    expect(onOpenChange).toHaveBeenCalledWith(true);
+    expect(trigger.getAttribute("aria-expanded")).toBe("true");
+    const drawer = document.querySelector(".MuiDrawer-root") as HTMLElement;
+    expect(drawer.textContent).toContain("Item 1");
+    await expectNoAxeViolations(drawer);
   });
 });

@@ -1,6 +1,9 @@
 "use client";
 
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import MenuIcon from "@mui/icons-material/Menu";
 import MuiBox from "@mui/material/Box";
+import MuiIconButton from "@mui/material/IconButton";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useState } from "react";
 import type { SidebarProps } from "../kelir-types";
@@ -41,6 +44,8 @@ export function Sidebar({
   open,
   defaultOpen = false,
   onOpenChange,
+  trigger = "none",
+  overlayHeight = "full",
   id,
   "aria-label": ariaLabel,
 }: SidebarProps) {
@@ -58,26 +63,65 @@ export function Sidebar({
     onOpenChange?.(false);
     if (open === undefined) setUncontrolled(false);
   };
+  const handleTriggerOpen = () => {
+    onOpenChange?.(true);
+    if (open === undefined) setUncontrolled(true);
+  };
 
   if (resolved === "overlay") {
     return (
-      <Drawer open={overlayOpen} onClose={handleClose} id={id} aria-label={ariaLabel}>
-        <MuiBox
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            width: OVERLAY_WIDTH,
-            height: "100%",
-            color: css.colors.textPrimary,
-            fontFamily: "inherit",
-            overflow: "hidden",
-          }}
-        >
-          <SidebarBody header={header} footer={footer}>
-            {children}
-          </SidebarBody>
-        </MuiBox>
-      </Drawer>
+      <>
+        {/* Pemicu tepi milik kit (ISSUE-008): hanya overlay, render in-flow
+            di titik penempatan (terlihat saat tertutup; saat terbuka
+            tertutup backdrop Drawer). */}
+        {trigger !== "none" && (
+          <MuiIconButton
+            aria-label={ariaLabel ? `Buka ${ariaLabel}` : "Buka navigasi"}
+            aria-expanded={overlayOpen}
+            aria-controls={id}
+            onClick={handleTriggerOpen}
+            sx={{
+              width: "28px",
+              height: "64px",
+              padding: 0,
+              borderRadius: 0,
+              borderTopRightRadius: css.radius.button,
+              borderBottomRightRadius: css.radius.button,
+              backgroundColor: css.colors.surface,
+              border: `1px solid ${css.border.light}`,
+              borderLeft: "none",
+              boxShadow: css.shadows.convex,
+              color: css.colors.textPrimary,
+            }}
+          >
+            {trigger === "hamburger" ? (
+              <MenuIcon fontSize="small" />
+            ) : (
+              <ChevronRightIcon fontSize="small" />
+            )}
+          </MuiIconButton>
+        )}
+        <Drawer open={overlayOpen} onClose={handleClose} id={id} aria-label={ariaLabel}>
+          <MuiBox
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              width: OVERLAY_WIDTH,
+              // full = drawer penuh; content = bungkus isi (paper Drawer
+              // tetap jadi latar).
+              height: overlayHeight === "full" ? "100%" : "auto",
+              maxHeight: "100dvh",
+              color: css.colors.textPrimary,
+              fontFamily: "inherit",
+              overflow: "hidden",
+            }}
+          >
+            <SidebarBody header={header} footer={footer}>
+              {children}
+            </SidebarBody>
+          </MuiBox>
+        </Drawer>
+      </>
     );
   }
 

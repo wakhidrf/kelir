@@ -15,6 +15,11 @@ export function sidebarContractChecks() {
       x
     </Sidebar>
   );
+  const okTrigger = (
+    <Sidebar mode="overlay" trigger="hamburger" overlayHeight="content">
+      x
+    </Sidebar>
+  );
 
   // @ts-expect-error - style milik kit
   const noStyle = <Sidebar style={{ width: "300px" }}>x</Sidebar>;
@@ -24,5 +29,9 @@ export function sidebarContractChecks() {
   const noOnClick = <Sidebar onClick={() => {}}>x</Sidebar>;
   // @ts-expect-error - mode di luar union
   const noMode = <Sidebar mode="rail">x</Sidebar>;
-  return { ok, okBare, okDocked, okOverlay, noStyle, noClassName, noOnClick, noMode };
+  // @ts-expect-error - trigger di luar union
+  const noTrigger = <Sidebar mode="overlay" trigger="dots">x</Sidebar>;
+  // @ts-expect-error - overlayHeight di luar union
+  const noHeight = <Sidebar mode="overlay" overlayHeight="half">x</Sidebar>;
+  return { ok, okBare, okDocked, okOverlay, okTrigger, noStyle, noClassName, noOnClick, noMode, noTrigger, noHeight };
 }
