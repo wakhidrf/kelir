@@ -32,4 +32,18 @@ describe("Typography sealed (§6b)", () => {
     const el = screen.getByRole("heading", { level: 2, name: "Tubuh" });
     expect(el.tagName).toBe("P");
   });
+
+  it("align=center: teks rata tengah; default rata kiri", () => {
+    renderSealed(
+      <Typography variant="body-md" align="center">
+        Tengah
+      </Typography>,
+    );
+    expect(screen.getByText("Tengah").style.textAlign).toBe("center");
+  });
+
+  it("tanpa align: textAlign tetap left (nol-ubah visual)", () => {
+    renderSealed(<Typography variant="body-md">Kiri</Typography>);
+    expect(screen.getByText("Kiri").style.textAlign).toBe("left");
+  });
 });

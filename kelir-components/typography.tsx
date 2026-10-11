@@ -80,16 +80,18 @@ const defaultElement: Record<Variant, "h1" | "h2" | "h3" | "p"> = {
 };
 
 // Teks sealed (P1c STYLE.md §6): hanya props kontrak yang diteruskan ke MUI
-// (children, component, variant, style milik kit, id/aria/role) — tanpa
-// ...rest ke DOM. `as` memilih elemen dokumen; `level` menambah role heading
-// + aria-level bila elemennya non-heading (tampilan body tapi outline
-// dokumen setara heading) — hierarki dokumen ≠ visual. Bila `as` sudah
-// heading, level bawaan elemen yang berlaku.
+// (children, component, variant, align, style milik kit, id/aria/role) -
+// tanpa ...rest ke DOM. `as` memilih elemen dokumen; `level` menambah role
+// heading + aria-level bila elemennya non-heading (tampilan body tapi outline
+// dokumen setara heading) - hierarki dokumen ≠ visual. Bila `as` sudah
+// heading, level bawaan elemen yang berlaku. `align` = textAlign milik kit
+// (default `left`).
 export function Typography({
   children,
   variant = "body-md",
   as,
   level,
+  align = "left",
   id,
   "aria-label": ariaLabel,
 }: TypographyProps) {
@@ -110,6 +112,7 @@ export function Typography({
         fontFamily: "inherit",
         margin: 0,
         ...variantStyles[variant],
+        textAlign: align,
       }}
     >
       {children}

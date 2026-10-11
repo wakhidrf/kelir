@@ -900,13 +900,15 @@ export interface TooltipProps {
 
 // 63. Typography — teks sealed berbasis MUI (P1c STYLE.md §6).
 // `variant` = hierarki VISUAL (union tertutup milik kit); `as`/`level` =
-// hierarki DOKUMEN (elemen heading yang benar; hierarki dokumen ≠ visual).
+// hierarki DOKUMEN (elemen heading yang benar; hierarki dokumen ≠ visual);
+// `align` = perataan TEKS (union tertutup; default `left`, nol-ubah visual).
 // Tanpa style/sx/className/warna/font mentah — semua dari token kit.
 export interface TypographyProps {
   children: React.ReactNode;
   variant?: "h1" | "h2" | "h3" | "body-md" | "body-sm" | "caption" | "label-caps";
   as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "div";
   level?: 1 | 2 | 3 | 4 | 5 | 6;
+  align?: "left" | "center" | "right" | "justify";
   id?: string;
   "aria-label"?: string;
 }

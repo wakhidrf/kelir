@@ -1,9 +1,15 @@
 import { Typography } from "./typography";
 
 // Type-test negatif (§6/§6b STYLE.md): JSX langsung + nilai literal.
-// `variant` = visual (union tertutup); `as`/`level` = dokumen.
+// `variant` = visual (union tertutup); `as`/`level` = dokumen;
+// `align` = perataan teks (union tertutup).
 export function typographyContractChecks() {
   const okBody = <Typography variant="body-md">teks</Typography>;
+  const okAlign = (
+    <Typography variant="body-md" align="center">
+      tengah
+    </Typography>
+  );
   const okHeading = (
     <Typography variant="h1" as="h1" id="t" aria-label="judul">
       Judul
@@ -35,12 +41,15 @@ export function typographyContractChecks() {
   const noRawAs = <Typography as="section">teks</Typography>;
   // @ts-expect-error — level bebas haram (1-6)
   const noRawLevel = <Typography level={7}>teks</Typography>;
+  // @ts-expect-error — align bebas haram (left/center/right/justify)
+  const noRawAlign = <Typography align="middle">teks</Typography>;
   // @ts-expect-error — prop tak dikenal tidak diteruskan ke DOM
   // (data-* ditoleransi tipe React 19 sebagai test hook; lihat stack.test-d)
   const noRest = <Typography title="x">teks</Typography>;
 
   return {
     okBody,
+    okAlign,
     okHeading,
     okSplit,
     okAllVariants,
@@ -50,6 +59,7 @@ export function typographyContractChecks() {
     noRawVariant,
     noRawAs,
     noRawLevel,
+    noRawAlign,
     noRest,
   };
 }
