@@ -67,17 +67,16 @@ describe("Sidebar sealed + responsif (ISSUE-005 §6b)", () => {
     expect(trigger.getAttribute("aria-expanded")).toBe("false");
     fireEvent.click(trigger);
     expect(onOpenChange).toHaveBeenCalledWith(true);
-    expect(trigger.getAttribute("aria-expanded")).toBe("true");
     const drawer = document.querySelector(".MuiDrawer-root") as HTMLElement;
     expect(drawer.textContent).toContain("Item 1");
     await expectNoAxeViolations(drawer);
-    // Toggle: pemicu tetap terlihat di atas backdrop dengan ikon tutup;
+    // Toggle: tab tutup menempel di tepi drawer (portal, pola OTW);
     // klik lagi menutup.
-    const closer = container.querySelector(
+    const closer = document.querySelector(
       'button[aria-label="Tutup Navigasi"]',
     ) as HTMLElement;
+    expect(closer.getAttribute("aria-expanded")).toBe("true");
     fireEvent.click(closer);
     expect(onOpenChange).toHaveBeenCalledWith(false);
-    expect(closer.getAttribute("aria-expanded")).toBe("false");
   });
 });

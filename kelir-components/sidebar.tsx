@@ -37,6 +37,47 @@ function SidebarBody({
   );
 }
 
+// Tab tepi pemicu (ISSUE-008): 28x64, sudut kanan ikut token peran.
+function TriggerTab({
+  label,
+  expanded,
+  controlsId,
+  onToggle,
+  icon,
+}: {
+  label: string;
+  expanded: boolean;
+  controlsId?: string;
+  onToggle: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  icon: React.ReactNode;
+}) {
+  return (
+    <MuiIconButton
+      aria-label={label}
+      aria-expanded={expanded}
+      aria-controls={controlsId}
+      onClick={onToggle}
+      sx={{
+        width: "28px",
+        height: "64px",
+        padding: 0,
+        borderRadius: 0,
+        borderTopRightRadius: css.radius.button,
+        borderBottomRightRadius: css.radius.button,
+        // Badan opak dari kanvas tema (surface tema kaca itu translusen;
+        // tab tepi harus terbaca seperti handle custom lama yang opak).
+        backgroundColor: css.colors.baseBackground,
+        border: `1px solid ${css.border.light}`,
+        borderLeft: "none",
+        boxShadow: css.shadows.convex,
+        color: css.colors.textPrimary,
+      }}
+    >
+      {icon}
+    </MuiIconButton>
+  );
+}
+
 export function Sidebar({
   header,
   footer,
@@ -79,64 +120,32 @@ export function Sidebar({
   };
 
   if (resolved === "overlay") {
+    const openLabel = ariaLabel ? `Tutup ${ariaLabel}` : "Tutup navigasi";
+    const closedLabel = ariaLabel ? `Buka ${ariaLabel}` : "Buka navigasi";
     return (
       <>
-        {/* Pemicu tepi toggle milik kit (ISSUE-008): hanya overlay, render
-            in-flow di titik penempatan. Tertutup: ikon buka (hamburger /
-            chevron kanan). Terbuka: naik di atas backdrop (z 1400) dengan
-            ikon tutup (chevron kiri; hamburger tetap). */}
-        {trigger !== "none" && (
-          <MuiIconButton
-            aria-label={
-              overlayOpen
-                ? ariaLabel
-                  ? `Tutup ${ariaLabel}`
-                  : "Tutup navigasi"
-                : ariaLabel
-                  ? `Buka ${ariaLabel}`
-                  : "Buka navigasi"
+        {/* Tertutup: tab buka in-flow di titik penempatan. */}
+        {trigger !== "none" && !overlayOpen && (
+          <TriggerTab
+            label={closedLabel}
+            expanded={false}
+            controlsId={id}
+            onToggle={handleTriggerToggle}
+            icon={
+              trigger === "hamburger" ? (
+                <MenuIcon sx={{ fontSize: 18 }} />
+              ) : (
+                <ChevronRightIcon sx={{ fontSize: 18 }} />
+              )
             }
-            aria-expanded={overlayOpen}
-            aria-controls={id}
-            onClick={handleTriggerToggle}
-            sx={{
-              width: "28px",
-              height: "64px",
-              padding: 0,
-              // Tertutup: in-flow di titik penempatan. Terbuka: fixed tengah
-              // tepi kiri viewport (titik SAMA seperti saat tertutup) + di
-              // atas backdrop — tak tergantung layout induk.
-              // position WAJIB: z-index diabaikan pada elemen static.
-              position: overlayOpen ? "fixed" : "relative",
-              left: overlayOpen ? 0 : undefined,
-              top: overlayOpen ? "calc(50% - 32px)" : undefined,
-              borderRadius: 0,
-              borderTopRightRadius: css.radius.button,
-              borderBottomRightRadius: css.radius.button,
-              // Badan opak dari kanvas tema (surface tema kaca itu translusen;
-              // tab tepi harus terbaca seperti handle custom lama yang opak).
-              backgroundColor: css.colors.baseBackground,
-              border: `1px solid ${css.border.light}`,
-              borderLeft: "none",
-              boxShadow: css.shadows.convex,
-              color: css.colors.textPrimary,
-              zIndex: overlayOpen ? 1400 : "auto",
-            }}
-          >
-            {overlayOpen ? (
-              <ChevronLeftIcon sx={{ fontSize: 18 }} />
-            ) : trigger === "hamburger" ? (
-              <MenuIcon sx={{ fontSize: 18 }} />
-            ) : (
-              <ChevronRightIcon sx={{ fontSize: 18 }} />
-            )}
-          </MuiIconButton>
+          />
         )}
         <Drawer open={overlayOpen} onClose={handleClose} id={id} aria-label={ariaLabel}>
           <MuiBox
             sx={{
               display: "flex",
               flexDirection: "column",
+              position: "relative",
               width: OVERLAY_WIDTH,
               // full = drawer penuh; content = bungkus isi (paper Drawer
               // tetap jadi latar).
@@ -150,6 +159,27 @@ export function Sidebar({
             <SidebarBody header={header} footer={footer}>
               {children}
             </SidebarBody>
+            {/* Terbuka: tab tutup MENEMPEL di tepi kanan drawer
+                (left 100%, tengah vertikal, ikut meluncur) — pola referensi
+                dashboard OTW. Di dalam modal: tanpa perang z-index. */}
+            {trigger !== "none" && (
+              <MuiBox
+                sx={{
+                  position: "absolute",
+                  left: "100%",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                }}
+              >
+                <TriggerTab
+                  label={openLabel}
+                  expanded={true}
+                  controlsId={id}
+                  onToggle={handleTriggerToggle}
+                  icon={<ChevronLeftIcon sx={{ fontSize: 18 }} />}
+                />
+              </MuiBox>
+            )}
           </MuiBox>
         </Drawer>
       </>
