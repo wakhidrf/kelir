@@ -297,6 +297,27 @@ Components that shape the structure and placement of elements.
 
 ---
 
+## Daftar Tema
+
+Project Kelir ships the following themes (one `DESIGN.md` design language each),
+selectable at runtime via `KelirProvider`/`KelirSwitcher`. Entries below are
+the single source of truth for the theme count (parsed by consumers — keep the
+`N. **theme-id**:` format).
+
+1. **aurora-ui**: Flowing aurora gradients over a dark canvas.
+2. **claymorphism**: Soft chunky clay shapes with thick rounded borders.
+3. **dimensional-layering**: Stacked translucent layers with depth separation.
+4. **editorial-contemporaneo**: Contemporary print-editorial typography and rules.
+5. **edtech-plataforma**: Friendly education-platform surfaces and accents.
+6. **futuristic-glassmorphism**: Neon-tinted glass panels with glow accents.
+7. **glassmorphism**: Frosted-glass translucency with backdrop blur.
+8. **liquid-glass**: Fluid glossy highlights over clear glass.
+9. **neumorphism**: Soft extruded plastic with dual light/shadow.
+10. **skeuomorphism**: Realistic textures mimicking physical materials.
+11. **spatial-ui**: Depth-ordered spatial layers with ambient shadows.
+
+---
+
 ## License
 
 Licensed under the [MIT License](LICENSE).
