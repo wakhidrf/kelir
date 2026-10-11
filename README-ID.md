@@ -213,32 +213,38 @@ bisa diklik, prop persis yang boleh Anda teruskan (misalnya Button:
 dan contoh kode yang bisa disalin. Aturan di bawah inilah yang ditegakkan
 kartu-kartu itu:
 
-- **Anda mengisi isi + makna + perilaku.** Kode Anda memasok teks, opsi, data,
-  dan handler (`onClick`, `onChange`, `value`, `open`). Semua yang visual -
-  warna, radius, spasi, font, bayangan, animasi - milik Kelir dan mengikuti
-  tema aktif secara otomatis.
-- **Jangan men-style dari luar.** Tanpa `style`/`sx`/`className`, tanpa warna
-  atau ukuran mentah, tanpa `slotProps`/`classes`/`slot`, tanpa
-  `dangerouslySetInnerHTML`, dan tanpa atribut `data-*` untuk styling
-  (satu-satunya pengecualian adalah `data-testid` untuk test Anda sendiri).
-- **Pilih dari daftar di tiap kartu.** Prop seperti `variant`, `size`, `gap`,
-  `align`, `shape`, atau `mode` hanya menerima nilai yang tertera di kartu -
-  coba `Button variant="primary"`, `Grid columns={6}`, `Stack gap="md"`.
-  Nilai karangan sendiri tak cocok dengan tema, dan pratinjau tak akan
-  menampilkannya.
-- **Tata letak pakai primitif kit.** Pakai `Stack`, `Grid`, atau `Spacer` dari
-  `kelir-components` (lihat §4 di atas), bukan pembungkus `div` polos.
-- **Satu sakelar visual.** `KelirProvider` hanya menerima `defaultTheme` +
-  `children`, tanpa yang lain. Ganti tema saat runtime lewat
-  `useKelir().setTheme` atau `KelirSwitcher` yang sudah jadi (lihat §3 di
-  atas) - jangan pernah menimpa warna. Ganti-ganti tema di Galeri untuk
-  melihat semua pratinjau berubah sekaligus.
-- **Label milik Anda, perilaku milik kami.** Anda memasok nama aksesibel
-  (`aria-label`, `id`, `htmlFor`); focus trap, pengumuman live, dan dukungan
-  keyboard sudah built-in di setiap komponen - telusuri pratinjau Galeri
-  dengan keyboard (Tab) untuk merasakannya. Satu-satunya komponen yang
-  menerima dimensi adalah `Skeleton` (`width`/`height` untuk placeholder
-  loading).
+> **Anda mengisi isi + makna + perilaku.** Kode Anda memasok teks, opsi, data,
+> dan handler (`onClick`, `onChange`, `value`, `open`). Semua yang visual -
+> warna, radius, spasi, font, bayangan, animasi - milik Kelir dan mengikuti
+> tema aktif secara otomatis.
+
+> **Jangan men-style dari luar.** Tanpa `style`/`sx`/`className`, tanpa warna
+> atau ukuran mentah, tanpa `slotProps`/`classes`/`slot`, tanpa
+> `dangerouslySetInnerHTML`, dan tanpa atribut `data-*` untuk styling
+> (satu-satunya pengecualian adalah `data-testid` untuk test Anda sendiri).
+
+> **Pilih dari daftar di tiap kartu.** Prop seperti `variant`, `size`, `gap`,
+> `align`, `shape`, atau `mode` hanya menerima nilai yang tertera di kartu -
+> coba `Button variant="primary"`, `Grid columns={6}`, `Stack gap="md"`.
+> Nilai karangan sendiri tak cocok dengan tema, dan pratinjau tak akan
+> menampilkannya.
+
+> **Tata letak pakai primitif kit.** Pakai `Stack`, `Grid`, atau `Spacer` dari
+> `kelir-components` (lihat Cara Mengimpor Komponen di atas), bukan pembungkus
+> `div` polos.
+
+> **Satu sakelar visual.** `KelirProvider` hanya menerima `defaultTheme` +
+> `children`, tanpa yang lain. Ganti tema saat runtime lewat
+> `useKelir().setTheme` atau `KelirSwitcher` yang sudah jadi (lihat Memasang
+> Provider Utama di atas) - jangan pernah menimpa warna. Ganti-ganti tema di
+> Galeri untuk melihat semua pratinjau berubah sekaligus.
+
+> **Label milik Anda, perilaku milik kami.** Anda memasok nama aksesibel
+> (`aria-label`, `id`, `htmlFor`); focus trap, pengumuman live, dan dukungan
+> keyboard sudah built-in di setiap komponen - telusuri pratinjau Galeri
+> dengan keyboard (Tab) untuk merasakannya. Satu-satunya komponen yang
+> menerima dimensi adalah `Skeleton` (`width`/`height` untuk placeholder
+> loading).
 
 ---
 

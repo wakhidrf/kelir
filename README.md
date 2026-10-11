@@ -212,31 +212,37 @@ you can click, the exact props you may pass (for example Button:
 `variant?: 'primary' | 'secondary' | 'destructive' | 'outline' | 'ghost'`),
 and a code snippet you can copy. The rules below are what those cards enforce:
 
-- **You fill content + meaning + behavior.** Your code provides text, options,
-  data, and handlers (`onClick`, `onChange`, `value`, `open`). Everything
-  visual - colors, radius, spacing, fonts, shadows, animations - belongs to
-  Kelir and follows the active theme automatically.
-- **Never style from the outside.** No `style`/`sx`/`className`, no raw
-  colors or sizes, no `slotProps`/`classes`/`slot`, no
-  `dangerouslySetInnerHTML`, and no `data-*` attributes for styling (the only
-  exception is `data-testid` for your own tests).
-- **Pick from the lists shown in each card.** Props like `variant`, `size`,
-  `gap`, `align`, `shape`, or `mode` accept only the values printed on the
-  card - try `Button variant="primary"`, `Grid columns={6}`, `Stack gap="md"`.
-  A value you invent yourself won't match the theme, and the preview won't
-  show it.
-- **Lay out with kit primitives.** Use `Stack`, `Grid`, or `Spacer` from
-  `kelir-components` (see §4 above), not plain `div` wrappers.
-- **One visual switch.** `KelirProvider` takes `defaultTheme` + `children`
-  and nothing else visual. Change themes at runtime with
-  `useKelir().setTheme` or the ready-made `KelirSwitcher` (see §3 above) -
-  never by overriding colors. Flip themes in the Showcase to see every
-  preview change at once.
-- **Labels are yours, behavior is ours.** You provide accessible names
-  (`aria-label`, `id`, `htmlFor`); focus traps, live announcements, and
-  keyboard support are built into every component - tab through the Showcase
-  previews with your keyboard to feel it. The only component that takes
-  dimensions is `Skeleton` (`width`/`height` for loading placeholders).
+> **You fill content + meaning + behavior.** Your code provides text, options,
+> data, and handlers (`onClick`, `onChange`, `value`, `open`). Everything
+> visual - colors, radius, spacing, fonts, shadows, animations - belongs to
+> Kelir and follows the active theme automatically.
+
+> **Never style from the outside.** No `style`/`sx`/`className`, no raw
+> colors or sizes, no `slotProps`/`classes`/`slot`, no
+> `dangerouslySetInnerHTML`, and no `data-*` attributes for styling (the only
+> exception is `data-testid` for your own tests).
+
+> **Pick from the lists shown in each card.** Props like `variant`, `size`,
+> `gap`, `align`, `shape`, or `mode` accept only the values printed on the
+> card - try `Button variant="primary"`, `Grid columns={6}`, `Stack gap="md"`.
+> A value you invent yourself won't match the theme, and the preview won't
+> show it.
+
+> **Lay out with kit primitives.** Use `Stack`, `Grid`, or `Spacer` from
+> `kelir-components` (see How to Import Components above), not plain `div`
+> wrappers.
+
+> **One visual switch.** `KelirProvider` takes `defaultTheme` + `children`
+> and nothing else visual. Change themes at runtime with
+> `useKelir().setTheme` or the ready-made `KelirSwitcher` (see Installing the
+> Main Provider above) - never by overriding colors. Flip themes in the
+> Showcase to see every preview change at once.
+
+> **Labels are yours, behavior is ours.** You provide accessible names
+> (`aria-label`, `id`, `htmlFor`); focus traps, live announcements, and
+> keyboard support are built into every component - tab through the Showcase
+> previews with your keyboard to feel it. The only component that takes
+> dimensions is `Skeleton` (`width`/`height` for loading placeholders).
 
 ---
 
