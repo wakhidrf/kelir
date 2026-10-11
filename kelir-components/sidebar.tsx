@@ -4,18 +4,18 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MenuIcon from "@mui/icons-material/Menu";
 import MuiBox from "@mui/material/Box";
-import MuiIconButton from "@mui/material/IconButton";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import type { SidebarProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 import { Drawer } from "./drawer";
+import { IconButton } from "./icon-button";
 import { ScrollArea } from "./scroll-area";
 
-// Lebar milik kit (ISSUE-005); overlay dibatasi 85vw agar tak makan layar.
+// Lebar milik kit (ISSUE-005): overlay maksimal separuh halaman.
 const SIDEBAR_WIDTH = "var(--sidebar-width, 260px)";
-const OVERLAY_WIDTH = `min(${SIDEBAR_WIDTH}, 85vw)`;
+const OVERLAY_WIDTH = `min(${SIDEBAR_WIDTH}, 50vw)`;
 // Ambang internal kit (md MUI); bukan angka konsumen.
 const DESKTOP_QUERY = "(min-width: 900px)";
 
@@ -30,60 +30,19 @@ function SidebarBody({
       {/* Komposisi internal kit-ke-kit: area tengah isi sisa ruang dan
           scroll di dalam (ScrollArea bounded via maxHeight 100% bila root
           bounded; bila root tak bounded, isi tumbuh mengikuti halaman). */}
-      <MuiBox sx={{ flex: 1, minHeight: 0, width: "100%" }}>
+      <MuiBox
+        sx={{
+          flex: 1,
+          minHeight: 0,
+          minWidth: 0,
+          width: "100%",
+          overflowWrap: "anywhere",
+        }}
+      >
         <ScrollArea maxHeight="100%">{children}</ScrollArea>
       </MuiBox>
       {footer && <MuiBox sx={{ flexShrink: 0 }}>{footer}</MuiBox>}
     </>
-  );
-}
-
-// Tab tepi pemicu (ISSUE-008): 28x64, sudut kanan ikut token peran.
-// Tanpa shadow: di atas backdrop shadow justru terlihat seperti blur kotor.
-function TriggerTab({
-  label,
-  expanded,
-  controlsId,
-  onToggle,
-  icon,
-}: {
-  label: string;
-  expanded: boolean;
-  controlsId?: string;
-  onToggle: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  icon: React.ReactNode;
-}) {
-  return (
-    <MuiIconButton
-      aria-label={label}
-      aria-expanded={expanded}
-      aria-controls={controlsId}
-      onClick={onToggle}
-      disableRipple
-      sx={{
-        width: "28px",
-        height: "64px",
-        padding: 0,
-        borderRadius: 0,
-              borderTopRightRadius: css.radius.button,
-              borderBottomRightRadius: css.radius.button,
-              // Menyambung dengan paper Drawer: resep SAMA PERSIS (surface +
-              // blur + border) agar tab terbaca sebagai lanjutan drawer,
-              // bukan tombol lepas.
-              backgroundColor: css.colors.surface,
-              backdropFilter: css.motion.blur.backdrop,
-              WebkitBackdropFilter: css.motion.blur.backdrop,
-              border: `1px solid ${css.border.light}`,
-              borderLeft: "none",
-        color: css.colors.textPrimary,
-        // Tab statis: tanpa cucian hover/ripple MUI (temuan visual mobile).
-        "&:hover": {
-          backgroundColor: css.colors.baseBackground,
-        },
-      }}
-    >
-      {icon}
-    </MuiIconButton>
   );
 }
 
@@ -164,12 +123,11 @@ export function Sidebar({
             </SidebarBody>
           </MuiBox>
         </Drawer>
-        {/* Satu tab portal untuk buka+tutup: fixed setinggi tepi drawer,
-            meluncur SINKRON dengan paper (durasi+easing = transisi Slide MUI:
-            buka 225ms ease-out, tutup 195ms ease-in) — bukan muncul instan.
-            Tertutup: mundur selebar drawer hingga x≈0 (titik tepi layar).
-            Portal lepas dari paper (overflowY auto memotong left:100%) dan
-            dari stacking context mana pun — tanpa z-war. */}
+        {/* Satu IconButton portal untuk buka+tutup (ISSUE-008): fixed
+            setinggi tepi drawer, meluncur SINKRON dengan paper (durasi+easing
+            = transisi Slide MUI) — bukan muncul instan. Tertutup: mundur
+            selebar drawer hingga x≈0. Portal lepas dari paper (overflowY auto
+            memotong) dan stacking context — tanpa z-war. */}
         {trigger !== "none" &&
           mounted &&
           typeof document !== "undefined" &&
@@ -188,11 +146,10 @@ export function Sidebar({
                 zIndex: 1400,
               }}
             >
-              <TriggerTab
-                label={overlayOpen ? openLabel : closedLabel}
-                expanded={overlayOpen}
-                controlsId={id}
-                onToggle={handleTriggerToggle}
+              <IconButton
+                variant="ghost"
+                aria-label={overlayOpen ? openLabel : closedLabel}
+                onClick={handleTriggerToggle}
                 icon={
                   overlayOpen ? (
                     <ChevronLeftIcon sx={{ fontSize: 18 }} />

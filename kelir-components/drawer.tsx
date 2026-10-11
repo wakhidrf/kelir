@@ -25,6 +25,10 @@ export function Drawer({
             backgroundColor: css.colors.surface,
             boxShadow: css.shadows.convex,
             border: `1px solid ${css.border.light}`,
+            // Lengkung ala card HANYA sisi kanan (Drawer kit selalu
+            // menempel kiri; ISSUE-008).
+            borderTopRightRadius: css.radius.card,
+            borderBottomRightRadius: css.radius.card,
             backdropFilter: css.motion.blur.backdrop,
             WebkitBackdropFilter: css.motion.blur.backdrop,
             fontFamily: "inherit",

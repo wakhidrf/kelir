@@ -15,7 +15,7 @@
 (paper overflowY auto + pecahan 151.5 vs 150): paper mode content kini
 `overflowY visible` — paper tak pernah scroll sendiri; scroll milik
 ScrollArea dalam (prinsip: slider hanya di mode full).
-- **ISSUE-008 — varian trigger + tinggi overlay Sidebar**: `trigger?: "none"|"hamburger"|"chevron"` (pemicu tepi milik kit khusus overlay: buka + `aria-expanded`/`aria-controls`); `overlayHeight?: "full"|"content"`. Bonus temuan axe: `aria-label` Drawer kini juga di paper `role=dialog` (sebelumnya hanya root → dialog tak bernama).
+- **ISSUE-008 — varian trigger + tinggi overlay Sidebar**: `trigger?: "none"|"hamburger"|"chevron"` (IconButton portal meluncur sinkron drawer; label Buka/Tutup); `overlayHeight?: "full"|"content"`. Drawer paper lengkung kanan ala card; overlay maksimal 50vw; teks panjang wrap. Bonus temuan axe: `aria-label` Drawer kini juga di paper `role=dialog` (sebelumnya hanya root → dialog tak bernama).
 - **ISSUE-005 susulan — daftar terpotong**: root docked `height: 100dvh` + `flexShrink: 0` memotong isi di parent bounded; area tengah tak scroll (ScrollArea unbounded). Root kini `height: 100%` + `maxHeight: 100dvh`, tengah `ScrollArea maxHeight="100%"` (scroll internal bila bounded, tumbuh bila tidak).
 
 ## 2026-10-10 — Kontrak paten 69/69 sealed (epik Gel.2–Gel.3c-11 + P1b/P1d/P2)
