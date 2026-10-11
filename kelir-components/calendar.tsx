@@ -33,7 +33,7 @@ const navButtonStyles: React.CSSProperties = {
   width: "30px",
   height: "30px",
   border: `1px solid ${css.border.light}`,
-  borderRadius: css.radius.sm,
+  borderRadius: css.radius.button,
   backgroundColor: neumorphicBg,
   color: textPrimary,
   boxShadow: convexShadow,
@@ -68,7 +68,7 @@ export function Calendar({ value, onChange }: CalendarProps) {
     <div
       style={{
         backgroundColor: neumorphicBg,
-        borderRadius: css.radius.sm,
+        borderRadius: css.radius.card,
         boxShadow: convexShadow,
         border: `1px solid ${css.border.light}`,
         padding: css.layout.space.lg,
@@ -141,7 +141,7 @@ export function Calendar({ value, onChange }: CalendarProps) {
                 alignItems: "center",
                 justifyContent: "center",
                 border: "none",
-                borderRadius: css.radius.sm,
+                borderRadius: css.radius.button,
                 backgroundColor: isSelected
                   ? css.colors.primary
                   : "transparent",

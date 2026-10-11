@@ -37,4 +37,34 @@ describe("Button sealed (§6b)", () => {
     );
     await expectNoAxeViolations(container);
   });
+
+  it("align start meratakan isi ke kiri (nav full-width)", () => {
+    renderSealed(
+      <Button variant="ghost" align="start" onClick={() => {}}>
+        Beranda
+      </Button>,
+    );
+    const el = screen.getByRole("button", { name: "Beranda" });
+    expect(el.style.justifyContent).toBe("flex-start");
+  });
+
+  it("align default tetap center", () => {
+    renderSealed(
+      <Button variant="ghost" onClick={() => {}}>
+        Galeri
+      </Button>,
+    );
+    const el = screen.getByRole("button", { name: "Galeri" });
+    expect(el.style.justifyContent).toBe("center");
+  });
+
+  it("aria-label yang cocok dengan teks diteruskan (Label in Name)", () => {
+    renderSealed(
+      <Button variant="primary" onClick={() => {}} aria-label="Simpan draf">
+        Simpan
+      </Button>,
+    );
+    const el = screen.getByRole("button", { name: "Simpan draf" });
+    expect(el.getAttribute("aria-label")).toBe("Simpan draf");
+  });
 });

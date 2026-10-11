@@ -17,6 +17,7 @@ export interface KelirVariants {
   onDestructive: string;
   destructive: string;
   background: string;
+  baseBackground: string;
   surface: string;
   borderLight: string;
   borderMedium: string;
@@ -60,6 +61,9 @@ export function createCss(
   return {
     colors: {
       background: color("background", variants.background),
+      // Kanvas opak tiap tema (background bisa gradien) — untuk elemen yang
+      // harus terbaca di semua tema (mis. tab tepi trigger Sidebar).
+      baseBackground: color("background-base", variants.baseBackground),
       surface: color("surface", variants.surface),
       textPrimary: color("text-primary", variants.textPrimary),
       textSecondary: color("text-secondary", variants.textSecondary),
@@ -85,6 +89,12 @@ export function createCss(
       sm: `var(--radius-sm, ${themeRounded.sm})`,
       md: `var(--radius-md, ${themeRounded.md})`,
       lg: `var(--radius-lg, ${themeRounded.lg})`,
+      // Peran (ISSUE-006): komponen memakai token peran, skala mentah
+      // hanya di definisi tema. Default = nilai kini (nol-ubah visual).
+      button: `var(--radius-button, var(--radius-sm, ${themeRounded.sm}))`,
+      card: `var(--radius-card, var(--radius-sm, ${themeRounded.sm}))`,
+      surface: `var(--radius-surface, var(--radius-sm, ${themeRounded.sm}))`,
+      prominent: `var(--radius-prominent, var(--radius-md, ${themeRounded.md}))`,
     },
     control: {
       padding: "var(--control-padding, 12px)",
@@ -171,6 +181,7 @@ export const variants = {
   onDestructive: "#FFFFFF", // white (text on destructive)
   destructive: "#B3261E", // neutral red (destructive background)
   background: "#F5F6F7", // neutral light canvas
+  baseBackground: "#E8E8E8", // neutral opaque canvas (edge tab dkk.)
   surface: "#FFFFFF", // neutral surface
   borderLight: "rgba(0, 0, 0, 0.08)",
   borderMedium: "rgba(0, 0, 0, 0.14)",

@@ -22,7 +22,7 @@ export function Item({
         alignItems: "center",
         gap: css.layout.space.md,
         padding: `${css.layout.space.md} ${css.layout.space.lg}`,
-        borderRadius: css.radius.sm,
+        borderRadius: css.radius.card,
         backgroundColor: css.colors.surface,
         border: `1px solid ${css.border.light}`,
         boxShadow: css.shadows.convex,

@@ -15,6 +15,7 @@ export function IconButton({
   icon,
   "aria-label": ariaLabel,
   variant = "primary",
+  shape = "rounded",
   onClick,
   type = "button",
   disabled,
@@ -29,7 +30,12 @@ export function IconButton({
 
   const getStyles = (): React.CSSProperties => {
     const base: React.CSSProperties = {
-      borderRadius: css.radius.sm,
+      borderRadius:
+        shape === "circle"
+          ? "50%"
+          : shape === "square"
+            ? 0
+            : css.radius.button,
       textTransform: "none",
       fontWeight: 600,
       padding: "10px",

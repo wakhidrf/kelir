@@ -25,7 +25,7 @@ export function InputGroup({
         alignItems: "center",
         gap: css.layout.space.sm,
         backgroundColor: css.colors.surface,
-        borderRadius: css.radius.sm,
+        borderRadius: css.control.radius,
         border: `1px solid ${css.border.light}`,
         boxShadow: css.shadows.convex,
         padding: `${css.layout.space.xs} ${css.layout.space.sm}`,

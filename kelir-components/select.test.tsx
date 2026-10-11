@@ -1,5 +1,5 @@
 import { fireEvent, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { Select } from "./select";
 import {
   EVIL_CLASS,
@@ -16,6 +16,17 @@ const OPTIONS = [
 ];
 
 describe("Select sealed (§6b)", () => {
+  // React dedup warning per nama atribut — spy dipasang sebelum render
+  // pertama agar bocoran `notched` (bila ada) tertangkap di sini.
+  const consoleErrors: string[] = [];
+  beforeAll(() => {
+    vi.spyOn(console, "error").mockImplementation((...args: unknown[]) => {
+      consoleErrors.push(args.map((a) => String(a)).join(" "));
+    });
+  });
+  afterAll(() => {
+    vi.restoreAllMocks();
+  });
   it("paksa spread tak mengubah visual; pilih opsi → onChange string", () => {
     const onChange = vi.fn();
     renderSealed(
@@ -39,5 +50,13 @@ describe("Select sealed (§6b)", () => {
       <Select options={OPTIONS} aria-label="sayur" onChange={() => {}} />,
     );
     await expectNoAxeViolations(container);
+  });
+
+  it("notched suntikan MUI tak bocor ke DOM (dengan label)", () => {
+    const { container } = renderSealed(
+      <Select options={OPTIONS} label="Sayur" onChange={() => {}} />,
+    );
+    expect(container.querySelector("[notched]")).toBeNull();
+    expect(consoleErrors.join("\n")).not.toMatch(/notched/);
   });
 });

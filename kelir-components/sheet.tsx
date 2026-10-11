@@ -23,8 +23,8 @@ export function Sheet({
         paper: {
           style: {
             backgroundColor: css.colors.surface,
-            borderTopLeftRadius: css.radius.md,
-            borderTopRightRadius: css.radius.md,
+            borderTopLeftRadius: css.radius.prominent,
+            borderTopRightRadius: css.radius.prominent,
             boxShadow: css.shadows.convex,
             border: `1px solid ${css.border.light}`,
             backdropFilter: css.motion.blur.backdrop,

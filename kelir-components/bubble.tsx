@@ -16,12 +16,12 @@ export function Bubble({
 }: BubbleProps) {
   const [collapsed, setCollapsed] = React.useState(false);
   const isSent = variant === "sent";
-  const side = align ?? (isSent ? "right" : "left");
+  const side = align ?? (isSent ? "end" : "start");
 
   const bubbleStyles: React.CSSProperties = {
     maxWidth: "80%",
     padding: "10px 14px",
-    borderRadius: css.radius.md,
+    borderRadius: css.radius.prominent,
     fontSize: "14px",
     lineHeight: 1.5,
     fontFamily: "inherit",
@@ -50,7 +50,7 @@ export function Bubble({
       style={{
         display: "flex",
         flexDirection: "column",
-        alignItems: side === "right" ? "flex-end" : "flex-start",
+        alignItems: side === "end" ? "flex-end" : "flex-start",
         width: "100%",
       }}
     >

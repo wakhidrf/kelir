@@ -8,6 +8,7 @@ export function Drawer({
   onClose,
   title,
   children,
+  height = "full",
   id,
   "aria-label": ariaLabel,
 }: DrawerProps) {
@@ -24,10 +25,36 @@ export function Drawer({
             backgroundColor: css.colors.surface,
             boxShadow: css.shadows.convex,
             border: `1px solid ${css.border.light}`,
+            // Lengkung ala card HANYA sisi kanan (Drawer kit selalu
+            // menempel kiri; ISSUE-008).
+            borderTopRightRadius: css.radius.card,
+            borderBottomRightRadius: css.radius.card,
             backdropFilter: css.motion.blur.backdrop,
             WebkitBackdropFilter: css.motion.blur.backdrop,
             fontFamily: "inherit",
+            // auto = paper bungkus isi + tengah vertikal. Syarat: height
+            // harus DEFINITE (fit-content) — height:auto + top/bottom:0
+            // justru meregang penuh karena margin auto jadi nol! Tanpa
+            // transform agar tak bentrok transisi Slide (margin yang
+            // memusatkan, bukan translate). overflowY visible: paper mode
+            // content TAK PERNAH scroll sendiri (pecahan subpixel 151.5 vs
+            // 150 memicu slider hantu); scroll milik ScrollArea dalam bila
+            // konten melebihi cap.
+            ...(height === "auto"
+              ? {
+                  height: "fit-content",
+                  maxHeight: "90dvh",
+                  top: 0,
+                  bottom: 0,
+                  marginTop: "auto",
+                  marginBottom: "auto",
+                  overflowY: "visible",
+                }
+              : {}),
           },
+          // Nama dialog (role=dialog ada di paper, bukan root) — temuan axe
+          // via Sidebar overlay (ISSUE-008). Root tetap berlabel seperti semula.
+          ...(ariaLabel ? { "aria-label": ariaLabel } : {}),
         },
       }}
     >

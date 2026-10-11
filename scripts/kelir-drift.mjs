@@ -32,7 +32,11 @@ const mismatch = [];
 const fail = (msg) => mismatch.push(msg);
 
 function parseInterfaces() {
-  const src = readFileSync(join(KELIR, "kelir-types.ts"), "utf8");
+  // Normalisasi CRLF: working copy Windows (autocrlf) memakai \r\n.
+  const src = readFileSync(join(KELIR, "kelir-types.ts"), "utf8").replace(
+    /\r\n/g,
+    "\n",
+  );
   const ifaces = new Map(); // name -> {props, explicit, body}
   const re = /export interface (\w+)\s*([^{]*)\{/g;
   let m;
@@ -86,7 +90,12 @@ function implExists(component) {
 }
 
 function parseTable() {
-  const src = readFileSync(join(ROOT, "STYLE.md"), "utf8");
+  // Normalisasi CRLF: working copy Windows (autocrlf) memakai \r\n
+  // (tanpanya jangkar `\|$` gagal di semua baris).
+  const src = readFileSync(join(ROOT, "STYLE.md"), "utf8").replace(
+    /\r\n/g,
+    "\n",
+  );
   const rows = [];
   for (const ln of src.split("\n")) {
     const m = ln.match(/^\| ([^|]+?) \| ([^|]+?) \| (.+) \|$/);

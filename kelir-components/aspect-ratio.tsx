@@ -11,7 +11,7 @@ export function AspectRatio({ ratio = 16 / 9, children }: AspectRatioProps) {
         width: "100%",
         aspectRatio: `${ratio}`,
         backgroundColor: css.colors.surface,
-        borderRadius: css.radius.sm,
+        borderRadius: css.radius.card,
         boxShadow: css.shadows.convex,
         border: `1px solid ${css.border.light}`,
         overflow: "hidden",

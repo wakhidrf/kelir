@@ -297,7 +297,7 @@ export function kelirStyleCss(): string {
   // urutan prioritas deterministik. KOREKSI v4 yang keliru: layer saja TIDAK
   // cukup (CSS tanpa layer mengalahkan CSS ber-layer) — deklarasi kritis
   // memakai !important di dalam layer, yang mengalahkan CSS normal tanpa
-  // layer. Jaring terakhir: screenshot regression per tema (§9).
+  // layer.
   const inner = `${baseCss}\n${keyframes}\n${blocks.join("\n\n")}\n\n${scrollbarCss}`;
   return `@layer kelir {\n${inner}\n}`;
 }

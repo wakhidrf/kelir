@@ -14,7 +14,7 @@ const textPrimary = css.colors.textPrimary;
 export function getInputStyle(size: "small" | "medium"): React.CSSProperties {
   return {
     backgroundColor: neumorphicBg,
-    borderRadius: css.radius.sm,
+    borderRadius: css.control.radius,
     boxShadow: concaveShadow,
     border: `1px solid ${css.border.light}`,
     backdropFilter: surfaceBlur,

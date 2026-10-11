@@ -9,7 +9,7 @@ export function messageContractChecks() {
       sender="Admin Kelir"
       time="14:20"
       text="Selamat datang!"
-      align="left"
+      align="start"
     />
   );
   const okRight = (
@@ -17,7 +17,7 @@ export function messageContractChecks() {
       avatar={<Avatar fallbackText="AK" />}
       sender="User"
       text="Bagus!"
-      align="right"
+      align="end"
     />
   );
 

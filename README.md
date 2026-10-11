@@ -1,10 +1,9 @@
-# Kelir
-
+<!-- kelir-doc: intro -->
 ## Origin of the Name & Concept
 
-The name **Project Kelir** is taken from the traditional wayang shadow-puppet performance — *kelir* is the cloth screen used as the stage for wayang shadow puppetry. This philosophy represents Project Kelir as a "screen" capable of displaying various different design faces (themes) on top of one single set of components.
+The name **Project Kelir** is taken from the traditional wayang shadow-puppet performance - *kelir* is the cloth screen used as the stage for wayang shadow puppetry. This philosophy represents Project Kelir as a "screen" capable of displaying various different design faces (themes) on top of one single set of components.
 
-Project Kelir integrates various **`DESIGN.md`** files — each representing its own design language — into one coherent multi-theme design system. Each design language is defined separately in its own file, then unified under a single architecture so it can be selected or swapped with ease.
+Project Kelir integrates various **`DESIGN.md`** files - each representing its own design language - into one coherent multi-theme design system. Each design language is defined separately in its own file, then unified under a single architecture so it can be selected or swapped with ease.
 
 ## Current Limitations
 
@@ -16,6 +15,7 @@ Besides multi-theme, every design language from DESIGN.md carries its own typogr
 
 ---
 
+<!-- kelir-doc: install -->
 ## Integration & Installation Guide
 
 ### 1. Preparing the Required Dependencies
@@ -69,7 +69,7 @@ git submodule update --remote src/views/kelir
 
 Place `KelirProvider` in `layout.tsx`. The theme is **server-driven**: the root
 layout reads the persisted theme cookie (if any) and lays `data-kelir-theme`
-straight onto `<html>`, so the very first SSR HTML is already themed — no flash,
+straight onto `<html>`, so the very first SSR HTML is already themed - no flash,
 no client inline script, no localStorage. `setTheme` applies the theme instantly
 on the client (attribute) and persists it back through a Server Action that sets
 the cookie, so the next SSR response already ships the saved theme.
@@ -103,7 +103,7 @@ export default async function RootLayout({
 ```
 
 ```tsx
-// src/controllers/theme-actions.ts (Server Action — sets the cookie)
+// src/controllers/theme-actions.ts (Server Action - sets the cookie)
 "use server";
 
 import { cookies } from "next/headers";
@@ -121,7 +121,7 @@ export async function persistThemeCookie(theme: Theme) {
 ```
 
 ```tsx
-// src/controllers/theme-actions.ts (Server Action — removes the cookie)
+// src/controllers/theme-actions.ts (Server Action - removes the cookie)
 "use server";
 
 import { cookies } from "next/headers";
@@ -151,7 +151,7 @@ export default function Home() {
 ```
 
 ```tsx
-// src/app/page.tsx (Client Component) — programmatic access
+// src/app/page.tsx (Client Component) - programmatic access
 "use client";
 
 import { useKelir } from "@/views/kelir/kelir-provider";
@@ -164,14 +164,14 @@ export default function Home() {
 
 > **Theme persistence.** The root layout serves the saved theme from the
 > `THEME_COOKIE` (`kelir_theme`), and `KelirProvider`'s `setTheme` persists that
-> cookie through a Server Action. No env key and no localStorage — the SSR HTML
+> cookie through a Server Action. No env key and no localStorage - the SSR HTML
 > itself is already themed, so there is no flash to a server default on load or
 > refresh.
 
 > **No switcher = no persisted theme.** `KelirSwitcher` (or any picker) calls
 > `registerSwitcher`/`unregisterSwitcher` via `useKelir()`. As long as one is
 > mounted, `setTheme` persists to the cookie. If the page has **no** mounted
-> switcher, the provider deletes the theme cookie and `setTheme` stays transient —
+> switcher, the provider deletes the theme cookie and `setTheme` stays transient -
 > a shared origin (e.g. `localhost:3000` reused by several projects) never keeps a
 > leaked theme choice. The server still serves the cookie theme if a stale cookie
 > existed, but it is removed once the no-switcher page hydrates.
@@ -186,23 +186,67 @@ export default function Home() {
 Import Project Kelir components directly from `src/views/kelir/kelir-components` as in the following example:
 
 ```tsx
-import { Button } from "@/views/kelir/kelir-components/button";
-import { Switch } from "@/views/kelir/kelir-components/switch";
 import { Badge } from "@/views/kelir/kelir-components/badge";
+import { Button } from "@/views/kelir/kelir-components/button";
+import { Stack } from "@/views/kelir/kelir-components/stack";
+import { Switch } from "@/views/kelir/kelir-components/switch";
 
 export default function MyComponent() {
   return (
-    <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+    // Layout via kit primitives (Stack), never a styled div.
+    <Stack direction="row" gap="md">
       <Button variant="primary">Click Me</Button>
-      <Switch label="Enable Feature" checked={true} />
+      <Switch label="Enable Feature" defaultChecked />
       <Badge variant="secondary">New Info</Badge>
-    </div>
+    </Stack>
   );
 }
 ```
 
+### 5. Usage Rules
+
+Each component card in the Showcase tab shows three things: a live preview
+you can click, the exact props you may pass (for example Button:
+`variant?: 'primary' | 'secondary' | 'destructive' | 'outline' | 'ghost'`),
+and a code snippet you can copy. The rules below are what those cards enforce.
+The prop list on each card is generated from the contract, so it never
+goes stale:
+
+> **You fill content + meaning + behavior.** Your code provides text, options,
+> data, and handlers (`onClick`, `onChange`, `value`, `open`). Everything
+> visual - colors, radius, spacing, fonts, shadows, animations - belongs to
+> Kelir and follows the active theme automatically.
+
+> **Never style from the outside.** No `style`/`sx`/`className`, no raw
+> colors or sizes, no `slotProps`/`classes`/`slot`, no
+> `dangerouslySetInnerHTML`, and no `data-*` attributes for styling (the only
+> exception is `data-testid` for your own tests).
+
+> **Pick from the lists shown in each card.** Props like `variant`, `size`,
+> `gap`, `align`, `shape`, or `mode` accept only the values printed on the
+> card - try `Button variant="primary"`, `Grid columns={6}`, `Stack gap="md"`.
+> A value you invent yourself won't match the theme, and the preview won't
+> show it.
+
+> **Lay out with kit primitives.** Use `Stack`, `Grid`, or `Spacer` from
+> `kelir-components` (see How to Import Components above), not plain `div`
+> wrappers.
+
+> **One visual switch.** `KelirProvider` takes `defaultTheme` + `children`
+> and nothing else visual. Change themes at runtime with
+> `useKelir().setTheme` or the ready-made `KelirSwitcher` (see Installing the
+> Main Provider above) - never by overriding colors. Flip themes in the
+> Showcase to see every preview change at once.
+
+> **Labels are yours, behavior is ours.** You provide accessible names
+> (`aria-label`, `id`, `htmlFor`); focus traps, live announcements, and
+> keyboard support are built into every component - tab through the Showcase
+> previews with your keyboard to feel it. The only component that takes
+> dimensions is `Skeleton` (`width`/`height` for loading placeholders).
+
 ---
 
+<!-- kelir-doc: components -->
 ## Complete List of 68 Project Kelir Components
 
 Project Kelir has **68 components** organized into several main categories to make it easier to design structured and consistent user interfaces.
@@ -294,6 +338,27 @@ Components that shape the structure and placement of elements.
 66. **Skeleton**: An animated dimming-brightening placeholder frame for empty elements as a visualization before data finishes loading.
 67. **Spacer**: A fixed-gap whitespace primitive with a closed size union.
 68. **Stack**: A vertical/horizontal stack primitive with closed gap and direction unions.
+
+---
+
+<!-- kelir-doc: themes -->
+## Theme List
+
+Project Kelir ships the following themes (one `DESIGN.md` design language each),
+selectable at runtime via `KelirProvider`/`KelirSwitcher`. The list below is
+complete - keep the `N. **theme-id**:` format when adding a theme.
+
+1. **aurora-ui**: Flowing aurora gradients over a dark canvas.
+2. **claymorphism**: Soft chunky clay shapes with thick rounded borders.
+3. **dimensional-layering**: Stacked translucent layers with depth separation.
+4. **editorial-contemporaneo**: Contemporary print-editorial typography and rules.
+5. **edtech-plataforma**: Friendly education-platform surfaces and accents.
+6. **futuristic-glassmorphism**: Neon-tinted glass panels with glow accents.
+7. **glassmorphism**: Frosted-glass translucency with backdrop blur.
+8. **liquid-glass**: Fluid glossy highlights over clear glass.
+9. **neumorphism**: Soft extruded plastic with dual light/shadow.
+10. **skeuomorphism**: Realistic textures mimicking physical materials.
+11. **spatial-ui**: Depth-ordered spatial layers with ambient shadows.
 
 ---
 

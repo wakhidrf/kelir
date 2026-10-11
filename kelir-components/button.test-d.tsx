@@ -19,6 +19,11 @@ const k: ButtonProps = { children: "x", classes: {} };
 const j = <Button style={{}}>x</Button>;
 // @ts-expect-error — children non-string ditolak (kontrak: string + slot ikon)
 const n = <Button>{42}</Button>;
+// @ts-expect-error — align di luar union
+const a = <Button align="justify">x</Button>;
+// Catatan: aria-label tak bisa ditolak di sini — tipe React 19 mentoleransi
+// semua aria-* pada komponen. Aturan Label-in-Name (§2 STYLE.md) ditegakkan
+// via review, bukan test-d.
 
 export { Button };
 export type { ButtonProps };

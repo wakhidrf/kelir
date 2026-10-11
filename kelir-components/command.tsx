@@ -33,7 +33,7 @@ export function Command({
     <div
       style={{
         backgroundColor: css.colors.surface,
-        borderRadius: css.radius.sm,
+        borderRadius: css.radius.surface,
         boxShadow: css.shadows.convex,
         border: `1px solid ${css.border.light}`,
         color: textPrimary,
@@ -111,7 +111,7 @@ export function Command({
                   cursor: "pointer",
                   textAlign: "left",
                   padding: "9px 10px",
-                  borderRadius: css.radius.sm,
+                  borderRadius: css.radius.button,
                   fontSize: "14px",
                   color: textPrimary,
                   fontFamily: "inherit",

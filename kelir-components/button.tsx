@@ -16,6 +16,7 @@ export function Button({
   startIcon,
   endIcon,
   variant = "primary",
+  align = "center",
   onClick,
   type = "button",
   disabled,
@@ -31,12 +32,20 @@ export function Button({
 
   const getStyles = (): React.CSSProperties => {
     const base: React.CSSProperties = {
-      borderRadius: css.radius.sm,
+      borderRadius: css.radius.button,
       textTransform: "none",
       fontWeight: 600,
       padding: "10px 20px",
       transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
       fontFamily: "inherit",
+      // Perataan eksplisit (inline → teruji): default center = perilaku MUI.
+      // Nilai logis start/end: flex-start/end mengikuti arah tulisan (RTL).
+      justifyContent:
+        align === "start"
+          ? "flex-start"
+          : align === "end"
+            ? "flex-end"
+            : "center",
     };
 
     if (isPrimary) {

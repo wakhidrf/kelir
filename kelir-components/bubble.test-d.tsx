@@ -3,7 +3,7 @@ import { Bubble } from "./bubble";
 // Type-test negatif (§6/§6b STYLE.md): JSX langsung + nilai literal.
 // Bubble: variant/align MAKNA; reactions string[]; children slot isi.
 export function bubbleContractChecks() {
-  const ok = <Bubble variant="sent">Siap dikirim.</Bubble>;
+  const ok = <Bubble variant="sent" align="end">Siap dikirim.</Bubble>;
 
   const noBadVariant = (
     <Bubble

@@ -53,7 +53,7 @@ export function Carousel<TItem extends React.ReactNode = React.ReactNode>({
     <div
       style={{
         backgroundColor: neumorphicBg,
-        borderRadius: css.radius.sm,
+        borderRadius: css.radius.card,
         boxShadow: convexShadow,
         border: `1px solid ${css.border.light}`,
         padding: css.layout.space.lg,
