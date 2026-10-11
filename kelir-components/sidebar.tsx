@@ -128,7 +128,11 @@ export function Sidebar({
               padding: css.layout.space.sm,
               color: css.colors.textPrimary,
               fontFamily: "inherit",
-              overflow: "hidden",
+              // content = paper setinggi isi; bila meluap (68 tombol di HP),
+              // scroll di dalam paper — bukan kepotong. full = paper yang
+              // scroll, isi terkunci 100%.
+              overflowX: "hidden",
+              overflowY: overlayHeight === "content" ? "auto" : "hidden",
             }}
           >
             <SidebarBody header={header} footer={footer}>
