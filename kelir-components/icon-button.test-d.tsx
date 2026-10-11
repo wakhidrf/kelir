@@ -12,6 +12,10 @@ const q: IconButtonProps = { icon: "x", "aria-label": "y", className: "" };
 const s: IconButtonProps = { icon: "x", "aria-label": "y", style: {} };
 // @ts-expect-error — JSX langsung dengan style ditolak
 const j = <IconButton icon={<span>x</span>} aria-label="y" style={{}} />;
+const h = (
+  // @ts-expect-error — shape di luar union
+  <IconButton icon={<span>x</span>} aria-label="y" shape="pill" />
+);
 
 export { IconButton };
 export type { IconButtonProps };

@@ -201,6 +201,8 @@ export interface IconButtonProps {
   icon: React.ReactNode;
   "aria-label": string;
   variant?: "primary" | "secondary" | "destructive" | "outline" | "ghost";
+  // Bentuk bingkai: rounded (default, ikut token peran), circle, square.
+  shape?: "rounded" | "circle" | "square";
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   type?: "button" | "submit";
   disabled?: boolean;

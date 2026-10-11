@@ -147,7 +147,7 @@ export function Sidebar({
               }}
             >
               <IconButton
-                variant="ghost"
+                variant="primary"
                 aria-label={overlayOpen ? openLabel : closedLabel}
                 onClick={handleTriggerToggle}
                 icon={

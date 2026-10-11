@@ -11,6 +11,7 @@
 
 ### Fixed
 - **ISSUE-007 — console error `notched` di Select**: MUI menyuntik `notched: true` ke elemen `input`, `MuiInputBase` meneruskannya ke `div`. Pembungkus internal `KelirSelectInput` (strip `notched`, teruskan ref) + runtime-test spy `console.error` (gagal di kode lama, lolos di baru).
+- **ISSUE-010 — IconButton shape + trigger primary**: `IconButton shape?: "rounded"|"circle"|"square"` (default rounded, nol-ubah); pemicu Sidebar overlay jadi `primary`.
 - **ISSUE-009 — nav ringkas + tombol rata kiri**: `Drawer paperHeight?: "full"|"auto"` (paper bungkus isi + tengah vertikal via margin auto — tanpa transform agar tak bentrok transisi Slide); `Button align?: "center"|"start"` (kolom ikon lurus di tombol full-width); Sidebar overlay teruskan sebagai `overlayHeight content`. Koreksi teori: `height:auto` + `top/bottom:0` meregang penuh (margin auto jadi nol) — harus `fit-content` (terbukti: paper 152px, top 346 tengah persis). Slider hantu tepi paper
 (paper overflowY auto + pecahan 151.5 vs 150): paper mode content kini
 `overflowY visible` — paper tak pernah scroll sendiri; scroll milik
