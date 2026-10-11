@@ -65,15 +65,24 @@ export function Sidebar({
     defaultMatches: true,
     noSsr: true,
   });
-  const resolved = mode === "auto" ? (isDesktop ? "docked" : "overlay") : mode;
-
-  const [uncontrolled, setUncontrolled] = useState(defaultOpen);
-  const overlayOpen = open ?? uncontrolled;
-  // Portal butuh mount (hindari hydration mismatch: server tak render portal).
+  // Portal + mode-auto butuh mount (hindari hydration mismatch: server
+  // tak render portal; pola noSsr MUI mengembalikan nilai asli saat render
+  // pertama klien vs default di server).
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
   }, []);
+  const resolved =
+    mode === "auto"
+      ? // SSR-aman: server + render pertama = docked (cocok hidrasi);
+        // overlay hanya setelah mount.
+        !mounted || isDesktop
+        ? "docked"
+        : "overlay"
+      : mode;
+
+  const [uncontrolled, setUncontrolled] = useState(defaultOpen);
+  const overlayOpen = open ?? uncontrolled;
   const handleClose = () => {
     onOpenChange?.(false);
     if (open === undefined) setUncontrolled(false);
@@ -82,8 +91,7 @@ export function Sidebar({
     onOpenChange?.(true);
     if (open === undefined) setUncontrolled(true);
   };
-  // Pemicu toggle persistent: saat terbuka naik di atas backdrop Drawer
-  // (z 1400 > modal 1300) dengan ikon tutup; saat tertutup ikon buka.
+  // Pemicu toggle: tutup via tab tepi / backdrop / Escape / pilihan.
   // Blur dulu: fokus tak boleh tertahan di pemicu (di luar dialog) saat
   // modal meng-aria-hidden-kan page-root — temuan console Chrome mobile.
   const handleTriggerToggle = (e: React.MouseEvent<HTMLButtonElement>) => {

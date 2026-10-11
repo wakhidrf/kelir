@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { fireEvent } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
+import { renderToString } from "react-dom/server";
 import {
   expectNoAxeViolations,
   expectSealed,
@@ -33,6 +34,25 @@ describe("Sidebar sealed + responsif (ISSUE-005 §6b)", () => {
       (d) => (d as HTMLElement).style.maxHeight === "100%",
     );
     expect(scrollers.length).toBe(1);
+  });
+
+  it("mode auto: default docked SSR-aman (tanpa matchMedia = desktop)", () => {
+    const { container } = renderSealed(
+      <Sidebar mode="auto" aria-label="Navigasi">
+        <div>Item 1</div>
+      </Sidebar>,
+    );
+    expect(container.querySelector("nav")).not.toBeNull();
+  });
+
+  it("SSR: mode auto render docked (jamin cocok hidrasi klien-pertama)", () => {
+    const html = renderToString(
+      <Sidebar mode="auto" aria-label="Navigasi">
+        <div>Item 1</div>
+      </Sidebar>,
+    );
+    expect(html).toContain("<nav");
+    expect(html).not.toContain("MuiDrawer-root");
   });
 
   it("mode overlay: Drawer + Escape memicu onOpenChange(false)", () => {
