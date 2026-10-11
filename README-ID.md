@@ -211,7 +211,8 @@ Tiap kartu komponen di tab Galeri menampilkan tiga hal: pratinjau live yang
 bisa diklik, prop persis yang boleh Anda teruskan (misalnya Button:
 `variant?: 'primary' | 'secondary' | 'destructive' | 'outline' | 'ghost'`),
 dan contoh kode yang bisa disalin. Aturan di bawah inilah yang ditegakkan
-kartu-kartu itu:
+kartu-kartu itu. Daftar prop di tiap kartu dibuat otomatis dari kontrak,
+sehingga tak pernah basi:
 
 > **Anda mengisi isi + makna + perilaku.** Kode Anda memasok teks, opsi, data,
 > dan handler (`onClick`, `onChange`, `value`, `open`). Semua yang visual -

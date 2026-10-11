@@ -210,7 +210,9 @@ export default function MyComponent() {
 Each component card in the Showcase tab shows three things: a live preview
 you can click, the exact props you may pass (for example Button:
 `variant?: 'primary' | 'secondary' | 'destructive' | 'outline' | 'ghost'`),
-and a code snippet you can copy. The rules below are what those cards enforce:
+and a code snippet you can copy. The rules below are what those cards enforce.
+The prop list on each card is generated from the contract, so it never
+goes stale:
 
 > **You fill content + meaning + behavior.** Your code provides text, options,
 > data, and handlers (`onClick`, `onChange`, `value`, `open`). Everything
