@@ -2,7 +2,9 @@
 
 ## Minor — Card `scrollable?`
 
-- `Card` bertambah `scrollable?: boolean` (default `false`): kartu kolom flex dengan isi scroll internal; header/footer tetap. Tinggi luar tetap milik konsumen. Nol ubah visual bila tak diisi.
+| Komponen | Perubahan |
+|---|---|
+| `Card` | bertambah `scrollable?: boolean` (default `false`): kartu kolom flex dengan isi scroll internal; header/footer tetap. Tinggi luar tetap milik konsumen. Nol ubah visual bila tak diisi. |
 
 ## Rename kontrak (mayor — migrasi konsumen)
 
