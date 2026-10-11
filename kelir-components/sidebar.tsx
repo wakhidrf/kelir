@@ -100,6 +100,9 @@ export function Sidebar({
               width: "28px",
               height: "64px",
               padding: 0,
+              // position WAJIB: z-index diabaikan pada elemen static —
+              // inilah alasan ikon tutup tak muncul di balik backdrop.
+              position: "relative",
               borderRadius: 0,
               borderTopRightRadius: css.radius.button,
               borderBottomRightRadius: css.radius.button,
