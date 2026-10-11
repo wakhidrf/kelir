@@ -17,7 +17,7 @@ import { ScrollArea } from "./scroll-area";
 const SIDEBAR_WIDTH = "var(--sidebar-width, 260px)";
 const OVERLAY_WIDTH = `min(${SIDEBAR_WIDTH}, 50vw)`;
 // Napas tab pemicu dari tepi drawer saat terbuka (ISSUE-008).
-const TRIGGER_GAP = css.layout.space.sm;
+const TRIGGER_GAP = css.layout.space.xs;
 // Ambang internal kit (md MUI); bukan angka konsumen.
 const DESKTOP_QUERY = "(min-width: 900px)";
 
@@ -125,7 +125,7 @@ export function Sidebar({
               maxHeight: overlayHeight === "full" ? "100dvh" : "90dvh",
               // Napas isi dari tepi paper (khusus overlay; docked punya
               // padding konten milik konsumen masing-masing).
-              padding: css.layout.space.lg,
+              padding: css.layout.space.sm,
               color: css.colors.textPrimary,
               fontFamily: "inherit",
               overflow: "hidden",
@@ -148,7 +148,7 @@ export function Sidebar({
             <MuiBox
               sx={{
                 position: "fixed",
-                // Terbuka: 8px dari tepi drawer (napas); tertutup: mundur
+                // Terbuka: 4px dari tepi drawer (napas); tertutup: mundur
                 // selebar drawer hingga tepi layar (flush, seperti semula).
                 left: `calc(${OVERLAY_WIDTH} + ${TRIGGER_GAP})`,
                 top: "50%",
