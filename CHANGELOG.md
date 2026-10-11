@@ -11,7 +11,7 @@
 
 ### Fixed
 - **ISSUE-007 — console error `notched` di Select**: MUI menyuntik `notched: true` ke elemen `input`, `MuiInputBase` meneruskannya ke `div`. Pembungkus internal `KelirSelectInput` (strip `notched`, teruskan ref) + runtime-test spy `console.error` (gagal di kode lama, lolos di baru).
-- **ISSUE-009 — nav ringkas + tombol rata kiri**: `Drawer paperHeight?: "full"|"auto"` (paper bungkus isi + tengah vertikal tanpa transform — aman dari transisi Slide); `Button align?: "center"|"start"` (kolom ikon lurus di tombol full-width); Sidebar overlay teruskan sebagai `overlayHeight content`.
+- **ISSUE-009 — nav ringkas + tombol rata kiri**: `Drawer paperHeight?: "full"|"auto"` (paper bungkus isi + tengah vertikal via margin auto — tanpa transform agar tak bentrok transisi Slide); `Button align?: "center"|"start"` (kolom ikon lurus di tombol full-width); Sidebar overlay teruskan sebagai `overlayHeight content`. Koreksi teori: `height:auto` + `top/bottom:0` meregang penuh (margin auto jadi nol) — harus `fit-content` (terbukti: paper 152px, top 346 tengah persis).
 - **ISSUE-008 — varian trigger + tinggi overlay Sidebar**: `trigger?: "none"|"hamburger"|"chevron"` (pemicu tepi milik kit khusus overlay: buka + `aria-expanded`/`aria-controls`); `overlayHeight?: "full"|"content"`. Bonus temuan axe: `aria-label` Drawer kini juga di paper `role=dialog` (sebelumnya hanya root → dialog tak bernama).
 - **ISSUE-005 susulan — daftar terpotong**: root docked `height: 100dvh` + `flexShrink: 0` memotong isi di parent bounded; area tengah tak scroll (ScrollArea unbounded). Root kini `height: 100%` + `maxHeight: 100dvh`, tengah `ScrollArea maxHeight="100%"` (scroll internal bila bounded, tumbuh bila tidak).
 

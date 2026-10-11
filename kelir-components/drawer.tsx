@@ -28,11 +28,14 @@ export function Drawer({
             backdropFilter: css.motion.blur.backdrop,
             WebkitBackdropFilter: css.motion.blur.backdrop,
             fontFamily: "inherit",
-            // auto = paper bungkus isi + tengah vertikal (fixed top/bottom 0
-            // + margin auto; tanpa transform agar tak bentrok transisi Slide).
+            // auto = paper bungkus isi + tengah vertikal. Syarat: height
+            // harus DEFINITE (fit-content) — height:auto + top/bottom:0
+            // justru meregang penuh karena margin auto jadi nol! Tanpa
+            // transform agar tak bentrok transisi Slide (margin yang
+            // memusatkan, bukan translate).
             ...(paperHeight === "auto"
               ? {
-                  height: "auto",
+                  height: "fit-content",
                   maxHeight: "90dvh",
                   top: 0,
                   bottom: 0,

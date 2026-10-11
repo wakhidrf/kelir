@@ -34,7 +34,7 @@ describe("Drawer sealed (Gel.3c-5 §6b)", () => {
     const paper = document.querySelector(
       ".MuiDrawer-paper",
     ) as HTMLElement | null;
-    expect(paper?.style.height).toBe("auto");
+    expect(paper?.style.height).toBe("fit-content");
     expect(paper?.style.marginTop).toBe("auto");
   });
 });
