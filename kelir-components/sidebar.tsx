@@ -70,7 +70,10 @@ export function Sidebar({
   };
   // Pemicu toggle persistent: saat terbuka naik di atas backdrop Drawer
   // (z 1400 > modal 1300) dengan ikon tutup; saat tertutup ikon buka.
-  const handleTriggerToggle = () => {
+  // Blur dulu: fokus tak boleh tertahan di pemicu (di luar dialog) saat
+  // modal meng-aria-hidden-kan page-root — temuan console Chrome mobile.
+  const handleTriggerToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.blur();
     if (overlayOpen) handleClose();
     else handleTriggerOpen();
   };
