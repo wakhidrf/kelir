@@ -237,12 +237,15 @@ export interface CalendarProps {
 // Slot teks (`title`/`subtitle`) = string; slot aksi/isi
 // (`headerActions`/`footer`/`children`) = ReactNode (tombol/komponen Kelir).
 // `headerAlign` = perataan judul + subjudul header (default `start`).
+// `scrollable?` = isi scroll internal, header/footer tetap (kartu jadi kolom
+// flex; default false; tinggi luar milik konsumen).
 // Tanpa style/sx/className/warna/font mentah — semua dari token kit.
 export interface CardProps {
   title?: string;
   subtitle?: string;
   headerActions?: React.ReactNode;
   headerAlign?: "start" | "center" | "end";
+  scrollable?: boolean;
   footer?: React.ReactNode;
   children?: React.ReactNode;
   id?: string;

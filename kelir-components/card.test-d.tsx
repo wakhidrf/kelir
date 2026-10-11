@@ -27,6 +27,11 @@ export function cardContractChecks() {
       Isi rata akhir
     </Card>
   );
+  const okScrollable = (
+    <Card title="Judul" scrollable>
+      Isi scroll internal
+    </Card>
+  );
 
   // @ts-expect-error — style passthrough haram
   const noStyle = <Card style={{ margin: 8 }}>isi</Card>;
@@ -38,6 +43,8 @@ export function cardContractChecks() {
   const noNodeTitle = <Card title={<span>Judul</span>}>isi</Card>;
   // @ts-expect-error — headerAlign bebas haram (start/center/end)
   const noRawAlign = <Card title="x" headerAlign="middle">isi</Card>;
+  // @ts-expect-error — scrollable non-boolean haram
+  const noRawScrollable = <Card title="x" scrollable="yes">isi</Card>;
   // @ts-expect-error — prop tak dikenal tidak diteruskan ke DOM
   const noRest = <Card title="x" onClick={() => {}}>isi</Card>;
 
@@ -46,11 +53,13 @@ export function cardContractChecks() {
     okBare,
     okCentered,
     okEnd,
+    okScrollable,
     noStyle,
     noSx,
     noClassName,
     noNodeTitle,
     noRawAlign,
+    noRawScrollable,
     noRest,
   };
 }

@@ -1,5 +1,9 @@
 ## Changelog
 
+## Minor — Card `scrollable?`
+
+- `Card` gains `scrollable?: boolean` (default `false`): flex-column card with internally scrolling content; header/footer stay fixed. Outer height stays with the consumer. Zero visual change when unset.
+
 ## Contract renames (mayor — migrate consumers)
 
 | Old | New |
