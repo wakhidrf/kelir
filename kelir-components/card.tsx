@@ -1,9 +1,10 @@
+import MuiBox from "@mui/material/Box";
 import MuiCard from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import type { CardProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import { css, statusColors } from "../kelir-variants";
 
 const cardShadow = css.shadows.card;
 const neumorphicBg = css.colors.surface;
@@ -11,18 +12,27 @@ const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
+// Strip sisi milik kit (solid, preseden Marker-border): lebar napas token.
+const flagColors = {
+  danger: css.destructive,
+  warn: statusColors.warning.bg,
+} as const;
+
 // Kartu sealed (P1c STYLE.md §6): basis MUI (MuiCard + sub-komponen) untuk
 // multi-platform; hanya props kontrak yang dipakai — tanpa ...rest ke DOM,
 // tanpa style/sx/className konsumen. Gaya header/konten/footer milik kit;
 // `headerAlign` mengatur textAlign judul + subjudul (default `start`);
 // `scrollable` menjadikan kartu kolom flex dengan isi scroll internal
 // (header/footer tetap; default false; tinggi luar milik konsumen).
+// `flag?` = strip status absolut di sisi kartu (default tanpa strip;
+// sudut strip mewarisi radius kartu).
 export function Card({
   title,
   subtitle,
   headerActions,
   headerAlign = "start",
   scrollable = false,
+  flag,
   footer,
   children,
   id,
@@ -49,8 +59,24 @@ export function Card({
               overflow: "hidden",
             }
           : null),
+        ...(flag ? ({ position: "relative" } as const) : null),
       }}
     >
+      {flag && (
+        <MuiBox
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            left: 0,
+            width: css.layout.space.xs,
+            backgroundColor: flagColors[flag],
+            borderTopLeftRadius: "inherit",
+            borderBottomLeftRadius: "inherit",
+          }}
+        />
+      )}
       {(title || subtitle || headerActions) && (
         <CardHeader
           title={title}

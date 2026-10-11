@@ -246,6 +246,7 @@ export interface CardProps {
   headerActions?: React.ReactNode;
   headerAlign?: "start" | "center" | "end";
   scrollable?: boolean;
+  flag?: "danger" | "warn";
   footer?: React.ReactNode;
   children?: React.ReactNode;
   id?: string;
@@ -923,6 +924,8 @@ export interface TypographyProps {
   level?: 1 | 2 | 3 | 4 | 5 | 6;
   align?: "start" | "center" | "end" | "justify";
   truncate?: boolean;
+  breakAll?: boolean;
+  tracking?: "normal" | "wide";
   id?: string;
   "aria-label"?: string;
 }
@@ -959,14 +962,16 @@ export interface QuestionnaireProps {
 
 // 65. Stack — primitif layout vertikal/horizontal (P1b STYLE.md).
 // Gap union tertutup dari token css.layout.space; `align`/`justify` union
-// tertutup perataan flex (nilai logis, RTL-benar); default = perilaku lama
-// (stretch/start, nol-ubah visual). Tanpa warna/border/shadow.
+// tertutup perataan flex (nilai logis, RTL-benar); `wrap?` → flex-wrap
+// (default `false`); default = perilaku lama (nol-ubah visual).
+// Tanpa warna/border/shadow.
 export interface StackProps {
   children: React.ReactNode;
   gap?: "xs" | "sm" | "md" | "lg";
   direction?: "row" | "column";
   align?: "start" | "center" | "end" | "stretch";
   justify?: "start" | "center" | "end" | "space-between";
+  wrap?: boolean;
   id?: string;
   "aria-label"?: string;
 }
@@ -991,12 +996,16 @@ export interface SpacerProps {
 // 68. Container — penampung lebar halaman (P1b STYLE.md).
 // `maxWidth?` MAKNA (sm/md/lg/xl → px milik kit, default xl = token
 // container); `padding?` gutter halaman dari token css.layout.space
-// (default xl = token sidePadding). Murni layout: tanpa warna/border/
-// shadow/font. Tanpa ...rest/style/sx/className.
+// (default xl = token sidePadding). `paddingBlock?` napas vertikal dari
+// skala space yang sama (`none` = 0, default `none`); `clip?` memotong
+// isi meluap (`overflow: hidden`, default `false`). Murni layout: tanpa
+// warna/border/shadow/font. Tanpa ...rest/style/sx/className.
 export interface ContainerProps {
   children: React.ReactNode;
   maxWidth?: "sm" | "md" | "lg" | "xl";
   padding?: "sm" | "md" | "lg" | "xl" | "2xl";
+  paddingBlock?: "none" | "sm" | "md" | "lg" | "xl" | "2xl";
+  clip?: boolean;
   id?: string;
   "aria-label"?: string;
 }
@@ -1014,6 +1023,95 @@ export interface ImageProps {
   height?: "xs" | "sm" | "md" | "lg" | "xl";
   fit?: "contain" | "cover";
   radius?: "none" | "sm" | "md" | "lg";
+  id?: string;
+  "aria-label"?: string;
+}
+
+// 70. FlexItem — kontrol item flex sealed (P1b STYLE.md).
+// Nama `Item` sudah dipakai baris daftar (title/description/media/action),
+// jadi primitif ini bernama `FlexItem`. `grow?` → `flex: 1, minWidth: 0`
+// (default `false`); `shrink?` = `false` → `flexShrink: 0` (default `true`).
+// Boolean tertutup, tanpa angka bebas. Default = blok biasa (tanpa prop
+// flex). Tanpa ...rest/style/sx/className.
+export interface FlexItemProps {
+  children: React.ReactNode;
+  grow?: boolean;
+  shrink?: boolean;
+  id?: string;
+  "aria-label"?: string;
+}
+
+// 71. Shell — cangkang viewport app-shell admin (P1b STYLE.md).
+// `height: 100dvh, overflow: hidden`, arah baris (sidebar + konten
+// berdampingan) atau `stacked?` (kolom: TopBar + konten bertumpuk,
+// default `false`). Murni layout: tanpa warna/border/shadow.
+// Tanpa ...rest/style/sx/className.
+export interface ShellProps {
+  children: React.ReactNode;
+  stacked?: boolean;
+  id?: string;
+  "aria-label"?: string;
+}
+
+// 72. Content — satu-satunya area scroll app-shell (P1b STYLE.md).
+// `flex: 1` + scroll vertikal internal + padding responsif dari token
+// (desktop lega, mobile rapat; `compact?` memaksa rapat, default
+// `false`) + latar background. SSR-aman: server + render pertama =
+// desktop, koreksi setelah mount (pola Sidebar, tanpa mismatch).
+// Tanpa ...rest/style/sx/className.
+export interface ContentProps {
+  children: React.ReactNode;
+  compact?: boolean;
+  id?: string;
+  "aria-label"?: string;
+}
+
+// 73. TopBar — bar mobile app-shell (P1b STYLE.md).
+// Slot `left?`/`right?` (node; teks di dalamnya string) disejajarkan
+// ujung-ke-ujung; latar surface. Tanpa warna/border/shadow kustom.
+// Tanpa ...rest/style/sx/className.
+export interface TopBarProps {
+  left?: React.ReactNode;
+  right?: React.ReactNode;
+  id?: string;
+  "aria-label"?: string;
+}
+
+// 74. Tile — ubin ikon/logo sealed (P1b STYLE.md).
+// `tone?` MAKNA (`primary|secondary|plain`, default `primary`): latar +
+// teks dari token (plain = surface + border terang untuk logo di atas
+// surface). Tanpa `size?` = ubin-ikon fleksibel (padding token);
+// `size?` MAKNA (`sm|md|lg` → 32/48/64 px milik kit) = kotak ukuran-tetap
+// untuk logo. Radius token; tanpa shadow. Tanpa ...rest/style/sx/className.
+export interface TileProps {
+  children: React.ReactNode;
+  tone?: "primary" | "secondary" | "plain";
+  size?: "sm" | "md" | "lg";
+  id?: string;
+  "aria-label"?: string;
+}
+
+// 75. Banner — spanduk status tengah sealed (P1b STYLE.md).
+// `tone?` MAKNA (`danger|warn|neutral`, default `neutral`): pasangan
+// bg/fg milik kit (preseden Marker-note: solid, bukan warna mentah);
+// teks anak mewarisi warna. Rata tengah. Tanpa ikon (itu `Alert`).
+// Tanpa ...rest/style/sx/className.
+export interface BannerProps {
+  children: React.ReactNode;
+  tone?: "danger" | "warn" | "neutral";
+  id?: string;
+  "aria-label"?: string;
+}
+
+// 76. Link — tautan sebaris sealed (P1b STYLE.md).
+// `href` wajib (tanpanya pakai `Button variant="ghost"`); teks + ikon
+// segaris milik kit (`external?` → ikon buka-baru + `target _blank` +
+// `rel noopener`, default `false` → ikon panah). Warna textPrimary,
+// tanpa underline. Tanpa ...rest/style/sx/className.
+export interface LinkProps {
+  children: React.ReactNode;
+  href: string;
+  external?: boolean;
   id?: string;
   "aria-label"?: string;
 }

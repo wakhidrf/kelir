@@ -12,15 +12,18 @@ const gaps = {
 // Primitif layout sealed (P1b STYLE.md): susunan + jarak + perataan dari
 // token css.layout. `align`/`justify` union tertutup nilai logis
 // (RTL-benar); default stretch/start = perilaku lama (nol-ubah visual).
-// Tanpa warna/border/shadow/font. Basis MUI (MuiBox = div + emotion +
-// tema di tree) untuk multi-platform; visual milik kit. Tanpa
-// ...rest ke DOM dan tanpa style passthrough — di luar kontrak = pelanggaran.
+// `wrap?` = flex-wrap milik kit (default `false`, properti dihilangkan
+// penuh saat mati). Tanpa warna/border/shadow/font. Basis MUI (MuiBox =
+// div + emotion + tema di tree) untuk multi-platform; visual milik kit.
+// Tanpa ...rest ke DOM dan tanpa style passthrough — di luar kontrak =
+// pelanggaran.
 export function Stack({
   children,
   gap = "md",
   direction = "column",
   align = "stretch",
   justify = "start",
+  wrap = false,
   id,
   "aria-label": ariaLabel,
 }: StackProps) {
@@ -34,6 +37,7 @@ export function Stack({
         gap: gaps[gap],
         alignItems: align,
         justifyContent: justify,
+        ...(wrap ? ({ flexWrap: "wrap" } as const) : null),
       }}
     >
       {children}

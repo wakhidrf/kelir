@@ -48,4 +48,24 @@ describe("Stack sealed (§6b)", () => {
     expect(el.style.alignItems).toBe("stretch");
     expect(el.style.justifyContent).toBe("start");
   });
+
+  it("wrap: flex-wrap milik kit; default properti hilang", () => {
+    renderSealed(
+      <Stack direction="row" wrap>
+        <span>a</span>
+      </Stack>,
+    );
+    const el = screen.getByText("a").parentElement as HTMLElement;
+    expect(el.style.flexWrap).toBe("wrap");
+  });
+
+  it("tanpa wrap: tanpa flex-wrap (perilaku lama)", () => {
+    renderSealed(
+      <Stack direction="row">
+        <span>b</span>
+      </Stack>,
+    );
+    const el = screen.getByText("b").parentElement as HTMLElement;
+    expect(el.style.flexWrap).toBe("");
+  });
 });

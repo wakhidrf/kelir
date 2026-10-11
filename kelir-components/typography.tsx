@@ -86,7 +86,10 @@ const defaultElement: Record<Variant, "h1" | "h2" | "h3" | "p"> = {
 // dokumen setara heading) - hierarki dokumen ≠ visual. Bila `as` sudah
 // heading, level bawaan elemen yang berlaku. `align` = textAlign milik kit
 // (default `left`); `truncate?` = elipsis satu-baris milik kit (default
-// `false`, properti dihilangkan penuh saat mati).
+// `false`, properti dihilangkan penuh saat mati); `breakAll?` = pecah kata
+// panjang di mana saja (`word-break: break-all`, default `false`);
+// `tracking?` = spasi huruf (`normal` = bawaan varian, `wide` = renggang
+// 6 px milik kit untuk kode verifikasi, default `normal`).
 export function Typography({
   children,
   variant = "body-md",
@@ -94,6 +97,8 @@ export function Typography({
   level,
   align = "start",
   truncate = false,
+  breakAll = false,
+  tracking = "normal",
   id,
   "aria-label": ariaLabel,
 }: TypographyProps) {
@@ -122,6 +127,8 @@ export function Typography({
               textOverflow: "ellipsis",
             } as const)
           : null),
+        ...(breakAll ? ({ wordBreak: "break-all" } as const) : null),
+        ...(tracking === "wide" ? ({ letterSpacing: "6px" } as const) : null),
       }}
     >
       {children}

@@ -248,9 +248,9 @@ sehingga tak pernah basi:
 ---
 
 <!-- kelir-doc: components -->
-## Daftar Lengkap 70 Komponen Project Kelir
+## Daftar Lengkap 77 Komponen Project Kelir
 
-Project Kelir memiliki **70 komponen** yang dikelompokkan ke beberapa kategori utama agar mudah merancang antarmuka yang terstruktur dan konsisten.
+Project Kelir memiliki **77 komponen** yang dikelompokkan ke beberapa kategori utama agar mudah merancang antarmuka yang terstruktur dan konsisten.
 
 ### 1. Input & Formulir
 Komponen yang menangkap interaksi pengguna dan input data dengan kontrol terintegrasi.
@@ -341,6 +341,13 @@ Komponen yang membentuk struktur dan penempatan elemen.
 68. **Stack**: Primitif tumpukan vertikal/horizontal dengan union gap, direction, align, dan justify tertutup.
 69. **Container**: Primitif penampung lebar halaman dengan union maxWidth dan padding tertutup dari token layout.
 70. **Image**: Primitif media netral dengan union height, fit, dan radius tertutup (tanpa shadow/border bawaan).
+71. **FlexItem**: Primitif kontrol item flex pasangan Stack, dengan union boolean grow dan shrink tertutup.
+72. **Shell**: Primitif cangkang viewport app-shell dengan arah baris atau bertumpuk dari boolean tertutup.
+73. **Content**: Satu-satunya area scroll app-shell dengan padding token responsif dan latar.
+74. **TopBar**: Bar mobile app-shell yang menyejajarkan slot kiri dan kanan ujung-ke-ujung.
+75. **Tile**: Primitif ubin ikon/logo dengan union tone dan size tertutup dari token.
+76. **Banner**: Spanduk status tengah dengan union tone tertutup, teksnya mewarisi warna.
+77. **Link**: Tautan teks sebaris dengan ikon milik kit, href wajib, dan target eksternal yang aman.
 
 ---
 

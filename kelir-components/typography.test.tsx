@@ -65,4 +65,34 @@ describe("Typography sealed (§6b)", () => {
     expect(el.style.whiteSpace).toBe("");
     expect(el.style.textOverflow).toBe("");
   });
+
+  it("breakAll: pecah kata panjang; default mati", () => {
+    renderSealed(
+      <Typography variant="body-sm" breakAll>
+        HV-2026-000123456789
+      </Typography>,
+    );
+    expect(screen.getByText("HV-2026-000123456789").style.wordBreak).toBe(
+      "break-all",
+    );
+  });
+
+  it("tanpa breakAll: wordBreak tak dirender (perilaku lama)", () => {
+    renderSealed(<Typography variant="body-sm">Biasa</Typography>);
+    expect(screen.getByText("Biasa").style.wordBreak).toBe("");
+  });
+
+  it("tracking=wide: spasi huruf milik kit; default bawaan varian", () => {
+    renderSealed(
+      <Typography variant="body-md" tracking="wide">
+        482 913
+      </Typography>,
+    );
+    expect(screen.getByText("482 913").style.letterSpacing).toBe("6px");
+  });
+
+  it("tanpa tracking: letterSpacing bawaan varian (label-caps 1px)", () => {
+    renderSealed(<Typography variant="label-caps">Kode</Typography>);
+    expect(screen.getByText("Kode").style.letterSpacing).toBe("1px");
+  });
 });

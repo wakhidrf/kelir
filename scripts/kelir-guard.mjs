@@ -227,13 +227,14 @@ for (const f of walk(KELIR_COMP)) {
   });
 }
 
-// 5. Interim wrapper: Stack/Grid/Spacer sudah ada → wrapper token layout
-// wajib migrasi (warn→error per §8-P1b, tenggat 2026-11-10).
+// 5. Interim wrapper: Stack/Grid/Spacer/Container/FlexItem/Shell sudah
+// ada → wrapper token layout wajib migrasi (warn→error per §8-P1b,
+// tenggat 2026-11-10).
 for (const f of walk(SRC)) {
   if (inKelir(f) || !/\.(tsx|jsx)$/.test(f)) continue;
   const src = readFileSync(f, "utf8");
   if (/css\.layout|var\(--space-|var\(--layout-/.test(src))
-    add(err, f, 1, "layout interim: pakai Stack/Grid/Spacer, bukan wrapper token (§8-P1b)");
+    add(err, f, 1, "layout interim: pakai Stack/Grid/Spacer/Container/FlexItem/Shell, bukan wrapper token (§8-P1b)");
 }
 
 console.log(`kelir-guard: ${err.length} ERROR, ${warn.length} WARN`);

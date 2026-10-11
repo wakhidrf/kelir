@@ -19,6 +19,14 @@
 | Typography truncation | DIY ellipsis wrappers | `truncate?` (default `false`): single-line ellipsis owned by the kit |
 | Page width | DIY maxWidth wrappers | `Container` (`maxWidth?` `sm\|md\|lg\|xl`, `padding?` from layout space) — pure layout, no color/border/shadow |
 | Logo/media images | Raw `<img>` with objectFit | `Image` (`src`, `alt?`, `height?`, `fit?` `contain\|cover`, `radius?`) — neutral, no shadow/border by default |
+| Row wraps | DIY flex-wrap wrappers | `Stack wrap?` (default `false`) - wrapping rows/columns owned by the kit |
+| Flex items | DIY `flex: 1` / `flexShrink: 0` wrappers | `FlexItem` (`grow?`, `shrink?`) - closed booleans, no free numbers; default is a plain block |
+| Page width, vertical | DIY vertical padding + overflow wrappers | `Container paddingBlock?` (`none\|sm\|md\|lg\|xl\|2xl`, default `none`) and `clip?` (default `false`) from the same space scale |
+| App shell | Rewritten viewport shell per app | `Shell` (row or `stacked?`), `Content` (single scroll area, responsive padding, background), `TopBar` (`left?`/`right?`, surface) - pure layout, no custom color/border/shadow |
+| Icon/logo tiles | DIY padded boxes | `Tile` (`tone?` `primary\|secondary\|plain`, `size?` `sm\|md\|lg` to kit-owned px; without size a flexible icon tile) |
+| Status banners + card flags | DIY tinted banners, absolute strips | `Banner` (`tone?` `danger\|warn\|neutral`) with inheriting text; `Card flag?` (`danger\|warn`, absolute side strip, default none) |
+| Long links, verification codes | DIY break-all / letter-spacing wrappers | `Typography breakAll?` (default `false`) and `tracking?` (`normal\|wide`, kit-owned 6px loose spacing) |
+| Inline links | Raw `<a>` with `style=` | `Link` (`href` required, `children` text, `external?` for new-tab icon + target + rel) - textPrimary, no underline |
 | Corner radius | - | Corners now follow per-role theme tokens (`button`/`card`/`surface`/`prominent`) - same look today, but each theme can shape them |
 | Reliability | - | Every component is covered by type, runtime, and accessibility tests across all 11 themes; `Questionnaire` was split into 5 modules with identical props; stricter generics (`Chart`/`Table`/`Carousel`/`Resizable`) |
 | Accessibility | Partial | Built in everywhere: Toast announcements, Dialog focus trap, focusable Tooltip/Popover triggers, Menu arrow keys, labeled inputs |

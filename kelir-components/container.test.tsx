@@ -37,6 +37,27 @@ describe("Container sealed (§6b)", () => {
     expect(el.style.paddingLeft).toBe("1.5rem");
   });
 
+  it("paddingBlock: napas vertikal token; default 0", () => {
+    const { container } = renderSealed(
+      <Container paddingBlock="xl">Isi</Container>,
+    );
+    const el = container.firstElementChild as HTMLElement;
+    expect(el.style.paddingTop).toBe("1.5rem");
+    expect(el.style.paddingBottom).toBe("1.5rem");
+  });
+
+  it("clip: potong isi meluap; default tanpa overflow", () => {
+    const { container } = renderSealed(<Container clip>Isi</Container>);
+    const el = container.firstElementChild as HTMLElement;
+    expect(el.style.overflow).toBe("hidden");
+  });
+
+  it("tanpa clip: tanpa overflow (perilaku lama)", () => {
+    const { container } = renderSealed(<Container>Isi</Container>);
+    const el = container.firstElementChild as HTMLElement;
+    expect(el.style.overflow).toBe("");
+  });
+
   it("bebas pelanggaran axe", async () => {
     const { container } = renderSealed(
       <Container maxWidth="sm">Isi</Container>,
