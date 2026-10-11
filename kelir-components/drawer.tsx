@@ -32,7 +32,10 @@ export function Drawer({
             // harus DEFINITE (fit-content) — height:auto + top/bottom:0
             // justru meregang penuh karena margin auto jadi nol! Tanpa
             // transform agar tak bentrok transisi Slide (margin yang
-            // memusatkan, bukan translate).
+            // memusatkan, bukan translate). overflowY visible: paper mode
+            // content TAK PERNAH scroll sendiri (pecahan subpixel 151.5 vs
+            // 150 memicu slider hantu); scroll milik ScrollArea dalam bila
+            // konten melebihi cap.
             ...(paperHeight === "auto"
               ? {
                   height: "fit-content",
@@ -41,6 +44,7 @@ export function Drawer({
                   bottom: 0,
                   marginTop: "auto",
                   marginBottom: "auto",
+                  overflowY: "visible",
                 }
               : {}),
           },
