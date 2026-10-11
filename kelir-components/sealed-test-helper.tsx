@@ -36,7 +36,7 @@ export function expectSealed(el: Element) {
 export async function expectNoAxeViolations(container: HTMLElement) {
   const { violations } = await axe.run(container, {
     // jsdom tanpa layout engine/canvas sehingga color-contrast tak dapat
-    // dihitung — kontras dicakup token sendiri + screenshot regression P1d.
+    // dihitung — kontras dicakup token sendiri.
     rules: { "color-contrast": { enabled: false } },
   });
   expect(violations).toEqual([]);
