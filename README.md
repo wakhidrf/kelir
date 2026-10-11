@@ -1,3 +1,4 @@
+<!-- kelir-doc: intro -->
 # Kelir
 
 ## Origin of the Name & Concept
@@ -16,6 +17,7 @@ Besides multi-theme, every design language from DESIGN.md carries its own typogr
 
 ---
 
+<!-- kelir-doc: install -->
 ## Integration & Installation Guide
 
 ### 1. Preparing the Required Dependencies
@@ -203,6 +205,7 @@ export default function MyComponent() {
 
 ---
 
+<!-- kelir-doc: components -->
 ## Complete List of 68 Project Kelir Components
 
 Project Kelir has **68 components** organized into several main categories to make it easier to design structured and consistent user interfaces.
