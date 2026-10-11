@@ -17,6 +17,7 @@ export interface KelirVariants {
   onDestructive: string;
   destructive: string;
   background: string;
+  baseBackground: string;
   surface: string;
   borderLight: string;
   borderMedium: string;
@@ -60,6 +61,9 @@ export function createCss(
   return {
     colors: {
       background: color("background", variants.background),
+      // Kanvas opak tiap tema (background bisa gradien) — untuk elemen yang
+      // harus terbaca di semua tema (mis. tab tepi trigger Sidebar).
+      baseBackground: color("background-base", variants.baseBackground),
       surface: color("surface", variants.surface),
       textPrimary: color("text-primary", variants.textPrimary),
       textSecondary: color("text-secondary", variants.textSecondary),
@@ -177,6 +181,7 @@ export const variants = {
   onDestructive: "#FFFFFF", // white (text on destructive)
   destructive: "#B3261E", // neutral red (destructive background)
   background: "#F5F6F7", // neutral light canvas
+  baseBackground: "#E8E8E8", // neutral opaque canvas (edge tab dkk.)
   surface: "#FFFFFF", // neutral surface
   borderLight: "rgba(0, 0, 0, 0.08)",
   borderMedium: "rgba(0, 0, 0, 0.14)",

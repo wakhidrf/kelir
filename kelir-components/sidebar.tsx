@@ -103,7 +103,9 @@ export function Sidebar({
               borderRadius: 0,
               borderTopRightRadius: css.radius.button,
               borderBottomRightRadius: css.radius.button,
-              backgroundColor: css.colors.surface,
+              // Badan opak dari kanvas tema (surface tema kaca itu translusen;
+              // tab tepi harus terbaca seperti handle custom lama yang opak).
+              backgroundColor: css.colors.baseBackground,
               border: `1px solid ${css.border.light}`,
               borderLeft: "none",
               boxShadow: css.shadows.convex,
@@ -112,11 +114,11 @@ export function Sidebar({
             }}
           >
             {overlayOpen ? (
-              <ChevronLeftIcon fontSize="small" />
+              <ChevronLeftIcon sx={{ fontSize: 18 }} />
             ) : trigger === "hamburger" ? (
-              <MenuIcon fontSize="small" />
+              <MenuIcon sx={{ fontSize: 18 }} />
             ) : (
-              <ChevronRightIcon fontSize="small" />
+              <ChevronRightIcon sx={{ fontSize: 18 }} />
             )}
           </MuiIconButton>
         )}
