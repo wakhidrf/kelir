@@ -48,11 +48,11 @@ export function Table<TCell extends React.ReactNode = React.ReactNode>({
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={`row-${row.map(String).join("|")}`} hover>
-              {row.map((cell) => (
+          {rows.map((row, rowIndex) => (
+            <TableRow key={`row-${rowIndex}`} hover>
+              {row.map((cell, cellIndex) => (
                 <TableCell
-                  key={`cell-${String(cell)}`}
+                  key={`cell-${rowIndex}-${cellIndex}`}
                   style={{ fontSize: "14px" }}
                 >
                   {cell}
