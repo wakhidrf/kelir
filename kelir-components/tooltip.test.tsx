@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { screen } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { Button } from "./button";
 import { expectSealed, forceSpread, renderSealed } from "./sealed-test-helper";
@@ -36,5 +36,17 @@ describe("Tooltip sealed (Gel.3c-4 §6b)", () => {
     (trigger as HTMLElement).focus();
     expect(document.activeElement).toBe(trigger);
     expect((trigger as HTMLElement).tabIndex).not.toBe(-1);
+  });
+
+  it("hover pada pemicu Button Kelir membuka tooltip (bungkus span kit)", async () => {
+    renderSealed(
+      <Tooltip title="Detail tambahan">
+        <Button variant="secondary">Hover Me</Button>
+      </Tooltip>,
+    );
+    fireEvent.mouseOver(screen.getByRole("button", { name: "Hover Me" }));
+    expect((await screen.findByRole("tooltip")).textContent).toContain(
+      "Detail tambahan",
+    );
   });
 });
