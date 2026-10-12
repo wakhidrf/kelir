@@ -16,6 +16,7 @@ export function IconButton({
   "aria-label": ariaLabel,
   variant = "primary",
   shape = "rounded",
+  size = "md",
   onClick,
   type = "button",
   disabled,
@@ -38,8 +39,9 @@ export function IconButton({
             : css.radius.button,
       textTransform: "none",
       fontWeight: 600,
-      padding: "10px",
-      minWidth: "40px",
+      // Ukuran milik kit: md = perilaku hari ini (nol-ubah visual).
+      padding: size === "sm" ? "6px" : size === "lg" ? "14px" : "10px",
+      minWidth: size === "sm" ? "32px" : size === "lg" ? "48px" : "40px",
       transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
       fontFamily: "inherit",
     };
@@ -88,6 +90,10 @@ export function IconButton({
       aria-describedby={ariaDescribedby}
       style={getStyles()}
       sx={{
+        // Ikon ~18px (sm) / ~28px (lg); md tanpa aturan = bawaan MUI.
+        ...(size === "md"
+          ? null
+          : { "& .MuiSvgIcon-root": { fontSize: size === "sm" ? 18 : 28 } }),
         "&:hover": {
           backgroundColor:
             isOutline || isGhost

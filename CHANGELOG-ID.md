@@ -30,3 +30,5 @@
 | Radius sudut | - | Sudut kini mengikuti token tema per peran (`button`/`card`/`surface`/`prominent`) - tampilan sama, tiap tema bisa membentuknya |
 | Keandalan | - | Setiap komponen diliput test tipe, runtime, dan aksesibilitas di 11 tema; `Questionnaire` dipecah jadi 5 modul dengan prop identik; generik lebih ketat (`Chart`/`Table`/`Carousel`/`Resizable`) |
 | Aksesibilitas | Sebagian | Built-in di mana-mana: pengumuman Toast, focus trap Dialog, pemicu Tooltip/Popover yang bisa difokus, tombol panah Menu, input berlabel |
+| Ukuran tombol | Satu ukuran tetap | `Button`/`IconButton size?` (`sm\|md\|lg`, default `md` = hari ini): padding rapat/lega + ikon ~18px/~28px untuk drawer sempit - union tertutup, tanpa angka bebas |
+| Padding docked Sidebar | Isi docked menempel ke bingkai | Docked kini punya napas dalam sm yang sama dengan overlay (konsumen sealed tak bisa menambahkannya); overlay tak berubah |

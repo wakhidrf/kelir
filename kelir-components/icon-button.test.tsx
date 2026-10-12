@@ -35,6 +35,29 @@ describe("IconButton sealed (§6b)", () => {
     await expectNoAxeViolations(container);
   });
 
+  it("size sm/lg mengatur padding + minWidth; default md = hari ini", () => {
+    const { unmount: u1 } = renderSealed(
+      <IconButton icon={<span>i</span>} aria-label="S" onClick={() => {}} size="sm" />,
+    );
+    const sm = screen.getByRole("button", { name: "S" });
+    expect(sm.style.padding).toBe("6px");
+    expect(sm.style.minWidth).toBe("32px");
+    u1();
+    const { unmount: u2 } = renderSealed(
+      <IconButton icon={<span>i</span>} aria-label="L" onClick={() => {}} size="lg" />,
+    );
+    const lg = screen.getByRole("button", { name: "L" });
+    expect(lg.style.padding).toBe("14px");
+    expect(lg.style.minWidth).toBe("48px");
+    u2();
+    renderSealed(
+      <IconButton icon={<span>i</span>} aria-label="M" onClick={() => {}} />,
+    );
+    const md = screen.getByRole("button", { name: "M" });
+    expect(md.style.padding).toBe("10px");
+    expect(md.style.minWidth).toBe("40px");
+  });
+
   it("shape circle/square/rounded (default) via borderRadius inline", () => {
     const { unmount: u1 } = renderSealed(
       <IconButton icon={<span>i</span>} aria-label="A" onClick={() => {}} shape="circle" />,

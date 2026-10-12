@@ -255,14 +255,14 @@ Project Kelir memiliki **77 komponen** yang dikelompokkan ke beberapa kategori u
 ### 1. Input & Formulir
 Komponen yang menangkap interaksi pengguna dan input data dengan kontrol terintegrasi.
 
-1. **Button**: Menampilkan tombol interaktif yang mengikuti tema aktif.
+1. **Button**: Menampilkan tombol interaktif yang mengikuti tema aktif, dengan ukuran sm/md/lg tertutup.
 2. **Button Group**: Wadah untuk mengelompokkan tombol-tombol terkait dengan sudut membulat yang konsisten.
 3. **Checkbox**: Pilihan biner dengan label dan visualisasi centang.
 4. **Combobox**: Input teks auto-complete dengan daftar saran opsi.
 5. **Date Picker**: Pemilih tanggal interaktif dalam kalender popover dengan navigasi month-grid dan year-list inline.
 6. **Field**: Menggabungkan label, kontrol, dan teks bantuan untuk formulir yang aksesibel.
 7. **Input**: Input teks dasar untuk formulir dengan styling terintegrasi.
-8. **IconButton**: Tombol khusus ikon dengan label aksesibel yang wajib.
+8. **IconButton**: Tombol khusus ikon dengan label aksesibel yang wajib, dengan ukuran sm/md/lg tertutup.
 9. **Input Group**: Menggabungkan input teks dengan ikon tambahan atau tombol aksi di awal/akhir (prefix/suffix).
 10. **Input OTP**: Input kata sandi sekali pakai dengan fungsi salin-tempel yang ramah pengguna.
 11. **Label**: Label teks aksesibel yang terhubung langsung ke elemen kontrol input.

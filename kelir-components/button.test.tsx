@@ -67,4 +67,33 @@ describe("Button sealed (§6b)", () => {
     const el = screen.getByRole("button", { name: "Simpan draf" });
     expect(el.getAttribute("aria-label")).toBe("Simpan draf");
   });
+
+  it("size sm/lg mengatur padding; default md = perilaku hari ini", () => {
+    const { unmount: u1 } = renderSealed(
+      <Button variant="primary" size="sm" onClick={() => {}}>
+        Kecil
+      </Button>,
+    );
+    expect(screen.getByRole("button", { name: "Kecil" }).style.padding).toBe(
+      "6px 12px",
+    );
+    u1();
+    const { unmount: u2 } = renderSealed(
+      <Button variant="primary" size="lg" onClick={() => {}}>
+        Besar
+      </Button>,
+    );
+    expect(screen.getByRole("button", { name: "Besar" }).style.padding).toBe(
+      "14px 28px",
+    );
+    u2();
+    renderSealed(
+      <Button variant="primary" onClick={() => {}}>
+        Sedang
+      </Button>,
+    );
+    expect(screen.getByRole("button", { name: "Sedang" }).style.padding).toBe(
+      "10px 20px",
+    );
+  });
 });

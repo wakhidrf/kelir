@@ -254,14 +254,14 @@ Project Kelir has **77 components** organized into several main categories to ma
 ### 1. Inputs & Forms
 Components that capture user interaction and data input with integrated controls.
 
-1. **Button**: Displays an interactive button that follows the active theme.
+1. **Button**: Displays an interactive button that follows the active theme, with closed sm/md/lg sizes.
 2. **Button Group**: A container for grouping related buttons with consistent rounded corners.
 3. **Checkbox**: A binary choice with a label and check visualization.
 4. **Combobox**: An auto-complete text input with a list of suggested options.
 5. **Date Picker**: An interactive date picker in a popover calendar with inline month-grid and year-list navigation.
 6. **Field**: Combines label, control, and helper text for an accessible form.
 7. **Input**: A basic text input for forms with integrated styling.
-8. **IconButton**: An icon-only button with a required accessible label.
+8. **IconButton**: An icon-only button with a required accessible label, with closed sm/md/lg sizes.
 9. **Input Group**: Combines a text input with additional icons or action buttons at the start/end (prefix/suffix).
 10. **Input OTP**: A one-time password input component with user-friendly copy-paste functionality.
 11. **Label**: An accessible text label directly connected to an input control element.

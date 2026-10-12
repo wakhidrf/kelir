@@ -16,6 +16,8 @@ const h = (
   // @ts-expect-error — shape di luar union
   <IconButton icon={<span>x</span>} aria-label="y" shape="pill" />
 );
+// @ts-expect-error — size di luar union
+const z = <IconButton icon={<span>x</span>} aria-label="y" size="xl" />;
 
 export { IconButton };
 export type { IconButtonProps };
