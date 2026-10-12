@@ -340,7 +340,7 @@ Components that shape the structure and placement of elements.
 68. **Stack**: A vertical/horizontal stack primitive with closed gap, direction, align, and justify unions.
 69. **Container**: A page-width containment primitive with closed maxWidth and padding unions from layout tokens.
 70. **Image**: A neutral media primitive with closed height, fit, and radius unions (no shadow/border by default).
-71. **FlexItem**: A flex-item control primitive paired with Stack, with closed boolean grow and shrink unions.
+71. **FlexItem**: A flex-item control primitive paired with Stack, with closed boolean grow, shrink, and clip unions.
 72. **Shell**: A viewport app-shell primitive with row or stacked direction from a closed boolean.
 73. **Content**: The single scrollable app-shell area with responsive token padding and background.
 74. **TopBar**: A mobile app-shell bar aligning left and right slots edge to edge.

@@ -341,7 +341,7 @@ Komponen yang membentuk struktur dan penempatan elemen.
 68. **Stack**: Primitif tumpukan vertikal/horizontal dengan union gap, direction, align, dan justify tertutup.
 69. **Container**: Primitif penampung lebar halaman dengan union maxWidth dan padding tertutup dari token layout.
 70. **Image**: Primitif media netral dengan union height, fit, dan radius tertutup (tanpa shadow/border bawaan).
-71. **FlexItem**: Primitif kontrol item flex pasangan Stack, dengan union boolean grow dan shrink tertutup.
+71. **FlexItem**: Primitif kontrol item flex pasangan Stack, dengan union boolean grow, shrink, dan clip tertutup.
 72. **Shell**: Primitif cangkang viewport app-shell dengan arah baris atau bertumpuk dari boolean tertutup.
 73. **Content**: Satu-satunya area scroll app-shell dengan padding token responsif dan latar.
 74. **TopBar**: Bar mobile app-shell yang menyejajarkan slot kiri dan kanan ujung-ke-ujung.

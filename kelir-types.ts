@@ -1030,13 +1030,16 @@ export interface ImageProps {
 // 70. FlexItem — kontrol item flex sealed (P1b STYLE.md).
 // Nama `Item` sudah dipakai baris daftar (title/description/media/action),
 // jadi primitif ini bernama `FlexItem`. `grow?` → `flex: 1, minWidth: 0`
-// (default `false`); `shrink?` = `false` → `flexShrink: 0` (default `true`).
-// Boolean tertutup, tanpa angka bebas. Default = blok biasa (tanpa prop
-// flex). Tanpa ...rest/style/sx/className.
+// (default `false`); `shrink?` = `false` → `flexShrink: 0` (default `true`);
+// `clip?` → `overflow: hidden` (default `false`, properti dihilangkan penuh
+// saat mati — preseden `Stack wrap?`; pasangan alami `grow clip` = pola
+// truncasi baris flex). Boolean tertutup, tanpa angka bebas. Default = blok
+// biasa (tanpa prop flex). Tanpa ...rest/style/sx/className.
 export interface FlexItemProps {
   children: React.ReactNode;
   grow?: boolean;
   shrink?: boolean;
+  clip?: boolean;
   id?: string;
   "aria-label"?: string;
 }

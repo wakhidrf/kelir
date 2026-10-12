@@ -20,7 +20,7 @@
 | Page width | DIY maxWidth wrappers | `Container` (`maxWidth?` `sm\|md\|lg\|xl`, `padding?` from layout space) — pure layout, no color/border/shadow |
 | Logo/media images | Raw `<img>` with objectFit | `Image` (`src`, `alt?`, `height?`, `fit?` `contain\|cover`, `radius?`) — neutral, no shadow/border by default |
 | Row wraps | DIY flex-wrap wrappers | `Stack wrap?` (default `false`) - wrapping rows/columns owned by the kit |
-| Flex items | DIY `flex: 1` / `flexShrink: 0` wrappers | `FlexItem` (`grow?`, `shrink?`) - closed booleans, no free numbers; default is a plain block |
+| Flex items | DIY `flex: 1` / `flexShrink: 0` / `overflow: hidden` wrappers | `FlexItem` (`grow?`, `shrink?`, `clip?` for flex-row truncation with `grow`) - closed booleans, no free numbers; default is a plain block |
 | Page width, vertical | DIY vertical padding + overflow wrappers | `Container paddingBlock?` (`none\|sm\|md\|lg\|xl\|2xl`, default `none`) and `clip?` (default `false`) from the same space scale |
 | App shell | Rewritten viewport shell per app | `Shell` (row or `stacked?`), `Content` (single scroll area, responsive padding, background), `TopBar` (`left?`/`right?`, surface) - pure layout, no custom color/border/shadow |
 | Icon/logo tiles | DIY padded boxes | `Tile` (`tone?` `primary\|secondary\|plain`, `size?` `sm\|md\|lg` to kit-owned px; without size a flexible icon tile) |

@@ -47,6 +47,16 @@ describe("FlexItem sealed (§6b)", () => {
     expect(el.style.flexShrink).toBe("0");
   });
 
+  it("clip: potong luapan; default mati (properti dihilangkan)", () => {
+    renderSealed(
+      <FlexItem clip>
+        <span>a</span>
+      </FlexItem>,
+    );
+    const el = screen.getByText("a").parentElement as HTMLElement;
+    expect(el.style.overflow).toBe("hidden");
+  });
+
   it("default: blok biasa tanpa prop flex", () => {
     renderSealed(
       <FlexItem>
@@ -57,5 +67,6 @@ describe("FlexItem sealed (§6b)", () => {
     expect(el.style.flex).toBe("");
     expect(el.style.minWidth).toBe("");
     expect(el.style.flexShrink).toBe("");
+    expect(el.style.overflow).toBe("");
   });
 });
