@@ -8,6 +8,17 @@ export function Tooltip({
   id,
   "aria-label": ariaLabel,
 }: TooltipProps) {
+  // Anak kustom (mis. Button Kelir, sealed tanpa ...rest) tak meneruskan
+  // ref + handler hover/fokus yang disuntik MUI via clone ΓÇö tooltip tak
+  // pernah buka. Bungkus host span milik kit (pola anjuran MUI): jangkar
+  // + handler menempel di span, anak tampil apa adanya. Elemen host
+  // (mis. <button> natif) diteruskan langsung tanpa bungkus.
+  const trigger =
+    typeof children.type === "string" ? (
+      children
+    ) : (
+      <span style={{ display: "inline-flex" }}>{children}</span>
+    );
   return (
     <MuiTooltip
       title={title}
@@ -35,7 +46,7 @@ export function Tooltip({
         },
       }}
     >
-      {children}
+      {trigger}
     </MuiTooltip>
   );
 }
