@@ -20,7 +20,7 @@
 | Lebar halaman | Pembungkus maxWidth sendiri | `Container` (`maxWidth?` `sm\|md\|lg\|xl`, `padding?` dari space layout) - murni layout, tanpa warna/border/shadow |
 | Gambar logo/media | `<img>` mentah dengan objectFit | `Image` (`src`, `alt?`, `height?`, `fit?` `contain\|cover`, `radius?`) - netral, tanpa shadow/border bawaan |
 | Bungkus baris | Pembungkus flex-wrap sendiri | `Stack wrap?` (default `false`) - baris/kolom membungkus milik kit |
-| Item flex | Pembungkus `flex: 1` / `flexShrink: 0` sendiri | `FlexItem` (`grow?`, `shrink?`) - boolean tertutup, tanpa angka bebas; default blok biasa |
+| Item flex | Pembungkus `flex: 1` / `flexShrink: 0` / `overflow: hidden` sendiri | `FlexItem` (`grow?`, `shrink?`, `clip?` untuk truncasi baris flex bersama `grow`) - boolean tertutup, tanpa angka bebas; default blok biasa |
 | Lebar halaman, vertikal | Pembungkus padding vertikal + overflow sendiri | `Container paddingBlock?` (`none\|sm\|md\|lg\|xl\|2xl`, default `none`) dan `clip?` (default `false`) dari skala space yang sama |
 | Cangkang aplikasi | Cangkang viewport ditulis ulang tiap app | `Shell` (baris atau `stacked?`), `Content` (satu area scroll, padding responsif, latar), `TopBar` (`left?`/`right?`, surface) - murni layout, tanpa warna/border/shadow kustom |
 | Ubin ikon/logo | Kotak padding sendiri | `Tile` (`tone?` `primary\|secondary\|plain`, `size?` `sm\|md\|lg` ke px milik kit; tanpa size ubin-ikon fleksibel) |

@@ -1,11 +1,11 @@
 import { FlexItem } from "./flex-item";
 
-// Type-test negatif (§6/§6b STYLE.md): `grow`/`shrink` boolean tertutup;
-// tanpa style/sx/className passthrough, tanpa ...rest.
+// Type-test negatif (§6/§6b STYLE.md): `grow`/`shrink`/`clip` boolean
+// tertutup; tanpa style/sx/className passthrough, tanpa ...rest.
 export function flexItemContractChecks() {
   const okDefault = <FlexItem>isi</FlexItem>;
   const okGrow = (
-    <FlexItem grow shrink={false} id="a" aria-label="b">
+    <FlexItem grow shrink={false} clip id="a" aria-label="b">
       <span>isi</span>
     </FlexItem>
   );
@@ -20,8 +20,10 @@ export function flexItemContractChecks() {
   const noRawGrow = <FlexItem grow={2}>isi</FlexItem>;
   // @ts-expect-error — shrink non-boolean haram
   const noRawShrink = <FlexItem shrink="no">isi</FlexItem>;
+  // @ts-expect-error — clip non-boolean haram
+  const noRawClip = <FlexItem clip="yes">isi</FlexItem>;
   // @ts-expect-error — prop tak dikenal tidak diteruskan ke DOM
   const noRest = <FlexItem title="x">isi</FlexItem>;
 
-  return { okDefault, okGrow, noStyle, noSx, noClassName, noRawGrow, noRawShrink, noRest };
+  return { okDefault, okGrow, noStyle, noSx, noClassName, noRawGrow, noRawShrink, noRawClip, noRest };
 }
