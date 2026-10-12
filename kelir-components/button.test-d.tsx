@@ -21,6 +21,8 @@ const j = <Button style={{}}>x</Button>;
 const n = <Button>{42}</Button>;
 // @ts-expect-error — align di luar union
 const a = <Button align="justify">x</Button>;
+// @ts-expect-error — size di luar union
+const z = <Button size="xl">x</Button>;
 // Catatan: aria-label tak bisa ditolak di sini — tipe React 19 mentoleransi
 // semua aria-* pada komponen. Aturan Label-in-Name (§2 STYLE.md) ditegakkan
 // via review, bukan test-d.

@@ -30,3 +30,5 @@
 | Corner radius | - | Corners now follow per-role theme tokens (`button`/`card`/`surface`/`prominent`) - same look today, but each theme can shape them |
 | Reliability | - | Every component is covered by type, runtime, and accessibility tests across all 11 themes; `Questionnaire` was split into 5 modules with identical props; stricter generics (`Chart`/`Table`/`Carousel`/`Resizable`) |
 | Accessibility | Partial | Built in everywhere: Toast announcements, Dialog focus trap, focusable Tooltip/Popover triggers, Menu arrow keys, labeled inputs |
+| Button sizes | One fixed size | `Button`/`IconButton size?` (`sm\|md\|lg`, default `md` = today): tighter/wider padding + ~18px/~28px icons for narrow drawers - closed union, no free numbers |
+| Sidebar docked padding | Docked content flush to the frame | Docked now has the same sm inner padding as overlay (sealed consumers could not add it); overlay unchanged |

@@ -188,6 +188,10 @@ export interface ButtonProps {
   // ikon+teks di tengah), start (rata awal, kolom ikon lurus), atau end.
   // Nilai logis: benar di LTR maupun RTL.
   align?: "center" | "start" | "end";
+  // Ukuran milik kit (khusus drawer sempit mis. nav mobile): sm = padding
+  // rapat + ikon ~18px, md (default) = perilaku hari ini, lg = lega +
+  // ikon ~28px. Union tertutup, tanpa angka bebas.
+  size?: "sm" | "md" | "lg";
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   type?: "button" | "submit";
   disabled?: boolean;
@@ -207,6 +211,10 @@ export interface IconButtonProps {
   variant?: "primary" | "secondary" | "destructive" | "outline" | "ghost";
   // Bentuk bingkai: rounded (default, ikut token peran), circle, square.
   shape?: "rounded" | "circle" | "square";
+  // Ukuran milik kit (pasangan Button): sm = padding 6 + ikon ~18px,
+  // md (default) = perilaku hari ini, lg = padding 14 + ikon ~28px.
+  // Union tertutup, tanpa angka bebas.
+  size?: "sm" | "md" | "lg";
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   type?: "button" | "submit";
   disabled?: boolean;
@@ -744,7 +752,8 @@ export interface SheetProps {
 // milik kit khusus overlay (none/hamburger/chevron) — union gaya tombol,
 // bukan slot (slot-trigger komponen lain tak terkait); `overlayHeight`
 // full/auto khusus overlay (`none` = tombol sendiri, pakai elemen native);
-// lebar/tinggi milik kit. Tanpa ...rest/style.
+// lebar/tinggi milik kit; napas dalam sm di docked setara overlay (fix
+// paritas: dulu docked menempel ke bingkai). Tanpa ...rest/style.
 export interface SidebarProps {
   header?: React.ReactNode;
   footer?: React.ReactNode;

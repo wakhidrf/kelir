@@ -34,6 +34,8 @@ describe("Sidebar sealed + responsif (ISSUE-005 §6b)", () => {
       (d) => (d as HTMLElement).style.maxHeight === "100%",
     );
     expect(scrollers.length).toBe(1);
+    // Paritas overlay (fix #40): napas dalam sm milik kit (0.5rem = 8px).
+    expect(nav.style.padding).toBe("0.5rem");
   });
 
   it("mode auto: default docked SSR-aman (tanpa matchMedia = desktop)", () => {

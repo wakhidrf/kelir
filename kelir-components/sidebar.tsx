@@ -123,8 +123,9 @@ export function Sidebar({
               // ikut memendek + tengah vertikal via height).
               height: overlayHeight === "full" ? "100%" : "auto",
               maxHeight: overlayHeight === "full" ? "100dvh" : "90dvh",
-              // Napas isi dari tepi paper (khusus overlay; docked punya
-              // padding konten milik konsumen masing-masing).
+              // Napas isi dari tepi paper (kedua cabang paritas; dulu
+              // docked menempel ke bingkai — konsumen sealed tak bisa
+              // menambahkannya sendiri).
               padding: css.layout.space.sm,
               color: css.colors.textPrimary,
               fontFamily: "inherit",
@@ -191,6 +192,9 @@ export function Sidebar({
       component="nav"
       id={id}
       aria-label={ariaLabel}
+      // Inline (bukan sx) agar paritas teruji di JSDOM; nilai = token yang
+      // sama dengan overlay (paritas fix #40).
+      style={{ padding: css.layout.space.sm }}
       sx={{
         display: "flex",
         flexDirection: "column",
