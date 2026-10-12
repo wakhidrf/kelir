@@ -80,9 +80,12 @@ export function Bubble({
             marginTop: "6px",
           }}
         >
-          {reactions.map((reaction) => (
+          {/* Key = nilai + indeks: reaksi boleh duplikat (mis. dua
+              jempol) tanpa peringatan key ganda React; tampilan tetap
+              apa adanya (tanpa dedup diam-diam). */}
+          {reactions.map((reaction, index) => (
             <span
-              key={reaction}
+              key={`${reaction}-${index}`}
               style={{
                 display: "inline-flex",
                 alignItems: "center",

@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { fireEvent, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { Bubble } from "./bubble";
 import {
   EVIL_CLASS,
@@ -12,6 +12,17 @@ import {
 } from "./sealed-test-helper";
 
 describe("Bubble sealed (Gel.3c-7 §6b)", () => {
+  // Spy console.error ala select.test.tsx: peringatan key ganda React
+  // (bila ada) tertangkap di sini, bukan lolos diam-diam ke konsol.
+  const consoleErrors: string[] = [];
+  beforeAll(() => {
+    vi.spyOn(console, "error").mockImplementation((...args: unknown[]) => {
+      consoleErrors.push(args.map((a) => String(a)).join(" "));
+    });
+  });
+  afterAll(() => {
+    vi.restoreAllMocks();
+  });
   it("paksa spread tak mengubah visual; collapsible melipat isi", () => {
     const { container } = renderSealed(
       <Bubble
@@ -32,10 +43,23 @@ describe("Bubble sealed (Gel.3c-7 §6b)", () => {
 
   it("bebas pelanggaran axe", async () => {
     const { container } = renderSealed(
-      <Bubble variant="received" reactions={["👍"]}>
+      <Bubble variant="received" reactions={["??"]}>
         Baik, terima kasih.
       </Bubble>,
     );
     await expectNoAxeViolations(container);
+  });
+
+  it("reaksi duplikat tampil dua-duanya tanpa peringatan key ganda", () => {
+    consoleErrors.length = 0;
+    renderSealed(
+      <Bubble variant="received" reactions={["👍", "👍"]}>
+        Setuju dua kali.
+      </Bubble>,
+    );
+    expect(screen.getAllByText("👍")).toHaveLength(2);
+    expect(
+      consoleErrors.filter((m) => m.includes("same key")),
+    ).toEqual([]);
   });
 });
