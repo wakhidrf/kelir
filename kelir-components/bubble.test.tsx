@@ -43,7 +43,7 @@ describe("Bubble sealed (Gel.3c-7 §6b)", () => {
 
   it("bebas pelanggaran axe", async () => {
     const { container } = renderSealed(
-      <Bubble variant="received" reactions={["??"]}>
+      <Bubble variant="received" reactions={["👍"]}>
         Baik, terima kasih.
       </Bubble>,
     );
