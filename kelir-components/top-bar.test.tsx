@@ -35,6 +35,26 @@ describe("TopBar sealed (§6b)", () => {
     expect(rightBox.style.marginLeft).toBe("auto");
   });
 
+  it("raised default: permukaan terangkat ala komponen Kelir", () => {
+    const { container } = renderSealed(<TopBar left="kiri" right="kanan" />);
+    const el = container.firstElementChild as HTMLElement;
+    expect(el.style.backgroundColor).not.toBe("transparent");
+    expect(el.style.borderBottom).not.toBe("");
+    expect(el.style.boxShadow).not.toBe("none");
+  });
+
+  it("flat: sebaris transparan tanpa permukaan; layout tetap", () => {
+    const { container } = renderSealed(
+      <TopBar left="kiri" right="kanan" variant="flat" />,
+    );
+    const el = container.firstElementChild as HTMLElement;
+    expect(el.tagName).toBe("HEADER");
+    expect(el.style.backgroundColor).toBe("transparent");
+    expect(el.style.boxShadow).toBe("none");
+    expect(el.style.display).toBe("flex");
+    expect(screen.getByText("kanan").style.marginLeft).toBe("auto");
+  });
+
   it("bebas pelanggaran axe", async () => {
     const { container } = renderSealed(
       <TopBar left="kiri" right="kanan" />,

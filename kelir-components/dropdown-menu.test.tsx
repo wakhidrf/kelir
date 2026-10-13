@@ -35,6 +35,32 @@ describe("DropdownMenu sealed (Gel.3c-9 §6b)", () => {
     await expectNoAxeViolations(container);
   });
 
+  it("triggerVariant button: pemicu Button outline milik kit; klik tetap buka menu", () => {
+    const onClick = vi.fn();
+    renderSealed(
+      <DropdownMenu
+        trigger="Aksi"
+        triggerVariant="button"
+        items={[{ label: "Ubah", onClick }]}
+      />,
+    );
+    const trigger = screen.getByText("Aksi").closest("button") as HTMLElement;
+    // Button kit = MuiButton-root; outline = border 1.5px milik kit.
+    expect(trigger.className).toMatch(/MuiButton-root/);
+    expect(trigger.style.border).toContain("1.5px");
+    fireEvent.click(screen.getByText("Aksi"));
+    fireEvent.click(screen.getByText("Ubah"));
+    expect(onClick).toHaveBeenCalledWith();
+  });
+
+  it("default text: pemicu tombol teks polos, bukan Button kit", () => {
+    renderSealed(
+      <DropdownMenu trigger="Aksi" items={[{ label: "Ubah" }]} />,
+    );
+    const trigger = screen.getByText("Aksi").closest("button") as HTMLElement;
+    expect(trigger.className).not.toMatch(/MuiButton-root/);
+  });
+
   it("panah bawah pindah fokus antar item menu (P2 a11y)", () => {
     renderSealed(
       <DropdownMenu trigger="Aksi" items={[{ label: "Ubah" }, { label: "Hapus" }]} />,

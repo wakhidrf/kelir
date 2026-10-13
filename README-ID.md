@@ -323,7 +323,7 @@ Komponen untuk notifikasi status, dialog interupsi, dan panduan melayang.
 54. **Context Menu**: Menu aksi melayang yang muncul saat pengguna klik kanan pada area tertentu.
 55. **Dialog**: Jendela modal di atas layar utama untuk tugas terfokus. Membukanya tidak pernah menggeser halaman latar.
 56. **Drawer**: Panel overlay yang meluncur dari tepi layar (biasanya bawah atau samping).
-57. **Dropdown Menu**: Daftar aksi melayang yang dipicu dengan menekan tombol menu.
+57. **Dropdown Menu**: Daftar aksi melayang yang dipicu dengan menekan tombol menu (`triggerVariant?` `text|button`, default `text`).
 58. **Popover**: Balon informasi melayang dengan konten kaya yang dipicu saat elemen diklik.
 59. **Sheet**: Ekstensi dialog geser-samping untuk menampilkan data pendukung.
 60. **Spinner**: Indikator loading melingkar yang mulus.
@@ -344,7 +344,7 @@ Komponen yang membentuk struktur dan penempatan elemen.
 71. **FlexItem**: Primitif kontrol item flex pasangan Stack, dengan union boolean grow, shrink, dan clip tertutup.
 72. **Shell**: Primitif cangkang viewport app-shell dengan arah baris atau bertumpuk dari boolean tertutup.
 73. **Content**: Satu-satunya area scroll app-shell dengan padding token responsif dan latar.
-74. **TopBar**: Bar mobile app-shell yang menyejajarkan slot kiri dan kanan ujung-ke-ujung.
+74. **TopBar**: Bar mobile app-shell yang menyejajarkan slot kiri dan kanan ujung-ke-ujung (`variant?` `raised|flat`, default `raised`; `flat` baris aksi transparan di dalam konten).
 75. **Tile**: Primitif ubin ikon/logo dengan union tone dan size tertutup dari token.
 76. **Banner**: Spanduk status tengah dengan union tone tertutup, teksnya mewarisi warna.
 77. **Link**: Tautan teks sebaris dengan ikon milik kit, href wajib, dan target eksternal yang aman.

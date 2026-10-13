@@ -322,7 +322,7 @@ Components for status notifications, interruption dialogs, and floating guides.
 54. **Context Menu**: A floating action menu that appears when the user right-clicks on a certain area.
 55. **Dialog**: A modal window overlaid on the main screen for focused tasks. Opening it never shifts the background page.
 56. **Drawer**: An overlay panel that slides in from the edge of the screen (usually the bottom or side).
-57. **Dropdown Menu**: A floating list of actions triggered by pressing a menu button.
+57. **Dropdown Menu**: A floating list of actions triggered by pressing a menu button (`triggerVariant?` `text|button`, default `text`).
 58. **Popover**: A floating information balloon with rich content triggered when an element is clicked.
 59. **Sheet**: A side-sliding dialog extension for displaying supporting data.
 60. **Spinner**: A smooth circular loading indicator.
@@ -343,7 +343,7 @@ Components that shape the structure and placement of elements.
 71. **FlexItem**: A flex-item control primitive paired with Stack, with closed boolean grow, shrink, and clip unions.
 72. **Shell**: A viewport app-shell primitive with row or stacked direction from a closed boolean.
 73. **Content**: The single scrollable app-shell area with responsive token padding and background.
-74. **TopBar**: A mobile app-shell bar aligning left and right slots edge to edge.
+74. **TopBar**: A mobile app-shell bar aligning left and right slots edge to edge (`variant?` `raised|flat`, default `raised`; `flat` is a transparent in-content action row).
 75. **Tile**: An icon/logo tile primitive with closed tone and size unions from tokens.
 76. **Banner**: A centered status banner with closed tone union, its text inheriting the color.
 77. **Link**: An inline text link with kit-owned icon, required href, and safe external target.

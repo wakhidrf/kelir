@@ -32,3 +32,5 @@
 | Aksesibilitas | Sebagian | Built-in di mana-mana: pengumuman Toast, focus trap Dialog, pemicu Tooltip/Popover yang bisa difokus, tombol panah Menu, input berlabel |
 | Ukuran tombol | Satu ukuran tetap | `Button`/`IconButton size?` (`sm\|md\|lg`, default `md` = hari ini): padding rapat/lega + ikon ~18px/~28px untuk drawer sempit - union tertutup, tanpa angka bebas |
 | Padding docked Sidebar | Isi docked menempel ke bingkai | Docked kini punya napas dalam sm yang sama dengan overlay (konsumen sealed tak bisa menambahkannya); overlay tak berubah |
+| Affordance pemicu menu | Pemicu teks-only terbaca seperti label | `DropdownMenu triggerVariant?` (`text\|button`, default `text`): `button` merender pemicu Button outline milik kit; perilaku identik |
+| Varian bar app-shell | `TopBar` selalu lempeng surface | `TopBar variant?` (`raised\|flat`, default `raised`): `raised` kini surface Kelir penuh (surface + border bawah + shadow); `flat` baris aksi transparan di dalam konten; layout identik |

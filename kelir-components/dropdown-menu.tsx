@@ -6,6 +6,7 @@ import MenuItem from "@mui/material/MenuItem";
 import * as React from "react";
 import type { DropdownMenuProps } from "../kelir-types";
 import { css } from "../kelir-variants";
+import { Button } from "./button";
 
 const convexShadow = css.shadows.convex;
 const neumorphicBg = css.colors.surface;
@@ -13,7 +14,11 @@ const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
-export function DropdownMenu({ trigger, items }: DropdownMenuProps) {
+export function DropdownMenu({
+  trigger,
+  triggerVariant = "text",
+  items,
+}: DropdownMenuProps) {
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
 
@@ -23,24 +28,32 @@ export function DropdownMenu({ trigger, items }: DropdownMenuProps) {
 
   return (
     <>
-      {/* Tombol pemicu milik kit: trigger TEKS, klik ditangani kit. */}
-      <button
-        type="button"
-        onClick={handleTriggerClick}
-        style={{
-          border: "none",
-          background: "none",
-          cursor: "pointer",
-          padding: `6px ${css.layout.space.md}`,
-          borderRadius: css.radius.button,
-          fontSize: "13px",
-          fontWeight: 600,
-          color: textSecondary,
-          fontFamily: "inherit",
-        }}
-      >
-        {trigger}
-      </button>
+      {/* Pemicu milik kit: text = tombol teks polos; button = Button
+          outline milik kit (affordance tombol untuk toolbar). Klik
+          ditangani kit di kedua varian. */}
+      {triggerVariant === "button" ? (
+        <Button variant="outline" onClick={handleTriggerClick}>
+          {trigger}
+        </Button>
+      ) : (
+        <button
+          type="button"
+          onClick={handleTriggerClick}
+          style={{
+            border: "none",
+            background: "none",
+            cursor: "pointer",
+            padding: `6px ${css.layout.space.md}`,
+            borderRadius: css.radius.button,
+            fontSize: "13px",
+            fontWeight: 600,
+            color: textSecondary,
+            fontFamily: "inherit",
+          }}
+        >
+          {trigger}
+        </button>
+      )}
       <MuiMenu
         open={open}
         onClose={() => setAnchorEl(null)}
