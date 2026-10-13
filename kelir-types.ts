@@ -430,7 +430,10 @@ export interface DrawerProps {
 // 26. Dropdown Menu
 // 26. DropdownMenu - menu klik sealed berbasis MUI (Gel.3c-9 STYLE.md §6).
 // `trigger` slot TEKS (kit render tombol pemicu + tangani klik, tanpa
-// cloneElement, preseden Collapsible/ContextMenu); `items`
+// cloneElement, preseden Collapsible/ContextMenu); `triggerVariant?` MAKNA
+// (`text|button`, default `text`): text = tombol teks polos hari ini;
+// button = pemicu dirender sebagai Button outline milik kit (affordance
+// tombol untuk toolbar). `items`
 // DropdownMenuItem[] (`onClick?` semantik). Posisi + visual milik kit.
 export interface DropdownMenuItem {
   label: string;
@@ -440,6 +443,7 @@ export interface DropdownMenuItem {
 }
 export interface DropdownMenuProps {
   trigger: string;
+  triggerVariant?: "text" | "button";
   items: DropdownMenuItem[];
 }
 
@@ -1080,11 +1084,15 @@ export interface ContentProps {
 
 // 73. TopBar — bar mobile app-shell (P1b STYLE.md).
 // Slot `left?`/`right?` (node; teks di dalamnya string) disejajarkan
-// ujung-ke-ujung; latar surface. Tanpa warna/border/shadow kustom.
+// ujung-ke-ujung; `variant?` MAKNA (`raised|flat`, default `raised`):
+// raised = bar terangkat ala komponen Kelir (surface + border bawah +
+// shadow); flat = sebaris transparan tanpa permukaan terangkat (baris aksi
+// di dalam konten). Landmark header. Tanpa warna/border/shadow kustom.
 // Tanpa ...rest/style/sx/className.
 export interface TopBarProps {
   left?: React.ReactNode;
   right?: React.ReactNode;
+  variant?: "raised" | "flat";
   id?: string;
   "aria-label"?: string;
 }

@@ -32,3 +32,5 @@
 | Accessibility | Partial | Built in everywhere: Toast announcements, Dialog focus trap, focusable Tooltip/Popover triggers, Menu arrow keys, labeled inputs |
 | Button sizes | One fixed size | `Button`/`IconButton size?` (`sm\|md\|lg`, default `md` = today): tighter/wider padding + ~18px/~28px icons for narrow drawers - closed union, no free numbers |
 | Sidebar docked padding | Docked content flush to the frame | Docked now has the same sm inner padding as overlay (sealed consumers could not add it); overlay unchanged |
+| Menu trigger affordance | Text-only trigger reads as a label | `DropdownMenu triggerVariant?` (`text\|button`, default `text`): `button` renders a kit outline Button trigger; behavior identical |
+| App-shell bar variants | `TopBar` always a surface slab | `TopBar variant?` (`raised\|flat`, default `raised`): `raised` is now a proper Kelir surface (surface + bottom border + shadow); `flat` is a transparent in-content action row; layout identical |

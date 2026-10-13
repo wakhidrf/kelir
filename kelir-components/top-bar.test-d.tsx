@@ -7,6 +7,12 @@ export function topBarContractChecks() {
     <TopBar left={<span>kiri</span>} right="kanan" id="a" aria-label="b" />
   );
   const okLeft = <TopBar left="saja" />;
+  const okFlat = (
+    <TopBar left="aksi" variant="flat" aria-label="baris aksi" />
+  );
+
+  // @ts-expect-error — variant di luar union tertutup raised|flat
+  const noVariant = <TopBar left="aksi" variant="sunken" />;
 
   // @ts-expect-error — style passthrough haram (bar milik TopBar)
   const noStyle = <TopBar style={{ height: 48 }} />;
@@ -17,5 +23,5 @@ export function topBarContractChecks() {
   // @ts-expect-error — prop tak dikenal tidak diteruskan ke DOM
   const noRest = <TopBar title="x" />;
 
-  return { okBoth, okLeft, noStyle, noSx, noClassName, noRest };
+  return { okBoth, okLeft, okFlat, noVariant, noStyle, noSx, noClassName, noRest };
 }
