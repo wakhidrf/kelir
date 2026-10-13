@@ -1,0 +1,476 @@
+{
+  "snapshot": 1,
+  "generator": "kelir-mcp/tools/snapshot.mjs (do not edit by hand)",
+  "kitRev": "f34d54b",
+  "components": [
+    {
+      "name": "KelirProvider",
+      "description": "The single legitimate visual point: theme provider (defaultTheme closed union, children).",
+      "props": "`defaultTheme` (union tertutup), `children` (§3c)"
+    },
+    {
+      "name": "Accordion",
+      "description": "A stacked vertical content panel that can be collapsed or expanded.",
+      "props": "`summary`, `details` (teks), `expanded?`, `defaultExpanded?`, `onChange?`, `disabled?`"
+    },
+    {
+      "name": "Alert",
+      "description": "Contextual warnings to draw important user attention (info, success, critical).",
+      "props": "`title`, `children`, `severity` (`error\\|warning\\|info\\|success`), `onClose`"
+    },
+    {
+      "name": "AlertDialog",
+      "description": "A critical interruption modal dialog that requires a confirmation decision from the user. Opening it never shifts the background page.",
+      "props": "`open`, `title`, `description`, `cancelText`, `confirmText`, `onCancel`, `onConfirm`"
+    },
+    {
+      "name": "AspectRatio",
+      "description": "A container that enforces the dimensional proportion of content (such as images or video).",
+      "props": "`ratio`, `children`"
+    },
+    {
+      "name": "Attachment",
+      "description": "A file attachment viewer with metadata, upload status, and a remove button.",
+      "props": "`name`, `size`, `type`, `url`, `status` (`uploading\\|success\\|error\\|idle`), `progress`, `onRemove`"
+    },
+    {
+      "name": "Avatar",
+      "description": "A visual representation of a user profile as an image or an initials text fallback.",
+      "props": "`src?`, `alt?`, `fallbackText?`, `size?` (`small\\|medium\\|large` → 32/40/48 px)"
+    },
+    {
+      "name": "Badge",
+      "description": "A small colored label used to mark a status or category.",
+      "props": "`children: string`, `variant?` (`primary\\|secondary\\|destructive\\|outline`, default `primary`)"
+    },
+    {
+      "name": "Breadcrumb",
+      "description": "A trail of the active page hierarchy as a guide for navigating back.",
+      "props": "`items: {label, href?, active?}[]`"
+    },
+    {
+      "name": "Bubble",
+      "description": "A conversation message bubble supporting sent/received variants, reactions, and collapse-expand.",
+      "props": "`variant` (`sent\\|received`), `align` (`start\\|end`), `reactions`, `collapsible`, `children`"
+    },
+    {
+      "name": "Button",
+      "description": "Displays an interactive button that follows the active theme, with closed sm/md/lg sizes.",
+      "props": "`children: string`, `startIcon?`/`endIcon?` (ikon Kelir), `variant` (`primary\\|secondary\\|destructive\\|outline\\|ghost`), `align?` (`start\\|center\\|end`, default `center`), `size?` (`sm\\|md\\|lg`, default `md` = hari ini; sm = padding rapat + ikon 18px, lg = lega + ikon 28px), `onClick`, `type` (`button\\|submit`, default `button`; `reset` disengaja tidak ada → `kelir-request`), `disabled`"
+    },
+    {
+      "name": "IconButton",
+      "description": "An icon-only button with a required accessible label, with closed sm/md/lg sizes.",
+      "props": "`icon` (wajib), `aria-label` (wajib), `variant?`, `shape?` (`rounded\\|circle\\|square`, default `rounded`), `size?` (`sm\\|md\\|lg`, default `md` = hari ini; sm = padding 6 + ikon 18px, lg = padding 14 + ikon 28px), `onClick`, `disabled`, `type?`"
+    },
+    {
+      "name": "ButtonGroup",
+      "description": "A container for grouping related buttons with consistent rounded corners.",
+      "props": "`children` (tombol Kelir), `disabled?`"
+    },
+    {
+      "name": "Calendar",
+      "description": "A monthly calendar for day navigation and single-date selection.",
+      "props": "`value`, `onChange`"
+    },
+    {
+      "name": "Card",
+      "description": "An information container panel consisting of a header, sub-header, body, and footer.",
+      "props": "`title`, `subtitle`, `headerActions`, `headerAlign?` (`start\\|center\\|end`, default `start`; judul + subjudul), `scrollable?` (isi scroll internal, header/footer tetap; default `false`), `flag?` (`danger\\|warn`; strip status absolut di sisi kartu, default tanpa strip), `footer`, `children`"
+    },
+    {
+      "name": "Carousel",
+      "description": "A horizontal content player with swipe effects and smooth transitions.",
+      "props": "`items`, `autoPlay`, `interval`"
+    },
+    {
+      "name": "Chart",
+      "description": "Graphical data visualizations (Bar, Line, Area) rendered as kit-owned SVG with an optional title.",
+      "props": "`data`, `categories`, `dataKey`, `type` (`bar\\|line\\|area`), `title`"
+    },
+    {
+      "name": "Checkbox",
+      "description": "A binary choice with a label and check visualization.",
+      "props": "`checked`, `defaultChecked`, `onChange`, `label`, `disabled`"
+    },
+    {
+      "name": "Collapsible",
+      "description": "A collapsible (collapse-expand) content panel for hiding or showing additional details.",
+      "props": "`trigger`, `children`, `defaultOpen`, `open?`, `onOpenChange?`"
+    },
+    {
+      "name": "Combobox",
+      "description": "An auto-complete text input with a list of suggested options.",
+      "props": "`options`, `value?`, `defaultValue?`, `onChange?`, `label?`, `placeholder?`, `disabled?`"
+    },
+    {
+      "name": "Command",
+      "description": "A command-palette style quick search dialog and instant command actions.",
+      "props": "`placeholder`, `groups: {heading, items: {label, value, icon?, onSelect?}[]}[]`"
+    },
+    {
+      "name": "ContextMenu",
+      "description": "A floating action menu that appears when the user right-clicks on a certain area.",
+      "props": "`trigger`, `menuItems: {label, icon?, onClick?}[]`"
+    },
+    {
+      "name": "DataTable",
+      "description": "A data table with pagination and an optional title.",
+      "props": "`columns: {header, accessorKey}[]`, `data`, `paginated?`, `rowsPerPage?`, `title?`"
+    },
+    {
+      "name": "DatePicker",
+      "description": "An interactive date picker in a popover calendar with inline month-grid and year-list navigation.",
+      "props": "`value`, `onChange`, `placeholder`"
+    },
+    {
+      "name": "Dialog",
+      "description": "A modal window overlaid on the main screen for focused tasks. Opening it never shifts the background page.",
+      "props": "`open`, `onClose`, `title`, `children`, `actions`"
+    },
+    {
+      "name": "Direction",
+      "description": "A context provider for text reading direction (LTR - Left to Right, or RTL - Right to Left).",
+      "props": "`dir` (`ltr\\|rtl`), `children`"
+    },
+    {
+      "name": "Drawer",
+      "description": "An overlay panel that slides in from the edge of the screen (usually the bottom or side).",
+      "props": "`open`, `onClose`, `title`, `children`, `height?` (`full\\|auto`, default `full`)"
+    },
+    {
+      "name": "DropdownMenu",
+      "description": "A floating list of actions triggered by pressing a menu button (`triggerVariant?` `text|button`, default `text`).",
+      "props": "`trigger`, `triggerVariant?` (`text\\|button`, default `text`; button = pemicu Button outline milik kit), `items: {label, icon?, onClick?, divider?}[]`"
+    },
+    {
+      "name": "Empty",
+      "description": "An appealing visual state for marking when data or content is empty.",
+      "props": "`title`, `description`, `action`, `icon`"
+    },
+    {
+      "name": "Field",
+      "description": "Combines label, control, and helper text for an accessible form.",
+      "props": "`label?`, `helperText?`, `error?`, `children` (kontrol)"
+    },
+    {
+      "name": "HoverCard",
+      "description": "A preview card with additional content that appears when hovering over a link.",
+      "props": "`trigger`, `children`"
+    },
+    {
+      "name": "Input",
+      "description": "A basic text input for forms with integrated styling.",
+      "props": "`value`, `defaultValue`, `onChange`, `placeholder`, `type` (`text\\|password\\|email\\|number\\|search\\|tel\\|url`), `disabled`, `size` (`small\\|medium`)"
+    },
+    {
+      "name": "InputGroup",
+      "description": "Combines a text input with additional icons or action buttons at the start/end (prefix/suffix).",
+      "props": "`prefix?`, `suffix?`, `children`"
+    },
+    {
+      "name": "InputOtp",
+      "description": "A one-time password input component with user-friendly copy-paste functionality.",
+      "props": "`value`, `onChange`, `length?`"
+    },
+    {
+      "name": "Item",
+      "description": "A versatile row component for lists, presenting media, title, description, and action buttons.",
+      "props": "`title`, `description?`, `media?`, `action?`"
+    },
+    {
+      "name": "Kbd",
+      "description": "Displays keyboard shortcuts with an aesthetic physical keyboard key style.",
+      "props": "`children`"
+    },
+    {
+      "name": "Label",
+      "description": "An accessible text label directly connected to an input control element.",
+      "props": "`children`, `htmlFor`"
+    },
+    {
+      "name": "Marker",
+      "description": "A status line marker, conversation separator, or labeled line divider in chats.",
+      "props": "`variant` (`status\\|note\\|border\\|separator`), `intent` (`primary\\|secondary\\|error\\|success\\|warning`), `children`"
+    },
+    {
+      "name": "Menubar",
+      "description": "A persistent horizontal menu bar presenting a list of quick commands.",
+      "props": "`menus: {trigger, items: {label, onClick?}[]}[]`"
+    },
+    {
+      "name": "Message",
+      "description": "A message row component in a chat history complete with send time and status.",
+      "props": "`avatar?`, `sender`, `time?`, `text`, `align?` (`start\\|end`)"
+    },
+    {
+      "name": "MessageScroller",
+      "description": "A smart chat scroll container that stabilizes new message position and loads history smoothly.",
+      "props": "`children`, `onLoadMore?`, `hasMore?`, `maxHeight?`"
+    },
+    {
+      "name": "NativeSelect",
+      "description": "A native HTML select element styled to match the Project Kelir design language.",
+      "props": "`options: {label, value}[]`, `value`, `defaultValue`, `onChange`, `label?`, `disabled?`"
+    },
+    {
+      "name": "NavigationMenu",
+      "description": "A collection of the application's main navigation links with an active indicator.",
+      "props": "`items: {label, href?, onClick?, active?}[]`"
+    },
+    {
+      "name": "Pagination",
+      "description": "Page-splitting controls for data to make browsing large data volumes easier.",
+      "props": "`count`, `page?`, `defaultPage?`, `onChange?`, `disabled?`"
+    },
+    {
+      "name": "Popover",
+      "description": "A floating information balloon with rich content triggered when an element is clicked.",
+      "props": "`trigger`, `children`, `open?`, `onClose?`"
+    },
+    {
+      "name": "Progress",
+      "description": "A linear progress bar indicator for task completion.",
+      "props": "`value`, `variant` (`determinate\\|indeterminate`)"
+    },
+    {
+      "name": "RadioGroup",
+      "description": "A collection of single-choice options where only one option can be active at a time.",
+      "props": "`options: {label, value}[]`, `value`, `defaultValue`, `onChange`, `disabled?`"
+    },
+    {
+      "name": "Resizable",
+      "description": "A layout panel whose size can be dynamically adjusted with draggable dividers.",
+      "props": "`panels`, `directions?` (`horizontal\\|vertical`)"
+    },
+    {
+      "name": "ScrollArea",
+      "description": "A container with a custom scrollbar optimized for cross-browser consistency.",
+      "props": "`maxHeight?`, `children`"
+    },
+    {
+      "name": "Select",
+      "description": "Displays an interactive list of choices triggered by a trigger button. Opening it never shifts the page layout.",
+      "props": "`options: {label, value}[]`, `value`, `defaultValue`, `onChange` (string), `label?`, `placeholder?`, `disabled?`, `size?` (`small\\|medium`)"
+    },
+    {
+      "name": "Separator",
+      "description": "A horizontal or vertical divider line between content elements with an optional labeled text.",
+      "props": "`label?`, `orientation?` (`horizontal\\|vertical`)"
+    },
+    {
+      "name": "Sheet",
+      "description": "A side-sliding dialog extension for displaying supporting data.",
+      "props": "`open`, `onClose`, `title`, `children`"
+    },
+    {
+      "name": "Sidebar",
+      "description": "A customizable side navigation panel with header, menu body, and footer.",
+      "props": "`header?`, `footer?`, `children`, `mode?` (`auto\\|docked\\|overlay`, default `auto`), `open?`, `defaultOpen?`, `onOpenChange?`, `triggerVariant?` (`none\\|hamburger\\|chevron`, overlay saja; union gaya tombol, bukan slot — `none` = tombol sendiri pakai elemen native), `overlayHeight?` (`full\\|auto`, overlay saja), `aria-label` (wajib; nama landmark nav), napas dalam sm di docked setara overlay"
+    },
+    {
+      "name": "Skeleton",
+      "description": "An animated dimming-brightening placeholder frame for empty elements as a visualization before data finishes loading.",
+      "props": "`variant?` (`text\\|rectangular\\|circular\\|rounded`), `width?`/`height?` (pengecualian tercatat §4), `animation?` (`pulse\\|wave\\|false`, status)"
+    },
+    {
+      "name": "Slider",
+      "description": "A horizontal drag control for determining a value within a given range.",
+      "props": "`value`, `defaultValue`, `onChange`, `min?`, `max?`, `step?`, `disabled?`"
+    },
+    {
+      "name": "Spinner",
+      "description": "A smooth circular loading indicator.",
+      "props": "`size?` (`small\\|medium\\|large`)"
+    },
+    {
+      "name": "Switch",
+      "description": "A binary toggle with clear active transition visual feedback.",
+      "props": "`checked`, `defaultChecked`, `onChange`, `label?`, `disabled?`"
+    },
+    {
+      "name": "Table",
+      "description": "A basic responsive table structure for presenting organized row-column data.",
+      "props": "`headers`, `rows`"
+    },
+    {
+      "name": "Tabs",
+      "description": "Tab-based content navigation for dividing information into separate panels.",
+      "props": "`items: {label, content, value}[]`, `value?`, `defaultValue?`, `onChange?`"
+    },
+    {
+      "name": "Textarea",
+      "description": "A resizable multi-line text input field.",
+      "props": "`label?`, `error?`, `helperText?`, `value`, `defaultValue`, `onChange`, `placeholder`, `rows?`, `disabled?`"
+    },
+    {
+      "name": "Toast",
+      "description": "A brief notification message that appears temporarily at the corner of the screen.",
+      "props": "`message`, `actionButton?`, `open`, `onClose`, `autoHideDuration?`"
+    },
+    {
+      "name": "Toggle",
+      "description": "A two-state binary button (on/off) for quick switching.",
+      "props": "`pressed?`, `defaultPressed?`, `onPressedChange?`, `children`, `disabled?`"
+    },
+    {
+      "name": "ToggleGroup",
+      "description": "A container holding multiple Toggle buttons for single or multiple selection.",
+      "props": "`options: {label, value, icon?}[]`, `value`, `defaultValue`, `onChange`, `disabled?`"
+    },
+    {
+      "name": "Tooltip",
+      "description": "A mini text explanation that appears when hovering over an element.",
+      "props": "`title`, `children`"
+    },
+    {
+      "name": "Typography",
+      "description": "Dedicated text styling for headings, paragraphs, and small labels for consistency.",
+      "props": "`variant` visual (`h1\\|h2\\|h3\\|body-md\\|body-sm\\|caption\\|label-caps`), `as?` semantik (`h1\\|h2\\|h3\\|h4\\|h5\\|h6\\|p\\|span\\|div`), `level?` (`1\\|2\\|3\\|4\\|5\\|6`; hanya menambah role heading + aria-level bila elemen non-heading; bila `as` sudah heading, level bawaan elemen berlaku), `align?` (`start\\|center\\|end\\|justify`, default `start`), `truncate?` (elipsis satu-baris, default `false`), `breakAll?` (pecah kata panjang, default `false`), `tracking?` (`normal\\|wide`; renggang 6 px milik kit, default `normal`), `children`"
+    },
+    {
+      "name": "Questionnaire",
+      "description": "A multi-step questionnaire with single-choice, multiple-choice, freeform, and skippable questions, complete with a progress indicator and a completion screen.",
+      "props": "`questions: {id, type(single\\|multiple\\|freeform), title, description?, options?, placeholder?, required?, skippable?}[]`, `value?`, `defaultValue?`, `onChange?`, `onComplete?`, `submitLabel?`, `skipLabel?`, `nextLabel?`, `backLabel?`, `completedLabel?`"
+    },
+    {
+      "name": "Stack",
+      "description": "A vertical/horizontal stack primitive with closed gap, direction, align, and justify unions.",
+      "props": "`gap?` (`xs\\|sm\\|md\\|lg`), `direction?` (`row\\|column`), `align?` (`start\\|center\\|end\\|stretch`, default `stretch`), `justify?` (`start\\|center\\|end\\|space-between`, default `start`), `wrap?` (flex-wrap, default `false`), `children`"
+    },
+    {
+      "name": "Grid",
+      "description": "A responsive column grid with closed column and gap unions.",
+      "props": "`columns?` (`1\\|2\\|3\\|4\\|6\\|12`, bukan angka bebas), `gap?` (`xs\\|sm\\|md\\|lg`), `children`"
+    },
+    {
+      "name": "Spacer",
+      "description": "A fixed-gap whitespace primitive with a closed size union.",
+      "props": "`size?` (`xs\\|sm\\|md\\|lg`)"
+    },
+    {
+      "name": "Container",
+      "description": "A page-width containment primitive with closed maxWidth and padding unions from layout tokens.",
+      "props": "`children`, `maxWidth?` (`sm\\|md\\|lg\\|xl`, default `xl`), `padding?` (`sm\\|md\\|lg\\|xl\\|2xl`, default `xl`), `paddingBlock?` (`none\\|sm\\|md\\|lg\\|xl\\|2xl`; napas vertikal, default `none`), `clip?` (potong isi meluap, default `false`)"
+    },
+    {
+      "name": "Image",
+      "description": "A neutral media primitive with closed height, fit, and radius unions (no shadow/border by default).",
+      "props": "`src`, `alt?`, `height?` (`xs\\|sm\\|md\\|lg\\|xl`, default `md`), `fit?` (`contain\\|cover`, default `contain`), `radius?` (`none\\|sm\\|md\\|lg`, default `none`)"
+    },
+    {
+      "name": "FlexItem",
+      "description": "A flex-item control primitive paired with Stack, with closed boolean grow, shrink, and clip unions.",
+      "props": "`children`, `grow?` (isi sisa ruang, default `false`), `shrink?` (`false` = tolak susut, default `true`), `clip?` (pemotong luapan, default `false`)"
+    },
+    {
+      "name": "Shell",
+      "description": "A viewport app-shell primitive with row or stacked direction from a closed boolean.",
+      "props": "`children`, `stacked?` (kolom TopBar + konten; default baris sidebar + konten, `false`)"
+    },
+    {
+      "name": "Content",
+      "description": "The single scrollable app-shell area with responsive token padding and background.",
+      "props": "`children`, `compact?` (padding rapat, default `false`; desktop lega, mobile rapat, latar background, scroll internal)"
+    },
+    {
+      "name": "TopBar",
+      "description": "A mobile app-shell bar aligning left and right slots edge to edge (`variant?` `raised|flat`, default `raised`; `flat` is a transparent in-content action row).",
+      "props": "`left?`, `right?` (slot ujung-ke-ujung, landmark header), `variant?` (`raised\\|flat`, default `raised`; raised = surface + border bawah + shadow ala Kelir, flat = transparan untuk baris aksi konten)"
+    },
+    {
+      "name": "Tile",
+      "description": "An icon/logo tile primitive with closed tone and size unions from tokens.",
+      "props": "`children`, `tone?` (`primary\\|secondary\\|plain`, default `primary`), `size?` (`sm\\|md\\|lg` → 32/48/64 px milik kit; tanpa = ubin-ikon fleksibel)"
+    },
+    {
+      "name": "Banner",
+      "description": "A centered status banner with closed tone union, its text inheriting the color.",
+      "props": "`children`, `tone?` (`danger\\|warn\\|neutral`, default `neutral`; spanduk tengah, teks mewarisi warna)"
+    },
+    {
+      "name": "Link",
+      "description": "An inline text link with kit-owned icon, required href, and safe external target.",
+      "props": "`children`, `href` (wajib), `external?` (ikon buka-baru + target blank + rel noopener, default `false`)"
+    }
+  ],
+  "tokens": {
+    "themes": [
+      "aurora-ui",
+      "claymorphism",
+      "dimensional-layering",
+      "editorial-contemporaneo",
+      "edtech-plataforma",
+      "futuristic-glassmorphism",
+      "glassmorphism",
+      "liquid-glass",
+      "neumorphism",
+      "skeuomorphism",
+      "spatial-ui"
+    ],
+    "space": {
+      "xs": "0.25rem",
+      "sm": "0.5rem",
+      "md": "0.75rem",
+      "lg": "1rem",
+      "xl": "1.5rem",
+      "2xl": "2rem",
+      "3xl": "3rem",
+      "4xl": "4rem"
+    },
+    "container": {
+      "maxWidth": "1280px",
+      "sidePadding": "1.5rem"
+    },
+    "sectionGap": "clamp(4rem, 8vw, 8rem)",
+    "breakpoints": {
+      "heroCollapse": "768px"
+    },
+    "zIndex": {
+      "base": "0",
+      "sticky": "100",
+      "overlay": "200",
+      "modal": "300",
+      "toast": "500"
+    },
+    "motion": {
+      "ease": {
+        "base": "250ms",
+        "hover": "200ms",
+        "entry": "420ms",
+        "stagger": "80ms",
+        "page": "200ms"
+      },
+      "spring": {
+        "base": "320ms",
+        "hover": "200ms",
+        "entry": "540ms",
+        "stagger": "120ms",
+        "page": "300ms"
+      },
+      "liquidGlass": {
+        "base": "280ms",
+        "hover": "200ms",
+        "entry": "480ms",
+        "stagger": "100ms",
+        "page": "300ms"
+      }
+    },
+    "statusColors": {
+      "success": {
+        "bg": "#C8E6C9",
+        "fg": "#1B5E20"
+      },
+      "warning": {
+        "bg": "#FFE0B2",
+        "fg": "#B45309"
+      }
+    },
+    "shadows": {
+      "card": "0 1px 3px rgba(0, 0, 0, 0.12)",
+      "convex": "0 2px 8px rgba(0, 0, 0, 0.12)",
+      "concave": "inset 0 2px 4px rgba(0, 0, 0, 0.06)"
+    }
+  },
+  "contract": "Kelir sealed contract (STYLE.md §5–§6; 78 components in this snapshot).\nBinding source is kelir-types.ts; prose here is a summary, not the contract.\n\n- Each component accepts ONLY its listed props: content (ISI), meaning (MAKNA), behavior (PERILAKU).\n- NEVER pass style/sx/className/slotProps/classes/componentsProps/components/slots/slot, raw hex colors, or off-token sizes. No ...rest spread to the DOM.\n- data-* attributes: only data-testid. Visuals come only from KelirProvider themes.\n- Layout via Stack/Grid/Spacer/Container/FlexItem/Shell; single breakpoint source 768px (heroCollapse); spacing scale xs–4xl (4–64px).\n- Server Actions live in server actions, never inside \"use client\" views; one breakpoint source; verify with tsc + guard + axe runtime tests."
+}
