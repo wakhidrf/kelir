@@ -4,13 +4,12 @@
 // (deskripsi per komponen, pola `N. **Nama**: ...` ala sync-kelir-docs) +
 // kelir-types.ts (union Theme) + kelir-layout/motion/variants.ts (token).
 // Semua parsing TEKS (regex); tanpa import .ts (kelir-types.ts menarik MUI).
-// Output deterministik byte-per-byte per revisi kit (kitRev dikunci, tanpa
+// Output deterministik penuh dari sumber (tanpa kitRev/timestamp) - komit
 // timestamp) — test golden membandingkan regenerasi vs file ter-commit.
 //
 // Pakai: node kelir-mcp/tools/snapshot.mjs [--style STYLE.md] [--out snapshot.json]
 // Default --style = ../../../STYLE.md dari root kit (layout submodule induk);
 // wajib ada (kontrak §5–§6 tinggal di induk).
-import { execSync } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -97,14 +96,6 @@ function themeUnion(typesSrc) {
   if (slugs.length === 0) throw new Error("snapshot: union Theme kosong");
   return slugs;
 }
-function kitRev() {
-  try {
-    return execSync("git rev-parse --short HEAD", { cwd: KIT_ROOT, encoding: "utf8" }).trim();
-  } catch {
-    return "unknown";
-  }
-}
-
 function contractText(n) {
   return [
     `Kelir sealed contract (STYLE.md §5–§6; ${n} components in this snapshot).`,
@@ -126,10 +117,12 @@ const layoutSrc = read(join(KIT_ROOT, "kelir-layout.ts"));
 const motionSrc = read(join(KIT_ROOT, "kelir-motion.ts"));
 const variantsSrc = read(join(KIT_ROOT, "kelir-variants.ts"));
 
+// Tanpa kitRev/timestamp: output deterministik penuh dari sumber - komit
+// apa pun tak men-basi-kan snapshot; freshness ditegakkan murni oleh
+// banding-konten (test gagal bila sumber berubah tanpa regenerasi).
 const snapshot = {
   snapshot: 1,
   generator: "kelir-mcp/tools/snapshot.mjs (do not edit by hand)",
-  kitRev: kitRev(),
   components: rows.map((r) => ({
     name: r.name,
     // README tak memuat provider (§5 baris 0): deskripsi kurasi stabil.
@@ -158,4 +151,4 @@ const snapshot = {
 };
 
 writeFileSync(OUT_PATH, `${JSON.stringify(snapshot, null, 2)}\n`);
-console.log(`snapshot: OK — ${rows.length} komponen, kitRev ${snapshot.kitRev} → ${OUT_PATH}`);
+console.log(`snapshot: OK (${rows.length} komponen, deterministik) -> ${OUT_PATH}`);

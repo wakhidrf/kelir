@@ -288,6 +288,12 @@ export function kelirStyleCss(): string {
   0% { background-position: 0% 0%; }
   100% { background-position: 100% 100%; }
 }
+/* Irama denyut milik kit untuk kartu LoadingOverlay: tetap di semua tema,
+   tanpa prop konsumen (keputusan kit, preseden Sigap warmup-dialog). */
+@keyframes kelir-loading-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
 `;
   const themes = Object.keys(themeRegistry) as Theme[];
   const blocks = themes.map(

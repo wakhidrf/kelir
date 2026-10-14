@@ -49,9 +49,9 @@ needed: every MCP server adds context.
 node kelir-mcp/tools/snapshot.mjs   # from the kit root
 ```
 
-Output is byte-deterministic per kit revision (`kitRev` recorded, no
-timestamp). Commit `snapshot.json` together with the kit change that
-caused it. The test fails closed on a stale snapshot.
+Output is byte-deterministic from sources (no revision stamp, no
+timestamp): any commit changes nothing about freshness, and the test
+fails closed when sources change without regeneration.
 
 ## Test
 

@@ -35,3 +35,4 @@
 | Affordance pemicu menu | Pemicu teks-only terbaca seperti label | `DropdownMenu triggerVariant?` (`text\|button`, default `text`): `button` merender pemicu Button outline milik kit; perilaku identik |
 | Varian bar app-shell | `TopBar` selalu lempeng surface | `TopBar variant?` (`raised\|flat`, default `raised`): `raised` kini surface Kelir penuh (surface + border bawah + shadow); `flat` baris aksi transparan di dalam konten; layout identik |
 | Asisten AI | Agen membaca puluhan file untuk memahami kontrak | Server MCP eksperimental di `kelir-mcp/` (stdio lokal, katalog baca-saja; saran dan pemeriksaan menyusul) |
+| Overlay pemuatan | Overlay redup rakitan div polos + token | `LoadingOverlay` (`open` wajib, `label?`/`progress?` teks, `children?` slot media): kartu berdenyut milik kit, nama aksesibel milik kit, tanpa dismiss |
