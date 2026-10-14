@@ -1,5 +1,9 @@
 # kelir-mcp — MCP server resmi Kelir (v1)
 
+> Status: in progress. v1 serves a read-only catalog; `suggest` (v1.1)
+> and `lint` (v1.2) are planned next. Local stdio use only, and the
+> served catalog is a generated copy that can lag behind the newest kit.
+
 Stdio MCP server so AI assistants understand user wishes and apply the best
 suggestion within the sealed contract, without reading the whole repo
 (kit issue #49). v1 is read-only: three resources + one prompt.

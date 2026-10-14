@@ -34,3 +34,4 @@
 | Sidebar docked padding | Docked content flush to the frame | Docked now has the same sm inner padding as overlay (sealed consumers could not add it); overlay unchanged |
 | Menu trigger affordance | Text-only trigger reads as a label | `DropdownMenu triggerVariant?` (`text\|button`, default `text`): `button` renders a kit outline Button trigger; behavior identical |
 | App-shell bar variants | `TopBar` always a surface slab | `TopBar variant?` (`raised\|flat`, default `raised`): `raised` is now a proper Kelir surface (surface + bottom border + shadow); `flat` is a transparent in-content action row; layout identical |
+| AI assistants | Agents read dozens of files to learn the contract | Experimental MCP server in `kelir-mcp/` (local stdio, read-only catalog; suggestions and checks planned next) |
