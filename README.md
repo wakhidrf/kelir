@@ -371,6 +371,34 @@ complete - keep the `N. **theme-id**:` format when adding a theme.
 
 ---
 
+## MCP Server (for AI Assistants, In Progress)
+
+Project Kelir ships an experimental MCP server in `kelir-mcp/` so AI assistants can look up the component catalog, tokens, and usage contract instead of reading the whole repo.
+
+Connect it as a local server (OpenCode example):
+
+```json
+{
+  "mcp": {
+    "kelir": {
+      "type": "local",
+      "command": ["node", "src/views/kelir/kelir-mcp/server.mjs"],
+      "enabled": true
+    }
+  }
+}
+```
+
+Status and limitations, honestly:
+
+- In progress: the server only serves a read-only catalog for now. Design suggestions and code checks are planned next.
+- Local use only: stdio, no remote or hosted mode.
+- The served catalog is a generated copy: it can lag behind the newest kit until regenerated.
+- Requires Node plus a one-time install inside `kelir-mcp/` (see its README).
+- Every MCP server adds model context: enable it only where needed.
+
+---
+
 ## License
 
 Licensed under the [MIT License](LICENSE).

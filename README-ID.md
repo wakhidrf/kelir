@@ -372,6 +372,34 @@ bawah sudah lengkap - pertahankan format `N. **theme-id**:` bila menambah tema.
 
 ---
 
+## Server MCP (untuk Asisten AI, Dalam Pengerjaan)
+
+Project Kelir membawa server MCP eksperimental di `kelir-mcp/` agar asisten AI bisa mencari katalog komponen, token, dan kontrak pakai tanpa membaca seluruh repo.
+
+Sambungkan sebagai server lokal (contoh OpenCode):
+
+```json
+{
+  "mcp": {
+    "kelir": {
+      "type": "local",
+      "command": ["node", "src/views/kelir/kelir-mcp/server.mjs"],
+      "enabled": true
+    }
+  }
+}
+```
+
+Status dan batasan, apa adanya:
+
+- Dalam pengerjaan: server baru menyajikan katalog baca-saja. Saran desain dan pemeriksaan kode direncanakan berikutnya.
+- Hanya lokal: stdio, tanpa mode remote atau hosted.
+- Katalog yang disajikan adalah salinan hasil generate: bisa tertinggal dari kit terbaru sampai diregenerasi.
+- Butuh Node plus sekali instal di dalam `kelir-mcp/` (lihat README di sana).
+- Setiap server MCP menambah konteks model: aktifkan hanya bila dibutuhkan.
+
+---
+
 ## Lisensi
 
 Dilisensikan di bawah [MIT License](LICENSE).
