@@ -1135,3 +1135,16 @@ export interface LinkProps {
   id?: string;
   "aria-label"?: string;
 }
+
+// 77. LoadingOverlay - overlay pemuatan fullscreen sealed berbasis MUI (#54).
+// `open` TERKONTROL PENUH (wajib); `label?`/`progress?` slot TEKS; `children?` slot media (animasi milik konsumen).
+// Kartu tengah berdenyut + backdrop redup milik kit (irama denyut tetap, tanpa prop; backdrop = default MUI).
+// Tanpa onClose (pemuatan tak bisa di-dismiss; Escape/backdrop tak menutup). Tanpa ...rest/style/sx/slotProps MUI.
+export interface LoadingOverlayProps {
+  open: boolean;
+  label?: string;
+  progress?: string;
+  children?: React.ReactNode;
+  id?: string;
+  "aria-label"?: string;
+}

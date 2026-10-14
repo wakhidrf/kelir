@@ -347,6 +347,7 @@ Components that shape the structure and placement of elements.
 75. **Tile**: An icon/logo tile primitive with closed tone and size unions from tokens.
 76. **Banner**: A centered status banner with closed tone union, its text inheriting the color.
 77. **Link**: An inline text link with kit-owned icon, required href, and safe external target.
+78. **LoadingOverlay**: A fullscreen loading overlay that blocks interaction, with a kit-pulsed center card, status label, progress text, and a consumer media slot.
 
 ---
 

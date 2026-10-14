@@ -22,7 +22,6 @@ export function createKelirServer(snap) {
         uri: uri.href,
         mimeType: "application/json",
         text: JSON.stringify({
-          kitRev: snap.kitRev,
           count: snap.components.length,
           components: snap.components,
         }),
@@ -38,7 +37,7 @@ export function createKelirServer(snap) {
       contents: [{
         uri: uri.href,
         mimeType: "application/json",
-        text: JSON.stringify({ kitRev: snap.kitRev, tokens: snap.tokens }),
+        text: JSON.stringify({ tokens: snap.tokens }),
       }],
     }),
   );

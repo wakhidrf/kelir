@@ -348,6 +348,7 @@ Komponen yang membentuk struktur dan penempatan elemen.
 75. **Tile**: Primitif ubin ikon/logo dengan union tone dan size tertutup dari token.
 76. **Banner**: Spanduk status tengah dengan union tone tertutup, teksnya mewarisi warna.
 77. **Link**: Tautan teks sebaris dengan ikon milik kit, href wajib, dan target eksternal yang aman.
+78. **LoadingOverlay**: Overlay pemuatan fullscreen yang menghalangi interaksi, dengan kartu tengah berdenyut milik kit, label status, teks kemajuan, dan slot media milik konsumen.
 
 ---
 
