@@ -27,6 +27,22 @@ describe("ContextMenu sealed (Gel.3c-8 §6b)", () => {
     expect(onClick).toHaveBeenCalledWith();
   });
 
+  it("truncate elipsis trigger + title teks penuh; menu tetap jalan", () => {
+    const onClick = vi.fn();
+    renderSealed(
+      <ContextMenu
+        trigger="https://contoh.id/tautan/sangat/panjang"
+        menuItems={[{ label: "Salin", onClick }]}
+        truncate
+      />,
+    );
+    const trigger = screen.getByTitle("https://contoh.id/tautan/sangat/panjang");
+    expect(trigger.style.textOverflow).toBe("ellipsis");
+    fireEvent.contextMenu(trigger);
+    fireEvent.click(screen.getByText("Salin"));
+    expect(onClick).toHaveBeenCalledWith();
+  });
+
   it("bebas pelanggaran axe", async () => {
     const { container } = renderSealed(
       <ContextMenu trigger="Klik kanan di sini" menuItems={[{ label: "Ganti" }]} />,
