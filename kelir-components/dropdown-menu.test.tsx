@@ -12,6 +12,22 @@ import {
 } from "./sealed-test-helper";
 
 describe("DropdownMenu sealed (Gel.3c-9 §6b)", () => {
+  it("truncate elipsis trigger teks + title teks penuh; menu tetap jalan", () => {
+    const onClick = vi.fn();
+    renderSealed(
+      <DropdownMenu
+        trigger="https://contoh.id/tautan/sangat/panjang"
+        items={[{ label: "Buka", onClick }]}
+        truncate
+      />,
+    );
+    const trigger = screen.getByTitle("https://contoh.id/tautan/sangat/panjang");
+    expect(trigger.style.textOverflow).toBe("ellipsis");
+    fireEvent.click(trigger);
+    fireEvent.click(screen.getByText("Buka"));
+    expect(onClick).toHaveBeenCalledWith();
+  });
+
   it("paksa spread tak mengubah visual; klik trigger buka menu + onClick jalan", () => {
     const onClick = vi.fn();
     const { container } = renderSealed(

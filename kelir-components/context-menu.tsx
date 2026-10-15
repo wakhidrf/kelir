@@ -12,7 +12,11 @@ const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
-export function ContextMenu({ trigger, menuItems }: ContextMenuProps) {
+export function ContextMenu({
+  trigger,
+  menuItems,
+  truncate = false,
+}: ContextMenuProps) {
   const [anchorPosition, setAnchorPosition] = React.useState<{
     top: number;
     left: number;
@@ -28,7 +32,21 @@ export function ContextMenu({ trigger, menuItems }: ContextMenuProps) {
   return (
     <>
       {/* Area klik-kanan milik kit: trigger TEKS, event ditangani kit. */}
-      <div onContextMenu={handleContextMenu} style={{ display: "inline-block" }}>
+      <div
+        onContextMenu={handleContextMenu}
+        title={truncate ? trigger : undefined}
+        style={{
+          display: "inline-block",
+          ...(truncate
+            ? {
+                maxWidth: "100%",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }
+            : null),
+        }}
+      >
         {trigger}
       </div>
       <MuiMenu

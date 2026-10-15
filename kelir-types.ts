@@ -350,6 +350,8 @@ export interface CommandProps {
 // 20. ContextMenu - menu klik-kanan sealed berbasis MUI (Gel.3c-8 STYLE.md §6).
 // `trigger` slot TEKS (kit render area klik-kanan + tangani event, tanpa
 // cloneElement); `menuItems` ContextMenuItem[] (`onClick?` semantik).
+// `truncate?` = elipsis trigger milik kit (default `false`; title hover =
+// teks penuh).
 // Posisi + visual milik kit. Tanpa style/sx/className/slotProps.
 export interface ContextMenuItem {
   label: string;
@@ -359,6 +361,7 @@ export interface ContextMenuItem {
 export interface ContextMenuProps {
   trigger: string;
   menuItems: ContextMenuItem[];
+  truncate?: boolean;
 }
 
 // 21. Data Table
@@ -433,7 +436,9 @@ export interface DrawerProps {
 // cloneElement, preseden Collapsible/ContextMenu); `triggerVariant?` MAKNA
 // (`text|button`, default `text`): text = tombol teks polos hari ini;
 // button = pemicu dirender sebagai Button outline milik kit (affordance
-// tombol untuk toolbar). `items`
+// tombol untuk toolbar). `truncate?` = elipsis trigger milik kit (default
+// `false`; hanya varian `text`, varian `button` mengabaikannya; title hover
+// = teks penuh). `items`
 // DropdownMenuItem[] (`onClick?` semantik). Posisi + visual milik kit.
 export interface DropdownMenuItem {
   label: string;
@@ -445,6 +450,7 @@ export interface DropdownMenuProps {
   trigger: string;
   triggerVariant?: "text" | "button";
   items: DropdownMenuItem[];
+  truncate?: boolean;
 }
 
 // 27. Empty
@@ -1145,6 +1151,18 @@ export interface LoadingOverlayProps {
   label?: string;
   progress?: string;
   children?: React.ReactNode;
+  id?: string;
+  "aria-label"?: string;
+}
+
+// 78. TruncatedText
+// 78. TruncatedText - teks satu-baris elipsis sealed (#56).
+// `text` slot TEKS (wajib); `maxWidth?` DATA (px, batas lebar milik kit;
+// tanpa = selebar wadah); `title` hover = teks penuh milik kit;
+// `id?`/`aria-label?` standar. Tanpa ...rest/style/sx/className.
+export interface TruncatedTextProps {
+  text: string;
+  maxWidth?: number;
   id?: string;
   "aria-label"?: string;
 }

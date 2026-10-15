@@ -348,6 +348,7 @@ Components that shape the structure and placement of elements.
 76. **Banner**: A centered status banner with closed tone union, its text inheriting the color.
 77. **Link**: An inline text link with kit-owned icon, required href, and safe external target.
 78. **LoadingOverlay**: A fullscreen loading overlay that blocks interaction, with a kit-pulsed center card, status label, progress text, and a consumer media slot.
+79. **TruncatedText**: Single-line ellipsis text with kit-owned width cap (`text` required, `maxWidth?` px data, full text on hover); `ContextMenu`/`DropdownMenu` gained `truncate?` for ellipsis text triggers.
 
 ---
 

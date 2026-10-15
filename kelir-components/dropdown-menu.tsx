@@ -18,6 +18,7 @@ export function DropdownMenu({
   trigger,
   triggerVariant = "text",
   items,
+  truncate = false,
 }: DropdownMenuProps) {
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
@@ -39,6 +40,7 @@ export function DropdownMenu({
         <button
           type="button"
           onClick={handleTriggerClick}
+          title={truncate ? trigger : undefined}
           style={{
             border: "none",
             background: "none",
@@ -49,6 +51,14 @@ export function DropdownMenu({
             fontWeight: 600,
             color: textSecondary,
             fontFamily: "inherit",
+            ...(truncate
+              ? {
+                  maxWidth: "100%",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }
+              : null),
           }}
         >
           {trigger}
