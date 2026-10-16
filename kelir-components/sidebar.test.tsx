@@ -38,6 +38,33 @@ describe("Sidebar sealed + responsif (ISSUE-005 §6b)", () => {
     expect(nav.style.padding).toBe("0.5rem");
   });
 
+  it("docked flush tepi layar: sudut sisi-layar nol + tanpa garis sisi-layar", () => {
+    renderSealed(
+      <Sidebar mode="docked" aria-label="Navigasi">
+        <div>Item 1</div>
+      </Sidebar>,
+    );
+    // Visual milik kit hidup di <style> emotion (sx), bukan inline.
+    const css = Array.from(document.querySelectorAll("style"))
+      .map((s) => s.textContent ?? "")
+      .join("\n");
+    expect(css).toMatch(/border-start-start-radius:\s*0/);
+    expect(css).toMatch(/border-end-start-radius:\s*0/);
+    expect(css).toMatch(/border-inline-start:\s*none/);
+  });
+
+  it("overlay mobile 3/4 layar (#58)", () => {
+    renderSealed(
+      <Sidebar mode="overlay" open aria-label="Navigasi">
+        <div>Item 1</div>
+      </Sidebar>,
+    );
+    const css = Array.from(document.querySelectorAll("style"))
+      .map((s) => s.textContent ?? "")
+      .join("\n");
+    expect(css).toMatch(/75vw/);
+  });
+
   it("mode auto: default docked SSR-aman (tanpa matchMedia = desktop)", () => {
     const { container } = renderSealed(
       <Sidebar mode="auto" aria-label="Navigasi">
@@ -57,8 +84,7 @@ describe("Sidebar sealed + responsif (ISSUE-005 §6b)", () => {
     expect(html).not.toContain("MuiDrawer-root");
   });
 
-  it("mode overlay: Drawer + Escape memicu onOpenChange(false)", () => {
-    const onOpenChange = vi.fn();
+  it("mode overlay: Drawer + Escape memicu onOpenChange(false)", () => {    const onOpenChange = vi.fn();
     renderSealed(
       <Sidebar mode="overlay" open onOpenChange={onOpenChange} aria-label="Navigasi">
         <div>Item 1</div>

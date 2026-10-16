@@ -15,7 +15,7 @@ import { ScrollArea } from "./scroll-area";
 
 // Lebar milik kit (ISSUE-005): overlay maksimal separuh halaman.
 const SIDEBAR_WIDTH = "var(--sidebar-width, 260px)";
-const OVERLAY_WIDTH = `min(${SIDEBAR_WIDTH}, 50vw)`;
+const OVERLAY_WIDTH = `min(${SIDEBAR_WIDTH}, 75vw)`;
 // Napas tab pemicu dari tepi drawer saat terbuka (ISSUE-008).
 const TRIGGER_GAP = css.layout.space.xs;
 // Ambang internal kit (md MUI); bukan angka konsumen.
@@ -208,9 +208,14 @@ export function Sidebar({
         width: SIDEBAR_WIDTH,
         flexShrink: 0,
         backgroundColor: css.colors.surface,
+        // Flush ke tepi viewport: sudut sisi-layar nol (logical, RTL-aman),
+        // sisi-konten tetap token radius; garis sisi-layar tak digambar.
         borderRadius: css.radius.card,
+        borderStartStartRadius: 0,
+        borderEndStartRadius: 0,
         boxShadow: css.shadows.convex,
         border: `1px solid ${css.border.light}`,
+        borderInlineStart: "none",
         color: css.colors.textPrimary,
         fontFamily: "inherit",
         overflow: "hidden",
