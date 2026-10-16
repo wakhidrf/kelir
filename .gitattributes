@@ -1,0 +1,3 @@
+# Snapshot MCP diuji byte-exact oleh kelir-mcp/tools/test.mjs:
+# paksa LF di semua platform agar checkout Windows (autocrlf) tak merusaknya.
+/kelir-mcp/snapshot.json text eol=lf

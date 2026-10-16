@@ -37,3 +37,5 @@
 | AI assistants | Agents read dozens of files to learn the contract | Experimental MCP server in `kelir-mcp/` (local stdio, read-only catalog; suggestions and checks planned next) |
 | Loading overlay | DIY dim overlay from plain divs + tokens | `LoadingOverlay` (`open` required, `label?`/`progress?` text, `children?` media slot): kit-pulsed center card, kit-owned accessible name, no dismiss |
 | Long table cells | DIY ellipsis wrappers that cannot pierce kit-owned menu triggers | `TruncatedText` (`text` required, `maxWidth?` px data, full text on hover) + `ContextMenu`/`DropdownMenu truncate?` (default `false`; text variant only, full text on hover) |
+| Sidebar docked edges | Flush viewport edge keeps all four corners rounded + full border | Screen-side corners zeroed via logical props (RTL-safe) + no screen-side border; content side keeps the radius token |
+| Sidebar mobile overlay | Overlay caps at half the screen | `min(SIDEBAR_WIDTH, 75vw)` - up to three-quarters of the screen |

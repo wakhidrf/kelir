@@ -37,3 +37,5 @@
 | Asisten AI | Agen membaca puluhan file untuk memahami kontrak | Server MCP eksperimental di `kelir-mcp/` (stdio lokal, katalog baca-saja; saran dan pemeriksaan menyusul) |
 | Overlay pemuatan | Overlay redup rakitan div polos + token | `LoadingOverlay` (`open` wajib, `label?`/`progress?` teks, `children?` slot media): kartu berdenyut milik kit, nama aksesibel milik kit, tanpa dismiss |
 | Sel tabel panjang | Pembungkus elipsis rakitan yang tak menembus pemicu menu milik kit | `TruncatedText` (`text` wajib, `maxWidth?` data px, teks penuh saat hover) + `ContextMenu`/`DropdownMenu truncate?` (default `false`; hanya varian teks, teks penuh saat hover) |
+| Tepi docked Sidebar | Tepi viewport flush tetap rounded keempat sudut + border penuh | Sudut sisi-layar dinolkan via logical props (aman RTL) + tanpa border sisi-layar; sisi-konten tetap token radius |
+| Overlay mobile Sidebar | Overlay mentok separuh layar | `min(SIDEBAR_WIDTH, 75vw)` - hingga tiga perempat layar |
