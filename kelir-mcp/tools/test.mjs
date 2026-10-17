@@ -51,6 +51,8 @@ assert.ok(tokens.statusColors.success.bg.startsWith("#"));
 // 4. contract: teks + menyebut aturan inti.
 const contract = (await client.readResource({ uri: "kelir://contract" })).contents[0].text;
 assert.ok(contract.includes("sealed contract") && contract.includes("style/sx/className"));
+// MUI = basis kit (bukan larangan); komponen UI konsumen wajib dari Kelir.
+assert.ok(contract.includes("MUI is Kelir's base") && contract.includes("@mui/icons-material"));
 
 // 5. Prompt design-flow: ter-list + menyebut ketiga resources.
 const { prompts } = await client.listPrompts();

@@ -40,7 +40,9 @@ needed: every MCP server adds context.
 - `kelir://tokens` — themes, space scale, container, section gap,
   breakpoint (768px), z-index, motion durations per family, status
   colors, shadows.
-- `kelir://contract` — sealed-contract summary (§5–§6).
+- `kelir://contract` — sealed-contract summary (§5–§6), including the
+  MUI-base rule: every UI component comes from Kelir, MUI is the kit's
+  base (not a ban), and non-component MUI use (icons, hooks) stays fine.
 - Prompt `design-flow` — design, pick ONE sealed component, verify contract.
 
 ## Regenerate after kit changes

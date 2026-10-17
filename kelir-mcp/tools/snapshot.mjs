@@ -102,6 +102,7 @@ function contractText(n) {
     `Binding source is kelir-types.ts; prose here is a summary, not the contract.`,
     ``,
     `- Each component accepts ONLY its listed props: content (ISI), meaning (MAKNA), behavior (PERILAKU).`,
+    `- MUI is Kelir's base, not a ban. In consumer code EVERY UI component must come from Kelir: using a raw MUI component as UI, or assembling your own rival from MUI primitives, is a violation. MUI non-component use stays fine: icons (@mui/icons-material), hooks (useMediaQuery), and the Next.js cache provider.`,
     `- NEVER pass style/sx/className/slotProps/classes/componentsProps/components/slots/slot, raw hex colors, or off-token sizes. No ...rest spread to the DOM.`,
     `- data-* attributes: only data-testid. Visuals come only from KelirProvider themes.`,
     `- Layout via Stack/Grid/Spacer/Container/FlexItem/Shell; single breakpoint source 768px (heroCollapse); spacing scale xs–4xl (4–64px).`,
