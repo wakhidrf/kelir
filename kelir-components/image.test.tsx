@@ -54,6 +54,26 @@ describe("Image sealed (§6b)", () => {
     expect(el.style.borderRadius).toBe("0px");
   });
 
+  it("fluid + maxHeight (#69/#67): isi lebar wadah, tinggi auto, dibatasi", () => {
+    const { container } = renderSealed(
+      <Image src="hero.jpg" alt="Hero" fluid maxHeight="lg" />,
+    );
+    const el = container.querySelector("img") as HTMLElement;
+    expect(el.style.width).toBe("100%");
+    expect(el.style.height).toBe("auto");
+    expect(el.style.maxHeight).toBe("64px");
+  });
+
+  it("tanpa fluid/maxHeight: perilaku lama (nol-ubah)", () => {
+    const { container } = renderSealed(
+      <Image src="x.png" alt="x" height="sm" />,
+    );
+    const el = container.querySelector("img") as HTMLElement;
+    expect(el.style.width).toBe("auto");
+    expect(el.style.height).toBe("32px");
+    expect(el.style.maxHeight).toBe("");
+  });
+
   it("bebas pelanggaran axe", async () => {
     const { container } = renderSealed(<Image src="x.png" alt="Contoh" />);
     await expectNoAxeViolations(container);

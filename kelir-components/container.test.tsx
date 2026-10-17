@@ -52,6 +52,21 @@ describe("Container sealed (§6b)", () => {
     expect(el.style.overflow).toBe("hidden");
   });
 
+  it("paddingBlockMd (#63): napas dasar + override @768px via sx", () => {
+    renderSealed(
+      <Container paddingBlock="md" paddingBlockMd="2xl">
+        Isi
+      </Container>,
+    );
+    // Blok responsif pindah ke sx (emotion), bukan inline.
+    const css = Array.from(document.querySelectorAll("style"))
+      .map((s) => s.textContent ?? "")
+      .join("\n");
+    expect(css).toMatch(/padding-top:\s*0\.75rem/);
+    expect(css).toMatch(/@media \(min-width:\s*768px\)/);
+    expect(css).toMatch(/padding-top:\s*2rem/);
+  });
+
   it("tanpa clip: tanpa overflow (perilaku lama)", () => {
     const { container } = renderSealed(<Container>Isi</Container>);
     const el = container.firstElementChild as HTMLElement;

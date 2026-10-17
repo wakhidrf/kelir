@@ -79,6 +79,9 @@ const defaultElement: Record<Variant, "h1" | "h2" | "h3" | "p"> = {
   "label-caps": "p",
 };
 
+// Ambang responsif kit (satu sumber: token heroCollapse 768px).
+const MD_QUERY = `@media (min-width: ${css.layout.breakpoints.heroCollapse})`;
+
 // Teks sealed (P1c STYLE.md §6): hanya props kontrak yang diteruskan ke MUI
 // (children, component, variant, align, style milik kit, id/aria/role) -
 // tanpa ...rest ke DOM. `as` memilih elemen dokumen; `level` menambah role
@@ -93,6 +96,7 @@ const defaultElement: Record<Variant, "h1" | "h2" | "h3" | "p"> = {
 export function Typography({
   children,
   variant = "body-md",
+  variantMd,
   as,
   level,
   align = "start",
@@ -108,6 +112,7 @@ export function Typography({
     (component === "p" || component === "span" || component === "div")
       ? { role: "heading" as const, "aria-level": level }
       : undefined;
+  const responsiveVariant = variantMd !== undefined;
   return (
     <MuiTypography
       component={component}
@@ -115,10 +120,20 @@ export function Typography({
       id={id}
       aria-label={ariaLabel}
       {...headingSemantics}
+      sx={
+        responsiveVariant
+          ? {
+              ...variantStyles[variant],
+              [MD_QUERY]: variantStyles[variantMd],
+            }
+          : undefined
+      }
       style={{
         fontFamily: "inherit",
         margin: 0,
-        ...variantStyles[variant],
+        // Varian visual tetap inline (perilaku lama); saat `variantMd` diisi,
+        // blok varian pindah ke `sx` agar media query bisa menang.
+        ...(responsiveVariant ? null : variantStyles[variant]),
         textAlign: align,
         ...(truncate
           ? ({

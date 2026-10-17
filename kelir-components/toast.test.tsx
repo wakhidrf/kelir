@@ -45,4 +45,18 @@ describe("Toast sealed (Gel.2 §6b)", () => {
     expect(msg.getAttribute("role")).toBe("status");
     expect(msg.getAttribute("aria-live")).toBe("polite");
   });
+
+  it("tone (#60): aksen strip sisi kiri dari token; tanpa tone netral", () => {
+    const { unmount } = renderSealed(
+      <Toast message="Gagal" tone="error" open onClose={() => {}} autoHideDuration={100000} />,
+    );
+    const accent = document.querySelector(".MuiSnackbarContent-root") as HTMLElement;
+    expect(accent.style.borderLeft).toMatch(/^4px solid/);
+    unmount();
+    renderSealed(
+      <Toast message="Info" open onClose={() => {}} autoHideDuration={100000} />,
+    );
+    const plain = document.querySelector(".MuiSnackbarContent-root") as HTMLElement;
+    expect(plain.style.borderLeft).toBe("");
+  });
 });

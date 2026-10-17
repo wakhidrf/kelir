@@ -68,4 +68,50 @@ describe("Stack sealed (§6b)", () => {
     const el = screen.getByText("b").parentElement as HTMLElement;
     expect(el.style.flexWrap).toBe("");
   });
+
+  it("minHeight (#70): ruang tetap dari token space; default hilang", () => {
+    renderSealed(
+      <Stack minHeight="lg">
+        <span>a</span>
+      </Stack>,
+    );
+    const el = screen.getByText("a").parentElement as HTMLElement;
+    expect(el.style.minHeight).toBe("1rem");
+  });
+
+  it("tanpa minHeight: properti tak dirender (perilaku lama)", () => {
+    renderSealed(
+      <Stack>
+        <span>b</span>
+      </Stack>,
+    );
+    const el = screen.getByText("b").parentElement as HTMLElement;
+    expect(el.style.minHeight).toBe("");
+  });
+
+  it("directionMd (#61): arah dasar + override @768px via sx", () => {
+    renderSealed(
+      <Stack direction="column" directionMd="row">
+        <span>a</span>
+      </Stack>,
+    );
+    const el = screen.getByText("a").parentElement as HTMLElement;
+    // Saat directionMd diisi, arah pindah ke sx (emotion), bukan inline.
+    expect(el.style.flexDirection).toBe("");
+    const css = Array.from(document.querySelectorAll("style"))
+      .map((s) => s.textContent ?? "")
+      .join("\n");
+    expect(css).toMatch(/@media \(min-width:\s*768px\)/);
+    expect(css).toMatch(/flex-direction:\s*row/);
+  });
+
+  it("tanpa directionMd: arah tetap inline (perilaku lama)", () => {
+    renderSealed(
+      <Stack direction="row">
+        <span>b</span>
+      </Stack>,
+    );
+    const el = screen.getByText("b").parentElement as HTMLElement;
+    expect(el.style.flexDirection).toBe("row");
+  });
 });

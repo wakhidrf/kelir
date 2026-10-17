@@ -51,6 +51,33 @@ describe("DropdownMenu sealed (Gel.3c-9 §6b)", () => {
     await expectNoAxeViolations(container);
   });
 
+  it("maxWidth (#64): lebar trigger teks truncate dibatasi data px", () => {
+    renderSealed(
+      <DropdownMenu
+        trigger="nama-berkas-sangat-panjang.csv"
+        items={[{ label: "Ubah" }]}
+        truncate
+        maxWidth={200}
+      />,
+    );
+    expect(
+      screen.getByTitle("nama-berkas-sangat-panjang.csv").style.maxWidth,
+    ).toBe("200px");
+  });
+
+  it("truncate tanpa maxWidth: lebar bawaan 100% (perilaku lama)", () => {
+    renderSealed(
+      <DropdownMenu
+        trigger="nama-berkas-sangat-panjang.csv"
+        items={[{ label: "Ubah" }]}
+        truncate
+      />,
+    );
+    expect(
+      screen.getByTitle("nama-berkas-sangat-panjang.csv").style.maxWidth,
+    ).toBe("100%");
+  });
+
   it("triggerVariant button: pemicu Button outline milik kit; klik tetap buka menu", () => {
     const onClick = vi.fn();
     renderSealed(

@@ -19,6 +19,11 @@ export function containerContractChecks() {
       teks
     </Container>
   );
+  const okBlockMd = (
+    <Container paddingBlock="md" paddingBlockMd="2xl">
+      teks
+    </Container>
+  );
 
   // @ts-expect-error — style passthrough haram (lebar milik Container)
   const noStyle = <Container style={{ maxWidth: 100 }}>isi</Container>;
@@ -32,10 +37,12 @@ export function containerContractChecks() {
   const noRawPad = <Container padding="32px">isi</Container>;
   // @ts-expect-error — paddingBlock bebas haram (union tertutup)
   const noRawBlock = <Container paddingBlock="24px">isi</Container>;
+  // @ts-expect-error — paddingBlockMd bebas haram (union tertutup)
+  const noRawBlockMd = <Container paddingBlockMd="24px">isi</Container>;
   // @ts-expect-error — clip non-boolean haram
   const noRawClip = <Container clip="yes">isi</Container>;
   // @ts-expect-error — prop tak dikenal tidak diteruskan ke DOM
   const noRest = <Container title="x">isi</Container>;
 
-  return { okDefault, okSized, okBlock, noStyle, noSx, noClassName, noRawMax, noRawPad, noRawBlock, noRawClip, noRest };
+  return { okDefault, okSized, okBlock, okBlockMd, noStyle, noSx, noClassName, noRawMax, noRawPad, noRawBlock, noRawBlockMd, noRawClip, noRest };
 }

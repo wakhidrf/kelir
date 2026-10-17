@@ -95,4 +95,17 @@ describe("Typography sealed (§6b)", () => {
     renderSealed(<Typography variant="label-caps">Kode</Typography>);
     expect(screen.getByText("Kode").style.letterSpacing).toBe("1px");
   });
+
+  it("variantMd (#66): varian dasar + override @768px via sx", () => {
+    renderSealed(
+      <Typography variant="h3" variantMd="h1">
+        Membesar
+      </Typography>,
+    );
+    // Varian responsif hidup di sx (emotion), bukan inline.
+    const css = Array.from(document.querySelectorAll("style"))
+      .map((s) => s.textContent ?? "")
+      .join("\n");
+    expect(css).toMatch(/@media \(min-width:\s*768px\)/);
+  });
 });

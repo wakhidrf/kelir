@@ -35,6 +35,11 @@ export function typographyContractChecks() {
       terlihat body, outline h2
     </Typography>
   );
+  const okVariantMd = (
+    <Typography variant="h3" variantMd="h1">
+      membesar di desktop
+    </Typography>
+  );
   const okAllVariants = (
     <>
       <Typography variant="h3">h3</Typography>
@@ -52,6 +57,8 @@ export function typographyContractChecks() {
   const noClassName = <Typography className="my-text">teks</Typography>;
   // @ts-expect-error — variant bebas haram (union tertutup)
   const noRawVariant = <Typography variant="h4">teks</Typography>;
+  // @ts-expect-error — variantMd bebas haram (union tertutup)
+  const noRawVariantMd = <Typography variantMd="hero">teks</Typography>;
   // @ts-expect-error — as bebas haram (elemen semantik tertutup)
   const noRawAs = <Typography as="section">teks</Typography>;
   // @ts-expect-error — level bebas haram (1-6)
@@ -76,11 +83,13 @@ export function typographyContractChecks() {
     okBreak,
     okHeading,
     okSplit,
+    okVariantMd,
     okAllVariants,
     noStyle,
     noSx,
     noClassName,
     noRawVariant,
+    noRawVariantMd,
     noRawAs,
     noRawLevel,
     noRawAlign,

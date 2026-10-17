@@ -115,4 +115,22 @@ describe("Card sealed (§6b)", () => {
     expect(root?.style.position).toBe("");
     expect(root?.querySelector('[aria-hidden="true"]')).toBeNull();
   });
+
+  it("overflow=visible (#62): tepi boleh meluap; default tak ditulis (nol-ubah)", () => {
+    renderSealed(<Card title="Judul" overflow="visible">Isi</Card>);
+    let root = screen.getByText("Judul") as HTMLElement | null;
+    while (root?.parentElement && !root.className.includes("MuiCard-root")) {
+      root = root.parentElement;
+    }
+    expect(root?.style.overflow).toBe("visible");
+  });
+
+  it("overflow=hidden (default): tanpa overflow inline terpisah", () => {
+    renderSealed(<Card title="Judul">Isi</Card>);
+    let root = screen.getByText("Judul") as HTMLElement | null;
+    while (root?.parentElement && !root.className.includes("MuiCard-root")) {
+      root = root.parentElement;
+    }
+    expect(root?.style.overflow).toBe("");
+  });
 });

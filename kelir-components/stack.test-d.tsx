@@ -24,6 +24,11 @@ export function stackContractChecks() {
       <span>baris</span>
     </Stack>
   );
+  const okResponsive = (
+    <Stack direction="column" directionMd="row" minHeight="lg" gap="md">
+      <span>kolom di ponsel, baris di desktop</span>
+    </Stack>
+  );
 
   // @ts-expect-error — style passthrough haram (layout milik Stack)
   const noStyle = <Stack style={{ marginTop: 8 }}>isi</Stack>;
@@ -35,6 +40,10 @@ export function stackContractChecks() {
   const noRawGap = <Stack gap={24}>isi</Stack>;
   // @ts-expect-error — direction bebas haram (row|column saja)
   const noRawDirection = <Stack direction="row-reverse">isi</Stack>;
+  // @ts-expect-error — directionMd bebas haram (row|column saja)
+  const noRawDirectionMd = <Stack directionMd="row-reverse">isi</Stack>;
+  // @ts-expect-error — minHeight bebas haram (union space tertutup)
+  const noRawMinHeight = <Stack minHeight={65}>isi</Stack>;
   // @ts-expect-error — align bebas haram (start|center|end|stretch)
   const noRawAlign = <Stack align="baseline">isi</Stack>;
   // @ts-expect-error — justify bebas haram (start|center|end|space-between)
@@ -47,5 +56,5 @@ export function stackContractChecks() {
   // tipe React 19 pada komponen kustom — ditoleransi karena tak berefek
   // visual; semua prop lain di luar kontrak ditolak (§6b STYLE.md).
 
-  return { okColumn, okRow, okAlign, okWrap, noStyle, noSx, noClassName, noRawGap, noRawDirection, noRawAlign, noRawJustify, noRawWrap, noRest };
+  return { okColumn, okRow, okAlign, okWrap, okResponsive, noStyle, noSx, noClassName, noRawGap, noRawDirection, noRawDirectionMd, noRawMinHeight, noRawAlign, noRawJustify, noRawWrap, noRest };
 }

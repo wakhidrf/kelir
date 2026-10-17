@@ -37,6 +37,11 @@ export function cardContractChecks() {
       Isi berstrip status
     </Card>
   );
+  const okVisible = (
+    <Card title="Judul" overflow="visible">
+      Isi boleh meluap
+    </Card>
+  );
 
   // @ts-expect-error — style passthrough haram
   const noStyle = <Card style={{ margin: 8 }}>isi</Card>;
@@ -50,6 +55,8 @@ export function cardContractChecks() {
   const noRawAlign = <Card title="x" headerAlign="middle">isi</Card>;
   // @ts-expect-error — scrollable non-boolean haram
   const noRawScrollable = <Card title="x" scrollable="yes">isi</Card>;
+  // @ts-expect-error — overflow bebas haram (hidden/visible)
+  const noRawOverflow = <Card title="x" overflow="auto">isi</Card>;
   // @ts-expect-error — flag bebas haram (danger/warn)
   const noRawFlag = <Card title="x" flag="info">isi</Card>;
   // @ts-expect-error — prop tak dikenal tidak diteruskan ke DOM
@@ -62,12 +69,14 @@ export function cardContractChecks() {
     okEnd,
     okScrollable,
     okFlag,
+    okVisible,
     noStyle,
     noSx,
     noClassName,
     noNodeTitle,
     noRawAlign,
     noRawScrollable,
+    noRawOverflow,
     noRawFlag,
     noRest,
   };
