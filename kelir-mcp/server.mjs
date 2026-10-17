@@ -62,7 +62,7 @@ export function createKelirServer(snap) {
           text: [
             "Follow the Kelir design flow:",
             "1. DESAIN: clarify the user's wish (layout, tone, viewport).",
-            "2. PILIH: read kelir://components, pick ONE sealed component that fits — never assemble your own from primitives.",
+            "2. PILIH: read kelir://components, pick ONE sealed component that fits — never assemble your own from primitives. MUI is only the kit's base: in consumer code use Kelir components (icons/hooks excepted).",
             "3. TOKEN: read kelir://tokens for spacing/motion/status values (no raw hex, no off-token sizes).",
             "4. VERIFIKASI: read kelir://contract and check the snippet passes every rule before presenting it.",
           ].join("\n"),
