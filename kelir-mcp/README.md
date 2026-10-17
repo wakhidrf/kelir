@@ -1,13 +1,13 @@
-# kelir-mcp — MCP server resmi Kelir (v1)
+# kelir-mcp — MCP server resmi Kelir (v1.1)
 
-> Status: in progress. v1 serves a read-only catalog; `suggest` (v1.1)
-> and `lint` (v1.2) are planned next. Local stdio use only, and the
+> Status: in progress. v1 serves a read-only catalog; `suggest` (v1.1) is
+> now available, `lint` (v1.2) is planned next. Local stdio use only, and the
 > served catalog is a generated copy that can lag behind the newest kit.
 
 Stdio MCP server so AI assistants understand user wishes and apply the best
 suggestion within the sealed contract, without reading the whole repo
-(kit issue #49). v1 is read-only: three resources + one prompt.
-`suggest`/`lint` tools follow in v1.1/v1.2.
+(kit issue #49). v1.1: three resources + one prompt + the `suggest` tool.
+`lint` follows in v1.2.
 
 ## Prereqs
 
@@ -33,7 +33,7 @@ suggestion within the sealed contract, without reading the whole repo
 Paths are relative to the workspace. Keep the server enabled only where
 needed: every MCP server adds context.
 
-## Resources / prompts
+## Resources / tools / prompts
 
 - `kelir://components` — catalog: name + one-line description + allowed
   props prose per component (source: STYLE.md §5 + kit README).
@@ -44,6 +44,12 @@ needed: every MCP server adds context.
   MUI-base rule: every UI component comes from Kelir, MUI is the kit's
   base (not a ban), and non-component MUI use (icons, hooks) stays fine.
 - Prompt `design-flow` — design, pick ONE sealed component, verify contract.
+- Tool `suggest` (v1.1) — input `wish` (plain language, e.g. "rapi tombol
+  aksi di mobile") + optional `limit`; output ranked sealed candidates
+  (name + description + allowed props) with a reminder to read
+  `kelir://contract`. Synonyms bridge Indonesian wishes to the English
+  descriptions in the catalog; it only ever suggests catalog components,
+  never a self-assembled one.
 
 ## Regenerate after kit changes
 
@@ -62,7 +68,8 @@ node kelir-mcp/tools/test.mjs   # from the kit root
 ```
 
 End-to-end over real stdio (spawns `server.mjs`): 3 resources readable,
-`design-flow` retrievable, snapshot deterministic.
+`design-flow` retrievable, `suggest` returns sealed candidates, snapshot
+deterministic.
 
 ## Files
 

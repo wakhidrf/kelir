@@ -61,6 +61,22 @@ const flow = await client.getPrompt({ name: "design-flow" });
 const flowText = flow.messages.map((m) => m.content.text ?? "").join("\n");
 assert.ok(flowText.includes("kelir://components") && flowText.includes("kelir://contract"));
 
+// 5b. Tool suggest (v1.1, issue #49): keinginan bahasa alami → kandidat sealed.
+const { tools } = await client.listTools();
+assert.ok(tools.some((t) => t.name === "suggest"), "tool suggest tak ter-list");
+const sug = await client.callTool({
+  name: "suggest",
+  arguments: { wish: "rapi tombol aksi di mobile" },
+});
+const sugJson = JSON.parse(sug.content[0].text);
+assert.ok(Array.isArray(sugJson.suggestions) && sugJson.suggestions.length > 0,
+  "suggest tak mengembalikan kandidat");
+for (const s of sugJson.suggestions) {
+  assert.ok(s.name && s.props, `saran tanpa nama/props: ${JSON.stringify(s)}`);
+}
+assert.ok(sugJson.suggestions.some((s) => s.name === "DropdownMenu"),
+  "suggest 'tombol aksi di mobile' tak menyarankan DropdownMenu");
+
 // 6. Determinism: regenerasi ke tmp wajib byte-identik dengan file ter-commit.
 const tmp = mkdtempSync(join(tmpdir(), "kelir-snap-"));
 execSync(`node ${join(MCP_ROOT, "tools", "snapshot.mjs")} --out ${join(tmp, "snapshot.json")}`, { cwd: KIT_ROOT });
@@ -68,4 +84,4 @@ assert.equal(readFileSync(join(tmp, "snapshot.json"), "utf8"), committed,
   "snapshot basi — jalankan node kelir-mcp/tools/snapshot.mjs lalu commit hasilnya");
 
 await client.close();
-console.log(`kelir-mcp test: OK — ${comp.count} komponen, 3 resources, 1 prompt, snapshot deterministik.`);
+console.log(`kelir-mcp test: OK — ${comp.count} komponen, 3 resources, 1 prompt, 1 tool (suggest), snapshot deterministik.`);
