@@ -19,6 +19,7 @@ export function DropdownMenu({
   triggerVariant = "text",
   items,
   truncate = false,
+  maxWidth,
 }: DropdownMenuProps) {
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
@@ -53,7 +54,7 @@ export function DropdownMenu({
             fontFamily: "inherit",
             ...(truncate
               ? {
-                  maxWidth: "100%",
+                  maxWidth: maxWidth === undefined ? "100%" : `${maxWidth}px`,
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",

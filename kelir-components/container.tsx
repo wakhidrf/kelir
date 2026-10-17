@@ -23,23 +23,42 @@ const paddingBlocks = {
   ...paddings,
 } as const;
 
+// Ambang responsif kit (satu sumber: token heroCollapse 768px).
+const MD_QUERY = `@media (min-width: ${css.layout.breakpoints.heroCollapse})`;
+
 // Penampung lebar halaman sealed (P1b STYLE.md): maxWidth + margin auto +
-// gutter dari token css.layout. Murni layout — tanpa warna/border/shadow.
-// Basis MUI (MuiBox) agar di tree tema; visual milik kit. Tanpa ...rest ke
-// DOM dan tanpa style passthrough — di luar kontrak = pelanggaran.
+// gutter dari token css.layout. `paddingBlockMd?` = napas vertikal pada
+// lebar >= 768px (token heroCollapse); tanpa = `paddingBlock` berlaku di
+// semua lebar. Murni layout — tanpa warna/border/shadow. Basis MUI (MuiBox)
+// agar di tree tema; visual milik kit. Tanpa ...rest ke DOM dan tanpa style
+// passthrough — di luar kontrak = pelanggaran.
 export function Container({
   children,
   maxWidth = "xl",
   padding = "xl",
   paddingBlock = "none",
+  paddingBlockMd,
   clip = false,
   id,
   "aria-label": ariaLabel,
 }: ContainerProps) {
+  const responsiveBlock = paddingBlockMd !== undefined;
   return (
     <MuiBox
       id={id}
       aria-label={ariaLabel}
+      sx={
+        responsiveBlock
+          ? {
+              paddingTop: paddingBlocks[paddingBlock],
+              paddingBottom: paddingBlocks[paddingBlock],
+              [MD_QUERY]: {
+                paddingTop: paddingBlocks[paddingBlockMd],
+                paddingBottom: paddingBlocks[paddingBlockMd],
+              },
+            }
+          : undefined
+      }
       style={{
         width: "100%",
         maxWidth: maxWidths[maxWidth],
@@ -47,8 +66,12 @@ export function Container({
         marginRight: "auto",
         paddingLeft: paddings[padding],
         paddingRight: paddings[padding],
-        paddingTop: paddingBlocks[paddingBlock],
-        paddingBottom: paddingBlocks[paddingBlock],
+        ...(responsiveBlock
+          ? null
+          : ({
+              paddingTop: paddingBlocks[paddingBlock],
+              paddingBottom: paddingBlocks[paddingBlock],
+            } as const)),
         ...(clip ? ({ overflow: "hidden" } as const) : null),
       }}
     >

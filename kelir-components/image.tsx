@@ -25,13 +25,17 @@ export function imagePx(height: NonNullable<ImageProps["height"]>): number {
 
 // Media netral sealed (P1b STYLE.md): tinggi dari union tertutup (lebar
 // mengikuti rasio asli), fit contain/cover, radius token (default none).
-// `alt` selalu dirender sebagai atribut (string kosong bila tak diisi)
-// agar lolos axe image-alt. Tanpa shadow/border default, tanpa ...rest ke
-// DOM dan tanpa style passthrough — di luar kontrak = pelanggaran.
+// `fluid?` = lebar mengisi wadah + tinggi auto (rasio asli terjaga) untuk
+// media dekoratif/hero; `maxHeight?` membatasi tinggi dari skala yang sama.
+// `alt` selalu dirender sebagai atribut (string kosong bila tak diisi) agar
+// lolos axe image-alt. Tanpa shadow/border default, tanpa ...rest ke DOM dan
+// tanpa style passthrough — di luar kontrak = pelanggaran.
 export function Image({
   src,
   alt,
   height = "md",
+  fluid = false,
+  maxHeight,
   fit = "contain",
   radius = "none",
   id,
@@ -46,9 +50,13 @@ export function Image({
       aria-label={ariaLabel}
       style={{
         display: "block",
-        height: heights[height],
-        width: "auto",
+        ...(fluid
+          ? ({ width: "100%", height: "auto" } as const)
+          : ({ height: heights[height], width: "auto" } as const)),
         maxWidth: "100%",
+        ...(maxHeight
+          ? ({ maxHeight: heights[maxHeight] } as const)
+          : null),
         objectFit: fit,
         borderRadius: radii[radius],
       }}

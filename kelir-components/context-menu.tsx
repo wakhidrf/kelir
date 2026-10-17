@@ -16,6 +16,7 @@ export function ContextMenu({
   trigger,
   menuItems,
   truncate = false,
+  maxWidth,
 }: ContextMenuProps) {
   const [anchorPosition, setAnchorPosition] = React.useState<{
     top: number;
@@ -39,7 +40,7 @@ export function ContextMenu({
           display: "inline-block",
           ...(truncate
             ? {
-                maxWidth: "100%",
+                maxWidth: maxWidth === undefined ? "100%" : `${maxWidth}px`,
                 whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",

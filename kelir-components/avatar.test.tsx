@@ -19,5 +19,6 @@ describe("Avatar sealed (Gel.3a §6b)", () => {
     expect(avatarPx("small")).toBe(32);
     expect(avatarPx("medium")).toBe(40);
     expect(avatarPx("large")).toBe(48);
+    expect(avatarPx("xl")).toBe(96);
   });
 });

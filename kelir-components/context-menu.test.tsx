@@ -49,4 +49,31 @@ describe("ContextMenu sealed (Gel.3c-8 §6b)", () => {
     );
     await expectNoAxeViolations(container);
   });
+
+  it("maxWidth (#64): lebar trigger truncate dibatasi data px", () => {
+    renderSealed(
+      <ContextMenu
+        trigger="nama-berkas-sangat-panjang.csv"
+        menuItems={[{ label: "Ganti" }]}
+        truncate
+        maxWidth={220}
+      />,
+    );
+    expect(
+      screen.getByTitle("nama-berkas-sangat-panjang.csv").style.maxWidth,
+    ).toBe("220px");
+  });
+
+  it("truncate tanpa maxWidth: lebar bawaan 100% (perilaku lama)", () => {
+    renderSealed(
+      <ContextMenu
+        trigger="nama-berkas-sangat-panjang.csv"
+        menuItems={[{ label: "Ganti" }]}
+        truncate
+      />,
+    );
+    expect(
+      screen.getByTitle("nama-berkas-sangat-panjang.csv").style.maxWidth,
+    ).toBe("100%");
+  });
 });

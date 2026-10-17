@@ -35,7 +35,7 @@
     {
       "name": "Avatar",
       "description": "A visual representation of a user profile as an image or an initials text fallback.",
-      "props": "`src?`, `alt?`, `fallbackText?`, `size?` (`small\\|medium\\|large` → 32/40/48 px)"
+      "props": "`src?`, `alt?`, `fallbackText?`, `size?` (`small\\|medium\\|large\\|xl` → 32/40/48/96 px)"
     },
     {
       "name": "Badge",
@@ -75,7 +75,7 @@
     {
       "name": "Card",
       "description": "An information container panel consisting of a header, sub-header, body, and footer.",
-      "props": "`title`, `subtitle`, `headerActions`, `headerAlign?` (`start\\|center\\|end`, default `start`; judul + subjudul), `scrollable?` (isi scroll internal, header/footer tetap; default `false`), `flag?` (`danger\\|warn`; strip status absolut di sisi kartu, default tanpa strip), `footer`, `children`"
+      "props": "`title`, `subtitle`, `headerActions`, `headerAlign?` (`start\\|center\\|end`, default `start`; judul + subjudul), `scrollable?` (isi scroll internal, header/footer tetap; default `false`), `overflow?` (`hidden\\|visible`, default `hidden`; kartu `scrollable` tetap memotong), `flag?` (`danger\\|warn`; strip status absolut di sisi kartu, default tanpa strip), `footer`, `children`"
     },
     {
       "name": "Carousel",
@@ -110,7 +110,7 @@
     {
       "name": "ContextMenu",
       "description": "A floating action menu that appears when the user right-clicks on a certain area.",
-      "props": "`trigger`, `menuItems: {label, icon?, onClick?}[]`, `truncate?` (elipsis trigger + title teks-penuh milik kit, default `false`)"
+      "props": "`trigger`, `menuItems: {label, icon?, onClick?}[]`, `truncate?` (elipsis trigger + title teks-penuh milik kit, default `false`), `maxWidth?` (data px; lebar trigger bila `truncate`)"
     },
     {
       "name": "DataTable",
@@ -140,7 +140,7 @@
     {
       "name": "DropdownMenu",
       "description": "A floating list of actions triggered by pressing a menu button (`triggerVariant?` `text|button`, default `text`).",
-      "props": "`trigger`, `triggerVariant?` (`text|button`, default `text`; button = pemicu Button outline milik kit), `items: {label, icon?, onClick?, divider?}[]`, `truncate?` (elipsis trigger + title teks-penuh milik kit, default `false`; hanya varian `text`)"
+      "props": "`trigger`, `triggerVariant?` (`text|button`, default `text`; button = pemicu Button outline milik kit), `items: {label, icon?, onClick?, divider?}[]`, `truncate?` (elipsis trigger + title teks-penuh milik kit, default `false`; hanya varian `text`), `maxWidth?` (data px; lebar trigger `text` bila `truncate`)"
     },
     {
       "name": "Empty",
@@ -305,7 +305,7 @@
     {
       "name": "Toast",
       "description": "A brief notification message that appears temporarily at the corner of the screen.",
-      "props": "`message`, `actionButton?`, `open`, `onClose`, `autoHideDuration?`"
+      "props": "`message`, `tone?` (`info\\|success\\|warning\\|error`; aksen strip sisi kiri dari token, tanpa = netral), `actionButton?`, `open`, `onClose`, `autoHideDuration?`"
     },
     {
       "name": "Toggle",
@@ -325,7 +325,7 @@
     {
       "name": "Typography",
       "description": "Dedicated text styling for headings, paragraphs, and small labels for consistency.",
-      "props": "`variant` visual (`h1\\|h2\\|h3\\|body-md\\|body-sm\\|caption\\|label-caps`), `as?` semantik (`h1\\|h2\\|h3\\|h4\\|h5\\|h6\\|p\\|span\\|div`), `level?` (`1\\|2\\|3\\|4\\|5\\|6`; hanya menambah role heading + aria-level bila elemen non-heading; bila `as` sudah heading, level bawaan elemen berlaku), `align?` (`start\\|center\\|end\\|justify`, default `start`), `truncate?` (elipsis satu-baris, default `false`), `breakAll?` (pecah kata panjang, default `false`), `tracking?` (`normal\\|wide`; renggang 6 px milik kit, default `normal`), `children`"
+      "props": "`variant` visual (`h1\\|h2\\|h3\\|body-md\\|body-sm\\|caption\\|label-caps`), `variantMd?` (varian pada lebar >= 768px, token heroCollapse), `as?` semantik (`h1\\|h2\\|h3\\|h4\\|h5\\|h6\\|p\\|span\\|div`), `level?` (`1\\|2\\|3\\|4\\|5\\|6`; hanya menambah role heading + aria-level bila elemen non-heading; bila `as` sudah heading, level bawaan elemen berlaku), `align?` (`start\\|center\\|end\\|justify`, default `start`), `truncate?` (elipsis satu-baris, default `false`), `breakAll?` (pecah kata panjang, default `false`), `tracking?` (`normal\\|wide`; renggang 6 px milik kit, default `normal`), `children`"
     },
     {
       "name": "Questionnaire",
@@ -335,7 +335,7 @@
     {
       "name": "Stack",
       "description": "A vertical/horizontal stack primitive with closed gap, direction, align, and justify unions.",
-      "props": "`gap?` (`xs\\|sm\\|md\\|lg`), `direction?` (`row\\|column`), `align?` (`start\\|center\\|end\\|stretch`, default `stretch`), `justify?` (`start\\|center\\|end\\|space-between`, default `start`), `wrap?` (flex-wrap, default `false`), `children`"
+      "props": "`gap?` (`xs\\|sm\\|md\\|lg`), `direction?` (`row\\|column`), `directionMd?` (`row\\|column`; arah pada lebar >= 768px, token heroCollapse), `minHeight?` (`xs\\|sm\\|md\\|lg\\|xl\\|2xl\\|3xl\\|4xl`; ruang tetap dari skala space), `align?` (`start\\|center\\|end\\|stretch`, default `stretch`), `justify?` (`start\\|center\\|end\\|space-between`, default `start`), `wrap?` (flex-wrap, default `false`), `children`"
     },
     {
       "name": "Grid",
@@ -350,12 +350,12 @@
     {
       "name": "Container",
       "description": "A page-width containment primitive with closed maxWidth and padding unions from layout tokens.",
-      "props": "`children`, `maxWidth?` (`sm\\|md\\|lg\\|xl`, default `xl`), `padding?` (`sm\\|md\\|lg\\|xl\\|2xl`, default `xl`), `paddingBlock?` (`none\\|sm\\|md\\|lg\\|xl\\|2xl`; napas vertikal, default `none`), `clip?` (potong isi meluap, default `false`)"
+      "props": "`children`, `maxWidth?` (`sm\\|md\\|lg\\|xl`, default `xl`), `padding?` (`sm\\|md\\|lg\\|xl\\|2xl`, default `xl`), `paddingBlock?` (`none\\|sm\\|md\\|lg\\|xl\\|2xl`; napas vertikal, default `none`), `paddingBlockMd?` (`none\\|sm\\|md\\|lg\\|xl\\|2xl`; napas vertikal pada lebar >= 768px, token heroCollapse), `clip?` (potong isi meluap, default `false`)"
     },
     {
       "name": "Image",
       "description": "A neutral media primitive with closed height, fit, and radius unions (no shadow/border by default).",
-      "props": "`src`, `alt?`, `height?` (`xs\\|sm\\|md\\|lg\\|xl`, default `md`), `fit?` (`contain\\|cover`, default `contain`), `radius?` (`none\\|sm\\|md\\|lg`, default `none`)"
+      "props": "`src`, `alt?`, `height?` (`xs\\|sm\\|md\\|lg\\|xl`, default `md`), `fluid?` (isi lebar wadah, tinggi auto; default `false`), `maxHeight?` (`xs\\|sm\\|md\\|lg\\|xl`; batas tinggi), `fit?` (`contain\\|cover`, default `contain`), `radius?` (`none\\|sm\\|md\\|lg`, default `none`)"
     },
     {
       "name": "FlexItem",

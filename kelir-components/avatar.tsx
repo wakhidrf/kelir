@@ -2,7 +2,7 @@ import MuiAvatar from "@mui/material/Avatar";
 import type { AvatarProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
-const AVATAR_PX = { small: 32, medium: 40, large: 48 } as const;
+const AVATAR_PX = { small: 32, medium: 40, large: 48, xl: 96 } as const;
 
 // Logika murni (bukan DOM): peta size MAKNA → px milik kit.
 // Diuji unit langsung — jsdom tak menghitung stylesheet emotion.

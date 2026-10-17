@@ -39,3 +39,12 @@
 | Sel tabel panjang | Pembungkus elipsis rakitan yang tak menembus pemicu menu milik kit | `TruncatedText` (`text` wajib, `maxWidth?` data px, teks penuh saat hover) + `ContextMenu`/`DropdownMenu truncate?` (default `false`; hanya varian teks, teks penuh saat hover) |
 | Tepi docked Sidebar | Tepi viewport flush tetap rounded keempat sudut + border penuh | Sudut sisi-layar dinolkan via logical props (aman RTL) + tanpa border sisi-layar; sisi-konten tetap token radius |
 | Overlay mobile Sidebar | Overlay mentok separuh layar | `min(SIDEBAR_WIDTH, 75vw)` - hingga tiga perempat layar |
+| Avatar besar | `Avatar size` mentok di large | `Avatar size?` bertambah `xl` (96px), sejajar ukuran teratas `Image`/`Tile` |
+| Overflow kartu | Kartu selalu memotong tepinya | `Card overflow?` (`hidden\|visible`, default `hidden`); kartu `scrollable` tetap memotong agar isi bisa scroll |
+| Pemicu menu sempit | Pemicu terpotong bisa terlihat sesak atau terlalu lebar | `ContextMenu`/`DropdownMenu maxWidth?` (data px; berlaku pada pemicu yang di-truncate) |
+| Penekanan Toast | Setiap toast tampak sama | `Toast tone?` (`info\|success\|warning\|error`): strip aksen sisi kiri dari token kit/status; tanpa `tone` tetap netral |
+| Layout responsif | Layout per-breakpoint butuh CSS/hook sendiri | `Stack directionMd?`, `Container paddingBlockMd?`, `Typography variantMd?`: satu breakpoint kit (768px) diterapkan di `>=768px`, nilai dari union yang sudah tertutup |
+| Gambar responsif | Media hero/fluid butuh pembungkus rakitan | `Image fluid?` (isi lebar wadah, tinggi auto) dan `maxHeight?` (dari skala ukuran) |
+| Ruang terpesan | Area tinggi tetap untuk konten async/pihak ketiga butuh style inline | `Stack minHeight?` dari skala space (`xs`..`4xl`), default tanpa |
+| Asisten AI (suggest) | Agen tetap menebak komponen kit yang cocok | Tool MCP `suggest` (v1.1): keinginan bahasa alami → kandidat sealed berperingkat, dengan pengingat kontrak; hanya dari katalog, tak pernah rakitan sendiri |
+| Gerbang konsistensi kit | Repo kit tak punya pemeriksaan sendiri | Gerbang yang butuh `STYLE.md` jalan dari proyek induk dan kini gagal dengan pesan jelas bila dijalankan dari checkout kit tanpa induk; kit menjalankan parse-check di CI |

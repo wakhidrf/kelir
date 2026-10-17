@@ -32,6 +32,7 @@ export function Card({
   headerActions,
   headerAlign = "start",
   scrollable = false,
+  overflow = "hidden",
   flag,
   footer,
   children,
@@ -50,13 +51,16 @@ export function Card({
         backdropFilter: surfaceBlur,
         WebkitBackdropFilter: surfaceBlur,
         fontFamily: "inherit",
+        // `overflow` MAKNA (default `hidden` = perilaku lama). Hanya
+        // `visible` yang kita tulis inline; `hidden` bawaan tetap dari MUI
+        // (nol-ubah visual). Kartu `scrollable` tetap memotong tepi.
+        overflow: scrollable ? "hidden" : overflow === "visible" ? "visible" : undefined,
         ...(scrollable
           ? {
               display: "flex",
               flexDirection: "column",
               flex: 1,
               minHeight: 0,
-              overflow: "hidden",
             }
           : null),
         ...(flag ? ({ position: "relative" } as const) : null),

@@ -13,7 +13,7 @@
 //     kecuali props standar {id, aria-label}.
 //   - Interface warisan (extends Mui*/HTML): cek nama saja (detail prop
 //     dikunci saat disegel Gelombang berikutnya).
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -92,7 +92,17 @@ function implExists(component) {
 function parseTable() {
   // Normalisasi CRLF: working copy Windows (autocrlf) memakai \r\n
   // (tanpanya jangkar `\|$` gagal di semua baris).
-  const src = readFileSync(join(ROOT, "STYLE.md"), "utf8").replace(
+  const stylePath = join(ROOT, "STYLE.md");
+  // Preflight (issue #72): kontrak §5 tinggal di akar proyek induk, bukan di
+  // repo kit. Gagal dengan pesan jelas bila dipanggil dari kit tanpa induk.
+  if (!existsSync(stylePath)) {
+    throw new Error(
+      `kelir-drift: STYLE.md tak ditemukan di ${stylePath}.\n` +
+        "  Skrip ini membaca kontrak §5 dari akar proyek induk; jalankan dari\n" +
+        "  proyek konsumen (mis. `npm run kelir:drift` di kelir-web), bukan dari repo kit.",
+    );
+  }
+  const src = readFileSync(stylePath, "utf8").replace(
     /\r\n/g,
     "\n",
   );

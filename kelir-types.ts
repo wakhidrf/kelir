@@ -135,7 +135,7 @@ export interface AvatarProps {
   src?: string;
   alt?: string;
   fallbackText?: string;
-  size?: "small" | "medium" | "large";
+  size?: "small" | "medium" | "large" | "xl";
   id?: string;
   "aria-label"?: string;
 }
@@ -254,6 +254,7 @@ export interface CardProps {
   headerActions?: React.ReactNode;
   headerAlign?: "start" | "center" | "end";
   scrollable?: boolean;
+  overflow?: "hidden" | "visible";
   flag?: "danger" | "warn";
   footer?: React.ReactNode;
   children?: React.ReactNode;
@@ -362,6 +363,7 @@ export interface ContextMenuProps {
   trigger: string;
   menuItems: ContextMenuItem[];
   truncate?: boolean;
+  maxWidth?: number;
 }
 
 // 21. Data Table
@@ -451,6 +453,7 @@ export interface DropdownMenuProps {
   triggerVariant?: "text" | "button";
   items: DropdownMenuItem[];
   truncate?: boolean;
+  maxWidth?: number;
 }
 
 // 27. Empty
@@ -879,6 +882,7 @@ export interface TextareaProps {
 // visual — durasi tampil, bukan durasi animasi §1.2). Tanpa ...rest/style.
 export interface ToastProps {
   message: string;
+  tone?: "info" | "success" | "warning" | "error";
   actionButton?: React.ReactNode;
   open: boolean;
   onClose: () => void;
@@ -939,6 +943,7 @@ export interface TooltipProps {
 export interface TypographyProps {
   children: React.ReactNode;
   variant?: "h1" | "h2" | "h3" | "body-md" | "body-sm" | "caption" | "label-caps";
+  variantMd?: "h1" | "h2" | "h3" | "body-md" | "body-sm" | "caption" | "label-caps";
   as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "div";
   level?: 1 | 2 | 3 | 4 | 5 | 6;
   align?: "start" | "center" | "end" | "justify";
@@ -988,6 +993,8 @@ export interface StackProps {
   children: React.ReactNode;
   gap?: "xs" | "sm" | "md" | "lg";
   direction?: "row" | "column";
+  directionMd?: "row" | "column";
+  minHeight?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
   align?: "start" | "center" | "end" | "stretch";
   justify?: "start" | "center" | "end" | "space-between";
   wrap?: boolean;
@@ -1024,6 +1031,7 @@ export interface ContainerProps {
   maxWidth?: "sm" | "md" | "lg" | "xl";
   padding?: "sm" | "md" | "lg" | "xl" | "2xl";
   paddingBlock?: "none" | "sm" | "md" | "lg" | "xl" | "2xl";
+  paddingBlockMd?: "none" | "sm" | "md" | "lg" | "xl" | "2xl";
   clip?: boolean;
   id?: string;
   "aria-label"?: string;
@@ -1040,6 +1048,8 @@ export interface ImageProps {
   src: string;
   alt?: string;
   height?: "xs" | "sm" | "md" | "lg" | "xl";
+  fluid?: boolean;
+  maxHeight?: "xs" | "sm" | "md" | "lg" | "xl";
   fit?: "contain" | "cover";
   radius?: "none" | "sm" | "md" | "lg";
   id?: string;

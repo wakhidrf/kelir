@@ -11,6 +11,7 @@ export function toastContractChecks() {
       actionButton={<Button variant="ghost">Urungkan</Button>}
     />
   );
+  const okTone = <Toast message="Gagal" tone="error" open onClose={() => {}} />;
 
   // @ts-expect-error — open wajib
   const noOpen = <Toast message="x" onClose={() => {}} />;
@@ -18,10 +19,12 @@ export function toastContractChecks() {
   const noOnClose = <Toast message="x" open />;
   // @ts-expect-error — message non-string haram
   const noNodeMessage = <Toast message={<span>x</span>} open onClose={() => {}} />;
+  // @ts-expect-error — tone bebas haram (info|success|warning|error)
+  const noRawTone = <Toast message="x" tone="danger" open onClose={() => {}} />;
   // @ts-expect-error — style passthrough haram
   const noStyle = <Toast message="x" open onClose={() => {}} style={{}} />;
   // @ts-expect-error — anchorOrigin MUI haram (posisi milik kit)
   const noAnchor = <Toast message="x" open onClose={() => {}} anchorOrigin={{ vertical: "top", horizontal: "center" }} />;
 
-  return { ok, noOpen, noOnClose, noNodeMessage, noStyle, noAnchor };
+  return { ok, okTone, noOpen, noOnClose, noNodeMessage, noRawTone, noStyle, noAnchor };
 }

@@ -16,6 +16,9 @@ export function imageContractChecks() {
       aria-label="gambar"
     />
   );
+  const okFluid = (
+    <Image src="hero.jpg" alt="Hero" fluid maxHeight="lg" />
+  );
 
   // @ts-expect-error — style passthrough haram (visual milik Image)
   const noStyle = <Image src="a.png" style={{ width: 10 }} />;
@@ -25,6 +28,10 @@ export function imageContractChecks() {
   const noClassName = <Image src="a.png" className="my-img" />;
   // @ts-expect-error — height bebas haram (union tertutup)
   const noRawHeight = <Image src="a.png" height={44} />;
+  // @ts-expect-error — fluid non-boolean haram
+  const noRawFluid = <Image src="a.png" fluid="yes" />;
+  // @ts-expect-error — maxHeight bebas haram (union tertutup)
+  const noRawMaxHeight = <Image src="a.png" maxHeight={120} />;
   // @ts-expect-error — fit bebas haram (contain|cover)
   const noRawFit = <Image src="a.png" fit="fill" />;
   // @ts-expect-error — radius bebas haram (none|sm|md|lg)
@@ -34,5 +41,5 @@ export function imageContractChecks() {
   // @ts-expect-error — prop tak dikenal tidak diteruskan ke DOM
   const noRest = <Image src="a.png" title="x" />;
 
-  return { okMin, okFull, noStyle, noSx, noClassName, noRawHeight, noRawFit, noRawRadius, noSrc, noRest };
+  return { okMin, okFull, okFluid, noStyle, noSx, noClassName, noRawHeight, noRawFluid, noRawMaxHeight, noRawFit, noRawRadius, noSrc, noRest };
 }

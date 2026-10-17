@@ -13,6 +13,14 @@ export function dropdownMenuContractChecks() {
       items={[{ label: "Ubah" }]}
     />
   );
+  const okTruncate = (
+    <DropdownMenu
+      trigger="Nama berkas yang sangat panjang"
+      items={[{ label: "Ubah" }]}
+      truncate
+      maxWidth={200}
+    />
+  );
 
   const noNodeTrigger = (
     <DropdownMenu
@@ -29,6 +37,14 @@ export function dropdownMenuContractChecks() {
       items={[{ label: "Ubah" }]}
     />
   );
+  const noRawMaxWidth = (
+    <DropdownMenu
+      trigger="Aksi"
+      items={[{ label: "Ubah" }]}
+      // @ts-expect-error - maxWidth non-number haram (data px)
+      maxWidth="200px"
+    />
+  );
   const noStyle = (
     <DropdownMenu
       trigger="Aksi"
@@ -37,5 +53,5 @@ export function dropdownMenuContractChecks() {
       style={{ margin: 4 }}
     />
   );
-  return { ok, okButton, noNodeTrigger, noVariant, noStyle };
+  return { ok, okButton, okTruncate, noNodeTrigger, noVariant, noRawMaxWidth, noStyle };
 }

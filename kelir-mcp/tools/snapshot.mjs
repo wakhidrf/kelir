@@ -10,7 +10,7 @@
 // Pakai: node kelir-mcp/tools/snapshot.mjs [--style STYLE.md] [--out snapshot.json]
 // Default --style = ../../../STYLE.md dari root kit (layout submodule induk);
 // wajib ada (kontrak §5–§6 tinggal di induk).
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -23,6 +23,18 @@ function arg(name, fallback) {
 }
 const STYLE_PATH = resolve(arg("--style", join(KIT_ROOT, "..", "..", "..", "STYLE.md")));
 const OUT_PATH = resolve(arg("--out", join(MCP_ROOT, "snapshot.json")));
+
+// Preflight (issue #72): kontrak §5 tinggal di akar proyek induk, bukan di
+// repo kit. Tanpa ini, galat samar ("tak ada baris §5") menyesatkan.
+if (!existsSync(STYLE_PATH)) {
+  console.error(
+    `snapshot: STYLE.md tak ditemukan di ${STYLE_PATH}.\n` +
+      "  Default --style menunjuk akar layout submodule induk (../../../STYLE.md\n" +
+      "  dari root kit). Jalankan dari proyek konsumen yang punya STYLE.md, atau\n" +
+      "  arahkan manual: node kelir-mcp/tools/snapshot.mjs --style <path>/STYLE.md",
+  );
+  process.exit(2);
+}
 
 const read = (p) => readFileSync(p, "utf8").replace(/\r\n/g, "\n");
 
