@@ -14,7 +14,7 @@
 // komponen dibatasi ke nama kontrak kelir-types.ts (selaras GritQL;
 // komponen milik app = urusan app, bukan kontrak). Pengecualian cakupan
 // dicetak eksplisit di laporan (bukan sunyi).
-import { readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -39,6 +39,19 @@ const KELIR_NAMES = new Set(
 // Cakupan eksplisit: dihitung saat jalan, dicetak di laporan (§8-P0/P1:
 // yang dikecualikan resmi harus terlihat, bukan sunyi).
 const scope = { scanned: 0, kitInternal: 0, noImport: 0 };
+
+// Preflight (issue #72): guard mengasumsikan kit hidup di
+// <proyek>/src/views/kelir. Bila dijalankan dari checkout repo kit sendiri
+// (tanpa <proyek>/src) gagal dengan pesan jelas, bukan ENOENT samar.
+if (!existsSync(SRC)) {
+  console.error(
+    "kelir-guard: tidak menemukan <proyek>/src di " +
+      `${SRC}.\n` +
+      "  Jalankan dari proyek konsumen yang menaruh kit di src/views/kelir\n" +
+      "  (mis. `npm run kelir:guard` di kelir-web), bukan dari repo kit sendiri.",
+  );
+  process.exit(2);
+}
 
 function walk(dir, out = []) {
   for (const e of readdirSync(dir)) {

@@ -102,6 +102,18 @@ function readGel() {
   return gel;
 }
 
+// Preflight (issue #72): status menurunkan KELIR-STATUS.md + menjalankan
+// guard dari cwd <proyek> induk; gagal jelas bila dipanggil dari repo kit.
+if (!existsSync(join(ROOT, "src"))) {
+  console.error(
+    "kelir-status: tidak menemukan <proyek>/src di " +
+      `${join(ROOT, "src")}.\n` +
+      "  Jalankan dari proyek konsumen yang menaruh kit di src/views/kelir\n" +
+      "  (mis. `npm run kelir:status` di kelir-web), bukan dari repo kit sendiri.",
+  );
+  process.exit(2);
+}
+
 const types = parseTypes();
 const errors = guardErrors();
 const passedFiles = vitestPassedFiles();

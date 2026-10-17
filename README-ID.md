@@ -9,6 +9,10 @@ Project Kelir mengintegrasikan berbagai file **`DESIGN.md`** - masing-masing mew
 
 Project Kelir saat ini terbatas untuk proyek **Next.js dengan TypeScript**. Sebelum mengintegrasikan Project Kelir, proyek juga perlu dibersihkan dari UI/UX lain yang sudah terpasang, seperti Tailwind CSS.
 
+### Gerbang Konsistensi Hidup di Proyek Induk
+
+Kontrak sealed (daftar komponen beserta prop, nilai, dan token yang diizinkan tiap komponen) disimpan di **akar proyek induk** sebagai `STYLE.md`, bukan di dalam submodule ini. Gerbang parity, guard, dan status karena itu dijalankan dari repo induk, tempat kit terpasang di `src/views/kelir`. Clone Kelir yang berdiri sendiri hanya memeriksa parse perkakasnya; jalankan gerbang penuh dari proyek induk agar kontrak, tipe, dan katalog tetap selaras.
+
 ## Tipografi Per Tema
 
 Selain multi-tema, setiap bahasa desain dari DESIGN.md membawa tipografinya sendiri. Font UI dan font monospace otomatis dipasangkan dengan tema, sehingga semua komponen selaras dengan identitas desain tanpa konfigurasi tambahan.
