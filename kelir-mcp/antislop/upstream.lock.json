@@ -1,0 +1,56 @@
+{
+  "repo": "miqdadbadjuber/anti-slop",
+  "ref": "v3.2.21",
+  "commit": "77e1920ad5e540816ccec3b2142128d95ef12bcb",
+  "version": "3.2.21",
+  "files": {
+    "antislop.md": {
+      "blob": "dc3a3aab343cb1a950b07957bceaece31f2aad56",
+      "sha256": "1b32f1295b2eef2a9f9c9609bf2de6e71408bb41ca424731753c7f66e011c6e7"
+    },
+    "rules/antislop.md": {
+      "blob": "9c8e68f0e9b310ba5fb74f9b7f3bb85a997d6c9d",
+      "sha256": "f0084dbb37f1c2064ff6b0bbe94154ed30cd21db67e1160c8830003370147dcc"
+    },
+    "rules/antislop.mdc": {
+      "blob": "a5781f5c97e44fd5250ecfd6a9d66e09bae49d51",
+      "sha256": "80d21fe52c5d7707eca3f35bfdfc65d4a9a1c97a41d0064e366c14ac70865a06"
+    },
+    "skills/antislop-code/SKILL.md": {
+      "blob": "3d5efdbcc7b491f2c22578e1b8d1199f98d94b9a",
+      "sha256": "004933009d352710dcbea7817101d5c188474a442e3ece26a6e0c18d3223898f"
+    },
+    "skills/antislop-copywriting/SKILL.md": {
+      "blob": "9020bba21099e2dbbc64f6e40d481e4e82e5cd06",
+      "sha256": "2434a6fb0603dea1e62d4c1968382def47af779bd0e43b2130edd49df41ba444"
+    },
+    "skills/antislop-human/SKILL.md": {
+      "blob": "273bbf90491e37016e3890d648dd2e17468be0ca",
+      "sha256": "cfa37d69600e08d37561163d8b794019204f1db1ccb6127bd2a6da23036401b6"
+    },
+    "skills/antislop-human/contrast-check.py": {
+      "blob": "63287d6b974c381fda3cb474281508f3753482b2",
+      "sha256": "393e6433d120632aa11184792a16cd7b325924dbc9993477825d9aa67fdbfe6e"
+    },
+    "skills/antislop-human/contrast-mcp.py": {
+      "blob": "54206a74ca826283ee76325b6ec8256b163e1ec7",
+      "sha256": "185bea237eb28968908915aae32e9c1f043bc9cae5c7a157eec4651bee1fc3e9"
+    },
+    "skills/antislop-layoutmobile/SKILL.md": {
+      "blob": "6aeaaaf2ab24a14a0faab0a787e46a745fff5c95",
+      "sha256": "8613395a5109f637837f5c24f0ce5e58a96df1c2567a9f7666fcaecc47ff39cd"
+    },
+    "skills/antislop-ui/SKILL.md": {
+      "blob": "b263e8a4df7456d23183a183710c7c71ad393ee0",
+      "sha256": "47d9892771253f544f7eb2e40af35fd5c31407dcd8c048183bbd1de5a00a4bbe"
+    },
+    "skills/antislop/SKILL.md": {
+      "blob": "dce85417355cc61b9d6a6e3d9f2714eec9f5c0d0",
+      "sha256": "64a1ff70bafbfb7a105083cdff0026a6f09baf7e19d3aa1bc3e880cf7233f90c"
+    },
+    "skills/antislop/VERSION": {
+      "blob": "66870d92b11008522344af46df77b7dfcacb69eb",
+      "sha256": "849bb24c350da9619a368892a29aba02c699dd6c1dc087da2b649aafad978b78"
+    }
+  }
+}
