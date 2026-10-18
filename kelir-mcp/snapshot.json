@@ -401,6 +401,21 @@
       "name": "TruncatedText",
       "description": "Single-line ellipsis text with kit-owned width cap (`text` required, `maxWidth?` px data, full text on hover); `ContextMenu`/`DropdownMenu` gained `truncate?` for ellipsis text triggers.",
       "props": "`text` (wajib), `maxWidth?` (data px; tanpa = selebar wadah), elipsis satu-baris + title teks-penuh milik kit"
+    },
+    {
+      "name": "List",
+      "description": "A semantic list with kit-owned markers, spacing, and color, switchable between bullet and numbered.",
+      "props": "`items` (wajib, slot simpul per butir), `ordered?` (daftar bernomor, default `false` = bullet), penanda/jarak/warna milik kit"
+    },
+    {
+      "name": "Quote",
+      "description": "A blockquote with a kit-owned accent bar, surface, and radius.",
+      "props": "`children` (slot isi kutipan), batang aksen + latar + radius + bayangan milik kit"
+    },
+    {
+      "name": "CodeBlock",
+      "description": "A code block with a kit-owned language label and copy button, plus a clipboard fallback.",
+      "props": "`code` (wajib), `language?` (label bahasa; tanpa = \"code\"), `copyLabel?`/`copiedLabel?` (default \"Copy\"/\"Copied\"), tombol salin + perilaku clipboard milik kit"
     }
   ],
   "tokens": {
@@ -481,5 +496,5 @@
       "concave": "inset 0 2px 4px rgba(0, 0, 0, 0.06)"
     }
   },
-  "contract": "Kelir sealed contract (STYLE.md §5–§6; 80 components in this snapshot).\nBinding source is kelir-types.ts; prose here is a summary, not the contract.\n\n- Each component accepts only its listed props: content (isi), meaning (makna), behavior (perilaku).\n- MUI is Kelir's base, not a ban. In consumer code every UI component must come from Kelir: using a raw MUI component as UI, or assembling your own rival from MUI primitives, is a violation. MUI non-component use stays fine: icons (@mui/icons-material), hooks (useMediaQuery), and the Next.js cache provider.\n- Never pass style/sx/className/slotProps/classes/componentsProps/components/slots/slot, raw hex colors, or off-token sizes. No ...rest spread to the DOM.\n- data-* attributes: only data-testid. Visuals come only from KelirProvider themes.\n- Layout via Stack/Grid/Spacer/Container/FlexItem/Shell; single breakpoint source 768px (heroCollapse); spacing scale xs–4xl (4–64px).\n- Server Actions live in server actions, never inside \"use client\" views; one breakpoint source; verify with tsc + guard + axe runtime tests."
+  "contract": "Kelir sealed contract (STYLE.md §5–§6; 83 components in this snapshot).\nBinding source is kelir-types.ts; prose here is a summary, not the contract.\n\n- Each component accepts only its listed props: content (isi), meaning (makna), behavior (perilaku).\n- MUI is Kelir's base, not a ban. In consumer code every UI component must come from Kelir: using a raw MUI component as UI, or assembling your own rival from MUI primitives, is a violation. MUI non-component use stays fine: icons (@mui/icons-material), hooks (useMediaQuery), and the Next.js cache provider.\n- Never pass style/sx/className/slotProps/classes/componentsProps/components/slots/slot, raw hex colors, or off-token sizes. No ...rest spread to the DOM.\n- data-* attributes: only data-testid. Visuals come only from KelirProvider themes.\n- Layout via Stack/Grid/Spacer/Container/FlexItem/Shell; single breakpoint source 768px (heroCollapse); spacing scale xs–4xl (4–64px).\n- Server Actions live in server actions, never inside \"use client\" views; one breakpoint source; verify with tsc + guard + axe runtime tests."
 }

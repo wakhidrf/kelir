@@ -253,7 +253,7 @@ goes stale:
 ---
 
 <!-- kelir-doc: components -->
-## Complete List of 77 Project Kelir Components
+## Complete List of 82 Project Kelir Components
 
 Project Kelir has **77 components** organized into several main categories to make it easier to design structured and consistent user interfaces.
 
@@ -294,67 +294,70 @@ Components for displaying static data, visualizations, and message structures.
 28. **Card**: An information container panel consisting of a header, sub-header, body, and footer.
 29. **Carousel**: A horizontal content player with swipe effects and smooth transitions.
 30. **Chart**: Graphical data visualizations (Bar, Line, Area) rendered as kit-owned SVG with an optional title.
-31. **Collapsible**: A collapsible (collapse-expand) content panel for hiding or showing additional details.
-32. **Data Table**: A data table with pagination and an optional title.
-33. **Empty**: An appealing visual state for marking when data or content is empty.
-34. **Hover Card**: A preview card with additional content that appears when hovering over a link.
-35. **Item**: A versatile row component for lists, presenting media, title, description, and action buttons.
-36. **Kbd**: Displays keyboard shortcuts with an aesthetic physical keyboard key style.
-37. **Marker**: A status line marker, conversation separator, or labeled line divider in chats.
-38. **Message**: A message row component in a chat history complete with send time and status.
-39. **Message Scroller**: A smart chat scroll container that stabilizes new message position and loads history smoothly.
-40. **Progress**: A linear progress bar indicator for task completion.
-41. **Scroll Area**: A container with a custom scrollbar optimized for cross-browser consistency.
-42. **Separator**: A horizontal or vertical divider line between content elements with an optional labeled text.
-43. **Table**: A basic responsive table structure for presenting organized row-column data.
-44. **Tabs**: Tab-based content navigation for dividing information into separate panels.
-45. **Typography**: Dedicated text styling for headings, paragraphs, and small labels for consistency, with inline decorative segments for one heading.
+31. **Code Block**: A code block with a kit-owned language label and copy button, plus a clipboard fallback.
+32. **Collapsible**: A collapsible (collapse-expand) content panel for hiding or showing additional details.
+33. **Data Table**: A data table with pagination and an optional title.
+34. **Empty**: An appealing visual state for marking when data or content is empty.
+35. **Hover Card**: A preview card with additional content that appears when hovering over a link.
+36. **Item**: A versatile row component for lists, presenting media, title, description, and action buttons.
+37. **Kbd**: Displays keyboard shortcuts with an aesthetic physical keyboard key style.
+38. **List**: A semantic list with kit-owned markers, spacing, and color, switchable between bullet and numbered.
+39. **Marker**: A status line marker, conversation separator, or labeled line divider in chats.
+40. **Message**: A message row component in a chat history complete with send time and status.
+41. **Message Scroller**: A smart chat scroll container that stabilizes new message position and loads history smoothly.
+42. **Progress**: A linear progress bar indicator for task completion.
+43. **Quote**: A blockquote with a kit-owned accent bar, surface, and radius.
+44. **Scroll Area**: A container with a custom scrollbar optimized for cross-browser consistency.
+45. **Separator**: A horizontal or vertical divider line between content elements with an optional labeled text.
+46. **Table**: A basic responsive table structure for presenting organized row-column data.
+47. **Tabs**: Tab-based content navigation for dividing information into separate panels.
+48. **Typography**: Dedicated text styling for headings, paragraphs, and small labels for consistency, with inline decorative segments for one heading.
 
 ### 3. Navigation
 Components that guide user movement while exploring the application.
 
-46. **Breadcrumb**: A trail of the active page hierarchy as a guide for navigating back.
-47. **Command**: A command-palette style quick search dialog and instant command actions.
-48. **Menubar**: A persistent horizontal menu bar presenting a list of quick commands.
-49. **Navigation Menu**: A collection of the application's main navigation links with an active indicator.
-50. **Pagination**: Page-splitting controls for data to make browsing large data volumes easier.
-51. **Sidebar**: A customizable side navigation panel with header, menu body, and footer.
+49. **Breadcrumb**: A trail of the active page hierarchy as a guide for navigating back.
+50. **Command**: A command-palette style quick search dialog and instant command actions.
+51. **Menubar**: A persistent horizontal menu bar presenting a list of quick commands.
+52. **Navigation Menu**: A collection of the application's main navigation links with an active indicator.
+53. **Pagination**: Page-splitting controls for data to make browsing large data volumes easier.
+54. **Sidebar**: A customizable side navigation panel with header, menu body, and footer.
 
 ### 4. Feedback & Overlays
 Components for status notifications, interruption dialogs, and floating guides.
 
-52. **Alert**: Contextual warnings to draw important user attention (info, success, critical).
-53. **Alert Dialog**: A critical interruption modal dialog that requires a confirmation decision from the user. Opening it never shifts the background page.
-54. **Context Menu**: A floating action menu that appears when the user right-clicks on a certain area.
-55. **Dialog**: A modal window overlaid on the main screen for focused tasks. Opening it never shifts the background page.
-56. **Drawer**: An overlay panel that slides in from the edge of the screen (usually the bottom or side).
-57. **Dropdown Menu**: A floating list of actions triggered by pressing a menu button (`triggerVariant?` `text|button`, default `text`).
-58. **Popover**: A floating information balloon with rich content triggered when an element is clicked.
-59. **Sheet**: A side-sliding dialog extension for displaying supporting data.
-60. **Spinner**: A smooth circular loading indicator.
-61. **Toast**: A brief notification message that appears temporarily at the corner of the screen.
-62. **Tooltip**: A mini text explanation that appears when hovering over an element.
+55. **Alert**: Contextual warnings to draw important user attention (info, success, critical).
+56. **Alert Dialog**: A critical interruption modal dialog that requires a confirmation decision from the user. Opening it never shifts the background page.
+57. **Context Menu**: A floating action menu that appears when the user right-clicks on a certain area.
+58. **Dialog**: A modal window overlaid on the main screen for focused tasks. Opening it never shifts the background page.
+59. **Drawer**: An overlay panel that slides in from the edge of the screen (usually the bottom or side).
+60. **Dropdown Menu**: A floating list of actions triggered by pressing a menu button (`triggerVariant?` `text|button`, default `text`).
+61. **Popover**: A floating information balloon with rich content triggered when an element is clicked.
+62. **Sheet**: A side-sliding dialog extension for displaying supporting data.
+63. **Spinner**: A smooth circular loading indicator.
+64. **Toast**: A brief notification message that appears temporarily at the corner of the screen.
+65. **Tooltip**: A mini text explanation that appears when hovering over an element.
 
 ### 5. Layout
 Components that shape the structure and placement of elements.
 
-63. **Direction**: A context provider for text reading direction (LTR - Left to Right, or RTL - Right to Left).
-64. **Grid**: A responsive column grid with closed column and gap unions.
-65. **Resizable**: A layout panel whose size can be dynamically adjusted with draggable dividers.
-66. **Skeleton**: An animated dimming-brightening placeholder frame for empty elements as a visualization before data finishes loading.
-67. **Spacer**: A fixed-gap whitespace primitive with a closed size union.
-68. **Stack**: A vertical/horizontal stack primitive with closed gap, direction, align, and justify unions, plus a full-screen min height and wide-screen order reversal.
-69. **Container**: A page-width containment primitive with closed maxWidth and padding unions from layout tokens.
-70. **Image**: A neutral media primitive with closed height, fit, and radius unions, an optional fluid mode with px width cap, and no shadow/border by default.
-71. **FlexItem**: A flex-item control primitive paired with Stack, with closed boolean grow, shrink, and clip unions, plus a token-based upward offset.
-72. **Shell**: A viewport app-shell primitive with row or stacked direction from a closed boolean.
-73. **Content**: The single scrollable app-shell area with responsive token padding and background.
-74. **TopBar**: A mobile app-shell bar aligning left and right slots edge to edge (`variant?` `raised|flat`, default `raised`; `flat` is a transparent in-content action row).
-75. **Tile**: An icon/logo tile primitive with closed tone and size unions from tokens.
-76. **Banner**: A centered status banner with closed tone union, its text inheriting the color.
-77. **Link**: An inline text link with kit-owned icon, required href, and safe external target.
-78. **LoadingOverlay**: A fullscreen loading overlay that blocks interaction, with a kit-pulsed center card, status label, progress text, and a consumer media slot.
-79. **TruncatedText**: Single-line ellipsis text with kit-owned width cap (`text` required, `maxWidth?` px data, full text on hover); `ContextMenu`/`DropdownMenu` gained `truncate?` for ellipsis text triggers.
+66. **Direction**: A context provider for text reading direction (LTR - Left to Right, or RTL - Right to Left).
+67. **Grid**: A responsive column grid with closed column and gap unions.
+68. **Resizable**: A layout panel whose size can be dynamically adjusted with draggable dividers.
+69. **Skeleton**: An animated dimming-brightening placeholder frame for empty elements as a visualization before data finishes loading.
+70. **Spacer**: A fixed-gap whitespace primitive with a closed size union.
+71. **Stack**: A vertical/horizontal stack primitive with closed gap, direction, align, and justify unions, plus a full-screen min height and wide-screen order reversal.
+72. **Container**: A page-width containment primitive with closed maxWidth and padding unions from layout tokens.
+73. **Image**: A neutral media primitive with closed height, fit, and radius unions, an optional fluid mode with px width cap, and no shadow/border by default.
+74. **FlexItem**: A flex-item control primitive paired with Stack, with closed boolean grow, shrink, and clip unions, plus a token-based upward offset.
+75. **Shell**: A viewport app-shell primitive with row or stacked direction from a closed boolean.
+76. **Content**: The single scrollable app-shell area with responsive token padding and background.
+77. **TopBar**: A mobile app-shell bar aligning left and right slots edge to edge (`variant?` `raised|flat`, default `raised`; `flat` is a transparent in-content action row).
+78. **Tile**: An icon/logo tile primitive with closed tone and size unions from tokens.
+79. **Banner**: A centered status banner with closed tone union, its text inheriting the color.
+80. **Link**: An inline text link with kit-owned icon, required href, and safe external target.
+81. **LoadingOverlay**: A fullscreen loading overlay that blocks interaction, with a kit-pulsed center card, status label, progress text, and a consumer media slot.
+82. **TruncatedText**: Single-line ellipsis text with kit-owned width cap (`text` required, `maxWidth?` px data, full text on hover); `ContextMenu`/`DropdownMenu` gained `truncate?` for ellipsis text triggers.
 
 ---
 
