@@ -1,0 +1,1657 @@
+{
+  "version": "3.2.21",
+  "source": {
+    "repo": "miqdadbadjuber/anti-slop",
+    "ref": "v3.2.21",
+    "commit": "77e1920ad5e540816ccec3b2142128d95ef12bcb"
+  },
+  "core": {
+    "skill": "antislop",
+    "file": "skills/antislop/SKILL.md",
+    "rules": [
+      {
+        "id": "R-02",
+        "title": "Copywriting",
+        "gate": "hard",
+        "severity": "high",
+        "requirement": "FORBIDDEN",
+        "refs": [
+          "R-37"
+        ],
+        "line": 281
+      },
+      {
+        "id": "R-03",
+        "title": "Mobile Responsiveness",
+        "gate": "hard",
+        "severity": "high",
+        "requirement": "REQUIRED",
+        "refs": [],
+        "line": 289
+      },
+      {
+        "id": "R-17",
+        "title": "Data & Numbers",
+        "gate": "hard",
+        "severity": "high",
+        "requirement": "FORBIDDEN",
+        "refs": [],
+        "line": 300
+      },
+      {
+        "id": "R-18",
+        "title": "Testimonials",
+        "gate": "hard",
+        "severity": "high",
+        "requirement": "FORBIDDEN",
+        "refs": [],
+        "line": 306
+      },
+      {
+        "id": "R-23",
+        "title": "Clarification & Visual Assets",
+        "gate": "hard",
+        "severity": "high",
+        "requirement": "REQUIRED",
+        "refs": [],
+        "line": 312
+      },
+      {
+        "id": "R-24",
+        "title": "Navigation",
+        "gate": "hard",
+        "severity": "high",
+        "requirement": "FORBIDDEN",
+        "refs": [],
+        "line": 328
+      },
+      {
+        "id": "R-25",
+        "title": "Color Contrast",
+        "gate": "hard",
+        "severity": "high",
+        "requirement": "REQUIRED",
+        "refs": [],
+        "line": 335
+      },
+      {
+        "id": "R-26",
+        "title": "Interactive Elements",
+        "gate": "hard",
+        "severity": "high",
+        "requirement": "FORBIDDEN",
+        "refs": [
+          "R-24"
+        ],
+        "line": 344
+      },
+      {
+        "id": "R-27",
+        "title": "UI States",
+        "gate": "hard",
+        "severity": "high",
+        "requirement": "REQUIRED",
+        "refs": [],
+        "line": 359
+      },
+      {
+        "id": "R-28",
+        "title": "FAQ",
+        "gate": "hard",
+        "severity": "high",
+        "requirement": "FORBIDDEN",
+        "refs": [],
+        "line": 368
+      },
+      {
+        "id": "R-32",
+        "title": "Keyboard Accessibility",
+        "gate": "hard",
+        "severity": "high",
+        "requirement": "REQUIRED",
+        "refs": [],
+        "line": 375
+      },
+      {
+        "id": "R-33",
+        "title": "No File/CSS Patching via Scripts",
+        "gate": "hard",
+        "severity": "high",
+        "requirement": "FORBIDDEN",
+        "refs": [],
+        "line": 385
+      },
+      {
+        "id": "R-34",
+        "title": "Every Theme You Ship Must Work",
+        "gate": "hard",
+        "severity": "high",
+        "requirement": "FORBIDDEN",
+        "refs": [],
+        "line": 391
+      },
+      {
+        "id": "R-35",
+        "title": "Verify Before You Deliver",
+        "gate": "hard",
+        "severity": "high",
+        "requirement": null,
+        "refs": [
+          "R-26"
+        ],
+        "line": 397
+      },
+      {
+        "id": "R-36",
+        "title": "No Fabricated Claims",
+        "gate": "hard",
+        "severity": "high",
+        "requirement": "FORBIDDEN",
+        "refs": [
+          "R-17",
+          "R-18"
+        ],
+        "line": 407
+      },
+      {
+        "id": "R-37",
+        "title": "Design Direction Required",
+        "gate": "hard",
+        "severity": "high",
+        "requirement": "FORBIDDEN",
+        "refs": [],
+        "line": 413
+      },
+      {
+        "id": "R-38",
+        "title": "Real Content or Honest Placeholder",
+        "gate": "hard",
+        "severity": "high",
+        "requirement": "FORBIDDEN",
+        "refs": [
+          "R-23"
+        ],
+        "line": 425
+      },
+      {
+        "id": "R-01",
+        "title": "Color & Gradients",
+        "gate": "purpose",
+        "severity": "medium",
+        "requirement": null,
+        "refs": [],
+        "line": 436
+      },
+      {
+        "id": "R-04",
+        "title": "Icons",
+        "gate": "purpose",
+        "severity": "medium",
+        "requirement": null,
+        "refs": [],
+        "line": 442
+      },
+      {
+        "id": "R-06",
+        "title": "Typography",
+        "gate": "purpose",
+        "severity": "medium",
+        "requirement": null,
+        "refs": [],
+        "line": 449
+      },
+      {
+        "id": "R-07",
+        "title": "Background",
+        "gate": "purpose",
+        "severity": "medium",
+        "requirement": null,
+        "refs": [],
+        "line": 455
+      },
+      {
+        "id": "R-08",
+        "title": "Button Arrows",
+        "gate": "purpose",
+        "severity": "medium",
+        "requirement": null,
+        "refs": [],
+        "line": 460
+      },
+      {
+        "id": "R-09",
+        "title": "Badges",
+        "gate": "purpose",
+        "severity": "medium",
+        "requirement": null,
+        "refs": [],
+        "line": 466
+      },
+      {
+        "id": "R-10",
+        "title": "Glassmorphism",
+        "gate": "purpose",
+        "severity": "medium",
+        "requirement": "FORBIDDEN",
+        "refs": [],
+        "line": 472
+      },
+      {
+        "id": "R-12",
+        "title": "Shadow",
+        "gate": "purpose",
+        "severity": "medium",
+        "requirement": null,
+        "refs": [],
+        "line": 477
+      },
+      {
+        "id": "R-13",
+        "title": "Glow",
+        "gate": "purpose",
+        "severity": "medium",
+        "requirement": "FORBIDDEN",
+        "refs": [],
+        "line": 482
+      },
+      {
+        "id": "R-14",
+        "title": "Feature Cards",
+        "gate": "purpose",
+        "severity": "medium",
+        "requirement": null,
+        "refs": [],
+        "line": 487
+      },
+      {
+        "id": "R-19",
+        "title": "Animations",
+        "gate": "purpose",
+        "severity": "medium",
+        "requirement": null,
+        "refs": [],
+        "line": 493
+      },
+      {
+        "id": "R-22",
+        "title": "Illustrations",
+        "gate": "purpose",
+        "severity": "medium",
+        "requirement": null,
+        "refs": [],
+        "line": 500
+      },
+      {
+        "id": "R-05",
+        "title": "Layout & Page Structure",
+        "gate": "quality",
+        "severity": "low",
+        "requirement": "FORBIDDEN",
+        "refs": [],
+        "line": 510
+      },
+      {
+        "id": "R-11",
+        "title": "Border Radius",
+        "gate": "quality",
+        "severity": "low",
+        "requirement": "FORBIDDEN",
+        "refs": [],
+        "line": 524
+      },
+      {
+        "id": "R-15",
+        "title": "CTA (Call to Action)",
+        "gate": "quality",
+        "severity": "low",
+        "requirement": "FORBIDDEN",
+        "refs": [],
+        "line": 530
+      },
+      {
+        "id": "R-16",
+        "title": "Copywriting & Buzzwords",
+        "gate": "quality",
+        "severity": "low",
+        "requirement": "FORBIDDEN",
+        "refs": [],
+        "line": 536
+      },
+      {
+        "id": "R-20",
+        "title": "Visual Identity",
+        "gate": "quality",
+        "severity": "low",
+        "requirement": null,
+        "refs": [],
+        "line": 542
+      },
+      {
+        "id": "R-21",
+        "title": "Dark Mode",
+        "gate": "quality",
+        "severity": "low",
+        "requirement": "FORBIDDEN",
+        "refs": [
+          "R-34"
+        ],
+        "line": 549
+      },
+      {
+        "id": "R-29",
+        "title": "Color Palette",
+        "gate": "quality",
+        "severity": "low",
+        "requirement": "REQUIRED",
+        "refs": [],
+        "line": 557
+      },
+      {
+        "id": "R-30",
+        "title": "Do Not Clone Popular Products",
+        "gate": "quality",
+        "severity": "low",
+        "requirement": "FORBIDDEN",
+        "refs": [],
+        "line": 564
+      },
+      {
+        "id": "R-31",
+        "title": "Every Decision Must Have a Reason (Write It Down)",
+        "gate": "quality",
+        "severity": "low",
+        "requirement": null,
+        "refs": [],
+        "line": 574
+      }
+    ],
+    "craftsmanship": [
+      {
+        "id": "C-1",
+        "title": "Intentionality",
+        "line": 157
+      },
+      {
+        "id": "C-2",
+        "title": "Functional Completeness",
+        "line": 161
+      },
+      {
+        "id": "C-3",
+        "title": "Content-Driven Composition",
+        "line": 165
+      },
+      {
+        "id": "C-4",
+        "title": "Resilience",
+        "line": 169
+      },
+      {
+        "id": "C-5",
+        "title": "Evidence Over Claims",
+        "line": 173
+      }
+    ],
+    "deliveryGate": [
+      {
+        "id": "G-1",
+        "title": "Block 1: Hard Gate (absolute)",
+        "line": 654
+      },
+      {
+        "id": "G-2",
+        "title": "Block 2: Purpose-Gate (technique allowed, reason required)",
+        "line": 676
+      },
+      {
+        "id": "G-3",
+        "title": "Block 3: Liveliness (required to be alive, not just clean)",
+        "line": 693
+      },
+      {
+        "id": "G-4",
+        "title": "Block 4: Craftsmanship & Quality Locks",
+        "line": 705
+      }
+    ],
+    "warningSigns": [
+      {
+        "id": "W-visual-color",
+        "title": "Visual & Color",
+        "line": 183
+      },
+      {
+        "id": "W-layout-components",
+        "title": "Layout & Components",
+        "line": 201
+      },
+      {
+        "id": "W-copywriting-content",
+        "title": "Copywriting & Content",
+        "line": 220
+      },
+      {
+        "id": "W-decorative-elements",
+        "title": "Decorative Elements",
+        "line": 232
+      },
+      {
+        "id": "W-functionality-content",
+        "title": "Functionality & Content",
+        "line": 246
+      },
+      {
+        "id": "W-identity-originality",
+        "title": "Identity & Originality",
+        "line": 257
+      },
+      {
+        "id": "W-accessibility",
+        "title": "Accessibility",
+        "line": 264
+      }
+    ]
+  },
+  "skills": [
+    {
+      "name": "antislop-ui",
+      "file": "skills/antislop-ui/SKILL.md",
+      "target": "ui",
+      "patternCount": 43,
+      "sections": [
+        {
+          "title": "Visual & Color",
+          "line": 18,
+          "patterns": [
+            {
+              "id": "antislop-ui--generic-blue-purple-gradient",
+              "name": "Generic Blue-Purple Gradient",
+              "tell": "blue-to-purple, blue-to-cyan, or purple-to-pink gradients used as the primary color treatment, or a full-page colored glow.",
+              "refs": [
+                "R-01"
+              ],
+              "line": 20
+            },
+            {
+              "id": "antislop-ui--excessive-glassmorphism",
+              "name": "Excessive Glassmorphism",
+              "tell": "blur/backdrop-filter on the navbar, cards, modals, and sidebar at the same time.",
+              "refs": [
+                "R-10"
+              ],
+              "line": 27
+            },
+            {
+              "id": "antislop-ui--excessive-border-radius",
+              "name": "Excessive Border Radius",
+              "tell": "every element is pill-shaped: buttons, inputs, cards, badges, modals.",
+              "refs": [
+                "R-11"
+              ],
+              "line": 33
+            },
+            {
+              "id": "antislop-ui--overly-soft-shadows",
+              "name": "Overly Soft Shadows",
+              "tell": "every component carries a large shadow, so the whole page feels like it is floating.",
+              "refs": [
+                "R-12"
+              ],
+              "line": 39
+            },
+            {
+              "id": "antislop-ui--glow-everywhere",
+              "name": "Glow Everywhere",
+              "tell": "glow on cards, buttons, icons, badges, backgrounds, and borders simultaneously.",
+              "refs": [
+                "R-13"
+              ],
+              "line": 45
+            },
+            {
+              "id": "antislop-ui--background-grid",
+              "name": "Background Grid",
+              "tell": "grid squares, blueprint lines, graph paper, dot grids, or thin repeating lines behind content.",
+              "refs": [
+                "R-07"
+              ],
+              "line": 51
+            },
+            {
+              "id": "antislop-ui--dark-mode-default-for-no-reason",
+              "name": "Dark Mode Default for No Reason",
+              "tell": "the whole page is dark simply because it looks \"tech\", with no branding consideration.",
+              "refs": [
+                "R-21"
+              ],
+              "line": 57
+            },
+            {
+              "id": "antislop-ui--too-many-colors-in-the-palette",
+              "name": "Too Many Colors in the Palette",
+              "tell": "5-7 different colors on one page with no clear design system.",
+              "refs": [
+                "R-29"
+              ],
+              "line": 63
+            },
+            {
+              "id": "antislop-ui--excessive-accent-color",
+              "name": "Excessive Accent Color",
+              "tell": "one accent color on buttons, icons, badges, links, lines, backgrounds, and glows at once.",
+              "refs": [],
+              "line": 69
+            },
+            {
+              "id": "antislop-ui--sterile-default",
+              "name": "Sterile Default",
+              "tell": "flat white or near-white, thin grey borders, small radius, no texture, generic font, no identity.",
+              "refs": [],
+              "line": 75
+            }
+          ]
+        },
+        {
+          "title": "Layout & Components",
+          "line": 81,
+          "patterns": [
+            {
+              "id": "antislop-ui--monotonous-template-layout",
+              "name": "Monotonous Template Layout",
+              "tell": "hero, subtitle, 2 CTAs, screenshot, feature grid, testimonials, FAQ, CTA, footer, in that order, every time.",
+              "refs": [
+                "R-05"
+              ],
+              "line": 83
+            },
+            {
+              "id": "antislop-ui--copy-paste-feature-cards",
+              "name": "Copy-Paste Feature Cards",
+              "tell": "identical size, height, icon, layout, and padding across all feature cards.",
+              "refs": [
+                "R-14"
+              ],
+              "line": 89
+            },
+            {
+              "id": "antislop-ui--bento-grid",
+              "name": "Bento Grid",
+              "tell": "a section made of a mosaic of differently-sized cards, some spanning two columns or two rows, filling the space like a tiled dashboard.",
+              "refs": [
+                "R-05"
+              ],
+              "line": 95
+            },
+            {
+              "id": "antislop-ui--uniform-spacing",
+              "name": "Uniform Spacing",
+              "tell": "padding, margin, and gaps are identical across every section.",
+              "refs": [
+                "R-05"
+              ],
+              "line": 101
+            },
+            {
+              "id": "antislop-ui--how-it-works-always-3-steps",
+              "name": "\"How It Works\" Always 3 Steps",
+              "tell": "round icon + number 1, 2, 3 + short text, always three steps, always the same shape.",
+              "refs": [
+                "R-05"
+              ],
+              "line": 107
+            },
+            {
+              "id": "antislop-ui--trusted-by-logo-bar",
+              "name": "\"Trusted By\" Logo Bar",
+              "tell": "a row of generic company logos directly below the hero.",
+              "refs": [
+                "R-18",
+                "R-36"
+              ],
+              "line": 113
+            },
+            {
+              "id": "antislop-ui--most-popular-pricing-card",
+              "name": "\"Most Popular\" Pricing Card",
+              "tell": "the middle pricing tier always highlighted with a capsule badge.",
+              "refs": [
+                "R-05",
+                "R-31"
+              ],
+              "line": 119
+            },
+            {
+              "id": "antislop-ui--demo-without-a-product",
+              "name": "Demo Without a Product",
+              "tell": "the page sells a product that is never shown working: no real demo, no Terms of Service, no Privacy Policy, just promises.",
+              "refs": [
+                "R-38"
+              ],
+              "line": 126
+            },
+            {
+              "id": "antislop-ui--4-column-template-footer",
+              "name": "4-Column Template Footer",
+              "tell": "Product / Company / Resources / Legal columns with no variation.",
+              "refs": [
+                "R-05"
+              ],
+              "line": 132
+            },
+            {
+              "id": "antislop-ui--uniform-section-rhythm",
+              "name": "Uniform Section Rhythm",
+              "tell": "every section is centered title + subtitle + identical card grid, with no variation.",
+              "refs": [
+                "R-05"
+              ],
+              "line": 138
+            }
+          ]
+        },
+        {
+          "title": "Decorative Elements",
+          "line": 144,
+          "patterns": [
+            {
+              "id": "antislop-ui--generic-ai-icons",
+              "name": "Generic AI Icons",
+              "tell": "sparkle, star, magic, lightning, diamond, cube, robot, or AI orb as feature icons.",
+              "refs": [
+                "R-04"
+              ],
+              "line": 146
+            },
+            {
+              "id": "antislop-ui--lucide-icons",
+              "name": "Lucide Icons",
+              "tell": "every icon comes from the same thin-stroke, rounded-corner library (Lucide or a visual clone), so all icons share one recognizable look.",
+              "refs": [
+                "R-04"
+              ],
+              "line": 152
+            },
+            {
+              "id": "antislop-ui--emoji-as-decoration",
+              "name": "Emoji as Decoration",
+              "tell": "literal emoji scattered through the copy, headings, badges, and buttons: 🚀 in a headline, ✅ beside every feature bullet, 🔥 on a CTA, 📈 above a chart title.",
+              "refs": [
+                "R-04"
+              ],
+              "line": 158
+            },
+            {
+              "id": "antislop-ui--small-arrows-on-every-button",
+              "name": "Small Arrows on Every Button",
+              "tell": "`→` or `↗` placed on almost every button as pure decoration.",
+              "refs": [
+                "R-08"
+              ],
+              "line": 164
+            },
+            {
+              "id": "antislop-ui--colored-left-stripe",
+              "name": "Colored Left Stripe",
+              "tell": "a thin colored vertical bar on the left edge of cards, list rows, or section headers, used as decoration.",
+              "refs": [
+                "R-01",
+                "R-31"
+              ],
+              "line": 170
+            },
+            {
+              "id": "antislop-ui--ai-capsule-badges",
+              "name": "AI Capsule Badges",
+              "tell": "pill shape, thin border, glow, small dot, uppercase, containing \"AI Powered\", \"Beta\", \"New\".",
+              "refs": [
+                "R-09"
+              ],
+              "line": 176
+            },
+            {
+              "id": "antislop-ui--eyebrow-badge-above-the-headline",
+              "name": "Eyebrow Badge Above the Headline",
+              "tell": "a small pill sitting directly above the H1, often with a dot and a thin border, holding a category label (\"Aplikasi Tagihan UKM\", \"The platform for teams\") that the headline beneath it already says.",
+              "refs": [
+                "R-09",
+                "R-31"
+              ],
+              "line": 182
+            },
+            {
+              "id": "antislop-ui--decorative-status-dot",
+              "name": "Decorative Status Dot",
+              "tell": "a small colored dot beside a heading, eyebrow, nav item, or label, usually glowing and pulsing on a loop, that marks nothing. It borrows the visual language of a live or recording indicator for a page where nothing is live.",
+              "refs": [
+                "R-19",
+                "R-31"
+              ],
+              "line": 188
+            },
+            {
+              "id": "antislop-ui--generic-ai-typography",
+              "name": "Generic AI Typography",
+              "tell": "large monospace headings, or uppercase labels with extreme letter-spacing (\"HOW IT WORKS\", \"FEATURES\").",
+              "refs": [
+                "R-06"
+              ],
+              "line": 194
+            },
+            {
+              "id": "antislop-ui--fake-terminal-window",
+              "name": "Fake Terminal Window",
+              "tell": "a styled terminal window with traffic-light dots, a prompt line, and typed-out commands, used as the hero or feature visual.",
+              "refs": [
+                "R-06"
+              ],
+              "line": 201
+            },
+            {
+              "id": "antislop-ui--illustrations-with-no-connection",
+              "name": "Illustrations With No Connection",
+              "tell": "Undraw, Storyset, or generic 3D blob characters with no real connection to the product.",
+              "refs": [
+                "R-22"
+              ],
+              "line": 207
+            }
+          ]
+        },
+        {
+          "title": "Structural & Flow",
+          "line": 213,
+          "patterns": [
+            {
+              "id": "antislop-ui--dead-navigation",
+              "name": "Dead Navigation",
+              "tell": "navbar links to pages or sections that do not exist.",
+              "refs": [
+                "R-24"
+              ],
+              "line": 215
+            },
+            {
+              "id": "antislop-ui--non-functional-controls",
+              "name": "Non-Functional Controls",
+              "tell": "buttons do nothing, dropdowns won't open, forms cannot submit.",
+              "refs": [
+                "R-26"
+              ],
+              "line": 221
+            },
+            {
+              "id": "antislop-ui--sections-that-fill-a-template",
+              "name": "Sections That Fill a Template",
+              "tell": "a section exists because \"every AI landing page has one\", not because the content needs it.",
+              "refs": [],
+              "line": 227
+            }
+          ]
+        },
+        {
+          "title": "App & Dashboard",
+          "line": 233,
+          "patterns": [
+            {
+              "id": "antislop-ui--default-dashboard-shell",
+              "name": "Default Dashboard Shell",
+              "tell": "left sidebar, top bar, four stat cards, a chart, a table. Chosen before anyone asked what the screen is for, and identical whether it manages invoices, patients, or servers.",
+              "refs": [
+                "R-20"
+              ],
+              "line": 237
+            },
+            {
+              "id": "antislop-ui--stat-cards-with-invented-numbers",
+              "name": "Stat Cards With Invented Numbers",
+              "tell": "a row of four cards reading 12,483 / 94.2% / $48.2K / 1,204, each with a green \"+12% this week\" delta.",
+              "refs": [
+                "R-17",
+                "R-38"
+              ],
+              "line": 243
+            },
+            {
+              "id": "antislop-ui--filler-activity-feed",
+              "name": "Filler Activity Feed",
+              "tell": "\"Sarah Chen updated a document, 2 hours ago\", repeated with rotating names and avatars.",
+              "refs": [
+                "R-18",
+                "R-27",
+                "R-38"
+              ],
+              "line": 249
+            },
+            {
+              "id": "antislop-ui--charts-without-a-question",
+              "name": "Charts Without a Question",
+              "tell": "a line or donut chart placed because the space looked bare, with a generic title (\"Overview\", \"Performance\") and no axis the reader can act on.",
+              "refs": [
+                "R-25"
+              ],
+              "line": 255
+            },
+            {
+              "id": "antislop-ui--generic-table-columns",
+              "name": "Generic Table Columns",
+              "tell": "Name, Status, Date, Actions, whatever the rows actually are, with a three-dot menu on every row.",
+              "refs": [
+                "R-26"
+              ],
+              "line": 261
+            },
+            {
+              "id": "antislop-ui--filler-data-in-fields-and-columns",
+              "name": "Filler Data in Fields and Columns",
+              "tell": "empty form fields and table columns filled with fake but plausible data: `John Doe`, `johndoe@example.com`, `\"Let's build something\"`, phone numbers and dates that belong to nobody.",
+              "refs": [
+                "R-16",
+                "R-23",
+                "R-38"
+              ],
+              "line": 267
+            },
+            {
+              "id": "antislop-ui--placeholder-empty-and-loading-states",
+              "name": "Placeholder Empty and Loading States",
+              "tell": "\"No data available\" with an illustration, a bare spinner, or a full-page skeleton that mimics a layout the real data never fills.",
+              "refs": [
+                "R-27"
+              ],
+              "line": 273
+            }
+          ]
+        },
+        {
+          "title": "Motion",
+          "line": 279,
+          "patterns": [
+            {
+              "id": "antislop-ui--endless-pulses-and-loops",
+              "name": "Endless Pulses and Loops",
+              "tell": "elements that pulse, bounce, or float forever with no user trigger.",
+              "refs": [
+                "R-19"
+              ],
+              "line": 281
+            },
+            {
+              "id": "antislop-ui--template-animations-stacked",
+              "name": "Template Animations Stacked",
+              "tell": "every element uses Fade Up + Fade In + Floating + Scale + Bounce simultaneously.",
+              "refs": [
+                "R-19"
+              ],
+              "line": 287
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "antislop-copywriting",
+      "file": "skills/antislop-copywriting/SKILL.md",
+      "target": "copy",
+      "patternCount": 27,
+      "sections": [
+        {
+          "title": "Tone & Voice",
+          "line": 21,
+          "patterns": [
+            {
+              "id": "antislop-copywriting--empty-ai-vocabulary",
+              "name": "Empty AI Vocabulary",
+              "tell": "verbs and abstract nouns stacked to sound impressive without saying anything: *unlock, elevate, empower, delve, showcase, testament, landscape (abstract), journey, robust, game-changer, next-level, seamless, cutting-edge, revolutionary*.",
+              "refs": [
+                "R-16",
+                "R-36"
+              ],
+              "line": 23
+            },
+            {
+              "id": "antislop-copywriting--significance-inflation",
+              "name": "Significance Inflation",
+              "tell": "\"the future of X\", \"marking a pivotal moment\", \"a testament to\", \"revolutionizing\", \"a new era of\".",
+              "refs": [
+                "R-36"
+              ],
+              "line": 33
+            },
+            {
+              "id": "antislop-copywriting--empty-claims-and-social-proof-with-no-evidence",
+              "name": "Empty Claims and Social Proof with No Evidence",
+              "tell": "\"Trusted by thousands of teams\", \"industry-leading\", \"world-class\", \"loved by customers everywhere\", with nothing named or verifiable.",
+              "refs": [
+                "R-17",
+                "R-18",
+                "R-36"
+              ],
+              "line": 43
+            },
+            {
+              "id": "antislop-copywriting--weasel-attributions",
+              "name": "Weasel Attributions",
+              "tell": "\"Experts say\", \"industry observers\", \"people report\", \"leading analysts believe\", with no one named.",
+              "refs": [
+                "R-36"
+              ],
+              "line": 53
+            },
+            {
+              "id": "antislop-copywriting--persuasive-authority-tropes",
+              "name": "Persuasive Authority Tropes",
+              "tell": "\"at its core\", \"the real question is\", \"what really matters\", \"fundamentally\", \"the deeper issue\", \"the heart of the matter\".",
+              "refs": [
+                "R-36"
+              ],
+              "line": 63
+            },
+            {
+              "id": "antislop-copywriting--chatbot-closers",
+              "name": "Chatbot Closers",
+              "tell": "\"I hope this helps!\", \"Let me know if you have any questions\", \"Would you like me to expand on this?\", \"You're welcome!\".",
+              "refs": [
+                "R-36"
+              ],
+              "line": 73
+            },
+            {
+              "id": "antislop-copywriting--fake-candid-openers",
+              "name": "Fake-Candid Openers",
+              "tell": "\"Honestly?\", \"Let's be honest\", \"Here's the thing\", \"Real talk\", as a theatrical pause before an ordinary point.",
+              "refs": [
+                "R-36"
+              ],
+              "line": 83
+            },
+            {
+              "id": "antislop-copywriting--signposting-announcements",
+              "name": "Signposting Announcements",
+              "tell": "\"Let's dive in\", \"Here's what you need to know\", \"In this article we'll explore\", \"Without further ado\".",
+              "refs": [
+                "R-36"
+              ],
+              "line": 93
+            },
+            {
+              "id": "antislop-copywriting--all-caps-emphasis",
+              "name": "All-Caps Emphasis",
+              "tell": "a whole sentence, clause, or phrase in ALL CAPS inside a paragraph to shout emphasis: \"The launch is ready and WE NEED TO MOVE NOW before the window closes.\"",
+              "refs": [
+                "R-06",
+                "R-36"
+              ],
+              "line": 103
+            },
+            {
+              "id": "antislop-copywriting--actorless-passive",
+              "name": "Actorless Passive",
+              "tell": "the passive voice with the actor deleted: \"the decision was made to sunset the free tier\", \"the pricing page has been updated\", \"mistakes were made\".",
+              "refs": [
+                "R-02"
+              ],
+              "line": 114
+            },
+            {
+              "id": "antislop-copywriting--inanimate-subject-human-verb",
+              "name": "Inanimate Subject, Human Verb",
+              "tell": "an abstraction given agency: \"the data tells us\", \"the design decides\", \"the complaint becomes a fix\", \"the roadmap wants to focus on retention\".",
+              "refs": [
+                "R-02",
+                "R-16"
+              ],
+              "line": 125
+            }
+          ]
+        },
+        {
+          "title": "Rhythm & Structure",
+          "line": 136,
+          "patterns": [
+            {
+              "id": "antislop-copywriting--rule-of-three-overuse",
+              "name": "Rule of Three Overuse",
+              "tell": "every idea forced into a group of three to sound complete: \"innovation, inspiration, and insights\".",
+              "refs": [
+                "R-05",
+                "R-36"
+              ],
+              "line": 138
+            },
+            {
+              "id": "antislop-copywriting--negative-parallelism-and-tailing-negations",
+              "name": "Negative Parallelism and Tailing Negations",
+              "tell": "\"It's not just X, it's Y\", \"Not only X, but also Y\", and clipped fragments tacked on as emphasis: \"no guessing\", \"no wasted motion\".",
+              "refs": [
+                "R-36"
+              ],
+              "line": 148
+            },
+            {
+              "id": "antislop-copywriting--aphorism-formulas",
+              "name": "Aphorism Formulas",
+              "tell": "\"X is the language of Y\", \"X is the currency of Z\", \"X is not a tool but a mirror\", \"Efficiency becomes a trap when\".",
+              "refs": [
+                "R-36"
+              ],
+              "line": 158
+            },
+            {
+              "id": "antislop-copywriting--staccato-drama",
+              "name": "Staccato Drama",
+              "tell": "a run of short declarative fragments to manufacture a punchline: \"It had no preference. No prior. No nostalgia.\"",
+              "refs": [
+                "R-36"
+              ],
+              "line": 168
+            },
+            {
+              "id": "antislop-copywriting--synonym-cycling",
+              "name": "Synonym Cycling",
+              "tell": "swapping synonyms to avoid repeating a word: \"the protagonist faces a challenge, the main character must adapt, the central figure persists\".",
+              "refs": [
+                "R-36"
+              ],
+              "line": 178
+            },
+            {
+              "id": "antislop-copywriting--false-ranges",
+              "name": "False Ranges",
+              "tell": "\"from X to Y\" where X and Y are not on a meaningful scale: \"from onboarding to scale\", \"from first click to final invoice, and everything in between\".",
+              "refs": [
+                "R-36"
+              ],
+              "line": 188
+            }
+          ]
+        },
+        {
+          "title": "Honesty & Evidence",
+          "line": 198,
+          "patterns": [
+            {
+              "id": "antislop-copywriting--fabricated-specifics",
+              "name": "Fabricated Specifics",
+              "tell": "invented numbers, testimonials, names, dates, or features that look realistic but are not real.",
+              "refs": [
+                "R-17",
+                "R-18",
+                "R-36",
+                "R-38"
+              ],
+              "line": 200
+            },
+            {
+              "id": "antislop-copywriting--speculative-gap-filling",
+              "name": "Speculative Gap-Filling",
+              "tell": "when the writer does not know a fact, they write a sentence about not knowing it, then invent plausible filler: \"the company was likely founded in the 1990s\", \"she maintains a low profile\".",
+              "refs": [
+                "R-17",
+                "R-36"
+              ],
+              "line": 210
+            },
+            {
+              "id": "antislop-copywriting--generic-positive-conclusion",
+              "name": "Generic Positive Conclusion",
+              "tell": "\"The future looks bright\", \"Exciting times lie ahead\", \"This is a major step in the right direction\".",
+              "refs": [
+                "R-36"
+              ],
+              "line": 220
+            }
+          ]
+        },
+        {
+          "title": "Hygiene & Markdown",
+          "line": 230,
+          "patterns": [
+            {
+              "id": "antislop-copywriting--em-dashes",
+              "name": "Em Dashes",
+              "tell": "the em dash character (`—`) used as an aside or connector: *\"institutions — not the people — continue\"*.",
+              "refs": [
+                "R-02",
+                "R-37"
+              ],
+              "line": 232
+            },
+            {
+              "id": "antislop-copywriting--boldface-overuse",
+              "name": "Boldface Overuse",
+              "tell": "every key term bolded mechanically: \"OKRs, KPIs, BMC\".",
+              "refs": [
+                "R-36"
+              ],
+              "line": 248
+            },
+            {
+              "id": "antislop-copywriting--excessive-quotation-marks",
+              "name": "Excessive Quotation Marks",
+              "tell": "long text studded with quotation marks: quoting words that do not need quoting, scare quotes around ordinary terms, and quotes used as a default for emphasis or hedging. The page reads quoted rather than written.",
+              "refs": [
+                "R-36"
+              ],
+              "line": 259
+            },
+            {
+              "id": "antislop-copywriting--inline-header-lists",
+              "name": "Inline-Header Lists",
+              "tell": "list items that start with a bolded header followed by a colon: \"- User Experience: The UX has been improved\".",
+              "refs": [
+                "R-36"
+              ],
+              "line": 270
+            },
+            {
+              "id": "antislop-copywriting--emojis-in-headings",
+              "name": "Emojis in Headings",
+              "tell": "decoration emojis leading headings or bullets: 🚀 Launch, 💡 Key insight, ✅ Next steps.",
+              "refs": [
+                "R-36"
+              ],
+              "line": 283
+            },
+            {
+              "id": "antislop-copywriting--filler-phrases",
+              "name": "Filler Phrases",
+              "tell": "\"In order to\" for \"to\", \"Due to the fact that\" for \"because\", \"At this point in time\" for \"now\", \"It is important to note that\" for nothing.",
+              "refs": [
+                "R-36"
+              ],
+              "line": 294
+            },
+            {
+              "id": "antislop-copywriting--excessive-hedging",
+              "name": "Excessive Hedging",
+              "tell": "multiple qualifiers stacked on one claim: \"could potentially possibly\", \"may perhaps\".",
+              "refs": [
+                "R-36"
+              ],
+              "line": 304
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "antislop-human",
+      "file": "skills/antislop-human/SKILL.md",
+      "target": "a11y",
+      "patternCount": 12,
+      "sections": [
+        {
+          "title": "Color & Contrast",
+          "line": 20,
+          "patterns": [
+            {
+              "id": "antislop-human--low-contrast-text",
+              "name": "Low-Contrast Text",
+              "tell": "light grey text on a white or near-white background, thin body text, muted labels chosen because they look \"elegant\" but are hard to read.",
+              "refs": [
+                "R-25"
+              ],
+              "line": 22
+            },
+            {
+              "id": "antislop-human--text-over-a-photo-or-gradient",
+              "name": "Text Over a Photo or Gradient",
+              "tell": "white text placed directly over an image or gradient that is light in some areas, checked at one bright spot only.",
+              "refs": [
+                "R-25"
+              ],
+              "line": 28
+            },
+            {
+              "id": "antislop-human--the-grey-on-grey-hallucination",
+              "name": "The Grey-on-Grey Hallucination",
+              "tell": "\"dark grey on black\" or \"light grey on white\" claimed to pass AA without a computation.",
+              "refs": [],
+              "line": 34
+            },
+            {
+              "id": "antislop-human--non-text-contrast",
+              "name": "Non-Text Contrast",
+              "tell": "interactive components (buttons, icons, input borders, focus indicators, chart segments) distinguished from their background by less than 3:1.",
+              "refs": [],
+              "line": 40
+            }
+          ]
+        },
+        {
+          "title": "Keyboard",
+          "line": 85,
+          "patterns": [
+            {
+              "id": "antislop-human--removed-focus-outline",
+              "name": "Removed Focus Outline",
+              "tell": "`outline: none` or `outline: 0` with no replacement focus style.",
+              "refs": [
+                "R-32"
+              ],
+              "line": 87
+            },
+            {
+              "id": "antislop-human--mouse-only-patterns",
+              "name": "Mouse-Only Patterns",
+              "tell": "menus that open on hover only, dropdowns that click-open but do not keyboard-open, drag-and-drop with no keyboard fallback.",
+              "refs": [
+                "R-26",
+                "R-32"
+              ],
+              "line": 93
+            },
+            {
+              "id": "antislop-human--broken-tab-order",
+              "name": "Broken Tab Order",
+              "tell": "focus jumps around the page, skips content, or lands on hidden elements because the DOM order does not match the visual order.",
+              "refs": [
+                "R-32"
+              ],
+              "line": 99
+            }
+          ]
+        },
+        {
+          "title": "Focus & States",
+          "line": 105,
+          "patterns": [
+            {
+              "id": "antislop-human--weak-or-invisible-focus-indicator",
+              "name": "Weak or Invisible Focus Indicator",
+              "tell": "a focus ring the same color as the background, a ring that only appears on hover, or an indicator thinner than a 1px border.",
+              "refs": [
+                "R-32",
+                "R-34"
+              ],
+              "line": 107
+            },
+            {
+              "id": "antislop-human--color-only-feedback",
+              "name": "Color-Only Feedback",
+              "tell": "success, error, and status communicated only by color: red error text, green success border, a tinted chip, with no icon, label, or text.",
+              "refs": [],
+              "line": 113
+            },
+            {
+              "id": "antislop-human--missing-ui-states",
+              "name": "Missing UI States",
+              "tell": "a data view with no empty, loading, or error state, or states that exist but are invisible: a spinner with no text, an empty screen with no explanation.",
+              "refs": [
+                "R-27"
+              ],
+              "line": 119
+            }
+          ]
+        },
+        {
+          "title": "Zoom & Mobile Use",
+          "line": 125,
+          "patterns": [
+            {
+              "id": "antislop-human--text-that-cannot-zoom",
+              "name": "Text That Cannot Zoom",
+              "tell": "fixed pixel font sizes, or containers with `overflow: hidden` that clip text at 200% zoom.",
+              "refs": [
+                "R-35"
+              ],
+              "line": 129
+            },
+            {
+              "id": "antislop-human--mobile-keyboard-covers-the-form",
+              "name": "Mobile Keyboard Covers the Form",
+              "tell": "inputs at the bottom of the viewport hidden behind the on-screen keyboard, with no scroll-into-view and no room for the input.",
+              "refs": [
+                "R-03"
+              ],
+              "line": 135
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "antislop-layoutmobile",
+      "file": "skills/antislop-layoutmobile/SKILL.md",
+      "target": "mobile",
+      "patternCount": 21,
+      "sections": [
+        {
+          "title": "Breakpoints",
+          "line": 19,
+          "patterns": [
+            {
+              "id": "antislop-layoutmobile--desktop-only-layout",
+              "name": "Desktop-Only Layout",
+              "tell": "one layout state for every screen; the mobile view is the desktop layout squeezed into a phone.",
+              "refs": [
+                "R-03"
+              ],
+              "line": 21
+            },
+            {
+              "id": "antislop-layoutmobile--breakpoint-driven-by-device-list",
+              "name": "Breakpoint Driven by Device List",
+              "tell": "breakpoints named after phone widths (375px, 414px, 768px) chosen because \"that is the iPhone size\", not because the content breaks there.",
+              "refs": [
+                "R-03"
+              ],
+              "line": 27
+            },
+            {
+              "id": "antislop-layoutmobile--mobile-styled-last",
+              "name": "Mobile Styled Last",
+              "tell": "mobile rules bolted on as a trailing override: a long desktop stylesheet with a small media query at the end fixing one or two things.",
+              "refs": [
+                "R-03",
+                "R-35"
+              ],
+              "line": 33
+            },
+            {
+              "id": "antislop-layoutmobile--two-state-layout",
+              "name": "Two-State Layout",
+              "tell": "a layout with exactly two states: a single stacked column below one breakpoint, and a wide multi-column grid above it, with nothing defined in between. A tablet or small laptop width then inherits whichever state is closest: the phone stack stretched absurdly wide, or the desktop grid crammed into a fraction of its intended canvas.",
+              "refs": [
+                "R-03",
+                "R-35"
+              ],
+              "line": 39
+            }
+          ]
+        },
+        {
+          "title": "Scale & Sizing",
+          "line": 45,
+          "patterns": [
+            {
+              "id": "antislop-layoutmobile--desktop-sized-everything",
+              "name": "Desktop-Sized Everything",
+              "tell": "padding, gaps, hero heights, and card sizes carried unchanged from desktop to mobile, so every section looks blown up on a phone.",
+              "refs": [
+                "R-03",
+                "R-05"
+              ],
+              "line": 47
+            },
+            {
+              "id": "antislop-layoutmobile--fixed-pixel-type",
+              "name": "Fixed Pixel Type",
+              "tell": "font sizes in fixed px that never change between desktop and mobile, so headings and body text stay oversized on a phone.",
+              "refs": [
+                "R-03",
+                "R-06",
+                "R-35"
+              ],
+              "line": 53
+            },
+            {
+              "id": "antislop-layoutmobile--100vh-sections",
+              "name": "100vh Sections",
+              "tell": "hero and section heights set to `100vh`, so a section fills the whole phone screen and pushes everything else below the fold.",
+              "refs": [
+                "R-03"
+              ],
+              "line": 59
+            },
+            {
+              "id": "antislop-layoutmobile--huge-empty-padding",
+              "name": "Huge Empty Padding",
+              "tell": "desktop-scale section padding (96px, 128px) kept on mobile, creating tall empty gaps between sections on a phone.",
+              "refs": [
+                "R-05"
+              ],
+              "line": 65
+            }
+          ]
+        },
+        {
+          "title": "Grids & Stacking",
+          "line": 71,
+          "patterns": [
+            {
+              "id": "antislop-layoutmobile--columns-that-don-t-collapse",
+              "name": "Columns That Don't Collapse",
+              "tell": "a multi-column grid keeps its side-by-side columns on mobile, so the columns shrink, the text wraps awkwardly, and elements collide.",
+              "refs": [
+                "R-03",
+                "R-35"
+              ],
+              "line": 73
+            },
+            {
+              "id": "antislop-layoutmobile--fixed-width-grid",
+              "name": "Fixed-Width Grid",
+              "tell": "`grid-template-columns` set in fixed px, or grid areas that cannot reflow, so the grid stays rigid when the viewport shrinks.",
+              "refs": [
+                "R-03"
+              ],
+              "line": 79
+            },
+            {
+              "id": "antislop-layoutmobile--forced-12-column",
+              "name": "Forced 12-Column",
+              "tell": "a 12-column grid forced onto mobile content that needs one or two columns, so spans look arbitrary and the math fights the layout.",
+              "refs": [
+                "R-03"
+              ],
+              "line": 85
+            }
+          ]
+        },
+        {
+          "title": "Overflow",
+          "line": 91,
+          "patterns": [
+            {
+              "id": "antislop-layoutmobile--horizontal-scroll-leak",
+              "name": "Horizontal Scroll Leak",
+              "tell": "the page scrolls sideways because some element is wider than the viewport: a table, a code block, an image, a long unbroken string.",
+              "refs": [
+                "R-03",
+                "R-35"
+              ],
+              "line": 93
+            },
+            {
+              "id": "antislop-layoutmobile--overflow-hidden-clipping",
+              "name": "Overflow Hidden Clipping",
+              "tell": "`overflow: hidden` on a container that clips content at narrow widths, hiding text or controls instead of letting them fit.",
+              "refs": [
+                "R-03"
+              ],
+              "line": 99
+            },
+            {
+              "id": "antislop-layoutmobile--fixed-width-children",
+              "name": "Fixed-Width Children",
+              "tell": "flex or grid children with a fixed px width or `min-width` that burst out of their parent on a narrow screen.",
+              "refs": [
+                "R-03"
+              ],
+              "line": 105
+            }
+          ]
+        },
+        {
+          "title": "Tap Targets",
+          "line": 111,
+          "patterns": [
+            {
+              "id": "antislop-layoutmobile--under-sized-targets",
+              "name": "Under-Sized Targets",
+              "tell": "buttons, links, and controls smaller than about 44 x 44 px, easy to hit on desktop with a cursor but hard to hit with a thumb.",
+              "refs": [
+                "R-03",
+                "R-35"
+              ],
+              "line": 113
+            },
+            {
+              "id": "antislop-layoutmobile--targets-too-close",
+              "name": "Targets Too Close",
+              "tell": "44px targets packed together with no gap, so a thumb tap hits the wrong one.",
+              "refs": [
+                "R-03"
+              ],
+              "line": 119
+            },
+            {
+              "id": "antislop-layoutmobile--hover-only-interactions",
+              "name": "Hover-Only Interactions",
+              "tell": "menus, reveals, and tooltips that exist only on hover, so a touch user can never open them.",
+              "refs": [
+                "R-03",
+                "R-35"
+              ],
+              "line": 125
+            }
+          ]
+        },
+        {
+          "title": "Mobile Navigation",
+          "line": 131,
+          "patterns": [
+            {
+              "id": "antislop-layoutmobile--nav-that-stays-desktop",
+              "name": "Nav That Stays Desktop",
+              "tell": "the desktop top bar with its row of links kept side by side on mobile, so the links crowd, wrap into two rows, or spill past the viewport.",
+              "refs": [
+                "R-03",
+                "R-35"
+              ],
+              "line": 133
+            },
+            {
+              "id": "antislop-layoutmobile--the-bare-hamburger",
+              "name": "The Bare Hamburger",
+              "tell": "everything hidden behind a hamburger icon with no label and no hint, so a user never realizes the menu exists or cannot tell what it opens.",
+              "refs": [
+                "R-03"
+              ],
+              "line": 139
+            },
+            {
+              "id": "antislop-layoutmobile--bottom-nav-that-eats-content",
+              "name": "Bottom Nav That Eats Content",
+              "tell": "a fixed bottom nav bar that sits over the content, covering the last list items, the final button, or the form the user was trying to finish.",
+              "refs": [
+                "R-03",
+                "R-35"
+              ],
+              "line": 145
+            },
+            {
+              "id": "antislop-layoutmobile--sticky-nav-steals-the-screen",
+              "name": "Sticky Nav Steals the Screen",
+              "tell": "a sticky header or tall bottom bar that holds a large fixed height, so a big slice of the phone screen is always taken by navigation.",
+              "refs": [
+                "R-03"
+              ],
+              "line": 151
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "antislop-code",
+      "file": "skills/antislop-code/SKILL.md",
+      "target": "code",
+      "patternCount": 11,
+      "sections": [
+        {
+          "title": "Comments That Add Nothing",
+          "line": 19,
+          "patterns": [
+            {
+              "id": "antislop-code--decorative-separators",
+              "name": "Decorative Separators",
+              "tell": "banner comments built from repeated characters, ALL CAPS labels, or box drawing around a section name: `// =======================` around `Authentication`, `// -------- WORKFLOW --------`, or a `/* ---- ROUTES ---- */` header.",
+              "refs": [
+                "R-31"
+              ],
+              "line": 21
+            },
+            {
+              "id": "antislop-code--restating-the-obvious",
+              "name": "Restating the Obvious",
+              "tell": "a comment that repeats what the next line or declaration already shows, like `// Initialize the variable` above `let count = 0`, `// User class` above `class User {}`, `// Validate user` above `function validateUser()`, or `const userAge = 25; // User age is 25`.",
+              "refs": [],
+              "line": 27
+            },
+            {
+              "id": "antislop-code--workflow-narration",
+              "name": "Workflow Narration",
+              "tell": "comments that narrate the flow step by step, like `// Step 1: Validate input`, `// Step 2: Process request`, `// Step 3: Return response`, or `// First...`, `// Next...`, `// Finally...`.",
+              "refs": [],
+              "line": 33
+            },
+            {
+              "id": "antislop-code--empty-labels",
+              "name": "Empty Labels",
+              "tell": "generic labels with no information behind them: `// Main logic`, `// Core logic`, `// Business logic`, `// Helper function`, `// Entry point`, `// Error handling`, or `// Note: This is important.` / `// Important: Please read.`",
+              "refs": [],
+              "line": 39
+            },
+            {
+              "id": "antislop-code--vague-placeholders",
+              "name": "Vague Placeholders",
+              "tell": "comments that promise future work without saying what: `// TODO: Improve this`, `// Future improvements`, `// Additional optimization can be added here`, `// Add more validation`.",
+              "refs": [],
+              "line": 45
+            },
+            {
+              "id": "antislop-code--signature-echo",
+              "name": "Signature Echo",
+              "tell": "documentation that only restates the signature, like a JSDoc block that repeats `@param price The price.` and `@returns Total price.` for a function whose name and parameters already say all of it.",
+              "refs": [],
+              "line": 51
+            },
+            {
+              "id": "antislop-code--decorative-emoji",
+              "name": "Decorative Emoji",
+              "tell": "emoji used as decoration in comments, like `// ✅ Validation` or `// 🚀 Performance`.",
+              "refs": [],
+              "line": 57
+            },
+            {
+              "id": "antislop-code--end-markers",
+              "name": "End Markers",
+              "tell": "comments that only mark the end of a block, like `} // end if`, `# End of function`, or `// End processOrder`.",
+              "refs": [],
+              "line": 63
+            }
+          ]
+        },
+        {
+          "title": "How It Should Read",
+          "line": 69,
+          "patterns": [
+            {
+              "id": "antislop-code--the-over-explained-comment",
+              "name": "The Over-Explained Comment",
+              "tell": "one comment that runs on for several lines, stacking reasons, context, and history around a fact that fits in one line: a four-line block explaining that a stub sits on PATH, which release introduced the workaround, and what broke before it. Every sentence is true. The length is the tell.",
+              "refs": [],
+              "line": 71
+            },
+            {
+              "id": "antislop-code--line-by-line-narration",
+              "name": "Line-by-Line Narration",
+              "tell": "a comment on every trivial statement, narrating each line as it is written: `// Initialize count`, then `// Loop items`, then `// Get item`, then `// Increment`, then `// Return result`.",
+              "refs": [],
+              "line": 77
+            },
+            {
+              "id": "antislop-code--stiff-or-loud-wording",
+              "name": "Stiff or Loud Wording",
+              "tell": "comments that sound formal, long, or shout: \"This function is responsible for validating whether the supplied credentials are valid before continuing with the authentication process\", or `// MAIN LOGIC` in caps.",
+              "refs": [],
+              "line": 83
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
