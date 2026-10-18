@@ -25,4 +25,18 @@ describe("ToggleGroup sealed (Gel.3c-2 §6b)", () => {
     fireEvent.click(screen.getByRole("button", { name: "Italic" }));
     expect(onChange).toHaveBeenCalledWith("italic");
   });
+  it("variant joined = pil menyatu, segmen terpilih tetap aktif", () => {
+    renderSealed(
+      <ToggleGroup
+        options={OPTIONS}
+        variant="joined"
+        value="bold"
+        onChange={() => {}}
+      />,
+    );
+    const active = screen.getByRole("button", { name: "Bold" });
+    const idle = screen.getByRole("button", { name: "Italic" });
+    expect(active.getAttribute("aria-pressed")).toBe("true");
+    expect(idle.getAttribute("aria-pressed")).toBe("false");
+  });
 });

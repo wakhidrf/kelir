@@ -315,7 +315,7 @@
     {
       "name": "ToggleGroup",
       "description": "A container holding multiple Toggle buttons for single or multiple selection.",
-      "props": "`options: {label, value, icon?}[]`, `value`, `defaultValue`, `onChange`, `disabled?`"
+      "props": "`options: {label, value, icon?}[]`, `value`, `defaultValue`, `onChange`, `variant?` (`separated\\|joined`; `joined` = satu pil menyatu rapat untuk segmented kecil, default `separated`), `disabled?`"
     },
     {
       "name": "Tooltip",

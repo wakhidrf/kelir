@@ -910,7 +910,9 @@ export interface ToggleProps {
 
 // 61. ToggleGroup — grup pilihan tunggal sealed berbasis MUI (Gel.3c-2 §6).
 // exclusive hardcode milik kit (selalu satu terpilih); `onChange` semantik
-// (string, tanpa event). Tanpa ...rest/style/sx/exclusive/onChange MUI.
+// (string, tanpa event); `variant?` (`separated` = tombol raised terpisah,
+// `joined` = satu pil menyatu rapat untuk segmented kecil, default
+// `separated`). Tanpa ...rest/style/sx/exclusive/onChange MUI.
 export interface ToggleGroupOption {
   label: string;
   value: string;
@@ -921,6 +923,7 @@ export interface ToggleGroupProps {
   value?: string;
   defaultValue?: string;
   onChange?: (value: string) => void;
+  variant?: "separated" | "joined";
   disabled?: boolean;
   id?: string;
   "aria-label"?: string;
