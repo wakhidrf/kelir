@@ -53,3 +53,4 @@
 | Wide-screen order | Swapping child order per breakpoint needed your own CSS | `Stack reverseMd?` (default `false`): reverses child order at `>=768px`, on top of `directionMd ?? direction` |
 | Inline decorated headings | Styled words inside one heading meant nested elements | `Typography segments?`: inline token-styled spans (muted/primary tone, small scale, line break) inside one heading element |
 | Framed floating logos | A rounded framed logo over a card needed a hand-built box | `Avatar frame?` (surface fill + thick primary ring + padding) and `FlexItem offsetY?` (`sm\|md\|lg`, token-based upward pull) |
+| AI slop filter | Agents shipped generic AI UI, copy, and comments, and the kit could not say no | MCP anti-slop filter (v1.2): a pinned, offline mirror of the anti-slop rulebook (`kelir://antislop` + per-skill), a deterministic `audit` tool, and anti-slop notes in `suggest` |

@@ -86,25 +86,53 @@ for (const s of sugJson.suggestions) {
 assert.ok(sugJson.suggestions.some((s) => s.name === "DropdownMenu"),
   "suggest 'tombol aksi di mobile' tak menyarankan DropdownMenu");
 
-// 5c. Anti-slop (v1.2, F3): resource inti + audit deterministik.
+// 5c. Anti-slop (v1.2, F3/F4): resource inti, index, audit deterministik.
 const asText = (await client.readResource({ uri: "kelir://antislop" })).contents[0].text;
 assert.ok(asText.includes("anti-slop filter") && asText.includes("upstream v"), "header anti-slop hilang");
+
+// Versi di header resource == file VERSION mirror == index.json.
+const antiVersion = readFileSync(join(MCP_ROOT, "antislop", "skills", "antislop", "VERSION"), "utf8").trim();
 const asIndex = JSON.parse(readFileSync(join(MCP_ROOT, "antislop", "index.json"), "utf8"));
-assert.ok(asText.includes(asIndex.version), "versi upstream tak disebut di kelir://antislop");
+assert.equal(asIndex.version, antiVersion, "index.json tidak cocok dengan antislop/VERSION");
+assert.ok(asText.includes(`upstream v${antiVersion}`), "versi upstream tak di header kelir://antislop");
+
+// index.json tidak kosong: 38 aturan inti + pola sub-skill.
+assert.equal(asIndex.core.rules.length, 38, "index.json: aturan inti bukan 38");
+assert.equal(asIndex.skills.length, 5, "index.json: sub-skill bukan 5");
+assert.ok(asIndex.skills.every((s) => s.patternCount > 0), "index.json: ada sub-skill tanpa pola");
+
 const uiSkill = (await client.readResource({ uri: "kelir://antislop/antislop-ui" })).contents[0].text;
 assert.ok(uiSkill.includes("Skill: antislop-ui"), "sub-skill ui tak berisi header");
 
-const audited = await client.callTool({
-  name: "audit",
-  arguments: { text: "Our BEST-IN-CLASS platform unlocks 10x growth — trusted by 5000 teams", jsx: "style={{ outline: 'none' }}" },
+const auditOf = async (args) => JSON.parse((await client.callTool({ name: "audit", arguments: args })).content[0].text);
+const combined = await auditOf({
+  text: "Our BEST-IN-CLASS platform unlocks 10x growth — trusted by 5000 teams",
+  jsx: "style={{ outline: 'none' }}",
 });
-const auditJson = JSON.parse(audited.content[0].text);
-assert.ok(Array.isArray(auditJson.matches) && auditJson.matches.length > 0, "audit tak menemukan slop");
-assert.ok(auditJson.matches.some((m) => m.rule === "R-02"), "audit tak menandai em dash (R-02)");
-assert.ok(auditJson.matches.some((m) => m.rule === "antislop-human--removed-focus-outline"),
+assert.ok(combined.matches.length > 0, "audit tak menemukan slop");
+assert.ok(combined.matches.some((m) => m.rule === "R-02"), "audit tak menandai em dash (R-02)");
+assert.ok(combined.matches.some((m) => m.rule === "antislop-human--removed-focus-outline"),
   "audit tak menandai outline:none");
-const clean = await client.callTool({ name: "audit", arguments: { text: "A short, plain sentence." } });
-assert.equal(JSON.parse(clean.content[0].text).matches.length, 0, "teks bersih malah kena aturan");
+assert.ok(combined.notes.length > 0, "audit tak memberi catatan Kelir");
+
+// Korpus slop terkenal: tiap kasus wajib memicu aturan yang diharapkan.
+const CORPUS = [
+  { label: "NEXT-GEN AI 2.0", text: "NEXT-GEN AI 2.0", expect: "R-16" },
+  { label: "fake number", text: "Trusted by 10x more teams, 300% faster", expect: "R-17" },
+  { label: "decorative emoji", text: "Ship it 🚀", expect: "antislop-ui--emoji-as-decoration" },
+  { label: "glassmorphism", jsx: "backdrop-filter: blur(20px)", expect: "antislop-ui--excessive-glassmorphism" },
+  { label: "100vh section", jsx: ".hero { min-height: 100vh }", expect: "antislop-layoutmobile--100vh-sections" },
+];
+for (const c of CORPUS) {
+  const got = await auditOf(c.text ? { text: c.text } : { jsx: c.jsx });
+  assert.ok(got.matches.some((m) => m.rule === c.expect),
+    `audit tak menandai '${c.label}' sebagai ${c.expect}`);
+}
+
+// Teks bersih tidak boleh kena apa pun.
+const clean = await auditOf({ text: "A short, plain sentence about a button." });
+assert.equal(clean.matches.length, 0, "teks bersih malah kena aturan");
+assert.equal(clean.ok, true, "audit teks bersih tak menandai ok");
 
 // 6. Determinism: regenerasi ke tmp wajib byte-identik dengan file ter-commit.
 const tmp = mkdtempSync(join(tmpdir(), "kelir-snap-"));
