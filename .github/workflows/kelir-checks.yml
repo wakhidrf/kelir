@@ -21,7 +21,7 @@ jobs:
       - name: Parse-check skrip kit + server MCP
         run: |
           fail=0
-          for f in scripts/*.mjs kelir-mcp/tools/*.mjs kelir-mcp/server.mjs; do
+          for f in scripts/*.mjs kelir-mcp/*.mjs kelir-mcp/tools/*.mjs; do
             if [ -f "$f" ]; then
               echo "node --check $f"
               node --check "$f" || fail=1
@@ -32,6 +32,10 @@ jobs:
             exit 1
           fi
           echo "OK — skrip kit + server MCP lolos parse."
+      - name: Mirror anti-slop tidak drift
+        run: |
+          node kelir-mcp/tools/sync-antislop.mjs --check
+          node kelir-mcp/tools/build-antislop-index.mjs --check
       - name: Catatan gate penuh
         run: |
           echo "Gate parity/status (kelir:drift, kelir:guard:strict, kelir:status:check)"

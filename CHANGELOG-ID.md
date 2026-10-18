@@ -53,3 +53,4 @@
 | Urutan di layar lebar | Menukar urutan anak per breakpoint butuh CSS sendiri | `Stack reverseMd?` (default `false`): membalik urutan anak pada `>=768px`, di atas `directionMd ?? direction` |
 | Heading berhias inline | Kata bergaya dalam satu heading butuh elemen bertingkat | `Typography segments?`: span inline ber-token (tone muted/primary, skala kecil, pindah baris) dalam satu elemen heading |
 | Logo berbingkai mengambang | Logo bulat berbingkai di atas kartu butuh kotak rakitan | `Avatar frame?` (latar surface + ring primary tebal + padding) dan `FlexItem offsetY?` (`sm\|md\|lg`, tarik naik ber-token) |
+| Filter AI slop | Agen mengirim UI, copy, dan komentar AI generik, dan kit tak bisa menolak | Filter anti-slop MCP (v1.2): mirror offline terpin dari rulebook anti-slop (`kelir://antislop` + per-skill), tool `audit` deterministik, dan catatan anti-slop di `suggest` |
