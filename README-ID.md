@@ -254,7 +254,7 @@ sehingga tak pernah basi:
 ---
 
 <!-- kelir-doc: components -->
-## Daftar Lengkap 77 Komponen Project Kelir
+## Daftar Lengkap 82 Komponen Project Kelir
 
 Project Kelir memiliki **77 komponen** yang dikelompokkan ke beberapa kategori utama agar mudah merancang antarmuka yang terstruktur dan konsisten.
 
@@ -295,67 +295,70 @@ Komponen untuk menampilkan data statis, visualisasi, dan struktur pesan.
 28. **Card**: Panel wadah informasi yang terdiri dari header, sub-header, badan, dan footer.
 29. **Carousel**: Pemutar konten horizontal dengan efek swipe dan transisi mulus.
 30. **Chart**: Visualisasi data grafis (Bar, Line, Area) yang dirender sebagai SVG milik kit dengan judul opsional.
-31. **Collapsible**: Panel konten lipat (ciut-kembang) untuk menyembunyikan atau menampilkan detail tambahan.
-32. **Data Table**: Tabel data dengan paginasi dan judul opsional.
-33. **Empty**: Visual status yang menarik untuk menandai saat data atau konten kosong.
-34. **Hover Card**: Kartu pratinjau dengan konten tambahan yang muncul saat link di-hover.
-35. **Item**: Komponen baris serbaguna untuk daftar, menyajikan media, judul, deskripsi, dan tombol aksi.
-36. **Kbd**: Menampilkan pintasan keyboard dengan gaya tombol keyboard fisik yang estetis.
-37. **Marker**: Penanda garis status, pemisah percakapan, atau pembagi garis berlabel di chat.
-38. **Message**: Komponen baris pesan dalam riwayat chat lengkap dengan waktu kirim dan status.
-39. **Message Scroller**: Wadah scroll chat cerdas yang menstabilkan posisi pesan baru dan memuat riwayat dengan mulus.
-40. **Progress**: Indikator bilah progres linear untuk penyelesaian tugas.
-41. **Scroll Area**: Wadah dengan scrollbar kustom yang dioptimalkan untuk konsistensi lintas-browser.
-42. **Separator**: Garis pembagi horizontal atau vertikal antar elemen konten dengan teks berlabel opsional.
-43. **Table**: Struktur tabel dasar yang responsif untuk menyajikan data baris-kolom yang teratur.
-44. **Tabs**: Navigasi konten berbasis tab untuk membagi informasi ke panel terpisah.
-45. **Typography**: Styling teks khusus untuk heading, paragraf, dan label kecil demi konsistensi, dengan segmen inline berhias untuk satu heading.
+31. **Code Block**: Blok kode dengan label bahasa dan tombol salin milik kit, lengkap dengan cadangan clipboard.
+32. **Collapsible**: Panel konten lipat (ciut-kembang) untuk menyembunyikan atau menampilkan detail tambahan.
+33. **Data Table**: Tabel data dengan paginasi dan judul opsional.
+34. **Empty**: Visual status yang menarik untuk menandai saat data atau konten kosong.
+35. **Hover Card**: Kartu pratinjau dengan konten tambahan yang muncul saat link di-hover.
+36. **Item**: Komponen baris serbaguna untuk daftar, menyajikan media, judul, deskripsi, dan tombol aksi.
+37. **Kbd**: Menampilkan pintasan keyboard dengan gaya tombol keyboard fisik yang estetis.
+38. **List**: Daftar semantik dengan penanda, jarak, dan warna milik kit, dapat beralih antara bullet dan bernomor.
+39. **Marker**: Penanda garis status, pemisah percakapan, atau pembagi garis berlabel di chat.
+40. **Message**: Komponen baris pesan dalam riwayat chat lengkap dengan waktu kirim dan status.
+41. **Message Scroller**: Wadah scroll chat cerdas yang menstabilkan posisi pesan baru dan memuat riwayat dengan mulus.
+42. **Progress**: Indikator bilah progres linear untuk penyelesaian tugas.
+43. **Quote**: Kutipan blok dengan batang aksen, latar, dan radius milik kit.
+44. **Scroll Area**: Wadah dengan scrollbar kustom yang dioptimalkan untuk konsistensi lintas-browser.
+45. **Separator**: Garis pembagi horizontal atau vertikal antar elemen konten dengan teks berlabel opsional.
+46. **Table**: Struktur tabel dasar yang responsif untuk menyajikan data baris-kolom yang teratur.
+47. **Tabs**: Navigasi konten berbasis tab untuk membagi informasi ke panel terpisah.
+48. **Typography**: Styling teks khusus untuk heading, paragraf, dan label kecil demi konsistensi, dengan segmen inline berhias untuk satu heading.
 
 ### 3. Navigasi
 Komponen yang memandu pergerakan pengguna saat menjelajahi aplikasi.
 
-46. **Breadcrumb**: Jejak hierarki halaman aktif sebagai panduan untuk kembali.
-47. **Command**: Dialog pencarian cepat gaya command-palette dan aksi perintah instan.
-48. **Menubar**: Bilah menu horizontal persisten yang menyajikan daftar perintah cepat.
-49. **Navigation Menu**: Kumpulan link navigasi utama aplikasi dengan indikator aktif.
-50. **Pagination**: Kontrol pemisah halaman untuk data agar penjelajahan data bervolume besar lebih mudah.
-51. **Sidebar**: Panel navigasi samping yang bisa dikustomisasi dengan header, badan menu, dan footer.
+49. **Breadcrumb**: Jejak hierarki halaman aktif sebagai panduan untuk kembali.
+50. **Command**: Dialog pencarian cepat gaya command-palette dan aksi perintah instan.
+51. **Menubar**: Bilah menu horizontal persisten yang menyajikan daftar perintah cepat.
+52. **Navigation Menu**: Kumpulan link navigasi utama aplikasi dengan indikator aktif.
+53. **Pagination**: Kontrol pemisah halaman untuk data agar penjelajahan data bervolume besar lebih mudah.
+54. **Sidebar**: Panel navigasi samping yang bisa dikustomisasi dengan header, badan menu, dan footer.
 
 ### 4. Umpan Balik & Overlay
 Komponen untuk notifikasi status, dialog interupsi, dan panduan melayang.
 
-52. **Alert**: Peringatan kontekstual untuk menarik perhatian pengguna (info, sukses, kritis).
-53. **Alert Dialog**: Dialog modal interupsi kritis yang membutuhkan keputusan konfirmasi dari pengguna. Membukanya tidak pernah menggeser halaman latar.
-54. **Context Menu**: Menu aksi melayang yang muncul saat pengguna klik kanan pada area tertentu.
-55. **Dialog**: Jendela modal di atas layar utama untuk tugas terfokus. Membukanya tidak pernah menggeser halaman latar.
-56. **Drawer**: Panel overlay yang meluncur dari tepi layar (biasanya bawah atau samping).
-57. **Dropdown Menu**: Daftar aksi melayang yang dipicu dengan menekan tombol menu (`triggerVariant?` `text|button`, default `text`).
-58. **Popover**: Balon informasi melayang dengan konten kaya yang dipicu saat elemen diklik.
-59. **Sheet**: Ekstensi dialog geser-samping untuk menampilkan data pendukung.
-60. **Spinner**: Indikator loading melingkar yang mulus.
-61. **Toast**: Pesan notifikasi singkat yang muncul sementara di sudut layar.
-62. **Tooltip**: Penjelasan teks mini yang muncul saat elemen di-hover.
+55. **Alert**: Peringatan kontekstual untuk menarik perhatian pengguna (info, sukses, kritis).
+56. **Alert Dialog**: Dialog modal interupsi kritis yang membutuhkan keputusan konfirmasi dari pengguna. Membukanya tidak pernah menggeser halaman latar.
+57. **Context Menu**: Menu aksi melayang yang muncul saat pengguna klik kanan pada area tertentu.
+58. **Dialog**: Jendela modal di atas layar utama untuk tugas terfokus. Membukanya tidak pernah menggeser halaman latar.
+59. **Drawer**: Panel overlay yang meluncur dari tepi layar (biasanya bawah atau samping).
+60. **Dropdown Menu**: Daftar aksi melayang yang dipicu dengan menekan tombol menu (`triggerVariant?` `text|button`, default `text`).
+61. **Popover**: Balon informasi melayang dengan konten kaya yang dipicu saat elemen diklik.
+62. **Sheet**: Ekstensi dialog geser-samping untuk menampilkan data pendukung.
+63. **Spinner**: Indikator loading melingkar yang mulus.
+64. **Toast**: Pesan notifikasi singkat yang muncul sementara di sudut layar.
+65. **Tooltip**: Penjelasan teks mini yang muncul saat elemen di-hover.
 
 ### 5. Tata Letak
 Komponen yang membentuk struktur dan penempatan elemen.
 
-63. **Direction**: Provider konteks untuk arah baca teks (LTR - kiri ke kanan, atau RTL - kanan ke kiri).
-64. **Grid**: Grid kolom responsif dengan union kolom dan gap tertutup.
-65. **Resizable**: Panel tata letak yang ukurannya bisa diatur dinamis dengan pembagi seret.
-66. **Skeleton**: Bingkai placeholder animasi redup-terang untuk elemen kosong sebagai visualisasi sebelum data selesai dimuat.
-67. **Spacer**: Primitif whitespace gap-tetap dengan union ukuran tertutup.
-68. **Stack**: Primitif tumpukan vertikal/horizontal dengan union gap, direction, align, dan justify tertutup, plus tinggi minimum satu layar dan pembalikan urutan di layar lebar.
-69. **Container**: Primitif penampung lebar halaman dengan union maxWidth dan padding tertutup dari token layout.
-70. **Image**: Primitif media netral dengan union height, fit, dan radius tertutup, mode fluid opsional dengan batas lebar px, dan tanpa shadow/border bawaan.
-71. **FlexItem**: Primitif kontrol item flex pasangan Stack, dengan union boolean grow, shrink, dan clip tertutup, plus offset naik ber-token.
-72. **Shell**: Primitif cangkang viewport app-shell dengan arah baris atau bertumpuk dari boolean tertutup.
-73. **Content**: Satu-satunya area scroll app-shell dengan padding token responsif dan latar.
-74. **TopBar**: Bar mobile app-shell yang menyejajarkan slot kiri dan kanan ujung-ke-ujung (`variant?` `raised|flat`, default `raised`; `flat` baris aksi transparan di dalam konten).
-75. **Tile**: Primitif ubin ikon/logo dengan union tone dan size tertutup dari token.
-76. **Banner**: Spanduk status tengah dengan union tone tertutup, teksnya mewarisi warna.
-77. **Link**: Tautan teks sebaris dengan ikon milik kit, href wajib, dan target eksternal yang aman.
-78. **LoadingOverlay**: Overlay pemuatan fullscreen yang menghalangi interaksi, dengan kartu tengah berdenyut milik kit, label status, teks kemajuan, dan slot media milik konsumen.
-79. **TruncatedText**: Teks elipsis satu baris dengan batas lebar milik kit (`text` wajib, `maxWidth?` data px, teks penuh saat hover); `ContextMenu`/`DropdownMenu` mendapat `truncate?` untuk pemicu teks elipsis.
+66. **Direction**: Provider konteks untuk arah baca teks (LTR - kiri ke kanan, atau RTL - kanan ke kiri).
+67. **Grid**: Grid kolom responsif dengan union kolom dan gap tertutup.
+68. **Resizable**: Panel tata letak yang ukurannya bisa diatur dinamis dengan pembagi seret.
+69. **Skeleton**: Bingkai placeholder animasi redup-terang untuk elemen kosong sebagai visualisasi sebelum data selesai dimuat.
+70. **Spacer**: Primitif whitespace gap-tetap dengan union ukuran tertutup.
+71. **Stack**: Primitif tumpukan vertikal/horizontal dengan union gap, direction, align, dan justify tertutup, plus tinggi minimum satu layar dan pembalikan urutan di layar lebar.
+72. **Container**: Primitif penampung lebar halaman dengan union maxWidth dan padding tertutup dari token layout.
+73. **Image**: Primitif media netral dengan union height, fit, dan radius tertutup, mode fluid opsional dengan batas lebar px, dan tanpa shadow/border bawaan.
+74. **FlexItem**: Primitif kontrol item flex pasangan Stack, dengan union boolean grow, shrink, dan clip tertutup, plus offset naik ber-token.
+75. **Shell**: Primitif cangkang viewport app-shell dengan arah baris atau bertumpuk dari boolean tertutup.
+76. **Content**: Satu-satunya area scroll app-shell dengan padding token responsif dan latar.
+77. **TopBar**: Bar mobile app-shell yang menyejajarkan slot kiri dan kanan ujung-ke-ujung (`variant?` `raised|flat`, default `raised`; `flat` baris aksi transparan di dalam konten).
+78. **Tile**: Primitif ubin ikon/logo dengan union tone dan size tertutup dari token.
+79. **Banner**: Spanduk status tengah dengan union tone tertutup, teksnya mewarisi warna.
+80. **Link**: Tautan teks sebaris dengan ikon milik kit, href wajib, dan target eksternal yang aman.
+81. **LoadingOverlay**: Overlay pemuatan fullscreen yang menghalangi interaksi, dengan kartu tengah berdenyut milik kit, label status, teks kemajuan, dan slot media milik konsumen.
+82. **TruncatedText**: Teks elipsis satu baris dengan batas lebar milik kit (`text` wajib, `maxWidth?` data px, teks penuh saat hover); `ContextMenu`/`DropdownMenu` mendapat `truncate?` untuk pemicu teks elipsis.
 
 ---
 

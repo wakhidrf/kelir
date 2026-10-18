@@ -1198,3 +1198,37 @@ export interface TruncatedTextProps {
   id?: string;
   "aria-label"?: string;
 }
+
+// 79. List — daftar semantik sealed (isi terstruktur/markdown).
+// `items` slot simpul per butir (wajib, urut); `ordered?` MAKNA daftar
+// (default `false` = bullet, `true` = bernomor). Penanda, jarak, dan warna
+// milik kit. Tanpa ...rest/style/sx/className.
+export interface ListProps {
+  items: React.ReactNode[];
+  ordered?: boolean;
+  id?: string;
+  "aria-label"?: string;
+}
+
+// 80. Quote — kutipan blok sealed.
+// `children` slot isi kutipan (wajib). Batang aksen + latar + radius milik
+// kit. Tanpa ...rest/style/sx/className.
+export interface QuoteProps {
+  children: React.ReactNode;
+  id?: string;
+  "aria-label"?: string;
+}
+
+// 81. CodeBlock — blok kode sealed + tombol salin milik kit.
+// `code` teks kode (wajib); `language?` label bahasa (tanpa = "code");
+// `copyLabel?`/`copiedLabel?` label tombol (default "Copy"/"Copied");
+// perilaku salin (clipboard + fallback) milik kit. Tanpa ...rest/style/sx/className.
+export interface CodeBlockProps {
+  code: string;
+  language?: string;
+  copyLabel?: string;
+  copiedLabel?: string;
+  id?: string;
+  "aria-label"?: string;
+}
+
