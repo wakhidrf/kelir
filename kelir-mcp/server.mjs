@@ -4,9 +4,10 @@
 import { readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { McpServer, ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
+import { SUB_SKILLS, audit, filterText, loadAntiSlop, skillText } from "./antislop.mjs";
 
 // Sinonim: jembatani keinginan (sering Indonesia) → kata yang benar-benar
 // muncul di deskripsi/props komponen (Inggris). Data-driven: setiap target
@@ -105,10 +106,10 @@ function suggestComponents(index, wish, limit) {
     .slice(0, limit);
 }
 
-export function createKelirServer(snap) {
+export function createKelirServer(snap, anti = loadAntiSlop(dirname(fileURLToPath(import.meta.url)))) {
   const index = buildIndex(snap);
   const server = new McpServer(
-    { name: "kelir", version: "1.1.0" },
+    { name: "kelir", version: "1.2.0" },
     { capabilities: { resources: {}, prompts: {}, tools: {} } },
   );
 
@@ -150,6 +151,35 @@ export function createKelirServer(snap) {
     }),
   );
 
+  // Anti-slop (F3): inti selalu dimuat; sub-skill on-demand lewat ResourceTemplate.
+  server.resource(
+    "kelir-antislop",
+    "kelir://antislop",
+    { mimeType: "text/markdown" },
+    async (uri) => ({
+      contents: [{ uri: uri.href, mimeType: "text/markdown", text: filterText(anti) }],
+    }),
+  );
+
+  server.resource(
+    "kelir-antislop-skill",
+    new ResourceTemplate("kelir://antislop/{skill}", {
+      list: async () => ({
+        resources: SUB_SKILLS.map((name) => ({
+          uri: `kelir://antislop/${name}`,
+          name,
+          mimeType: "text/markdown",
+        })),
+      }),
+    }),
+    { mimeType: "text/markdown" },
+    async (uri, { skill }) => {
+      const text = skillText(anti, String(skill));
+      if (!text) throw new Error(`skill anti-slop tak dikenal: ${skill}`);
+      return { contents: [{ uri: uri.href, mimeType: "text/markdown", text }] };
+    },
+  );
+
   server.prompt(
     "design-flow",
     "Design → pick a Kelir component → verify the sealed contract",
@@ -160,10 +190,11 @@ export function createKelirServer(snap) {
           type: "text",
           text: [
             "Follow the Kelir design flow:",
+            "0. FILTER: read kelir://antislop (the anti-slop core, load always) and filter generic AI slop from layout, copy, and code before you start; use the audit tool to check a draft.",
             "1. DESAIN: clarify the user's wish (layout, tone, viewport).",
             "2. PILIH: read kelir://components, pick ONE sealed component that fits — never assemble your own from primitives. MUI is only the kit's base: in consumer code use Kelir components (icons/hooks excepted).",
             "3. TOKEN: read kelir://tokens for spacing/motion/status values (no raw hex, no off-token sizes).",
-            "4. VERIFIKASI: read kelir://contract and check the snippet passes every rule before presenting it.",
+            "4. VERIFIKASI: read kelir://contract and check the snippet passes every rule before presenting it; then run the Delivery Gate in kelir://antislop.",
           ].join("\n"),
         },
       }],
@@ -190,6 +221,7 @@ export function createKelirServer(snap) {
     },
     async ({ wish, limit }) => {
       const suggestions = suggestComponents(index, wish, limit ?? 5);
+      const slop = audit(anti, { text: wish });
       return {
         content: [{
           type: "text",
@@ -197,8 +229,33 @@ export function createKelirServer(snap) {
             {
               wish,
               suggestions,
-              note: "Pick ONE sealed component, then read kelir://contract and verify the snippet (no style/sx/className, no raw hex, no off-token size). MUI is only the kit's base.",
+              ...(slop.matches.length ? { antiSlop: slop } : {}),
+              note: "Pick ONE sealed component, then read kelir://contract and verify the snippet (no style/sx/className, no raw hex, no off-token size). MUI is only the kit's base. Read kelir://antislop and run the Delivery Gate before delivering.",
             },
+            null,
+            2,
+          ),
+        }],
+      };
+    },
+  );
+
+  // Audit (F3): deterministic anti-slop matchers over draft text / JSX.
+  // No LLM, no network: rules come from antislop/index.json.
+  server.tool(
+    "audit",
+    "Check a draft against the anti-slop filter (deterministic, offline). Input text (copy) and/or jsx (code snippet). Returns the matched rules with a short why, plus Kelir component/token notes.",
+    {
+      text: z.string().optional().describe("Prose / copy to check"),
+      jsx: z.string().optional().describe("JSX / CSS / comment snippet to check"),
+    },
+    async ({ text, jsx }) => {
+      const result = audit(anti, { text: text ?? "", jsx: jsx ?? "" });
+      return {
+        content: [{
+          type: "text",
+          text: JSON.stringify(
+            { antiSlopVersion: anti.index.version, ...result },
             null,
             2,
           ),

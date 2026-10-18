@@ -1,13 +1,14 @@
-# kelir-mcp — MCP server resmi Kelir (v1.1)
+# kelir-mcp — MCP server resmi Kelir (v1.2)
 
-> Status: in progress. v1 serves a read-only catalog; `suggest` (v1.1) is
-> now available, `lint` (v1.2) is planned next. Local stdio use only, and the
-> served catalog is a generated copy that can lag behind the newest kit.
+> Status: in progress. v1 serves a read-only catalog; `suggest` (v1.1) and the
+> anti-slop filter + `audit` tool (v1.2) are available; `lint` is planned next.
+> Local stdio use only, and the served catalog is a generated copy that can lag
+> behind the newest kit.
 
 Stdio MCP server so AI assistants understand user wishes and apply the best
 suggestion within the sealed contract, without reading the whole repo
-(kit issue #49). v1.1: three resources + one prompt + the `suggest` tool.
-`lint` follows in v1.2.
+(kit issue #49). v1.2: five resources (incl. the anti-slop filter) + one prompt
++ the `suggest` and `audit` tools. `lint` follows.
 
 ## Prereqs
 
@@ -43,13 +44,22 @@ needed: every MCP server adds context.
 - `kelir://contract` — sealed-contract summary (§5–§6), including the
   MUI-base rule: every UI component comes from Kelir, MUI is the kit's
   base (not a ban), and non-component MUI use (icons, hooks) stays fine.
-- Prompt `design-flow` — design, pick ONE sealed component, verify contract.
+- Prompt `design-flow` — design, pick ONE sealed component, verify contract,
+  and filter through the anti-slop core (step 0) + Delivery Gate (step 4).
 - Tool `suggest` (v1.1) — input `wish` (plain language, e.g. "rapi tombol
   aksi di mobile") + optional `limit`; output ranked sealed candidates
   (name + description + allowed props) with a reminder to read
   `kelir://contract`. Synonyms bridge Indonesian wishes to the English
   descriptions in the catalog; it only ever suggests catalog components,
-  never a self-assembled one.
+  never a self-assembled one. Since v1.2 it also returns `antiSlop` matches
+  when the wish itself trips a rule.
+- `kelir://antislop` (v1.2) — the anti-slop core filter (load always): upstream
+  version header + the core `SKILL.md`.
+- `kelir://antislop/{skill}` (v1.2) — one sub-skill on demand (ui,
+  copywriting, human, layoutmobile, code).
+- Tool `audit` (v1.2) — input `text` (copy) and/or `jsx` (code); returns the
+  matched anti-slop rules (id, why, severity) plus Kelir component/token
+  notes. Deterministic and offline: regex matchers keyed to `index.json`.
 
 ## Anti-slop filter (mirror)
 
@@ -110,6 +120,8 @@ deterministic.
 
 - `server.mjs` — wiring only (`createKelirServer` factory; stdio connect
   runs only when invoked directly, so tests/tools can import it).
+- `antislop.mjs` — anti-slop loader + deterministic `audit` matchers
+  (fail-closed against `antislop/index.json`).
 - `snapshot.json` — generated, committed (do not edit by hand).
 - `tools/snapshot.mjs` — zero-dep text parser (same §5-table pattern as
   `kelir-drift.mjs`); fail-closed on unknown shapes.
