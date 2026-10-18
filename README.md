@@ -13,6 +13,8 @@ Project Kelir is currently limited to **Next.js with TypeScript** projects. Befo
 
 The sealed contract (the component list and each component's allowed props, values, and tokens) is kept at the **host project's root** as `STYLE.md`, not inside this submodule. The parity, guard, and status gates therefore run from the host repository, where the kit is mounted at `src/views/kelir`. A standalone clone of Kelir only parse-checks its tooling; run the full gates from the host project so the contract, types, and catalog stay in sync.
 
+Alongside those, the anti-slop gate (`scripts/kelir-slop.mjs`, run as `npm run kelir:slop:strict`) runs from the host project too: it scans the host files that import Kelir plus the kit's own internals using the same pinned matchers as the MCP `audit` tool, and fails the build on any ERROR. A line carrying `kelir-allow: slop` (or the line above it) is an explicit, reviewable exemption.
+
 ## Per-Theme Typography
 
 Besides multi-theme, every design language from DESIGN.md carries its own typography. The UI font and monospace font are automatically paired with the theme, so all components match the design identity with no extra configuration.

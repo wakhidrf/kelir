@@ -90,9 +90,14 @@ runtime.
   Edit `PIN.ref` in `tools/sync-antislop.mjs` (a release tag, never a branch)
   to bump; the sync rewrites the files and the lock, and `--check` fails on any
   drift, hand-edit, or CRLF.
+- The same matchers serve the host project gate: `scripts/kelir-slop.mjs`
+  (run as `npm run kelir:slop:strict`) imports `MATCHERS` from `antislop.mjs`,
+  scans the host files that import Kelir plus the kit internals, and fails on
+  any ERROR. An explicit `kelir-allow: slop` on a line, or on the line above
+  it, is the only exemption.
 - `antislop/index.json` (generated: 38 core rules + 114 patterns) is the
   structured rule index; the filter is served as `kelir://antislop` and applied
-  in `suggest` / `audit` (integration lands with the anti-slop workstream).
+  in `suggest` / `audit`, and reused by the host anti-slop gate.
 - The mirror content is verbatim upstream: `antislop.md`, `rules/**`,
   `skills/**` (12 files). See `antislop/README.md` for the full pin and rules.
 

@@ -19,8 +19,10 @@ export const SUB_SKILLS = [
   "antislop-code",
 ];
 
-// scope: "text" = prose/copy, "code" = jsx/css/comments, "both".
-const MATCHERS = [
+// scope: "text" = prose/copy (user-facing strings), "code" = jsx/css/comments,
+// "both". Exported so the repo gate (scripts/kelir-slop.mjs) uses the exact same
+// regexes instead of duplicating them.
+export const MATCHERS = [
   // core rules
   { rule: "R-02", scope: "text", why: "em dash in written text; use a comma, period, colon, or parentheses", re: /[\u2014\u2013]/ },
   { rule: "R-16", scope: "text", why: "buzzword; say what the thing does instead", re: /\b(?:unlock|elevate|empower|delve|seamless|game[\s-]?changer|cutting[\s-]edge|revolutionary|next[\s-]gen|unleash|effortless|supercharge|skyrocket|transformative|world[\s-]class|best[\s-]in[\s-]class|industry[\s-]leading|state[\s-]of[\s-]the[\s-]art|leverage|synergy|paradigm|robust)\b/i },
@@ -30,12 +32,12 @@ const MATCHERS = [
   { rule: "antislop-ui--generic-blue-purple-gradient", scope: "code", why: "default blue-purple gradient; pick a purposeful palette", re: /linear-gradient\([^)]*?(?:#6366f1|#8b5cf6|#a855f7|#7c3aed|#4f46e5|indigo|blueviolet)/i },
   { rule: "antislop-ui--excessive-glassmorphism", scope: "code", why: "glassmorphism for no reason", re: /backdrop-filter\s*:\s*[^;]*blur/i },
   { rule: "antislop-ui--excessive-border-radius", scope: "code", why: "oversized corner radius", re: /border-radius\s*:\s*(?:[2-9]\d{1,}|9{3,})px|border-radius\s*:\s*(?:999|9999)px/i },
-  { rule: "antislop-ui--emoji-as-decoration", scope: "both", why: "decorative emoji", re: /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}]/u },
+  { rule: "antislop-ui--emoji-as-decoration", scope: "both", why: "decorative emoji", re: /(?![\u2713\u2714])[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}]/u },
   // copywriting
   { rule: "antislop-copywriting--empty-ai-vocabulary", scope: "text", why: "empty AI vocabulary", re: /\b(?:pave the way|dive into|in the realm of|a tapestry of|when it comes to|it'?s worth noting)\b/i },
   { rule: "antislop-copywriting--significance-inflation", scope: "text", why: "inflated significance", re: /\b(?:stands as a testament|plays a (?:vital|crucial|pivotal) role|underscores the importance|a beacon of)\b/i },
   { rule: "antislop-copywriting--fabricated-specifics", scope: "text", why: "specific-looking number without a source", re: /\b\d+(?:\.\d+)?% of (?:users|developers|teams)\b/i },
-  { rule: "antislop-copywriting--all-caps-emphasis", scope: "text", why: "ALL-CAPS emphasis", re: /\b(?!(?:API|CSS|HTML|JSON|UI|UX|MCP|URL|HTTP|ID|CTA|FAQ|SVG|TODO|REST|CLI|DOM|SSR|SEO|OK|MIT|MVC)\b)[A-Z]{3,}\b/ },
+  { rule: "antislop-copywriting--all-caps-emphasis", scope: "text", why: "ALL-CAPS emphasis", re: /\b(?!(?:API|CSS|HTML|JSON|UI|UX|MCP|URL|HTTP|ID|CTA|FAQ|SVG|TODO|REST|CLI|DOM|SSR|SEO|OK|MIT|MVC|JSX|TSX|MUI|RTL|LTR|ARIA|WCAG|OTP|CPU|IDR|E2E|SQL|SDK|PNG|STYLE|README|CHANGELOG|LICENSE|CRLF)\b)(?![0-9A-F]{3,}\b)[A-Z]{3,}\b/ },
   { rule: "antislop-copywriting--em-dashes", scope: "text", why: "em dash punctuation in copy", re: /\u2014/ },
   // human / a11y
   { rule: "antislop-human--removed-focus-outline", scope: "code", why: "focus outline removed; keyboard users lose the indicator", re: /outline\s*:\s*['"]?(?:none|0)\b/i },

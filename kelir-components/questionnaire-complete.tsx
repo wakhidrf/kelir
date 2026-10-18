@@ -1,3 +1,4 @@
+import CheckIcon from "@mui/icons-material/Check";
 import { css } from "../kelir-variants";
 import { Button } from "./button";
 
@@ -45,11 +46,10 @@ export function QuestionnaireComplete({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          fontSize: "28px",
           boxShadow: convex,
         }}
       >
-        ✓
+        <CheckIcon style={{ fontSize: 28 }} />
       </div>
       <div
         style={{

@@ -162,7 +162,7 @@ export function createCss(
   } as const;
 }
 
-// ===== Neutral base fallbacks =====
+// Neutral base fallbacks.
 // Values used ONLY as the var() fallback inside kelir-components so a component
 // still has sensible colors before/without a theme's CSS variables. They are
 // deliberately theme-agnostic — never tied to any single theme — so consumers

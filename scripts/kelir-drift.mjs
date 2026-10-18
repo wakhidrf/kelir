@@ -194,4 +194,4 @@ if (mismatch.length > 0) {
   for (const m of mismatch) console.error(`  - ${m}`);
   process.exit(1);
 }
-console.log(`kelir-drift: OK — ${rows.length} baris §5 vs ${ifaces.size} interface selaras.`);
+console.log(`kelir-drift: OK - ${rows.length} baris §5 vs ${ifaces.size} interface selaras.`);

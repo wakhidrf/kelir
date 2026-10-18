@@ -38,5 +38,5 @@ jobs:
           node kelir-mcp/tools/build-antislop-index.mjs --check
       - name: Catatan gate penuh
         run: |
-          echo "Gate parity/status (kelir:drift, kelir:guard:strict, kelir:status:check)"
+          echo "Gate parity/status (kelir:drift, kelir:guard:strict, kelir:status:check, kelir:slop:strict)"
           echo "butuh STYLE.md + <proyek>/src; dijalankan otomatis di CI repo induk kelir-web."
