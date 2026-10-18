@@ -57,6 +57,16 @@ describe("FlexItem sealed (§6b)", () => {
     expect(el.style.overflow).toBe("hidden");
   });
 
+  it("offsetY (#78): tarik naik (margin atas negatif); default hilang", () => {
+    renderSealed(
+      <FlexItem offsetY="md">
+        <span>a</span>
+      </FlexItem>,
+    );
+    const el = screen.getByText("a").parentElement as HTMLElement;
+    expect(el.style.marginTop).toBe("-1rem");
+  });
+
   it("default: blok biasa tanpa prop flex", () => {
     renderSealed(
       <FlexItem>
@@ -68,5 +78,6 @@ describe("FlexItem sealed (§6b)", () => {
     expect(el.style.minWidth).toBe("");
     expect(el.style.flexShrink).toBe("");
     expect(el.style.overflow).toBe("");
+    expect(el.style.marginTop).toBe("");
   });
 });

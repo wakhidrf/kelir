@@ -2,7 +2,14 @@ import MuiAvatar from "@mui/material/Avatar";
 import type { AvatarProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
-const AVATAR_PX = { small: 32, medium: 40, large: 48, xl: 96 } as const;
+const AVATAR_PX = {
+  small: 32,
+  medium: 40,
+  large: 48,
+  xl: 96,
+  "2xl": 128,
+  "3xl": 160,
+} as const;
 
 // Logika murni (bukan DOM): peta size MAKNA → px milik kit.
 // Diuji unit langsung — jsdom tak menghitung stylesheet emotion.
@@ -15,6 +22,7 @@ export function Avatar({
   alt,
   fallbackText,
   size = "medium",
+  frame = false,
   id,
   "aria-label": ariaLabel,
 }: AvatarProps) {
@@ -29,9 +37,16 @@ export function Avatar({
         width: px,
         height: px,
         boxShadow: css.shadows.convex,
-        border: `2px solid ${css.border.strong}`,
-        backgroundColor: css.colors.primary,
-        color: css.on.primary,
+        border: frame
+          ? `4px solid ${css.colors.primary}`
+          : `2px solid ${css.border.strong}`,
+        ...(frame
+          ? {
+              padding: css.layout.space.sm,
+              backgroundColor: css.colors.surface,
+              color: css.colors.primary,
+            }
+          : { backgroundColor: css.colors.primary, color: css.on.primary }),
         fontWeight: 600,
       }}
     >

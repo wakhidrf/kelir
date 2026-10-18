@@ -16,6 +16,12 @@ describe("Image sealed (§6b)", () => {
     expect(imagePx("md")).toBe(48);
     expect(imagePx("lg")).toBe(64);
     expect(imagePx("xl")).toBe(96);
+    expect(imagePx("2xl")).toBe(128);
+    expect(imagePx("3xl")).toBe(160);
+    expect(imagePx("4xl")).toBe(200);
+    expect(imagePx("5xl")).toBe(256);
+    expect(imagePx("6xl")).toBe(320);
+    expect(imagePx("7xl")).toBe(400);
   });
 
   it("paksa spread tak mengubah visual; alt selalu atribut", () => {
@@ -62,6 +68,20 @@ describe("Image sealed (§6b)", () => {
     expect(el.style.width).toBe("100%");
     expect(el.style.height).toBe("auto");
     expect(el.style.maxHeight).toBe("64px");
+  });
+
+  it("maxWidth (#75): batasi lebar px saat fluid; default 100%", () => {
+    const { container: capped } = renderSealed(
+      <Image src="hero.jpg" alt="Hero" fluid maxWidth={240} />,
+    );
+    expect((capped.querySelector("img") as HTMLElement).style.maxWidth).toBe(
+      "240px",
+    );
+
+    const { container: plain } = renderSealed(<Image src="x.png" alt="x" />);
+    expect((plain.querySelector("img") as HTMLElement).style.maxWidth).toBe(
+      "100%",
+    );
   });
 
   it("tanpa fluid/maxHeight: perilaku lama (nol-ubah)", () => {

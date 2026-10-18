@@ -1,12 +1,17 @@
 import { FlexItem } from "./flex-item";
 
 // Type-test negatif (§6/§6b STYLE.md): `grow`/`shrink`/`clip` boolean
-// tertutup; tanpa style/sx/className passthrough, tanpa ...rest.
+// tertutup; `offsetY` union tertutup; tanpa style/sx/className passthrough.
 export function flexItemContractChecks() {
   const okDefault = <FlexItem>isi</FlexItem>;
   const okGrow = (
     <FlexItem grow shrink={false} clip id="a" aria-label="b">
       <span>isi</span>
+    </FlexItem>
+  );
+  const okOffset = (
+    <FlexItem offsetY="md">
+      <span>logo</span>
     </FlexItem>
   );
 
@@ -22,8 +27,10 @@ export function flexItemContractChecks() {
   const noRawShrink = <FlexItem shrink="no">isi</FlexItem>;
   // @ts-expect-error — clip non-boolean haram
   const noRawClip = <FlexItem clip="yes">isi</FlexItem>;
+  // @ts-expect-error — offsetY bebas haram (sm|md|lg)
+  const noRawOffset = <FlexItem offsetY={8}>isi</FlexItem>;
   // @ts-expect-error — prop tak dikenal tidak diteruskan ke DOM
   const noRest = <FlexItem title="x">isi</FlexItem>;
 
-  return { okDefault, okGrow, noStyle, noSx, noClassName, noRawGrow, noRawShrink, noRawClip, noRest };
+  return { okDefault, okGrow, okOffset, noStyle, noSx, noClassName, noRawGrow, noRawShrink, noRawClip, noRawOffset, noRest };
 }

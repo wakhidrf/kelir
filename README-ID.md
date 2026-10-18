@@ -286,7 +286,7 @@ Komponen untuk menampilkan data statis, visualisasi, dan struktur pesan.
 21. **Accordion**: Panel konten vertikal bertumpuk yang bisa diciutkan atau dikembangkan.
 22. **Aspect Ratio**: Wadah yang menegakkan proporsi dimensi konten (seperti gambar atau video).
 23. **Attachment**: Penampil lampiran file dengan metadata, status unggah, dan tombol hapus.
-24. **Avatar**: Representasi visual profil pengguna sebagai gambar atau fallback teks inisial.
+24. **Avatar**: Representasi visual profil pengguna sebagai gambar atau fallback teks inisial, dengan varian berbingkai untuk logo.
 25. **Badge**: Label berwarna kecil untuk menandai status atau kategori.
 26. **Bubble**: Gelembung pesan percakapan yang mendukung varian terkirim/diterima, reaksi, dan ciut-kembang.
 27. **Calendar**: Kalender bulanan untuk navigasi hari dan pemilihan satu tanggal.
@@ -307,7 +307,7 @@ Komponen untuk menampilkan data statis, visualisasi, dan struktur pesan.
 42. **Separator**: Garis pembagi horizontal atau vertikal antar elemen konten dengan teks berlabel opsional.
 43. **Table**: Struktur tabel dasar yang responsif untuk menyajikan data baris-kolom yang teratur.
 44. **Tabs**: Navigasi konten berbasis tab untuk membagi informasi ke panel terpisah.
-45. **Typography**: Styling teks khusus untuk heading, paragraf, dan label kecil demi konsistensi.
+45. **Typography**: Styling teks khusus untuk heading, paragraf, dan label kecil demi konsistensi, dengan segmen inline berhias untuk satu heading.
 
 ### 3. Navigasi
 Komponen yang memandu pergerakan pengguna saat menjelajahi aplikasi.
@@ -342,10 +342,10 @@ Komponen yang membentuk struktur dan penempatan elemen.
 65. **Resizable**: Panel tata letak yang ukurannya bisa diatur dinamis dengan pembagi seret.
 66. **Skeleton**: Bingkai placeholder animasi redup-terang untuk elemen kosong sebagai visualisasi sebelum data selesai dimuat.
 67. **Spacer**: Primitif whitespace gap-tetap dengan union ukuran tertutup.
-68. **Stack**: Primitif tumpukan vertikal/horizontal dengan union gap, direction, align, dan justify tertutup.
+68. **Stack**: Primitif tumpukan vertikal/horizontal dengan union gap, direction, align, dan justify tertutup, plus tinggi minimum satu layar dan pembalikan urutan di layar lebar.
 69. **Container**: Primitif penampung lebar halaman dengan union maxWidth dan padding tertutup dari token layout.
-70. **Image**: Primitif media netral dengan union height, fit, dan radius tertutup (tanpa shadow/border bawaan).
-71. **FlexItem**: Primitif kontrol item flex pasangan Stack, dengan union boolean grow, shrink, dan clip tertutup.
+70. **Image**: Primitif media netral dengan union height, fit, dan radius tertutup, mode fluid opsional dengan batas lebar px, dan tanpa shadow/border bawaan.
+71. **FlexItem**: Primitif kontrol item flex pasangan Stack, dengan union boolean grow, shrink, dan clip tertutup, plus offset naik ber-token.
 72. **Shell**: Primitif cangkang viewport app-shell dengan arah baris atau bertumpuk dari boolean tertutup.
 73. **Content**: Satu-satunya area scroll app-shell dengan padding token responsif dan latar.
 74. **TopBar**: Bar mobile app-shell yang menyejajarkan slot kiri dan kanan ujung-ke-ujung (`variant?` `raised|flat`, default `raised`; `flat` baris aksi transparan di dalam konten).

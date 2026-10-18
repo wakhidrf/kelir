@@ -89,6 +89,16 @@ describe("Stack sealed (§6b)", () => {
     expect(el.style.minHeight).toBe("");
   });
 
+  it("minHeight=screen (#74): satu layar penuh (100dvh)", () => {
+    renderSealed(
+      <Stack minHeight="screen">
+        <span>a</span>
+      </Stack>,
+    );
+    const el = screen.getByText("a").parentElement as HTMLElement;
+    expect(el.style.minHeight).toBe("100dvh");
+  });
+
   it("directionMd (#61): arah dasar + override @768px via sx", () => {
     renderSealed(
       <Stack direction="column" directionMd="row">
@@ -113,5 +123,34 @@ describe("Stack sealed (§6b)", () => {
     );
     const el = screen.getByText("b").parentElement as HTMLElement;
     expect(el.style.flexDirection).toBe("row");
+  });
+
+  it("reverseMd (#76): balik urutan anak @768px via sx", () => {
+    renderSealed(
+      <Stack direction="column" reverseMd>
+        <span>a</span>
+      </Stack>,
+    );
+    const el = screen.getByText("a").parentElement as HTMLElement;
+    expect(el.style.flexDirection).toBe("");
+    const css = Array.from(document.querySelectorAll("style"))
+      .map((s) => s.textContent ?? "")
+      .join("\n");
+    expect(css).toMatch(/@media \(min-width:\s*768px\)/);
+    expect(css).toMatch(/flex-direction:\s*column-reverse/);
+  });
+
+  it("reverseMd + directionMd (#76): balik arah desktop, dasar tetap", () => {
+    renderSealed(
+      <Stack direction="column" directionMd="row" reverseMd>
+        <span>b</span>
+      </Stack>,
+    );
+    const el = screen.getByText("b").parentElement as HTMLElement;
+    expect(el.style.flexDirection).toBe("");
+    const css = Array.from(document.querySelectorAll("style"))
+      .map((s) => s.textContent ?? "")
+      .join("\n");
+    expect(css).toMatch(/flex-direction:\s*row-reverse/);
   });
 });

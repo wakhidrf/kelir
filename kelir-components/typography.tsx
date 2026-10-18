@@ -1,6 +1,6 @@
 import MuiTypography from "@mui/material/Typography";
 import type * as React from "react";
-import type { TypographyProps } from "../kelir-types";
+import type { TypographyProps, TypographySegment } from "../kelir-types";
 import { css } from "../kelir-variants";
 
 type Variant = NonNullable<TypographyProps["variant"]>;
@@ -82,6 +82,18 @@ const defaultElement: Record<Variant, "h1" | "h2" | "h3" | "p"> = {
 // Ambang responsif kit (satu sumber: token heroCollapse 768px).
 const MD_QUERY = `@media (min-width: ${css.layout.breakpoints.heroCollapse})`;
 
+// Gaya segmen inline: tetap di dalam satu elemen (satu heading), dari token.
+function segmentStyle(seg: TypographySegment): React.CSSProperties {
+  const style: React.CSSProperties = {};
+  if (seg.tone === "muted") style.color = css.colors.textSecondary;
+  else if (seg.tone === "primary") style.color = css.colors.primary;
+  if (seg.scale === "sm") {
+    style.fontSize = "0.55em";
+    style.fontWeight = 500;
+  }
+  return style;
+}
+
 // Teks sealed (P1c STYLE.md §6): hanya props kontrak yang diteruskan ke MUI
 // (children, component, variant, align, style milik kit, id/aria/role) -
 // tanpa ...rest ke DOM. `as` memilih elemen dokumen; `level` menambah role
@@ -92,7 +104,10 @@ const MD_QUERY = `@media (min-width: ${css.layout.breakpoints.heroCollapse})`;
 // `false`, properti dihilangkan penuh saat mati); `breakAll?` = pecah kata
 // panjang di mana saja (`word-break: break-all`, default `false`);
 // `tracking?` = spasi huruf (`normal` = bawaan varian, `wide` = renggang
-// 6 px milik kit untuk kode verifikasi, default `normal`).
+// 6 px milik kit untuk kode verifikasi, default `normal`). `segments?` =
+// teks inline berhias dalam SATU elemen (heading utuh, bukan heading
+// bertingkat): tiap segmen span ber-token, `break` menjadi <br/>; bila
+// diisi, menggantikan `children`.
 export function Typography({
   children,
   variant = "body-md",
@@ -103,6 +118,7 @@ export function Typography({
   truncate = false,
   breakAll = false,
   tracking = "normal",
+  segments,
   id,
   "aria-label": ariaLabel,
 }: TypographyProps) {
@@ -146,7 +162,18 @@ export function Typography({
         ...(tracking === "wide" ? ({ letterSpacing: "6px" } as const) : null),
       }}
     >
-      {children}
+      {segments
+        ? segments.map((seg, index) =>
+            seg.break ? (
+              // biome-ignore lint/suspicious/noArrayIndexKey: segmen statis.
+              <br key={index} />
+            ) : (
+              <span key={index} style={segmentStyle(seg)}>
+                {seg.text}
+              </span>
+            ),
+          )
+        : children}
     </MuiTypography>
   );
 }

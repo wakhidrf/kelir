@@ -108,4 +108,32 @@ describe("Typography sealed (§6b)", () => {
       .join("\n");
     expect(css).toMatch(/@media \(min-width:\s*768px\)/);
   });
+
+  it("segments (#77): teks inline berhias dalam satu elemen heading", () => {
+    renderSealed(
+      <Typography
+        variant="h1"
+        segments={[
+          { text: "OTW" },
+          { text: " Admin", tone: "muted", scale: "sm" },
+          { break: true },
+          { text: "Panel" },
+        ]}
+      />,
+    );
+    const heading = screen.getByRole("heading", { level: 1 });
+    expect(heading.textContent).toBe("OTW AdminPanel");
+    expect(heading.querySelector("br")).not.toBeNull();
+    const spans = heading.querySelectorAll("span");
+    expect(spans.length).toBe(3);
+    expect(spans[0].style.color).toBe("");
+    expect(spans[1].style.fontSize).toBe("0.55em");
+    expect(spans[1].style.fontWeight).toBe("500");
+    expect(spans[1].style.color).not.toBe("");
+  });
+
+  it("tanpa segments: children dirender (perilaku lama)", () => {
+    renderSealed(<Typography variant="body-md">Teks biasa</Typography>);
+    expect(screen.getByText("Teks biasa").tagName).toBe("P");
+  });
 });

@@ -129,13 +129,16 @@ export interface AttachmentProps {
 }
 
 // 6. Avatar — identitas visual sealed berbasis MUI (Gel.3a STYLE.md §6).
-// `src?/alt?/fallbackText?` ISI; `size?` MAKNA (small/medium/large → px
-// milik kit). Tanpa ...rest/style/sx/className/onClick MUI.
+// `src?/alt?/fallbackText?` ISI; `size?` MAKNA (small/medium/large/xl/2xl/3xl
+// → px milik kit). `frame?` = logo berbingkai (latar surface + ring primary
+// tebal + padding dalam) untuk maskot yang mengambang di tepi kartu, default
+// `false` (perilaku lama). Tanpa ...rest/style/sx/className/onClick MUI.
 export interface AvatarProps {
   src?: string;
   alt?: string;
   fallbackText?: string;
-  size?: "small" | "medium" | "large" | "xl";
+  size?: "small" | "medium" | "large" | "xl" | "2xl" | "3xl";
+  frame?: boolean;
   id?: string;
   "aria-label"?: string;
 }
@@ -941,7 +944,7 @@ export interface TooltipProps {
 // `truncate?` = elipsis satu-baris milik kit (default `false`).
 // Tanpa style/sx/className/warna/font mentah — semua dari token kit.
 export interface TypographyProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   variant?: "h1" | "h2" | "h3" | "body-md" | "body-sm" | "caption" | "label-caps";
   variantMd?: "h1" | "h2" | "h3" | "body-md" | "body-sm" | "caption" | "label-caps";
   as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "div";
@@ -950,8 +953,19 @@ export interface TypographyProps {
   truncate?: boolean;
   breakAll?: boolean;
   tracking?: "normal" | "wide";
+  segments?: TypographySegment[];
   id?: string;
   "aria-label"?: string;
+}
+
+// Segmen teks inline ber-token untuk Typography (satu elemen heading, bukan
+// heading bertingkat; `break` = <br/>). `tone` (muted/primary) & `scale`
+// (sm = 0.55em + bobot 500, md = bawaan) dari token kit.
+export interface TypographySegment {
+  text?: string;
+  tone?: "muted" | "primary";
+  scale?: "sm" | "md";
+  break?: boolean;
 }
 
 // 64. Questionnaire
@@ -987,14 +1001,17 @@ export interface QuestionnaireProps {
 // 65. Stack — primitif layout vertikal/horizontal (P1b STYLE.md).
 // Gap union tertutup dari token css.layout.space; `align`/`justify` union
 // tertutup perataan flex (nilai logis, RTL-benar); `wrap?` → flex-wrap
-// (default `false`); default = perilaku lama (nol-ubah visual).
-// Tanpa warna/border/shadow.
+// (default `false`); `reverseMd?` membalik urutan anak pada lebar >= 768px
+// (token heroCollapse, default `false`); `minHeight?` termasuk `screen`
+// (= 100dvh) untuk hero/interstitial satu layar. Default = perilaku lama
+// (nol-ubah visual). Tanpa warna/border/shadow.
 export interface StackProps {
   children: React.ReactNode;
   gap?: "xs" | "sm" | "md" | "lg";
   direction?: "row" | "column";
   directionMd?: "row" | "column";
-  minHeight?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
+  reverseMd?: boolean;
+  minHeight?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "screen";
   align?: "start" | "center" | "end" | "stretch";
   justify?: "start" | "center" | "end" | "space-between";
   wrap?: boolean;
@@ -1039,17 +1056,19 @@ export interface ContainerProps {
 
 // 69. Image — media netral sealed (P1b STYLE.md).
 // `src` wajib; `alt?` selalu dirender sebagai atribut (string kosong bila
-// tak diisi → lolos axe image-alt). `height?` MAKNA (xs/sm/md/lg/xl → px
-// milik kit, default md); lebar mengikuti rasio asli. `fit?`
-// (contain/cover, default contain); `radius?` dari token radius kit
-// (default none — netral seperti Stack, tanpa shadow/border).
-// Tanpa ...rest/style/sx/className.
+// tak diisi → lolos axe image-alt). `height?` MAKNA (xs..7xl → px milik
+// kit, default md); lebar mengikuti rasio asli. `fluid?` isi lebar wadah
+// (tinggi auto); `maxHeight?`/`maxWidth?` MEMBATASI (px data, preseden
+// TruncatedText.maxWidth). `fit?` (contain/cover, default contain);
+// `radius?` dari token radius kit (default none — netral seperti Stack,
+// tanpa shadow/border). Tanpa ...rest/style/sx/className.
 export interface ImageProps {
   src: string;
   alt?: string;
-  height?: "xs" | "sm" | "md" | "lg" | "xl";
+  height?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "6xl" | "7xl";
   fluid?: boolean;
-  maxHeight?: "xs" | "sm" | "md" | "lg" | "xl";
+  maxHeight?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "6xl" | "7xl";
+  maxWidth?: number;
   fit?: "contain" | "cover";
   radius?: "none" | "sm" | "md" | "lg";
   id?: string;
@@ -1062,13 +1081,16 @@ export interface ImageProps {
 // (default `false`); `shrink?` = `false` → `flexShrink: 0` (default `true`);
 // `clip?` → `overflow: hidden` (default `false`, properti dihilangkan penuh
 // saat mati — preseden `Stack wrap?`; pasangan alami `grow clip` = pola
-// truncasi baris flex). Boolean tertutup, tanpa angka bebas. Default = blok
-// biasa (tanpa prop flex). Tanpa ...rest/style/sx/className.
+// truncasi baris flex). `offsetY?` = tarik naik (margin atas negatif dari
+// token space: sm/md/lg) agar elemen menumpuk di tepi atas, mis. logo di
+// tepi kartu. Boolean tertutup, tanpa angka bebas. Default = blok biasa
+// (tanpa prop flex). Tanpa ...rest/style/sx/className.
 export interface FlexItemProps {
   children: React.ReactNode;
   grow?: boolean;
   shrink?: boolean;
   clip?: boolean;
+  offsetY?: "sm" | "md" | "lg";
   id?: string;
   "aria-label"?: string;
 }

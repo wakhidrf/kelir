@@ -29,6 +29,16 @@ export function stackContractChecks() {
       <span>kolom di ponsel, baris di desktop</span>
     </Stack>
   );
+  const okScreen = (
+    <Stack minHeight="screen" align="center" justify="center">
+      <span>satu layar penuh</span>
+    </Stack>
+  );
+  const okReverse = (
+    <Stack direction="column" directionMd="row" reverseMd>
+      <span>balik urutan di desktop</span>
+    </Stack>
+  );
 
   // @ts-expect-error — style passthrough haram (layout milik Stack)
   const noStyle = <Stack style={{ marginTop: 8 }}>isi</Stack>;
@@ -50,11 +60,13 @@ export function stackContractChecks() {
   const noRawJustify = <Stack justify="space-around">isi</Stack>;
   // @ts-expect-error — wrap non-boolean haram
   const noRawWrap = <Stack wrap="yes">isi</Stack>;
+  // @ts-expect-error — reverseMd non-boolean haram
+  const noRawReverseMd = <Stack reverseMd="yes">isi</Stack>;
   // @ts-expect-error — prop tak dikenal tidak diteruskan ke DOM
   const noRest = <Stack title="x">isi</Stack>;
   // NOTE: atribut data-* (mis. data-testid untuk test hook) DIIZINKAN oleh
   // tipe React 19 pada komponen kustom — ditoleransi karena tak berefek
   // visual; semua prop lain di luar kontrak ditolak (§6b STYLE.md).
 
-  return { okColumn, okRow, okAlign, okWrap, okResponsive, noStyle, noSx, noClassName, noRawGap, noRawDirection, noRawDirectionMd, noRawMinHeight, noRawAlign, noRawJustify, noRawWrap, noRest };
+  return { okColumn, okRow, okAlign, okWrap, okResponsive, okScreen, okReverse, noStyle, noSx, noClassName, noRawGap, noRawDirection, noRawDirectionMd, noRawMinHeight, noRawAlign, noRawJustify, noRawWrap, noRawReverseMd, noRest };
 }

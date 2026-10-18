@@ -22,7 +22,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "..", "..
 const KELIR = join(ROOT, "src", "views", "kelir");
 const KELIR_COMP = join(KELIR, "kelir-components");
 
-const HELPER_IFACES = new Set(["BreadcrumbItem", "CommandGroup", "CommandItem", "ContextMenuItem", "DataTableColumn", "DropdownMenuItem", "KelirContextValue", "MenubarItem", "MenubarMenu", "NativeSelectOption", "NavigationMenuItem", "QuestionnaireOption", "QuestionnaireQuestion", "SelectOption", "TabsItem", "ToggleGroupOption"]);
+const HELPER_IFACES = new Set(["BreadcrumbItem", "CommandGroup", "CommandItem", "ContextMenuItem", "DataTableColumn", "DropdownMenuItem", "KelirContextValue", "MenubarItem", "MenubarMenu", "NativeSelectOption", "NavigationMenuItem", "QuestionnaireOption", "QuestionnaireQuestion", "SelectOption", "TabsItem", "ToggleGroupOption", "TypographySegment"]);
 const STANDARD_PROPS = new Set(["id", "aria-label", "aria-describedby"]);
 const TS_PRIMITIVES = new Set([
   "string", "number", "boolean", "void", "any", "never", "unknown",

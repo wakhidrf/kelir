@@ -48,3 +48,8 @@
 | Ruang terpesan | Area tinggi tetap untuk konten async/pihak ketiga butuh style inline | `Stack minHeight?` dari skala space (`xs`..`4xl`), default tanpa |
 | Asisten AI (suggest) | Agen tetap menebak komponen kit yang cocok | Tool MCP `suggest` (v1.1): keinginan bahasa alami → kandidat sealed berperingkat, dengan pengingat kontrak; hanya dari katalog, tak pernah rakitan sendiri |
 | Gerbang konsistensi kit | Repo kit tak punya pemeriksaan sendiri | Gerbang yang butuh `STYLE.md` jalan dari proyek induk dan kini gagal dengan pesan jelas bila dijalankan dari checkout kit tanpa induk; kit menjalankan parse-check di CI |
+| Seksi satu layar | Hero/interstitial satu layar butuh tinggi viewport rakitan | `Stack minHeight?` bertambah `screen` (100dvh); padukan dengan `Container` untuk kolom terpusat berlebar terbatas |
+| Media besar + terbatas | Ukuran media mentok 96px dan media fluid tak bisa dibatasi | `Image height?`/`maxHeight?` bertambah `2xl`..`7xl` (128..400px); `Image maxWidth?` membatasi lebar fluid dalam px |
+| Urutan di layar lebar | Menukar urutan anak per breakpoint butuh CSS sendiri | `Stack reverseMd?` (default `false`): membalik urutan anak pada `>=768px`, di atas `directionMd ?? direction` |
+| Heading berhias inline | Kata bergaya dalam satu heading butuh elemen bertingkat | `Typography segments?`: span inline ber-token (tone muted/primary, skala kecil, pindah baris) dalam satu elemen heading |
+| Logo berbingkai mengambang | Logo bulat berbingkai di atas kartu butuh kotak rakitan | `Avatar frame?` (latar surface + ring primary tebal + padding) dan `FlexItem offsetY?` (`sm\|md\|lg`, tarik naik ber-token) |

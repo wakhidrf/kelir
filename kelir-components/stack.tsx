@@ -13,22 +13,35 @@ const gaps = {
 // `sx` supaya komponen tetap server-safe (tanpa hook/useMediaQuery).
 const MD_QUERY = `@media (min-width: ${css.layout.breakpoints.heroCollapse})`;
 
+// `minHeight="screen"` = satu layar penuh (dvv supaya benar di mobile).
+const SCREEN_HEIGHT = "100dvh";
+
+function minHeightValue(
+  minHeight: NonNullable<StackProps["minHeight"]>,
+): string {
+  return minHeight === "screen" ? SCREEN_HEIGHT : css.layout.space[minHeight];
+}
+
 // Primitif layout sealed (P1b STYLE.md): susunan + jarak + perataan dari
 // token css.layout. `align`/`justify` union tertutup nilai logis
 // (RTL-benar); default stretch/start = perilaku lama (nol-ubah visual).
 // `wrap?` = flex-wrap milik kit (default `false`, properti dihilangkan
 // penuh saat mati). `directionMd?` = arah pada lebar >= 768px (token
 // heroCollapse); tanpa = `direction` berlaku di semua lebar (perilaku lama).
-// `minHeight?` = tinggi minimum dari skala space token (menyediakan ruang
-// tetap untuk konten async/pihak ketiga; default tanpa tinggi). Tanpa
-// warna/border/shadow/font. Basis MUI (MuiBox = div + emotion + tema di
-// tree) untuk multi-platform; visual milik kit. Tanpa ...rest ke DOM dan
-// tanpa style passthrough — di luar kontrak = pelanggaran.
+// `minHeight?` = tinggi minimum dari skala space token atau `screen`
+// (= 100dvh) untuk hero/interstitial satu layar (menyediakan ruang tetap
+// untuk konten async/pihak ketiga; default tanpa tinggi). `reverseMd?` =
+// balik urutan anak pada lebar >= 768px (token heroCollapse; arah dasar
+// `directionMd ?? direction`, default `false`). Tanpa warna/border/shadow/font.
+// Basis MUI (MuiBox = div + emotion + tema di tree) untuk multi-platform;
+// visual milik kit. Tanpa ...rest ke DOM dan tanpa style passthrough — di
+// luar kontrak = pelanggaran.
 export function Stack({
   children,
   gap = "md",
   direction = "column",
   directionMd,
+  reverseMd = false,
   minHeight,
   align = "stretch",
   justify = "start",
@@ -36,28 +49,32 @@ export function Stack({
   id,
   "aria-label": ariaLabel,
 }: StackProps) {
+  const responsiveDirection = directionMd !== undefined || reverseMd;
+  const mdDirection = reverseMd
+    ? `${directionMd ?? direction}-reverse`
+    : directionMd;
   return (
     <MuiBox
       id={id}
       aria-label={ariaLabel}
       sx={
-        directionMd
+        responsiveDirection
           ? {
               flexDirection: direction,
-              [MD_QUERY]: { flexDirection: directionMd },
+              [MD_QUERY]: { flexDirection: mdDirection },
             }
           : undefined
       }
       style={{
         display: "flex",
-        // Arah dasar tetap inline (perilaku lama); saat `directionMd` diisi,
-        // arah dipindah ke `sx` agar media query bisa menang atas inline.
-        ...(directionMd ? null : ({ flexDirection: direction } as const)),
+        // Arah dasar tetap inline (perilaku lama); saat arah responsif
+        // dipakai, arah dipindah ke `sx` agar media query bisa menang.
+        ...(responsiveDirection ? null : ({ flexDirection: direction } as const)),
         gap: gaps[gap],
         alignItems: align,
         justifyContent: justify,
         ...(minHeight
-          ? ({ minHeight: css.layout.space[minHeight] } as const)
+          ? ({ minHeight: minHeightValue(minHeight) } as const)
           : null),
         ...(wrap ? ({ flexWrap: "wrap" } as const) : null),
       }}

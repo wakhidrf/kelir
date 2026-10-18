@@ -8,6 +8,12 @@ const heights = {
   md: 48,
   lg: 64,
   xl: 96,
+  "2xl": 128,
+  "3xl": 160,
+  "4xl": 200,
+  "5xl": 256,
+  "6xl": 320,
+  "7xl": 400,
 } as const;
 
 const radii = {
@@ -26,7 +32,8 @@ export function imagePx(height: NonNullable<ImageProps["height"]>): number {
 // Media netral sealed (P1b STYLE.md): tinggi dari union tertutup (lebar
 // mengikuti rasio asli), fit contain/cover, radius token (default none).
 // `fluid?` = lebar mengisi wadah + tinggi auto (rasio asli terjaga) untuk
-// media dekoratif/hero; `maxHeight?` membatasi tinggi dari skala yang sama.
+// media dekoratif/hero; `maxHeight?` membatasi tinggi dari skala yang sama;
+// `maxWidth?` membatasi lebar dalam px (preseden TruncatedText.maxWidth).
 // `alt` selalu dirender sebagai atribut (string kosong bila tak diisi) agar
 // lolos axe image-alt. Tanpa shadow/border default, tanpa ...rest ke DOM dan
 // tanpa style passthrough — di luar kontrak = pelanggaran.
@@ -36,6 +43,7 @@ export function Image({
   height = "md",
   fluid = false,
   maxHeight,
+  maxWidth,
   fit = "contain",
   radius = "none",
   id,
@@ -53,7 +61,7 @@ export function Image({
         ...(fluid
           ? ({ width: "100%", height: "auto" } as const)
           : ({ height: heights[height], width: "auto" } as const)),
-        maxWidth: "100%",
+        maxWidth: maxWidth === undefined ? "100%" : maxWidth,
         ...(maxHeight
           ? ({ maxHeight: heights[maxHeight] } as const)
           : null),
