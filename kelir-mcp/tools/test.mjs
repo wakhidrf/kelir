@@ -21,12 +21,21 @@ const transport = new StdioClientTransport({
 const client = new Client({ name: "kelir-test", version: "0" }, { capabilities: {} });
 await client.connect(transport);
 
-// 1. Tiga resources ter-list.
+// 1. Resources ter-list: 3 inti + anti-slop inti + 5 sub-skill.
 const { resources } = await client.listResources();
-assert.deepEqual(
-  resources.map((r) => r.uri).sort(),
-  ["kelir://components", "kelir://contract", "kelir://tokens"],
-);
+const uris = resources.map((r) => r.uri).sort();
+for (const u of ["kelir://components", "kelir://contract", "kelir://tokens", "kelir://antislop"]) {
+  assert.ok(uris.includes(u), `resource ${u} tak ter-list`);
+}
+for (const s of [
+  "antislop-ui",
+  "antislop-copywriting",
+  "antislop-human",
+  "antislop-layoutmobile",
+  "antislop-code",
+]) {
+  assert.ok(uris.includes(`kelir://antislop/${s}`), `sub-skill ${s} tak ter-list`);
+}
 
 // 2. components: valid JSON, 78 entri, tiap entri bernama + berprops.
 const compText = (await client.readResource({ uri: "kelir://components" })).contents[0].text;
@@ -77,6 +86,26 @@ for (const s of sugJson.suggestions) {
 assert.ok(sugJson.suggestions.some((s) => s.name === "DropdownMenu"),
   "suggest 'tombol aksi di mobile' tak menyarankan DropdownMenu");
 
+// 5c. Anti-slop (v1.2, F3): resource inti + audit deterministik.
+const asText = (await client.readResource({ uri: "kelir://antislop" })).contents[0].text;
+assert.ok(asText.includes("anti-slop filter") && asText.includes("upstream v"), "header anti-slop hilang");
+const asIndex = JSON.parse(readFileSync(join(MCP_ROOT, "antislop", "index.json"), "utf8"));
+assert.ok(asText.includes(asIndex.version), "versi upstream tak disebut di kelir://antislop");
+const uiSkill = (await client.readResource({ uri: "kelir://antislop/antislop-ui" })).contents[0].text;
+assert.ok(uiSkill.includes("Skill: antislop-ui"), "sub-skill ui tak berisi header");
+
+const audited = await client.callTool({
+  name: "audit",
+  arguments: { text: "Our BEST-IN-CLASS platform unlocks 10x growth — trusted by 5000 teams", jsx: "style={{ outline: 'none' }}" },
+});
+const auditJson = JSON.parse(audited.content[0].text);
+assert.ok(Array.isArray(auditJson.matches) && auditJson.matches.length > 0, "audit tak menemukan slop");
+assert.ok(auditJson.matches.some((m) => m.rule === "R-02"), "audit tak menandai em dash (R-02)");
+assert.ok(auditJson.matches.some((m) => m.rule === "antislop-human--removed-focus-outline"),
+  "audit tak menandai outline:none");
+const clean = await client.callTool({ name: "audit", arguments: { text: "A short, plain sentence." } });
+assert.equal(JSON.parse(clean.content[0].text).matches.length, 0, "teks bersih malah kena aturan");
+
 // 6. Determinism: regenerasi ke tmp wajib byte-identik dengan file ter-commit.
 const tmp = mkdtempSync(join(tmpdir(), "kelir-snap-"));
 execSync(`node ${join(MCP_ROOT, "tools", "snapshot.mjs")} --out ${join(tmp, "snapshot.json")}`, { cwd: KIT_ROOT });
@@ -84,4 +113,4 @@ assert.equal(readFileSync(join(tmp, "snapshot.json"), "utf8"), committed,
   "snapshot basi — jalankan node kelir-mcp/tools/snapshot.mjs lalu commit hasilnya");
 
 await client.close();
-console.log(`kelir-mcp test: OK — ${comp.count} komponen, 3 resources, 1 prompt, 1 tool (suggest), snapshot deterministik.`);
+console.log(`kelir-mcp test: OK — ${comp.count} komponen, resources + anti-slop v${asIndex.version}, 1 prompt, tools suggest+audit, snapshot deterministik.`);
