@@ -51,6 +51,28 @@ needed: every MCP server adds context.
   descriptions in the catalog; it only ever suggests catalog components,
   never a self-assembled one.
 
+## Anti-slop filter (mirror)
+
+The MCP applies the upstream [anti-slop](https://github.com/miqdadbadjuber/anti-slop)
+rulebook (MIT, by Miqdad Badjuder) so agents filter generic AI-slop UI, copy,
+and code before shipping Kelir components. The rulebook is **vendored** as a
+pinned mirror under `antislop/` (offline, deterministic), never fetched at
+runtime.
+
+| Field | Value |
+|---|---|
+| Ref (tag) | `v3.2.21` |
+| Commit | `77e1920ad5e540816ccec3b2142128d95ef12bcb` |
+| License | MIT, kept verbatim in `antislop/LICENSE` |
+
+- **Mirror, never fork**: `antislop/**` is generated. Do not edit by hand; a
+  sync overwrites it. Update by bumping the pin and re-running the sync tool.
+- `antislop/index.json` (generated) holds the structured rules; the filter is
+  served as `kelir://antislop` and applied in `suggest` / `audit` (integration
+  lands with the anti-slop workstream).
+- The mirror content is verbatim upstream: `skills/**`, `rules/antislop.md`,
+  `VERSION`, `LICENSE`. See `antislop/README.md` for the full pin and rules.
+
 ## Regenerate after kit changes
 
 ```sh
@@ -79,3 +101,5 @@ deterministic.
 - `tools/snapshot.mjs` — zero-dep text parser (same §5-table pattern as
   `kelir-drift.mjs`); fail-closed on unknown shapes.
 - `tools/test.mjs` — conformance + determinism.
+- `antislop/` — pinned MIT mirror of the anti-slop rulebook (`LICENSE`,
+  `VERSION`, `README.md`); `skills/**` and `rules/` land with the sync tool.
