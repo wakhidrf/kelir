@@ -1,3 +1,8 @@
 # Snapshot MCP diuji byte-exact oleh kelir-mcp/tools/test.mjs:
 # paksa LF di semua platform agar checkout Windows (autocrlf) tak merusaknya.
 /kelir-mcp/snapshot.json text eol=lf
+
+# Mirror anti-slop diuji byte-exact terhadap upstream (sha256 di
+# upstream.lock.json): paksa LF agar checkout Windows (autocrlf) tak mengubah
+# hash hasil sinkronisasi.
+/kelir-mcp/antislop/** text eol=lf
