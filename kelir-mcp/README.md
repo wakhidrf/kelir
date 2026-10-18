@@ -71,16 +71,18 @@ runtime.
   sync overwrites it. Update by bumping the pin and re-running the sync tool:
 
   ```sh
-  node kelir-mcp/tools/sync-antislop.mjs          # refresh (network); bump PIN.ref to update
-  node kelir-mcp/tools/sync-antislop.mjs --check  # verify local vs lock (offline)
+  node kelir-mcp/tools/sync-antislop.mjs               # refresh (network); bump PIN.ref to update
+  node kelir-mcp/tools/sync-antislop.mjs --check       # verify local vs lock (offline)
+  node kelir-mcp/tools/build-antislop-index.mjs        # rebuild index.json
+  node kelir-mcp/tools/build-antislop-index.mjs --check # verify index is current (offline)
   ```
 
   Edit `PIN.ref` in `tools/sync-antislop.mjs` (a release tag, never a branch)
   to bump; the sync rewrites the files and the lock, and `--check` fails on any
   drift, hand-edit, or CRLF.
-- `antislop/index.json` (generated) holds the structured rules; the filter is
-  served as `kelir://antislop` and applied in `suggest` / `audit` (integration
-  lands with the anti-slop workstream).
+- `antislop/index.json` (generated: 38 core rules + 114 patterns) is the
+  structured rule index; the filter is served as `kelir://antislop` and applied
+  in `suggest` / `audit` (integration lands with the anti-slop workstream).
 - The mirror content is verbatim upstream: `antislop.md`, `rules/**`,
   `skills/**` (12 files). See `antislop/README.md` for the full pin and rules.
 
@@ -113,6 +115,10 @@ deterministic.
   `kelir-drift.mjs`); fail-closed on unknown shapes.
 - `tools/test.mjs` — conformance + determinism.
 - `antislop/` — pinned MIT mirror of the anti-slop rulebook (`antislop.md`,
-  `rules/**`, `skills/**`, `LICENSE`, `upstream.lock.json`). `do not edit`;
-  regenerate with `tools/sync-antislop.mjs`.
+  `rules/**`, `skills/**`, `LICENSE`, `upstream.lock.json`, `index.json`).
+  `do not edit`; regenerate with `tools/sync-antislop.mjs`.
 - `tools/sync-antislop.mjs` — vendoring sync + offline `--check` (zero-dep).
+- `antislop/index.json` — generated rule index (38 core rules + 114 patterns),
+  with gate/severity/target and a line reference per entry.
+- `tools/build-antislop-index.mjs` — rebuilds `index.json` from the mirror +
+  `--check` (deterministic, offline).
