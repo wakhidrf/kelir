@@ -203,7 +203,7 @@ function check() {
   }
 
   if (drift.length > 0) {
-    console.error(`sync-antislop: DRIFT - ${drift.length} masalah`);
+    console.error(`sync-antislop: drift - ${drift.length} masalah`);
     for (const d of drift) console.error(`  - ${d}`);
     console.error(
       "  Mirror tidak boleh disunting tangan; jalankan `node kelir-mcp/tools/sync-antislop.mjs`.",

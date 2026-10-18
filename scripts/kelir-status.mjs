@@ -3,7 +3,7 @@
 //   - interface eksplisit (tanpa extends Omit<Mui*>/Mui*/React.HTMLAttributes)
 //   - ada <basis>.test-d.tsx (kontrak tipe, §6b)
 //   - ada <basis>.test.tsx DAN lolos vitest (runtime spread + axe, §6b)
-//   - guard 0 ERROR (grep, §9)
+//   - guard 0 error (grep, §9)
 // Tangga: belum → tipe-eksplisit → sealed. (lint-bersih pensiun: Biome
 // mengecualikan kit; diganti gate tsc+guard di PLAN.md.)
 // Mode: tulis (default) vs --check (bandingkan file, exit 1 bila beda = CI merah).
@@ -131,7 +131,7 @@ for (const t of types) {
   let bukti = "—";
   if (t.explicit && testD && testRun && runtimePass && errors === 0) {
     status = "sealed";
-    bukti = "eksplisit + test-d + vitest lolos + guard 0 ERROR";
+    bukti = "eksplisit + test-d + vitest lolos + guard 0 error";
   } else if (t.explicit && testD) {
     status = "tipe-eksplisit";
     const kurang = [];
@@ -157,7 +157,7 @@ const doc = `# KELIR-STATUS.md — Status sealed per komponen (DIHASILKAN SKRIP,
 > File ini **output generator** \`npm run kelir:status\` (§9 STYLE.md):
 > status diturunkan dari fakta — interface eksplisit di \`kelir-types.ts\`,
 > ada \`*.test-d.tsx\` (§6b), ada \`*.test.tsx\` dan lolos vitest (runtime
-> spread + axe, §6b), guard 0 ERROR (grep, §9). \`--check\` = CI merah bila
+> spread + axe, §6b), guard 0 error (grep, §9). \`--check\` = CI merah bila
 > isi ≠ fakta. Kontrak props ada di \`STYLE.md\` §5.
 > Tangga: \`belum\` → \`tipe-eksplisit\` → \`sealed\`. (\`lint-bersih\`
 > pensiun: Biome mengecualikan kit; diganti gate tsc+guard di PLAN.md.)
@@ -171,11 +171,11 @@ ${rows.map((r) => `| ${r.component} | ${r.status} | ${r.gel} | ${r.bukti} |`).jo
 if (CHECK) {
   const current = existsSync(STATUS_FILE) ? readFileSync(STATUS_FILE, "utf8").replace(/\r\n/g, "\n") : "";
   if (current !== doc) {
-    console.error("kelir-status: MISMATCH — jalankan `npm run kelir:status` lalu commit hasilnya.");
+    console.error("kelir-status: tidak cocok - jalankan `npm run kelir:status` lalu commit hasilnya.");
     process.exit(1);
   }
-  console.log(`kelir-status: OK — sealed ${sealed}/${rows.length}.`);
+  console.log(`kelir-status: OK - sealed ${sealed}/${rows.length}.`);
 } else {
   writeFileSync(STATUS_FILE, doc);
-  console.log(`kelir-status: ditulis — sealed ${sealed}/${rows.length}, tipe-eksplisit ${eksplisit}/${rows.length}.`);
+  console.log(`kelir-status: ditulis - sealed ${sealed}/${rows.length}, tipe-eksplisit ${eksplisit}/${rows.length}.`);
 }

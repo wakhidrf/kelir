@@ -13,6 +13,8 @@ Project Kelir saat ini terbatas untuk proyek **Next.js dengan TypeScript**. Sebe
 
 Kontrak sealed (daftar komponen beserta prop, nilai, dan token yang diizinkan tiap komponen) disimpan di **akar proyek induk** sebagai `STYLE.md`, bukan di dalam submodule ini. Gerbang parity, guard, dan status karena itu dijalankan dari repo induk, tempat kit terpasang di `src/views/kelir`. Clone Kelir yang berdiri sendiri hanya memeriksa parse perkakasnya; jalankan gerbang penuh dari proyek induk agar kontrak, tipe, dan katalog tetap selaras.
 
+Selain itu, gerbang anti-slop (`scripts/kelir-slop.mjs`, dijalankan sebagai `npm run kelir:slop:strict`) juga berjalan dari repo induk: ia memindai berkas induk yang mengimpor Kelir plus internal kit memakai matcher terpin yang sama dengan tool `audit` MCP, dan menggagalkan build pada tiap ERROR. Baris berisi `kelir-allow: slop` (atau baris di atasnya) adalah pengecualian eksplisit yang mudah ditinjau.
+
 ## Tipografi Per Tema
 
 Selain multi-tema, setiap bahasa desain dari DESIGN.md membawa tipografinya sendiri. Font UI dan font monospace otomatis dipasangkan dengan tema, sehingga semua komponen selaras dengan identitas desain tanpa konfigurasi tambahan.
