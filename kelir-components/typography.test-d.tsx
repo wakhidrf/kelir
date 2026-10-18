@@ -48,6 +48,16 @@ export function typographyContractChecks() {
       <Typography variant="label-caps">label</Typography>
     </>
   );
+  const okSegments = (
+    <Typography
+      variant="h1"
+      segments={[
+        { text: "OTW" },
+        { text: " Admin", tone: "muted", scale: "sm" },
+        { break: true },
+      ]}
+    />
+  );
 
   // @ts-expect-error — style passthrough haram
   const noStyle = <Typography style={{ color: "red" }}>teks</Typography>;
@@ -71,6 +81,10 @@ export function typographyContractChecks() {
   const noRawBreakAll = <Typography breakAll="yes">teks</Typography>;
   // @ts-expect-error — tracking bebas haram (normal/wide)
   const noRawTracking = <Typography tracking="loose">teks</Typography>;
+  // @ts-expect-error — tone segmen bebas haram (muted/primary)
+  const noRawTone = <Typography segments={[{ text: "x", tone: "danger" }]} />;
+  // @ts-expect-error — scale segmen bebas haram (sm/md)
+  const noRawScale = <Typography segments={[{ text: "x", scale: "lg" }]} />;
   // @ts-expect-error — prop tak dikenal tidak diteruskan ke DOM
   // (data-* ditoleransi tipe React 19 sebagai test hook; lihat stack.test-d)
   const noRest = <Typography title="x">teks</Typography>;
@@ -85,6 +99,7 @@ export function typographyContractChecks() {
     okSplit,
     okVariantMd,
     okAllVariants,
+    okSegments,
     noStyle,
     noSx,
     noClassName,
@@ -96,6 +111,8 @@ export function typographyContractChecks() {
     noRawTruncate,
     noRawBreakAll,
     noRawTracking,
+    noRawTone,
+    noRawScale,
     noRest,
   };
 }

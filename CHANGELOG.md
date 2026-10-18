@@ -48,3 +48,8 @@
 | Reserved space | Fixed-height areas for async/third-party content needed inline styles | `Stack minHeight?` from the space scale (`xs`..`4xl`), default none |
 | AI assistants (suggest) | Agents still guessed which kit component fit | MCP `suggest` tool (v1.1): plain-language wish to ranked sealed candidates, with a contract reminder; catalog-only, never a self-assembled component |
 | Kit consistency gates | The kit repo had no checks of its own | `STYLE.md`-dependent gates run from the host project and now fail with a clear message when run from a bare kit checkout; the kit runs a parse check in CI |
+| Full-screen sections | One-screen heroes/interstitials needed hand-rolled viewport heights | `Stack minHeight?` gains `screen` (100dvh); pair with `Container` for a centered, width-capped column |
+| Large + capped media | Media sizes topped out at 96px and fluid media could not be capped | `Image height?`/`maxHeight?` gain `2xl`..`7xl` (128..400px); `Image maxWidth?` caps fluid width in px data |
+| Wide-screen order | Swapping child order per breakpoint needed your own CSS | `Stack reverseMd?` (default `false`): reverses child order at `>=768px`, on top of `directionMd ?? direction` |
+| Inline decorated headings | Styled words inside one heading meant nested elements | `Typography segments?`: inline token-styled spans (muted/primary tone, small scale, line break) inside one heading element |
+| Framed floating logos | A rounded framed logo over a card needed a hand-built box | `Avatar frame?` (surface fill + thick primary ring + padding) and `FlexItem offsetY?` (`sm\|md\|lg`, token-based upward pull) |

@@ -285,7 +285,7 @@ Components for displaying static data, visualizations, and message structures.
 21. **Accordion**: A stacked vertical content panel that can be collapsed or expanded.
 22. **Aspect Ratio**: A container that enforces the dimensional proportion of content (such as images or video).
 23. **Attachment**: A file attachment viewer with metadata, upload status, and a remove button.
-24. **Avatar**: A visual representation of a user profile as an image or an initials text fallback.
+24. **Avatar**: A visual representation of a user profile as an image or an initials text fallback, with a framed variant for logos.
 25. **Badge**: A small colored label used to mark a status or category.
 26. **Bubble**: A conversation message bubble supporting sent/received variants, reactions, and collapse-expand.
 27. **Calendar**: A monthly calendar for day navigation and single-date selection.
@@ -306,7 +306,7 @@ Components for displaying static data, visualizations, and message structures.
 42. **Separator**: A horizontal or vertical divider line between content elements with an optional labeled text.
 43. **Table**: A basic responsive table structure for presenting organized row-column data.
 44. **Tabs**: Tab-based content navigation for dividing information into separate panels.
-45. **Typography**: Dedicated text styling for headings, paragraphs, and small labels for consistency.
+45. **Typography**: Dedicated text styling for headings, paragraphs, and small labels for consistency, with inline decorative segments for one heading.
 
 ### 3. Navigation
 Components that guide user movement while exploring the application.
@@ -341,10 +341,10 @@ Components that shape the structure and placement of elements.
 65. **Resizable**: A layout panel whose size can be dynamically adjusted with draggable dividers.
 66. **Skeleton**: An animated dimming-brightening placeholder frame for empty elements as a visualization before data finishes loading.
 67. **Spacer**: A fixed-gap whitespace primitive with a closed size union.
-68. **Stack**: A vertical/horizontal stack primitive with closed gap, direction, align, and justify unions.
+68. **Stack**: A vertical/horizontal stack primitive with closed gap, direction, align, and justify unions, plus a full-screen min height and wide-screen order reversal.
 69. **Container**: A page-width containment primitive with closed maxWidth and padding unions from layout tokens.
-70. **Image**: A neutral media primitive with closed height, fit, and radius unions (no shadow/border by default).
-71. **FlexItem**: A flex-item control primitive paired with Stack, with closed boolean grow, shrink, and clip unions.
+70. **Image**: A neutral media primitive with closed height, fit, and radius unions, an optional fluid mode with px width cap, and no shadow/border by default.
+71. **FlexItem**: A flex-item control primitive paired with Stack, with closed boolean grow, shrink, and clip unions, plus a token-based upward offset.
 72. **Shell**: A viewport app-shell primitive with row or stacked direction from a closed boolean.
 73. **Content**: The single scrollable app-shell area with responsive token padding and background.
 74. **TopBar**: A mobile app-shell bar aligning left and right slots edge to edge (`variant?` `raised|flat`, default `raised`; `flat` is a transparent in-content action row).

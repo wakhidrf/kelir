@@ -35,7 +35,7 @@
     {
       "name": "Avatar",
       "description": "A visual representation of a user profile as an image or an initials text fallback.",
-      "props": "`src?`, `alt?`, `fallbackText?`, `size?` (`small\\|medium\\|large\\|xl` → 32/40/48/96 px)"
+      "props": "`src?`, `alt?`, `fallbackText?`, `size?` (`small\\|medium\\|large\\|xl\\|2xl\\|3xl` → 32/40/48/96/128/160 px), `frame?` (logo berbingkai: latar surface + ring primary tebal + padding; default `false`)"
     },
     {
       "name": "Badge",
@@ -325,7 +325,7 @@
     {
       "name": "Typography",
       "description": "Dedicated text styling for headings, paragraphs, and small labels for consistency.",
-      "props": "`variant` visual (`h1\\|h2\\|h3\\|body-md\\|body-sm\\|caption\\|label-caps`), `variantMd?` (varian pada lebar >= 768px, token heroCollapse), `as?` semantik (`h1\\|h2\\|h3\\|h4\\|h5\\|h6\\|p\\|span\\|div`), `level?` (`1\\|2\\|3\\|4\\|5\\|6`; hanya menambah role heading + aria-level bila elemen non-heading; bila `as` sudah heading, level bawaan elemen berlaku), `align?` (`start\\|center\\|end\\|justify`, default `start`), `truncate?` (elipsis satu-baris, default `false`), `breakAll?` (pecah kata panjang, default `false`), `tracking?` (`normal\\|wide`; renggang 6 px milik kit, default `normal`), `children`"
+      "props": "`variant` visual (`h1\\|h2\\|h3\\|body-md\\|body-sm\\|caption\\|label-caps`), `variantMd?` (varian pada lebar >= 768px, token heroCollapse), `as?` semantik (`h1\\|h2\\|h3\\|h4\\|h5\\|h6\\|p\\|span\\|div`), `level?` (`1\\|2\\|3\\|4\\|5\\|6`; hanya menambah role heading + aria-level bila elemen non-heading; bila `as` sudah heading, level bawaan elemen berlaku), `align?` (`start\\|center\\|end\\|justify`, default `start`), `truncate?` (elipsis satu-baris, default `false`), `breakAll?` (pecah kata panjang, default `false`), `tracking?` (`normal\\|wide`; renggang 6 px milik kit, default `normal`), `segments?` (deretan segmen teks inline ber-token: tiap segmen punya teks, bisa bertone (muted/primary) atau berskala kecil, dan bisa pindah baris; menggantikan `children`), `children`"
     },
     {
       "name": "Questionnaire",
@@ -335,7 +335,7 @@
     {
       "name": "Stack",
       "description": "A vertical/horizontal stack primitive with closed gap, direction, align, and justify unions.",
-      "props": "`gap?` (`xs\\|sm\\|md\\|lg`), `direction?` (`row\\|column`), `directionMd?` (`row\\|column`; arah pada lebar >= 768px, token heroCollapse), `minHeight?` (`xs\\|sm\\|md\\|lg\\|xl\\|2xl\\|3xl\\|4xl`; ruang tetap dari skala space), `align?` (`start\\|center\\|end\\|stretch`, default `stretch`), `justify?` (`start\\|center\\|end\\|space-between`, default `start`), `wrap?` (flex-wrap, default `false`), `children`"
+      "props": "`gap?` (`xs\\|sm\\|md\\|lg`), `direction?` (`row\\|column`), `directionMd?` (`row\\|column`; arah pada lebar >= 768px, token heroCollapse), `reverseMd?` (balik urutan anak pada lebar >= 768px, token heroCollapse; default `false`), `minHeight?` (`xs\\|sm\\|md\\|lg\\|xl\\|2xl\\|3xl\\|4xl\\|screen`; ruang tetap dari skala space, `screen` = 100dvh), `align?` (`start\\|center\\|end\\|stretch`, default `stretch`), `justify?` (`start\\|center\\|end\\|space-between`, default `start`), `wrap?` (flex-wrap, default `false`), `children`"
     },
     {
       "name": "Grid",
@@ -355,12 +355,12 @@
     {
       "name": "Image",
       "description": "A neutral media primitive with closed height, fit, and radius unions (no shadow/border by default).",
-      "props": "`src`, `alt?`, `height?` (`xs\\|sm\\|md\\|lg\\|xl`, default `md`), `fluid?` (isi lebar wadah, tinggi auto; default `false`), `maxHeight?` (`xs\\|sm\\|md\\|lg\\|xl`; batas tinggi), `fit?` (`contain\\|cover`, default `contain`), `radius?` (`none\\|sm\\|md\\|lg`, default `none`)"
+      "props": "`src`, `alt?`, `height?` (`xs\\|sm\\|md\\|lg\\|xl\\|2xl\\|3xl\\|4xl\\|5xl\\|6xl\\|7xl`, default `md`), `fluid?` (isi lebar wadah, tinggi auto; default `false`), `maxHeight?` (`xs\\|sm\\|md\\|lg\\|xl\\|2xl\\|3xl\\|4xl\\|5xl\\|6xl\\|7xl`; batas tinggi), `maxWidth?` (batas lebar dalam px), `fit?` (`contain\\|cover`, default `contain`), `radius?` (`none\\|sm\\|md\\|lg`, default `none`)"
     },
     {
       "name": "FlexItem",
       "description": "A flex-item control primitive paired with Stack, with closed boolean grow, shrink, and clip unions.",
-      "props": "`children`, `grow?` (isi sisa ruang, default `false`), `shrink?` (`false` = tolak susut, default `true`), `clip?` (pemotong luapan, default `false`)"
+      "props": "`children`, `grow?` (isi sisa ruang, default `false`), `shrink?` (`false` = tolak susut, default `true`), `clip?` (pemotong luapan, default `false`), `offsetY?` (`sm\\|md\\|lg`; tarik naik dari skala space, default tanpa offset)"
     },
     {
       "name": "Shell",
