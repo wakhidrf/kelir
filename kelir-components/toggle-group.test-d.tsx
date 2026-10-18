@@ -38,5 +38,20 @@ export function toggleGroupContractChecks() {
       style={{ gap: "4px" }}
     />
   );
-  return { ok, okDefault, noEvent, noExclusive, noStyle };
+
+  const okJoined = (
+    <ToggleGroup
+      options={[{ label: "ID", value: "id" }]}
+      variant="joined"
+      onChange={() => {}}
+    />
+  );
+  const noUnknownVariant = (
+    <ToggleGroup
+      options={[{ label: "ID", value: "id" }]}
+      // @ts-expect-error - variant hanya separated|joined
+      variant="pill"
+    />
+  );
+  return { ok, okDefault, noEvent, noExclusive, noStyle, okJoined, noUnknownVariant };
 }
