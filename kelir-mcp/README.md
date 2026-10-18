@@ -54,7 +54,7 @@ needed: every MCP server adds context.
 ## Anti-slop filter (mirror)
 
 The MCP applies the upstream [anti-slop](https://github.com/miqdadbadjuber/anti-slop)
-rulebook (MIT, by Miqdad Badjuder) so agents filter generic AI-slop UI, copy,
+rulebook (MIT, by Miqdad Badjuber) so agents filter generic AI-slop UI, copy,
 and code before shipping Kelir components. The rulebook is **vendored** as a
 pinned mirror under `antislop/` (offline, deterministic), never fetched at
 runtime.
@@ -63,15 +63,26 @@ runtime.
 |---|---|
 | Ref (tag) | `v3.2.21` |
 | Commit | `77e1920ad5e540816ccec3b2142128d95ef12bcb` |
+| Upstream version | `3.2.21` |
 | License | MIT, kept verbatim in `antislop/LICENSE` |
+| Lock | `antislop/upstream.lock.json` (commit + sha256 per mirrored file) |
 
 - **Mirror, never fork**: `antislop/**` is generated. Do not edit by hand; a
-  sync overwrites it. Update by bumping the pin and re-running the sync tool.
+  sync overwrites it. Update by bumping the pin and re-running the sync tool:
+
+  ```sh
+  node kelir-mcp/tools/sync-antislop.mjs          # refresh (network); bump PIN.ref to update
+  node kelir-mcp/tools/sync-antislop.mjs --check  # verify local vs lock (offline)
+  ```
+
+  Edit `PIN.ref` in `tools/sync-antislop.mjs` (a release tag, never a branch)
+  to bump; the sync rewrites the files and the lock, and `--check` fails on any
+  drift, hand-edit, or CRLF.
 - `antislop/index.json` (generated) holds the structured rules; the filter is
   served as `kelir://antislop` and applied in `suggest` / `audit` (integration
   lands with the anti-slop workstream).
-- The mirror content is verbatim upstream: `skills/**`, `rules/antislop.md`,
-  `VERSION`, `LICENSE`. See `antislop/README.md` for the full pin and rules.
+- The mirror content is verbatim upstream: `antislop.md`, `rules/**`,
+  `skills/**` (12 files). See `antislop/README.md` for the full pin and rules.
 
 ## Regenerate after kit changes
 
@@ -101,5 +112,7 @@ deterministic.
 - `tools/snapshot.mjs` — zero-dep text parser (same §5-table pattern as
   `kelir-drift.mjs`); fail-closed on unknown shapes.
 - `tools/test.mjs` — conformance + determinism.
-- `antislop/` — pinned MIT mirror of the anti-slop rulebook (`LICENSE`,
-  `VERSION`, `README.md`); `skills/**` and `rules/` land with the sync tool.
+- `antislop/` — pinned MIT mirror of the anti-slop rulebook (`antislop.md`,
+  `rules/**`, `skills/**`, `LICENSE`, `upstream.lock.json`). `do not edit`;
+  regenerate with `tools/sync-antislop.mjs`.
+- `tools/sync-antislop.mjs` — vendoring sync + offline `--check` (zero-dep).
