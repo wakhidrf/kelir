@@ -21,14 +21,27 @@ const anchors = {
     top: css.layout.space.lg,
     right: css.layout.space.lg,
   },
+  "bottom-start": {
+    bottom: css.layout.space.lg,
+    left: css.layout.space.lg,
+  },
+  "bottom-center": {
+    bottom: css.layout.space.lg,
+    left: "50%",
+    transform: "translateX(-50%)",
+  },
+  "bottom-end": {
+    bottom: css.layout.space.lg,
+    right: css.layout.space.lg,
+  },
   "center-start": {
     top: `calc(50% - ${css.layout.space["2xl"]})`,
     left: css.layout.space.lg,
   },
 } as const;
 
-// Slot bertitik tetap sealed (STYLE.md §6): pemicu tema/bahasa di sudut dan
-// pemicu geser di tepi kiri. `visibility?` memilih ponsel/desktop dari token
+// Slot bertitik tetap sealed (STYLE.md §6): pemicu tema/bahasa di sudut,
+// pemicu gulir-ke-atas di sudut bawah, dan pemicu geser di tepi kiri. `visibility?` memilih ponsel/desktop dari token
 // layout.mobile; `elevate?` (bawaan true) menaikkan di atas konten — matikan
 // bila wadah memuat pemicu sidebar sendiri (z-index membuat stacking context
 // yang menjebak lapisan drawer). Tanpa ...rest ke DOM dan tanpa style
