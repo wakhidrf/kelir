@@ -254,7 +254,7 @@ sehingga tak pernah basi:
 ---
 
 <!-- kelir-doc: components -->
-## Daftar Lengkap 82 Komponen Project Kelir
+## Daftar Lengkap 83 Komponen Project Kelir
 
 Project Kelir memiliki **77 komponen** yang dikelompokkan ke beberapa kategori utama agar mudah merancang antarmuka yang terstruktur dan konsisten.
 
@@ -359,6 +359,7 @@ Komponen yang membentuk struktur dan penempatan elemen.
 80. **Link**: Tautan teks sebaris dengan ikon milik kit, href wajib, dan target eksternal yang aman.
 81. **LoadingOverlay**: Overlay pemuatan fullscreen yang menghalangi interaksi, dengan kartu tengah berdenyut milik kit, label status, teks kemajuan, dan slot media milik konsumen.
 82. **TruncatedText**: Teks elipsis satu baris dengan batas lebar milik kit (`text` wajib, `maxWidth?` data px, teks penuh saat hover); `ContextMenu`/`DropdownMenu` mendapat `truncate?` untuk pemicu teks elipsis.
+83. **Icon**: Pembungkus ikon dekoratif dengan warna (`intent`) dan ukuran dari token kit; tanpa `aria-label` ia tetap `aria-hidden` bagi pembaca layar.
 
 ---
 

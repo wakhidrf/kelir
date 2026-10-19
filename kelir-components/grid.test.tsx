@@ -24,4 +24,28 @@ describe("Grid sealed (§6b)", () => {
     expect(el.style.display).toBe("grid");
     expect(el.style.gridTemplateColumns).toContain("repeat(3");
   });
+  it("columnsMd: kolom dasar pindah ke sx (media query kit)", () => {
+    renderSealed(
+      <Grid columns={1} columnsMd={3}>
+        <span>g</span>
+      </Grid>,
+    );
+    const el = screen.getByText("g").parentElement as HTMLElement;
+    expect(el.style.gridTemplateColumns).toBe("");
+    const css = Array.from(document.querySelectorAll("style"))
+      .map((s) => s.textContent ?? "")
+      .join("\n");
+    expect(css).toMatch(/@media \(min-width:\s*768px\)/);
+    expect(css).toMatch(/repeat\(3/);
+  });
+
+  it("tanpa titik henti: kolom tetap inline (perilaku lama)", () => {
+    renderSealed(
+      <Grid columns={4}>
+        <span>h</span>
+      </Grid>,
+    );
+    const el = screen.getByText("h").parentElement as HTMLElement;
+    expect(el.style.gridTemplateColumns).toContain("repeat(4");
+  });
 });

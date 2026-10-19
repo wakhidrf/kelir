@@ -153,4 +153,28 @@ describe("Stack sealed (§6b)", () => {
       .join("\n");
     expect(css).toMatch(/flex-direction:\s*row-reverse/);
   });
+  it("gapMd: jarak dasar pindah ke sx (media query kit)", () => {
+    renderSealed(
+      <Stack gap="sm" gapMd="lg">
+        <span>a</span>
+      </Stack>,
+    );
+    const el = screen.getByText("a").parentElement as HTMLElement;
+    expect(el.style.gap).toBe("");
+    const css = Array.from(document.querySelectorAll("style"))
+      .map((s) => s.textContent ?? "")
+      .join("\n");
+    expect(css).toMatch(/@media \(min-width:\s*768px\)/);
+    expect(css).toMatch(/gap:/);
+  });
+
+  it("tanpa gapMd: gap tetap inline (perilaku lama)", () => {
+    renderSealed(
+      <Stack gap="md">
+        <span>b</span>
+      </Stack>,
+    );
+    const el = screen.getByText("b").parentElement as HTMLElement;
+    expect(el.style.gap).not.toBe("");
+  });
 });

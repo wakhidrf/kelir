@@ -40,6 +40,14 @@ export function stackContractChecks() {
     </Stack>
   );
 
+  const okGapMd = (
+    <Stack gap="sm" gapMd="lg">
+      <span>rapat di ponsel, lega di desktop</span>
+    </Stack>
+  );
+  // @ts-expect-error — gapMd angka bebas haram (union tertutup)
+  const noRawGapMd = <Stack gapMd={20}>isi</Stack>;
+
   // @ts-expect-error — style passthrough haram (layout milik Stack)
   const noStyle = <Stack style={{ marginTop: 8 }}>isi</Stack>;
   // @ts-expect-error — sx passthrough haram
@@ -68,5 +76,5 @@ export function stackContractChecks() {
   // tipe React 19 pada komponen kustom — ditoleransi karena tak berefek
   // visual; semua prop lain di luar kontrak ditolak (§6b STYLE.md).
 
-  return { okColumn, okRow, okAlign, okWrap, okResponsive, okScreen, okReverse, noStyle, noSx, noClassName, noRawGap, noRawDirection, noRawDirectionMd, noRawMinHeight, noRawAlign, noRawJustify, noRawWrap, noRawReverseMd, noRest };
+  return { okColumn, okGapMd, noRawGapMd, okRow, okAlign, okWrap, okResponsive, okScreen, okReverse, noStyle, noSx, noClassName, noRawGap, noRawDirection, noRawDirectionMd, noRawMinHeight, noRawAlign, noRawJustify, noRawWrap, noRawReverseMd, noRest };
 }

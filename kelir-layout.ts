@@ -30,7 +30,7 @@ export interface KelirLayoutTokens {
   space: KelirSpace;
   container: { maxWidth: string; sidePadding: string };
   sectionGap: string;
-  breakpoints: { heroCollapse: string };
+  breakpoints: { heroCollapse: string; mobile: string };
   zIndex: {
     base: string;
     sticky: string;
@@ -61,6 +61,7 @@ export const layout: KelirLayoutTokens = {
   sectionGap: "clamp(4rem, 8vw, 8rem)",
   breakpoints: {
     heroCollapse: "768px",
+    mobile: "600px",
   },
   zIndex: {
     base: "0",
@@ -86,6 +87,7 @@ export const layoutVars: string =
   `--layout-container-pad: ${layout.container.sidePadding};\n` +
   `--layout-section-gap: ${layout.sectionGap};\n` +
   `--layout-hero-collapse: ${layout.breakpoints.heroCollapse};\n` +
+  `--layout-mobile: ${layout.breakpoints.mobile};\n` +
   `--z-base: ${layout.zIndex.base};\n` +
   `--z-sticky: ${layout.zIndex.sticky};\n` +
   `--z-overlay: ${layout.zIndex.overlay};\n` +

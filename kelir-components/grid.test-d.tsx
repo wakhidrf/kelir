@@ -10,6 +10,19 @@ export function gridContractChecks() {
     </Grid>
   );
 
+  const okResponsive = (
+    <Grid columns={1} columnsSm={3} columnsMd={6} gap="sm">
+      <span>a</span>
+      <span>b</span>
+    </Grid>
+  );
+  // @ts-expect-error — kolom ponsel angka bebas haram (union tertutup)
+  const noRawColumnsSm = <Grid columnsSm={5}>isi</Grid>;
+  // @ts-expect-error — kolom desktop angka bebas haram (union tertutup)
+  const noRawColumnsMd = <Grid columnsMd={7}>isi</Grid>;
+  // @ts-expect-error — kolomSm string bebas haram
+  const noStringColumnsSm = <Grid columnsSm="3">isi</Grid>;
+
   // @ts-expect-error — style passthrough haram
   const noStyle = <Grid style={{ margin: 4 }}>isi</Grid>;
   // @ts-expect-error — className passthrough haram
@@ -21,5 +34,5 @@ export function gridContractChecks() {
   // @ts-expect-error — prop tak dikenal tidak diteruskan ke DOM
   const noRest = <Grid title="x">isi</Grid>;
 
-  return { ok, noStyle, noClassName, noRawColumns, noRawGap, noRest };
+  return { ok, okResponsive, noRawColumnsSm, noRawColumnsMd, noStringColumnsSm, noStyle, noClassName, noRawColumns, noRawGap, noRest };
 }
