@@ -20,6 +20,29 @@ describe("AspectRatio sealed (Gel.3c-6 §6b)", () => {
     expectSealed(container.firstElementChild as HTMLElement);
   });
 
+  it("plain: tanpa permukaan kit (logo tampil apa adanya)", () => {
+    const { container } = renderSealed(
+      <AspectRatio ratio={1} plain>
+        <img src="x.png" alt="Logo" />
+      </AspectRatio>,
+    );
+    const el = container.firstElementChild as HTMLElement;
+    expect(el.style.border).toBe("");
+    expect(el.style.boxShadow).toBe("");
+    expect(el.style.backgroundColor).toBe("");
+  });
+
+  it("tanpa plain: permukaan kit tetap (perilaku lama)", () => {
+    const { container } = renderSealed(
+      <AspectRatio ratio={1}>
+        <img src="x.png" alt="Contoh" />
+      </AspectRatio>,
+    );
+    const el = container.firstElementChild as HTMLElement;
+    expect(el.style.border).not.toBe("");
+    expect(el.style.boxShadow).not.toBe("");
+  });
+
   it("bebas pelanggaran axe", async () => {
     const { container } = renderSealed(
       <AspectRatio ratio={1}>

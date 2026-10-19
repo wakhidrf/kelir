@@ -14,9 +14,11 @@ const mappedVariant: Record<
   Variant,
   "h1" | "h2" | "h3" | "body1" | "body2" | "caption"
 > = {
+  hero: "h1",
   h1: "h1",
   h2: "h2",
   h3: "h3",
+  stat: "h2",
   "body-md": "body1",
   "body-sm": "body2",
   caption: "caption",
@@ -40,6 +42,19 @@ const variantStyles: Record<Variant, React.CSSProperties> = {
   h3: {
     fontSize: "var(--type-h3, 1.25rem)",
     fontWeight: "var(--type-weight-h3, 600)",
+    color: css.colors.textPrimary,
+  },
+  hero: {
+    fontSize: "var(--type-hero, 2.5rem)",
+    fontWeight: "var(--type-weight-hero, 700)",
+    lineHeight: 1.1,
+    letterSpacing: "-0.02em",
+    color: css.colors.textPrimary,
+  },
+  stat: {
+    fontSize: "var(--type-stat, 1.875rem)",
+    fontWeight: "var(--type-weight-stat, 800)",
+    lineHeight: 1.2,
     color: css.colors.textPrimary,
   },
   "body-md": {
@@ -70,9 +85,11 @@ const variantStyles: Record<Variant, React.CSSProperties> = {
 };
 
 const defaultElement: Record<Variant, "h1" | "h2" | "h3" | "p"> = {
+  hero: "h1",
   h1: "h1",
   h2: "h2",
   h3: "h3",
+  stat: "p",
   "body-md": "p",
   "body-sm": "p",
   caption: "p",
@@ -81,6 +98,25 @@ const defaultElement: Record<Variant, "h1" | "h2" | "h3" | "p"> = {
 
 // Ambang responsif kit (satu sumber: token heroCollapse 768px).
 const MD_QUERY = `@media (min-width: ${css.layout.breakpoints.heroCollapse})`;
+
+// Font merek konsumen (dipasang KelirProvider lewat --kelir-font-brand);
+// tanpa itu jatuh ke font aktif tema.
+const BRAND_FONT =
+  "var(--kelir-font-brand, var(--kelir-font-active, sans-serif))";
+
+// Gaya varian + penimpa dari kontrak: tone menimpa warna varian, font
+// memilih keluarga teks (identitas konsumen) tanpa CSS konsumen.
+function styleFor(
+  variant: Variant,
+  tone: TypographyProps["tone"],
+  font: TypographyProps["font"],
+): React.CSSProperties {
+  const style: React.CSSProperties = { ...variantStyles[variant] };
+  if (tone === "primary") style.color = css.colors.textPrimary;
+  else if (tone === "secondary") style.color = css.colors.textSecondary;
+  if (font === "brand") style.fontFamily = BRAND_FONT;
+  return style;
+}
 
 // Gaya segmen inline: tetap di dalam satu elemen (satu heading), dari token.
 function segmentStyle(seg: TypographySegment): React.CSSProperties {
@@ -99,7 +135,11 @@ function segmentStyle(seg: TypographySegment): React.CSSProperties {
 // tanpa ...rest ke DOM. `as` memilih elemen dokumen; `level` menambah role
 // heading + aria-level bila elemennya non-heading (tampilan body tapi outline
 // dokumen setara heading) - hierarki dokumen ≠ visual. Bila `as` sudah
-// heading, level bawaan elemen yang berlaku. `align` = textAlign milik kit
+// heading, level bawaan elemen yang berlaku. `tone?` = warna teks dari
+// token (primary/secondary; tanpa = bawaan varian); `font?` = keluarga teks
+// (text = font aktif tema, brand = font merek dari KelirProvider.brandFont).
+// Varian tambahan: `hero` (judul besar fluid) dan `stat` (angka besar).
+// `align` = textAlign milik kit
 // (default `left`); `truncate?` = elipsis satu-baris milik kit (default
 // `false`, properti dihilangkan penuh saat mati); `breakAll?` = pecah kata
 // panjang di mana saja (`word-break: break-all`, default `false`);
@@ -115,6 +155,8 @@ export function Typography({
   as,
   level,
   align = "start",
+  tone,
+  font = "text",
   truncate = false,
   breakAll = false,
   tracking = "normal",
@@ -139,17 +181,17 @@ export function Typography({
       sx={
         responsiveVariant
           ? {
-              ...variantStyles[variant],
-              [MD_QUERY]: variantStyles[variantMd],
+              ...styleFor(variant, tone, font),
+              [MD_QUERY]: styleFor(variantMd, tone, font),
             }
           : undefined
       }
       style={{
-        fontFamily: "inherit",
+        fontFamily: font === "brand" ? BRAND_FONT : "inherit",
         margin: 0,
         // Varian visual tetap inline (perilaku lama); saat `variantMd` diisi,
         // blok varian pindah ke `sx` agar media query bisa menang.
-        ...(responsiveVariant ? null : variantStyles[variant]),
+        ...(responsiveVariant ? null : styleFor(variant, tone, font)),
         textAlign: align,
         ...(truncate
           ? ({

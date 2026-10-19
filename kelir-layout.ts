@@ -31,6 +31,23 @@ export interface KelirLayoutTokens {
   container: { maxWidth: string; sidePadding: string };
   sectionGap: string;
   breakpoints: { heroCollapse: string; mobile: string };
+  // Lebar minimum item Grid auto-fit (minItem), dari token yang sama.
+  gridMin: { sm: string; md: string };
+  // Rangka halaman dokumen (PageFrame): jarak tepi, lebar isi, napas main/footer.
+  page: {
+    paddingTop: string;
+    paddingInline: string;
+    paddingInlineMobile: string;
+    paddingBottom: string;
+    contentMax: string;
+    gap: string;
+    headerGap: string;
+    headerGapMobile: string;
+    mainMinHeight: string;
+    mainPaddingBlock: string;
+    footerPaddingTop: string;
+    footerGap: string;
+  };
   zIndex: {
     base: string;
     sticky: string;
@@ -63,6 +80,24 @@ export const layout: KelirLayoutTokens = {
     heroCollapse: "768px",
     mobile: "600px",
   },
+  gridMin: {
+    sm: "200px",
+    md: "320px",
+  },
+  page: {
+    paddingTop: "96px",
+    paddingInline: "24px",
+    paddingInlineMobile: "16px",
+    paddingBottom: "40px",
+    contentMax: "1200px",
+    gap: "32px",
+    headerGap: "18px",
+    headerGapMobile: "12px",
+    mainMinHeight: "500px",
+    mainPaddingBlock: "16px",
+    footerPaddingTop: "32px",
+    footerGap: "12px",
+  },
   zIndex: {
     base: "0",
     sticky: "100",
@@ -88,6 +123,20 @@ export const layoutVars: string =
   `--layout-section-gap: ${layout.sectionGap};\n` +
   `--layout-hero-collapse: ${layout.breakpoints.heroCollapse};\n` +
   `--layout-mobile: ${layout.breakpoints.mobile};\n` +
+  `--grid-min-sm: ${layout.gridMin.sm};\n` +
+  `--grid-min-md: ${layout.gridMin.md};\n` +
+  `--page-pad-top: ${layout.page.paddingTop};\n` +
+  `--page-pad-inline: ${layout.page.paddingInline};\n` +
+  `--page-pad-inline-mobile: ${layout.page.paddingInlineMobile};\n` +
+  `--page-pad-bottom: ${layout.page.paddingBottom};\n` +
+  `--page-content-max: ${layout.page.contentMax};\n` +
+  `--page-gap: ${layout.page.gap};\n` +
+  `--page-header-gap: ${layout.page.headerGap};\n` +
+  `--page-header-gap-mobile: ${layout.page.headerGapMobile};\n` +
+  `--page-main-min-height: ${layout.page.mainMinHeight};\n` +
+  `--page-main-pad-block: ${layout.page.mainPaddingBlock};\n` +
+  `--page-footer-pad-top: ${layout.page.footerPaddingTop};\n` +
+  `--page-footer-gap: ${layout.page.footerGap};\n` +
   `--z-base: ${layout.zIndex.base};\n` +
   `--z-sticky: ${layout.zIndex.sticky};\n` +
   `--z-overlay: ${layout.zIndex.overlay};\n` +

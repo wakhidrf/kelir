@@ -253,7 +253,7 @@ goes stale:
 ---
 
 <!-- kelir-doc: components -->
-## Complete List of 83 Project Kelir Components
+## Complete List of 85 Project Kelir Components
 
 Project Kelir has **77 components** organized into several main categories to make it easier to design structured and consistent user interfaces.
 
@@ -359,6 +359,8 @@ Components that shape the structure and placement of elements.
 81. **LoadingOverlay**: A fullscreen loading overlay that blocks interaction, with a kit-pulsed center card, status label, progress text, and a consumer media slot.
 82. **TruncatedText**: Single-line ellipsis text with kit-owned width cap (`text` required, `maxWidth?` px data, full text on hover); `ContextMenu`/`DropdownMenu` gained `truncate?` for ellipsis text triggers.
 83. **Icon**: A decorative icon wrapper whose color (`intent`) and size come from kit tokens; without an `aria-label` it stays `aria-hidden` for screen readers.
+84. **Positioned**: A fixed viewport slot for corner and edge triggers (`anchor` from space tokens, `visibility` mobile/desktop from the 600px token, `elevate` off when the slot holds its own sidebar trigger).
+85. **PageFrame**: A document page frame - edge padding, content width, header, main and footer spacing all come from `layout.page` tokens, with an `overlays` slot for fixed triggers.
 
 ---
 

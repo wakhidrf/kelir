@@ -9,6 +9,12 @@ export function aspectRatioContractChecks() {
     </AspectRatio>
   );
 
+  const okPlain = (
+    <AspectRatio ratio={1620 / 1643} plain>
+      <img src="x.png" alt="Logo" />
+    </AspectRatio>
+  );
+
   const noStringRatio = (
     <AspectRatio
       // @ts-expect-error - ratio string bukan kontrak AspectRatio
@@ -33,5 +39,13 @@ export function aspectRatioContractChecks() {
       <img src="x.jpg" alt="x" />
     </AspectRatio>
   );
-  return { ok, noStringRatio, noStyle, noClassName };
+  const noRawPlain = (
+    <AspectRatio
+      // @ts-expect-error - plain boolean, bukan string
+      plain="yes"
+    >
+      <img src="x.jpg" alt="x" />
+    </AspectRatio>
+  );
+  return { ok, okPlain, noStringRatio, noStyle, noClassName, noRawPlain };
 }

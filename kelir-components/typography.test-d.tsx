@@ -48,6 +48,22 @@ export function typographyContractChecks() {
       <Typography variant="label-caps">label</Typography>
     </>
   );
+  const okTone = (
+    <Typography variant="body-md" tone="secondary">
+      pendukung
+    </Typography>
+  );
+  const okFont = (
+    <Typography variant="hero" as="h1" font="brand">
+      Merek
+    </Typography>
+  );
+  const okHeroStat = (
+    <>
+      <Typography variant="hero">judul besar</Typography>
+      <Typography variant="stat">128</Typography>
+    </>
+  );
   const okSegments = (
     <Typography
       variant="h1"
@@ -68,7 +84,7 @@ export function typographyContractChecks() {
   // @ts-expect-error — variant bebas haram (union tertutup)
   const noRawVariant = <Typography variant="h4">teks</Typography>;
   // @ts-expect-error — variantMd bebas haram (union tertutup)
-  const noRawVariantMd = <Typography variantMd="hero">teks</Typography>;
+  const noRawVariantMd = <Typography variantMd="h4">teks</Typography>;
   // @ts-expect-error — as bebas haram (elemen semantik tertutup)
   const noRawAs = <Typography as="section">teks</Typography>;
   // @ts-expect-error — level bebas haram (1-6)
@@ -85,6 +101,12 @@ export function typographyContractChecks() {
   const noRawTone = <Typography segments={[{ text: "x", tone: "danger" }]} />;
   // @ts-expect-error — scale segmen bebas haram (sm/md)
   const noRawScale = <Typography segments={[{ text: "x", scale: "lg" }]} />;
+  // @ts-expect-error — tone bebas haram (primary/secondary)
+  const noRawToneProp = <Typography tone="danger">teks</Typography>;
+  // @ts-expect-error — font bebas haram (text/brand)
+  const noRawFont = <Typography font="serif">teks</Typography>;
+  // @ts-expect-error — varian di luar skala kit haram
+  const noRawHeroVariant = <Typography variant="display">teks</Typography>;
   // @ts-expect-error — prop tak dikenal tidak diteruskan ke DOM
   // (data-* ditoleransi tipe React 19 sebagai test hook; lihat stack.test-d)
   const noRest = <Typography title="x">teks</Typography>;
@@ -100,6 +122,9 @@ export function typographyContractChecks() {
     okVariantMd,
     okAllVariants,
     okSegments,
+    okTone,
+    okFont,
+    okHeroStat,
     noStyle,
     noSx,
     noClassName,
@@ -113,6 +138,9 @@ export function typographyContractChecks() {
     noRawTracking,
     noRawTone,
     noRawScale,
+    noRawToneProp,
+    noRawFont,
+    noRawHeroVariant,
     noRest,
   };
 }

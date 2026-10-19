@@ -12,6 +12,7 @@ export interface KelirTypeScale {
   hero: string;
   h1: string;
   h2: string;
+  stat: string;
   body: string;
   small: string;
   label: string;
@@ -25,6 +26,7 @@ export interface KelirTypographyTokens {
     hero: number;
     h1: number;
     h2: number;
+    stat: number;
     body: number;
     label: number;
   };
@@ -35,6 +37,7 @@ export const typography: KelirTypographyTokens = {
     hero: "clamp(2.5rem, 5vw, 4rem)",
     h1: "2.25rem",
     h2: "1.5rem",
+    stat: "1.875rem",
     body: "1rem",
     small: "0.875rem",
     label: "0.875rem",
@@ -49,6 +52,7 @@ export const typography: KelirTypographyTokens = {
     hero: 700,
     h1: 700,
     h2: 600,
+    stat: 800,
     body: 400,
     label: 500,
   },
@@ -60,12 +64,14 @@ export const typographyVars: string =
   `--type-hero: ${typography.scale.hero};\n` +
   `--type-h1: ${typography.scale.h1};\n` +
   `--type-h2: ${typography.scale.h2};\n` +
+  `--type-stat: ${typography.scale.stat};\n` +
   `--type-body: ${typography.scale.body};\n` +
   `--type-small: ${typography.scale.small};\n` +
   `--type-label: ${typography.scale.label};\n` +
   `--type-weight-hero: ${typography.weights.hero};\n` +
   `--type-weight-h1: ${typography.weights.h1};\n` +
   `--type-weight-h2: ${typography.weights.h2};\n` +
+  `--type-weight-stat: ${typography.weights.stat};\n` +
   `--type-weight-body: ${typography.weights.body};\n` +
   `--type-weight-label: ${typography.weights.label};\n` +
   `--type-lineheight-body: ${typography.lineHeight.body};\n` +
