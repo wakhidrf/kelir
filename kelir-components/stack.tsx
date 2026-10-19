@@ -32,6 +32,8 @@ function minHeightValue(
 // (= 100dvh) untuk hero/interstitial satu layar (menyediakan ruang tetap
 // untuk konten async/pihak ketiga; default tanpa tinggi). `reverseMd?` =
 // balik urutan anak pada lebar >= 768px (token heroCollapse; arah dasar
+// `gapMd?` = jarak pada lebar >= 768px (token heroCollapse); tanpa =
+// `gap` berlaku di semua lebar (perilaku lama).
 // `directionMd ?? direction`, default `false`). Tanpa warna/border/shadow/font.
 // Basis MUI (MuiBox = div + emotion + tema di tree) untuk multi-platform;
 // visual milik kit. Tanpa ...rest ke DOM dan tanpa style passthrough — di
@@ -41,6 +43,7 @@ export function Stack({
   gap = "md",
   direction = "column",
   directionMd,
+  gapMd,
   reverseMd = false,
   minHeight,
   align = "stretch",
@@ -50,6 +53,8 @@ export function Stack({
   "aria-label": ariaLabel,
 }: StackProps) {
   const responsiveDirection = directionMd !== undefined || reverseMd;
+  const responsiveGap = gapMd !== undefined;
+
   const mdDirection = reverseMd
     ? `${directionMd ?? direction}-reverse`
     : directionMd;
@@ -58,10 +63,17 @@ export function Stack({
       id={id}
       aria-label={ariaLabel}
       sx={
-        responsiveDirection
+        responsiveDirection || responsiveGap
           ? {
-              flexDirection: direction,
-              [MD_QUERY]: { flexDirection: mdDirection },
+              ...(responsiveDirection
+                ? { flexDirection: direction }
+                : null),
+              [MD_QUERY]: {
+                ...(responsiveDirection
+                  ? { flexDirection: mdDirection }
+                  : null),
+                ...(responsiveGap ? { gap: gaps[gapMd] } : null),
+              },
             }
           : undefined
       }
@@ -70,7 +82,7 @@ export function Stack({
         // Arah dasar tetap inline (perilaku lama); saat arah responsif
         // dipakai, arah dipindah ke `sx` agar media query bisa menang.
         ...(responsiveDirection ? null : ({ flexDirection: direction } as const)),
-        gap: gaps[gap],
+        ...(responsiveGap ? null : ({ gap: gaps[gap] } as const)),
         alignItems: align,
         justifyContent: justify,
         ...(minHeight

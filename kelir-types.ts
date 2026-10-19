@@ -206,6 +206,18 @@ export interface ButtonProps {
   id?: string;
 }
 
+// 10c. Icon - pembungkus ikon dekoratif (P1c STYLE.md 6): warna dari token
+// (`intent`) + ukuran dari skala kit (`size`); elemen ikon diserahkan lewat
+// `children`. Tanpa `aria-label` = dekoratif (`aria-hidden` milik kit); label
+// aksesibel tetap milik tombol/tautan induk.
+export interface IconProps {
+  children: React.ReactElement;
+  intent?: "inherit" | "primary" | "secondary" | "accent";
+  size?: "sm" | "md" | "lg";
+  id?: string;
+  "aria-label"?: string;
+}
+
 // 10b. IconButton — tombol ikon-only (P1c STYLE.md §6): icon + aria-label
 // wajib (WCAG 2.5.3 ditegakkan oleh bentuk komponen).
 export interface IconButtonProps {
@@ -1011,6 +1023,9 @@ export interface QuestionnaireProps {
 export interface StackProps {
   children: React.ReactNode;
   gap?: "xs" | "sm" | "md" | "lg";
+  // Jarak pada lebar >= 768px (token heroCollapse); tanpa = `gap` berlaku
+  // di semua lebar (perilaku lama).
+  gapMd?: "xs" | "sm" | "md" | "lg";
   direction?: "row" | "column";
   directionMd?: "row" | "column";
   reverseMd?: boolean;
@@ -1027,6 +1042,11 @@ export interface StackProps {
 export interface GridProps {
   children: React.ReactNode;
   columns?: 1 | 2 | 3 | 4 | 6 | 12;
+  // Jumlah kolom pada lebar >= 600px / >= 768px (token layout mobile &
+  // heroCollapse; `columnsMd` menang bila keduanya cocok). Union tertutup,
+  // bukan angka bebas - sama seperti `columns`.
+  columnsSm?: 1 | 2 | 3 | 4 | 6 | 12;
+  columnsMd?: 1 | 2 | 3 | 4 | 6 | 12;
   gap?: "xs" | "sm" | "md" | "lg";
   id?: string;
   "aria-label"?: string;

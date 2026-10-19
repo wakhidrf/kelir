@@ -63,6 +63,11 @@
       "props": "`icon` (wajib), `aria-label` (wajib), `variant?`, `shape?` (`rounded\\|circle\\|square`, default `rounded`), `size?` (`sm\\|md\\|lg`, default `md` = hari ini; sm = padding 6 + ikon 18px, lg = padding 14 + ikon 28px), `onClick`, `disabled`, `type?`"
     },
     {
+      "name": "Icon",
+      "description": "A decorative icon wrapper whose color (`intent`) and size come from kit tokens; without an `aria-label` it stays `aria-hidden` for screen readers.",
+      "props": "`children` (elemen ikon, ReactElement), `intent?` (`inherit\\|primary\\|secondary\\|accent`, default `inherit`), `size?` (`sm\\|md\\|lg`, default `md` = 20px; sm 16px, lg 28px), `id?`, `aria-label?` (tanpa label = dekoratif, `aria-hidden` milik kit)"
+    },
+    {
       "name": "ButtonGroup",
       "description": "A container for grouping related buttons with consistent rounded corners.",
       "props": "`children` (tombol Kelir), `disabled?`"
@@ -335,12 +340,12 @@
     {
       "name": "Stack",
       "description": "A vertical/horizontal stack primitive with closed gap, direction, align, and justify unions, plus a full-screen min height and wide-screen order reversal.",
-      "props": "`gap?` (`xs\\|sm\\|md\\|lg`), `direction?` (`row\\|column`), `directionMd?` (`row\\|column`; arah pada lebar >= 768px, token heroCollapse), `reverseMd?` (balik urutan anak pada lebar >= 768px, token heroCollapse; default `false`), `minHeight?` (`xs\\|sm\\|md\\|lg\\|xl\\|2xl\\|3xl\\|4xl\\|screen`; ruang tetap dari skala space, `screen` = 100dvh), `align?` (`start\\|center\\|end\\|stretch`, default `stretch`), `justify?` (`start\\|center\\|end\\|space-between`, default `start`), `wrap?` (flex-wrap, default `false`), `children`"
+      "props": "`gap?` (`xs\\|sm\\|md\\|lg`), `direction?` (`row\\|column`), `directionMd?` (`row\\|column`; arah pada lebar >= 768px, token heroCollapse), `gapMd?` (`xs\\|sm\\|md\\|lg`; jarak pada lebar >= 768px, token heroCollapse), `reverseMd?` (balik urutan anak pada lebar >= 768px, token heroCollapse; default `false`), `minHeight?` (`xs\\|sm\\|md\\|lg\\|xl\\|2xl\\|3xl\\|4xl\\|screen`; ruang tetap dari skala space, `screen` = 100dvh), `align?` (`start\\|center\\|end\\|stretch`, default `stretch`), `justify?` (`start\\|center\\|end\\|space-between`, default `start`), `wrap?` (flex-wrap, default `false`), `children`"
     },
     {
       "name": "Grid",
       "description": "A responsive column grid with closed column and gap unions.",
-      "props": "`columns?` (`1\\|2\\|3\\|4\\|6\\|12`, bukan angka bebas), `gap?` (`xs\\|sm\\|md\\|lg`), `children`"
+      "props": "`columns?` (`1\\|2\\|3\\|4\\|6\\|12`, bukan angka bebas), `columnsSm?`/`columnsMd?` (jumlah kolom pada lebar >= 600px / >= 768px dari token layout; `columnsMd` menang bila keduanya cocok), `gap?` (`xs\\|sm\\|md\\|lg`), `children`"
     },
     {
       "name": "Spacer",
@@ -448,7 +453,8 @@
     },
     "sectionGap": "clamp(4rem, 8vw, 8rem)",
     "breakpoints": {
-      "heroCollapse": "768px"
+      "heroCollapse": "768px",
+      "mobile": "600px"
     },
     "zIndex": {
       "base": "0",
@@ -496,5 +502,5 @@
       "concave": "inset 0 2px 4px rgba(0, 0, 0, 0.06)"
     }
   },
-  "contract": "Kelir sealed contract (STYLE.md §5–§6; 83 components in this snapshot).\nBinding source is kelir-types.ts; prose here is a summary, not the contract.\n\n- Each component accepts only its listed props: content (isi), meaning (makna), behavior (perilaku).\n- MUI is Kelir's base, not a ban. In consumer code every UI component must come from Kelir: using a raw MUI component as UI, or assembling your own rival from MUI primitives, is a violation. MUI non-component use stays fine: icons (@mui/icons-material), hooks (useMediaQuery), and the Next.js cache provider.\n- Never pass style/sx/className/slotProps/classes/componentsProps/components/slots/slot, raw hex colors, or off-token sizes. No ...rest spread to the DOM.\n- data-* attributes: only data-testid. Visuals come only from KelirProvider themes.\n- Layout via Stack/Grid/Spacer/Container/FlexItem/Shell; single breakpoint source 768px (heroCollapse); spacing scale xs–4xl (4–64px).\n- Server Actions live in server actions, never inside \"use client\" views; one breakpoint source; verify with tsc + guard + axe runtime tests."
+  "contract": "Kelir sealed contract (STYLE.md §5–§6; 84 components in this snapshot).\nBinding source is kelir-types.ts; prose here is a summary, not the contract.\n\n- Each component accepts only its listed props: content (isi), meaning (makna), behavior (perilaku).\n- MUI is Kelir's base, not a ban. In consumer code every UI component must come from Kelir: using a raw MUI component as UI, or assembling your own rival from MUI primitives, is a violation. MUI non-component use stays fine: icons (@mui/icons-material), hooks (useMediaQuery), and the Next.js cache provider.\n- Never pass style/sx/className/slotProps/classes/componentsProps/components/slots/slot, raw hex colors, or off-token sizes. No ...rest spread to the DOM.\n- data-* attributes: only data-testid. Visuals come only from KelirProvider themes.\n- Layout via Stack/Grid/Spacer/Container/FlexItem/Shell; single breakpoint source 768px (heroCollapse); spacing scale xs–4xl (4–64px).\n- Server Actions live in server actions, never inside \"use client\" views; one breakpoint source; verify with tsc + guard + axe runtime tests."
 }
