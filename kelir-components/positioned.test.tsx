@@ -25,6 +25,19 @@ describe("Positioned sealed (§6b)", () => {
     expect(el.style.zIndex).toBe("200");
   });
 
+  it("anchor bottom-end: menempel sudut bawah-kanan dari token", () => {
+    renderSealed(
+      <Positioned anchor="bottom-end">
+        <span>ke atas</span>
+      </Positioned>,
+    );
+    const el = screen.getByText("ke atas").parentElement as HTMLElement;
+    expect(el.style.position).toBe("fixed");
+    expect(el.style.bottom).toBe("1rem");
+    expect(el.style.right).toBe("1rem");
+    expect(el.style.top).toBe("");
+  });
+
   it("anchor center-start + elevate=false: tanpa z-index (tak menjebak drawer)", () => {
     renderSealed(
       <Positioned anchor="center-start" elevate={false}>

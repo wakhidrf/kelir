@@ -1262,9 +1262,16 @@ export interface TruncatedTextProps {
 // milik kit. Tanpa ...rest/style/sx/className.
 export interface PositionedProps {
   children: React.ReactNode;
-  // Titik tetap di viewport (offset dari token space): sudut atas atau tepi
-  // kiri tengah (pemicu geser mobile).
-  anchor?: "top-start" | "top-center" | "top-end" | "center-start";
+  // Titik tetap di viewport (offset dari token space): sudut atas, sudut
+  // bawah (pemicu gulir-ke-atas), atau tepi kiri tengah (pemicu geser mobile).
+  anchor?:
+    | "top-start"
+    | "top-center"
+    | "top-end"
+    | "bottom-start"
+    | "bottom-center"
+    | "bottom-end"
+    | "center-start";
   // Tampil di semua lebar (bawaan), hanya mobile (<600px), atau hanya
   // desktop (>=600px) - token layout.mobile.
   visibility?: "always" | "mobile" | "desktop";

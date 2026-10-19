@@ -22,8 +22,13 @@ export function positionedContractChecks() {
       <span>nav</span>
     </Positioned>
   );
+  const okBottom = (
+    <Positioned anchor="bottom-end" visibility="always">
+      <span>gulir-ke-atas</span>
+    </Positioned>
+  );
   // @ts-expect-error — anchor di luar kontrak haram
-  const noRawAnchor = <Positioned anchor="bottom-end">isi</Positioned>;
+  const noRawAnchor = <Positioned anchor="top-middle">isi</Positioned>;
   // @ts-expect-error — visibility bebas haram (always/mobile/desktop)
   const noRawVisibility = <Positioned visibility="tablet">isi</Positioned>;
   // @ts-expect-error — elevate non-boolean haram
@@ -36,6 +41,7 @@ export function positionedContractChecks() {
     ok,
     okDefaults,
     okMobile,
+    okBottom,
     noRawAnchor,
     noRawVisibility,
     noRawElevate,
