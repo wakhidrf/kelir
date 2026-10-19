@@ -8,6 +8,12 @@
 // cue tersisa untuk style inline (escape hatch riil). (b) data-kelir-*
 // dikecualikan dari cek data-* (namespace milik kit = wiring kontrak
 // Provider dari kelir-styles, bukan slot leak).
+// F9 (2026-10-19, putusan pemilik): "nol CSS konsumen" - className pada
+// intrinsik, blok <style> non-kit, dan tag intrinsik tata letak/teks = ERROR
+// (pengecualian tercatat: html/body di src/app/layout.tsx + <style> berisi
+// CSS kit yang diimpor). Blok <style> konsumen non-kit = ERROR sejak F9b;
+// className intrinsik + tag intrinsik tata letak/teks = WARN inventaris
+// (naik ERROR di F9e sesudah migrasi F9c). STYLE §3/§9(a) direvisi selaras.
 // Sintaks (2026-10-11, issue #27): cek konsumen naik ke level sintaks —
 // komentar + isi string/regex disamarkan dulu, lalu tag JSX dipindai
 // lintas-baris (style={{...}} multi-baris tak lagi lolos). Aturan prop
@@ -27,6 +33,16 @@ const STRICT = process.argv.includes("--strict");
 
 const ALLOW_FILES = new Set(["kelir-styles.ts", "kelir-variants.ts"]);
 const BANNED_PROPS = ["style", "sx", "className", "slotProps", "classes", "components", "componentsProps", "slot"];
+
+// F9 (STYLE §3, putusan pemilik 2026-10-19): "nol CSS konsumen". Tag intrinsik
+// tata letak/teks yang sudah punya komponen kit = ERROR; satu pengecualian
+// tercatat: html/body di src/app/layout.tsx (syarat Next.js).
+const RAW_TAGS = new Set([
+  "div", "section", "main", "header", "footer", "nav", "article", "aside",
+  "span", "p", "h1", "h2", "h3", "h4", "h5", "h6", "ul", "ol", "li",
+  "blockquote", "figure", "figcaption", "hr",
+]);
+const EXEMPT_FILES = new Set(["src/app/layout.tsx"]);
 
 // Nama komponen kontrak (sumber tunggal kelir-types.ts — derivasi sama
 // dengan check-grit-sync): aturan prop hanya berlaku untuk nama ini.
@@ -183,7 +199,7 @@ function scanJsxTags(blank) {
       }
       k++;
     }
-    hits.push({ tag, attrs });
+    hits.push({ tag, attrs, index: m.index });
   }
   return hits;
 }
@@ -194,16 +210,54 @@ for (const f of walk(SRC)) {
   const src = readFileSync(f, "utf8");
   if (!/from\s+["'][^"']*kelir[^"']*["']/.test(src) && !/from\s+["']@\/views\/kelir/.test(src)) { scope.noImport++; continue; }
   scope.scanned++;
+  // Identifier yang diimpor dari kelir (memvalidasi <style> milik kit).
+  const kelirImports = new Set();
+  for (const im of src.matchAll(/import\s+([\s\S]*?)\s+from\s+["'][^"']*kelir[^"']*["']/g)) {
+    const def = /^\s*([A-Za-z_$][\w$]*)/.exec(im[1]);
+    if (def) kelirImports.add(def[1]);
+    const braces = /\{([^}]*)\}/.exec(im[1]);
+    if (braces)
+      for (const part of braces[1].split(",")) {
+        const name = part.trim().split(/\s+as\s+/).pop().trim();
+        if (name) kelirImports.add(name);
+      }
+  }
+  const exempt = EXEMPT_FILES.has(rel(f));
   const blank = blankNonCode(src);
-  for (const { tag, attrs } of scanJsxTags(blank)) {
+  for (const { tag, attrs, index } of scanJsxTags(blank)) {
     const base = tag.split(".")[0];
     const isKelir = KELIR_NAMES.has(base);
+    const intrinsic = /^[a-z]/.test(tag);
     for (const { name, idx } of attrs) {
       if (/^[A-Z]/.test(tag) && isKelir && BANNED_PROPS.includes(name))
         add(warn, f, lineNo(src, idx), `props terlarang '${name}' pada komponen (perlu review: Kelir?)`);
-      else if (/^[a-z]/.test(tag) && name === "style")
-        add(warn, f, lineNo(src, idx), "slot heuristik: intrinsik ber-style inline di file pengimpor kelir");
+      else if (intrinsic && name === "className")
+        add(warn, f, lineNo(src, idx), "inventaris F9: className pada intrinsik (§3) - ERROR sejak F9e");
+      else if (name === "style")
+        add(
+          warn,
+          f,
+          lineNo(src, idx),
+          intrinsic
+            ? "slot heuristik: intrinsik ber-style inline di file pengimpor kelir"
+            : "style inline pada elemen non-intrinsik (§3: kit menutup seluruh visual)",
+        );
     }
+    if (intrinsic && RAW_TAGS.has(tag) && !exempt)
+      add(warn, f, lineNo(src, index), `inventaris F9: tag intrinsik <${tag}> mentah (§3) - ERROR sejak F9e`);
+  }
+  // F9: blok <style> konsumen = ERROR, kecuali isinya CSS milik kit
+  // (identifier hasil impor dari kelir, mis. hideBeforeReadyCss).
+  for (const st of blank.matchAll(/<style\b/g)) {
+    const gte = blank.indexOf(">", st.index);
+    if (gte === -1) continue;
+    const close = blank.indexOf("</style", gte + 1);
+    const body = src.slice(gte + 1, close === -1 ? undefined : close);
+    const kitOwned = [...kelirImports].some((n) =>
+      new RegExp(`\\b${n.replace(/\$/g, "\\$")}\\b`).test(body),
+    );
+    if (!kitOwned)
+      add(err, f, lineNo(src, st.index), "blok <style> konsumen: CSS konsumen haram (§3) - pindah ke prop kit");
   }
   const dataAttrs = [...src.matchAll(/data-[a-z-]+\s*=/g)].map((m) => m[0].split("=")[0].trim());
   const foreignData = dataAttrs.filter((a) => !a.startsWith("data-kelir-"));
