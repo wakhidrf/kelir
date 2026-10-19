@@ -39,6 +39,17 @@ describe("Grid sealed (§6b)", () => {
     expect(css).toMatch(/repeat\(3/);
   });
 
+  it("minItem: auto-fit lebar minimum dari token (inline)", () => {
+    renderSealed(
+      <Grid minItem="sm">
+        <span>g</span>
+      </Grid>,
+    );
+    const el = screen.getByText("g").parentElement as HTMLElement;
+    expect(el.style.gridTemplateColumns).toContain("auto-fit");
+    expect(el.style.gridTemplateColumns).toContain("minmax(200px");
+  });
+
   it("tanpa titik henti: kolom tetap inline (perilaku lama)", () => {
     renderSealed(
       <Grid columns={4}>

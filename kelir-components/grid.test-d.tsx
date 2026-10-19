@@ -10,6 +10,11 @@ export function gridContractChecks() {
     </Grid>
   );
 
+  const okMinItem = (
+    <Grid minItem="md" gap="lg">
+      <span>a</span>
+    </Grid>
+  );
   const okResponsive = (
     <Grid columns={1} columnsSm={3} columnsMd={6} gap="sm">
       <span>a</span>
@@ -23,6 +28,8 @@ export function gridContractChecks() {
   // @ts-expect-error — kolomSm string bebas haram
   const noStringColumnsSm = <Grid columnsSm="3">isi</Grid>;
 
+  // @ts-expect-error — minItem bebas haram (sm/md)
+  const noRawMinItem = <Grid minItem="320px">isi</Grid>;
   // @ts-expect-error — style passthrough haram
   const noStyle = <Grid style={{ margin: 4 }}>isi</Grid>;
   // @ts-expect-error — className passthrough haram
@@ -34,5 +41,5 @@ export function gridContractChecks() {
   // @ts-expect-error — prop tak dikenal tidak diteruskan ke DOM
   const noRest = <Grid title="x">isi</Grid>;
 
-  return { ok, okResponsive, noRawColumnsSm, noRawColumnsMd, noStringColumnsSm, noStyle, noClassName, noRawColumns, noRawGap, noRest };
+  return { ok, okMinItem, okResponsive, noRawMinItem, noRawColumnsSm, noRawColumnsMd, noStringColumnsSm, noStyle, noClassName, noRawColumns, noRawGap, noRest };
 }

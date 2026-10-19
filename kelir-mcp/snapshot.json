@@ -5,7 +5,7 @@
     {
       "name": "KelirProvider",
       "description": "The single legitimate visual point: theme provider (defaultTheme closed union, children).",
-      "props": "`defaultTheme` (union tertutup), `children` (§3c)"
+      "props": "`defaultTheme` (union tertutup), `brandFont?` (nama keluarga font merek; kit memasang `--kelir-font-brand` untuk `Typography font=\"brand\"`), `children` (§3c)"
     },
     {
       "name": "Accordion",
@@ -25,7 +25,7 @@
     {
       "name": "AspectRatio",
       "description": "A container that enforces the dimensional proportion of content (such as images or video).",
-      "props": "`ratio`, `children`"
+      "props": "`ratio`, `plain?` (tanpa permukaan kit untuk logo/ilustrasi, default `false`), `children`"
     },
     {
       "name": "Attachment",
@@ -330,7 +330,7 @@
     {
       "name": "Typography",
       "description": "Dedicated text styling for headings, paragraphs, and small labels for consistency, with inline decorative segments for one heading.",
-      "props": "`variant` visual (`h1\\|h2\\|h3\\|body-md\\|body-sm\\|caption\\|label-caps`), `variantMd?` (varian pada lebar >= 768px, token heroCollapse), `as?` semantik (`h1\\|h2\\|h3\\|h4\\|h5\\|h6\\|p\\|span\\|div`), `level?` (`1\\|2\\|3\\|4\\|5\\|6`; hanya menambah role heading + aria-level bila elemen non-heading; bila `as` sudah heading, level bawaan elemen berlaku), `align?` (`start\\|center\\|end\\|justify`, default `start`), `truncate?` (elipsis satu-baris, default `false`), `breakAll?` (pecah kata panjang, default `false`), `tracking?` (`normal\\|wide`; renggang 6 px milik kit, default `normal`), `segments?` (deretan segmen teks inline ber-token: tiap segmen punya teks, bisa bertone (muted/primary) atau berskala kecil, dan bisa pindah baris; menggantikan `children`), `children`"
+      "props": "`variant` visual (`hero\\|h1\\|h2\\|h3\\|stat\\|body-md\\|body-sm\\|caption\\|label-caps`; `hero` = judul besar fluid, `stat` = angka besar, keduanya dari token skala), `tone?` (`primary\\|secondary`; warna teks dari token), `font?` (`text\\|brand`; `brand` = font merek dari `KelirProvider.brandFont`, default `text`), `variantMd?` (varian pada lebar >= 768px, token heroCollapse), `as?` semantik (`h1\\|h2\\|h3\\|h4\\|h5\\|h6\\|p\\|span\\|div`), `level?` (`1\\|2\\|3\\|4\\|5\\|6`; hanya menambah role heading + aria-level bila elemen non-heading; bila `as` sudah heading, level bawaan elemen berlaku), `align?` (`start\\|center\\|end\\|justify`, default `start`), `truncate?` (elipsis satu-baris, default `false`), `breakAll?` (pecah kata panjang, default `false`), `tracking?` (`normal\\|wide`; renggang 6 px milik kit, default `normal`), `segments?` (deretan segmen teks inline ber-token: tiap segmen punya teks, bisa bertone (muted/primary) atau berskala kecil, dan bisa pindah baris; menggantikan `children`), `children`"
     },
     {
       "name": "Questionnaire",
@@ -345,7 +345,7 @@
     {
       "name": "Grid",
       "description": "A responsive column grid with closed column and gap unions.",
-      "props": "`columns?` (`1\\|2\\|3\\|4\\|6\\|12`, bukan angka bebas), `columnsSm?`/`columnsMd?` (jumlah kolom pada lebar >= 600px / >= 768px dari token layout; `columnsMd` menang bila keduanya cocok), `gap?` (`xs\\|sm\\|md\\|lg`), `children`"
+      "props": "`columns?` (`1\\|2\\|3\\|4\\|6\\|12`, bukan angka bebas), `minItem?` (`sm\\|md`; auto-fit lebar minimum item dari token 200px/320px, menggantikan columns*), `columnsSm?`/`columnsMd?` (jumlah kolom pada lebar >= 600px / >= 768px dari token layout; `columnsMd` menang bila keduanya cocok), `gap?` (`xs\\|sm\\|md\\|lg`), `children`"
     },
     {
       "name": "Spacer",
@@ -420,7 +420,17 @@
     {
       "name": "CodeBlock",
       "description": "A code block with a kit-owned language label and copy button, plus a clipboard fallback.",
-      "props": "`code` (wajib), `language?` (label bahasa; tanpa = \"code\"), `copyLabel?`/`copiedLabel?` (default \"Copy\"/\"Copied\"), tombol salin + perilaku clipboard milik kit"
+      "props": "`code` (wajib), `language?` (label bahasa; tanpa = \"code\"), `copyLabel?`/`copiedLabel?` (default \"Copy\"/\"Copied\"), | 81 | CodeBlock | `code` (wajib), `language?` (label bahasa; tanpa = \"code\"), `copyLabel?`/`copiedLabel?` (default \"Copy\"/\"Copied\"), tombol salin + perilaku clipboard milik kit"
+    },
+    {
+      "name": "Positioned",
+      "description": "A fixed viewport slot for corner and edge triggers (`anchor` from space tokens, `visibility` mobile/desktop from the 600px token, `elevate` off when the slot holds its own sidebar trigger).",
+      "props": "`children`, `anchor?` (`top-start\\|top-center\\|top-end\\|center-start`; titik tetap dari token space), `visibility?` (`always\\|mobile\\|desktop`; token layout.mobile 600px), `elevate?` (naikkan di atas konten; default `true`, matikan bila wadah memuat pemicu sidebar sendiri)"
+    },
+    {
+      "name": "PageFrame",
+      "description": "A document page frame - edge padding, content width, header, main and footer spacing all come from `layout.page` tokens, with an `overlays` slot for fixed triggers.",
+      "props": "`children` (isi utama), `header?` (slot tengah), `footer?` (slot tengah + garis pemisah), `overlays?` (slot pemicu bertitik tetap); tepi halaman, lebar isi, napas main/footer dari token layout.page"
     }
   ],
   "tokens": {
@@ -502,5 +512,5 @@
       "concave": "inset 0 2px 4px rgba(0, 0, 0, 0.06)"
     }
   },
-  "contract": "Kelir sealed contract (STYLE.md §5–§6; 84 components in this snapshot).\nBinding source is kelir-types.ts; prose here is a summary, not the contract.\n\n- Each component accepts only its listed props: content (isi), meaning (makna), behavior (perilaku).\n- MUI is Kelir's base, not a ban. In consumer code every UI component must come from Kelir: using a raw MUI component as UI, or assembling your own rival from MUI primitives, is a violation. MUI non-component use stays fine: icons (@mui/icons-material), hooks (useMediaQuery), and the Next.js cache provider.\n- Never pass style/sx/className/slotProps/classes/componentsProps/components/slots/slot, raw hex colors, or off-token sizes. No ...rest spread to the DOM.\n- data-* attributes: only data-testid. Visuals come only from KelirProvider themes.\n- Layout via Stack/Grid/Spacer/Container/FlexItem/Shell; single breakpoint source 768px (heroCollapse); spacing scale xs–4xl (4–64px).\n- Server Actions live in server actions, never inside \"use client\" views; one breakpoint source; verify with tsc + guard + axe runtime tests."
+  "contract": "Kelir sealed contract (STYLE.md §5–§6; 86 components in this snapshot).\nBinding source is kelir-types.ts; prose here is a summary, not the contract.\n\n- Each component accepts only its listed props: content (isi), meaning (makna), behavior (perilaku).\n- MUI is Kelir's base, not a ban. In consumer code every UI component must come from Kelir: using a raw MUI component as UI, or assembling your own rival from MUI primitives, is a violation. MUI non-component use stays fine: icons (@mui/icons-material), hooks (useMediaQuery), and the Next.js cache provider.\n- Never pass style/sx/className/slotProps/classes/componentsProps/components/slots/slot, raw hex colors, or off-token sizes. No ...rest spread to the DOM.\n- data-* attributes: only data-testid. Visuals come only from KelirProvider themes.\n- Layout via Stack/Grid/Spacer/Container/FlexItem/Shell; single breakpoint source 768px (heroCollapse); spacing scale xs–4xl (4–64px).\n- Server Actions live in server actions, never inside \"use client\" views; one breakpoint source; verify with tsc + guard + axe runtime tests."
 }

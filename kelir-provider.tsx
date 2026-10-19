@@ -27,7 +27,11 @@ export function useKelir() {
   return context;
 }
 
-export function KelirProvider({ children, defaultTheme }: KelirProviderProps) {
+export function KelirProvider({
+  children,
+  defaultTheme,
+  brandFont,
+}: KelirProviderProps) {
   // Server-driven: the provider starts at the theme the server already
   // rendered (cookie or static default). It is a plain selectable state.
   const [themeName, setThemeName] = React.useState<Theme>(defaultTheme);
@@ -239,6 +243,14 @@ export function KelirProvider({ children, defaultTheme }: KelirProviderProps) {
           Rendered as React children (a static string, not user input) so no
           dangerouslySetInnerHTML is needed. */}
       <style>{kelirStyleCss()}</style>
+      {/* Font merek konsumen (identitas, bukan layout): kit yang memasang
+          variabelnya; kurung/kurawal dibuang agar nilai tak bisa keluar dari
+          deklarasi (string tetap dirender sebagai teks React, bukan HTML). */}
+      {brandFont ? (
+        <style>
+          {`:root { --kelir-font-brand: ${brandFont.replace(/[;{}<>]/g, "")}; }`}
+        </style>
+      ) : null}
       {/* Theme fonts. Rendered before the content so they load render-blocking
           and are cached — switching themes/fonts never flashes to a fallback.
           React 19 dedupes identical <link>s by href. */}

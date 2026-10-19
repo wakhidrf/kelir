@@ -60,6 +60,10 @@ export interface KelirProviderProps {
    *  resolved on the server, so the first render matches the persisted choice
    *  and there is no flash. */
   defaultTheme: Theme;
+  // Font identitas konsumen (nama keluarga font, mis. "Vermin Vibes Out Of
+  // Ink"). Kit yang memasangnya sebagai --kelir-font-brand untuk
+  // `Typography font="brand"` - konsumen tak menulis CSS sendiri.
+  brandFont?: string;
 }
 
 // 1. Accordion
@@ -111,6 +115,9 @@ export interface AlertDialogProps {
 export interface AspectRatioProps {
   ratio?: number;
   children: React.ReactNode;
+  // Tanpa permukaan: tanpa latar/radius/bayangan/border kit (untuk bingkai
+  // logo/ilustrasi yang tampil apa adanya), default false.
+  plain?: boolean;
 }
 
 // 5. Attachment
@@ -960,8 +967,32 @@ export interface TooltipProps {
 // Tanpa style/sx/className/warna/font mentah — semua dari token kit.
 export interface TypographyProps {
   children?: React.ReactNode;
-  variant?: "h1" | "h2" | "h3" | "body-md" | "body-sm" | "caption" | "label-caps";
-  variantMd?: "h1" | "h2" | "h3" | "body-md" | "body-sm" | "caption" | "label-caps";
+  variant?:
+    | "hero"
+    | "h1"
+    | "h2"
+    | "h3"
+    | "stat"
+    | "body-md"
+    | "body-sm"
+    | "caption"
+    | "label-caps";
+  variantMd?:
+    | "hero"
+    | "h1"
+    | "h2"
+    | "h3"
+    | "stat"
+    | "body-md"
+    | "body-sm"
+    | "caption"
+    | "label-caps";
+  // Warna teks dari token (primary = teks utama, secondary = teks pendukung);
+  // tanpa = warna bawaan varian.
+  tone?: "primary" | "secondary";
+  // Font identitas: text = font aktif tema (bawaan), brand = font merek yang
+  // didaftarkan lewat KelirProvider.brandFont.
+  font?: "text" | "brand";
   as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "div";
   level?: 1 | 2 | 3 | 4 | 5 | 6;
   align?: "start" | "center" | "end" | "justify";
@@ -1047,6 +1078,9 @@ export interface GridProps {
   // bukan angka bebas - sama seperti `columns`.
   columnsSm?: 1 | 2 | 3 | 4 | 6 | 12;
   columnsMd?: 1 | 2 | 3 | 4 | 6 | 12;
+  // Auto-fit: lebar minimum item dari token (sm 200px / md 320px); jumlah
+  // kolom mengikuti lebar wadah. Bila diisi, ia menggantikan columns*.
+  minItem?: "sm" | "md";
   gap?: "xs" | "sm" | "md" | "lg";
   id?: string;
   "aria-label"?: string;
@@ -1226,6 +1260,33 @@ export interface TruncatedTextProps {
 // `items` slot simpul per butir (wajib, urut); `ordered?` MAKNA daftar
 // (default `false` = bullet, `true` = bernomor). Penanda, jarak, dan warna
 // milik kit. Tanpa ...rest/style/sx/className.
+export interface PositionedProps {
+  children: React.ReactNode;
+  // Titik tetap di viewport (offset dari token space): sudut atas atau tepi
+  // kiri tengah (pemicu geser mobile).
+  anchor?: "top-start" | "top-center" | "top-end" | "center-start";
+  // Tampil di semua lebar (bawaan), hanya mobile (<600px), atau hanya
+  // desktop (>=600px) - token layout.mobile.
+  visibility?: "always" | "mobile" | "desktop";
+  // Naikkan di atas konten (z-index token overlay). Matikan untuk wadah yang
+  // memuat pemicu sidebarnya sendiri - z-index membuat stacking context yang
+  // menjebak lapisan drawer.
+  elevate?: boolean;
+  id?: string;
+  "aria-label"?: string;
+}
+
+export interface PageFrameProps {
+  children: React.ReactNode;
+  // Slot chrome halaman: header (tengah, di atas main), footer (tengah, garis
+  // pemisah atas), overlays (slot pemicu/penukar tema bertitik tetap).
+  header?: React.ReactNode;
+  footer?: React.ReactNode;
+  overlays?: React.ReactNode;
+  id?: string;
+  "aria-label"?: string;
+}
+
 export interface ListProps {
   items: React.ReactNode[];
   ordered?: boolean;

@@ -132,6 +132,43 @@ describe("Typography sealed (§6b)", () => {
     expect(spans[1].style.color).not.toBe("");
   });
 
+  it("tone=secondary: warna teks pendukung dari token", () => {
+    renderSealed(
+      <Typography variant="body-md" tone="secondary">
+        Pendukung
+      </Typography>,
+    );
+    const el = screen.getByText("Pendukung");
+    expect(el.style.color).toContain("--color-text-secondary");
+  });
+
+  it("tanpa tone: warna varian tetap (perilaku lama)", () => {
+    renderSealed(<Typography variant="body-md">Biasa</Typography>);
+    const el = screen.getByText("Biasa");
+    expect(el.style.color).toContain("--color-text-primary");
+  });
+
+  it("font=brand: keluarga teks memakai variabel merek kit", () => {
+    renderSealed(
+      <Typography variant="hero" as="h1" font="brand">
+        Merek
+      </Typography>,
+    );
+    const el = screen.getByRole("heading", { level: 1, name: "Merek" });
+    expect(el.style.fontFamily).toContain("--kelir-font-brand");
+  });
+
+  it("hero/stat: ukuran dari token skala kit", () => {
+    renderSealed(
+      <>
+        <Typography variant="hero">Besar</Typography>
+        <Typography variant="stat">128</Typography>
+      </>,
+    );
+    expect(screen.getByText("Besar").style.fontSize).toContain("type-hero");
+    expect(screen.getByText("128").style.fontSize).toContain("type-stat");
+  });
+
   it("tanpa segments: children dirender (perilaku lama)", () => {
     renderSealed(<Typography variant="body-md">Teks biasa</Typography>);
     expect(screen.getByText("Teks biasa").tagName).toBe("P");
