@@ -15,6 +15,7 @@ const mappedVariant: Record<
   "h1" | "h2" | "h3" | "body1" | "body2" | "caption"
 > = {
   hero: "h1",
+  "hero-sm": "h1",
   h1: "h1",
   h2: "h2",
   h3: "h3",
@@ -45,10 +46,17 @@ const variantStyles: Record<Variant, React.CSSProperties> = {
     color: css.colors.textPrimary,
   },
   hero: {
-    fontSize: "var(--type-hero, 2.5rem)",
-    fontWeight: "var(--type-weight-hero, 700)",
+    fontSize: "var(--type-hero, 2.6rem)",
+    fontWeight: "var(--type-weight-hero, 800)",
     lineHeight: 1.1,
-    letterSpacing: "-0.02em",
+    letterSpacing: "var(--type-letterspacing-hero, -1px)",
+    color: css.colors.textPrimary,
+  },
+  "hero-sm": {
+    fontSize: "var(--type-hero-sm, 1.8rem)",
+    fontWeight: "var(--type-weight-hero, 800)",
+    lineHeight: 1.1,
+    letterSpacing: "var(--type-letterspacing-hero, -1px)",
     color: css.colors.textPrimary,
   },
   stat: {
@@ -86,6 +94,7 @@ const variantStyles: Record<Variant, React.CSSProperties> = {
 
 const defaultElement: Record<Variant, "h1" | "h2" | "h3" | "p"> = {
   hero: "h1",
+  "hero-sm": "h1",
   h1: "h1",
   h2: "h2",
   h3: "h3",
@@ -96,7 +105,10 @@ const defaultElement: Record<Variant, "h1" | "h2" | "h3" | "p"> = {
   "label-caps": "p",
 };
 
-// Ambang responsif kit (satu sumber: token heroCollapse 768px).
+// Ambang responsif kit (satu sumber: token layout) - mobile 600px untuk
+// `variantMobile` (max-width, ambang dikurangi 0.02px seperti komponen lain),
+// heroCollapse 768px untuk `variantMd`.
+const MOBILE_QUERY = `@media (max-width: calc(${css.layout.breakpoints.mobile} - 0.02px))`;
 const MD_QUERY = `@media (min-width: ${css.layout.breakpoints.heroCollapse})`;
 
 // Font merek konsumen (dipasang KelirProvider lewat --kelir-font-brand);
@@ -114,6 +126,10 @@ function styleFor(
   const style: React.CSSProperties = { ...variantStyles[variant] };
   if (tone === "primary") style.color = css.colors.textPrimary;
   else if (tone === "secondary") style.color = css.colors.textSecondary;
+  else if (tone === "brand-accent")
+    style.color = "var(--kelir-brand-accent, inherit)";
+  else if (tone === "brand-ink")
+    style.color = "var(--kelir-brand-ink, inherit)";
   if (font === "brand") style.fontFamily = BRAND_FONT;
   return style;
 }
@@ -136,9 +152,12 @@ function segmentStyle(seg: TypographySegment): React.CSSProperties {
 // heading + aria-level bila elemennya non-heading (tampilan body tapi outline
 // dokumen setara heading) - hierarki dokumen ≠ visual. Bila `as` sudah
 // heading, level bawaan elemen yang berlaku. `tone?` = warna teks dari
-// token (primary/secondary; tanpa = bawaan varian); `font?` = keluarga teks
+// token tema (primary/secondary) atau warna merek (brand-accent/brand-ink);
+// tanpa = bawaan varian); `font?` = keluarga teks
 // (text = font aktif tema, brand = font merek dari KelirProvider.brandFont).
-// Varian tambahan: `hero` (judul besar fluid) dan `stat` (angka besar).
+// Varian tambahan: `hero` (judul besar fluid), `hero-sm` (judul besar
+// ponsel), dan `stat` (angka besar); `variantMobile?` memilih varian di
+// bawah 600px.
 // `align` = textAlign milik kit
 // (default `left`); `truncate?` = elipsis satu-baris milik kit (default
 // `false`, properti dihilangkan penuh saat mati); `breakAll?` = pecah kata
@@ -152,6 +171,7 @@ export function Typography({
   children,
   variant = "body-md",
   variantMd,
+  variantMobile,
   as,
   level,
   align = "start",
@@ -170,7 +190,8 @@ export function Typography({
     (component === "p" || component === "span" || component === "div")
       ? { role: "heading" as const, "aria-level": level }
       : undefined;
-  const responsiveVariant = variantMd !== undefined;
+  const responsiveVariant =
+    variantMd !== undefined || variantMobile !== undefined;
   return (
     <MuiTypography
       component={component}
@@ -182,7 +203,12 @@ export function Typography({
         responsiveVariant
           ? {
               ...styleFor(variant, tone, font),
-              [MD_QUERY]: styleFor(variantMd, tone, font),
+              ...(variantMobile
+                ? { [MOBILE_QUERY]: styleFor(variantMobile, tone, font) }
+                : null),
+              ...(variantMd
+                ? { [MD_QUERY]: styleFor(variantMd, tone, font) }
+                : null),
             }
           : undefined
       }

@@ -47,5 +47,15 @@ export function aspectRatioContractChecks() {
       <img src="x.jpg" alt="x" />
     </AspectRatio>
   );
-  return { ok, okPlain, noStringRatio, noStyle, noClassName, noRawPlain };
+  const okCapped = (
+    <AspectRatio ratio={1620 / 1643} plain maxWidth={200} maxWidthMobileVw={34}>
+      <span>logo</span>
+    </AspectRatio>
+  );
+  // @ts-expect-error — maxWidth angka px saja
+  const noRawMaxWidth = <AspectRatio maxWidth="200px">x</AspectRatio>;
+  // @ts-expect-error — maxWidthMobileVw angka saja
+  const noRawMaxWidthMobileVw = <AspectRatio maxWidthMobileVw="34">x</AspectRatio>;
+
+  return { ok, okPlain, okCapped, noRawMaxWidth, noRawMaxWidthMobileVw, noStringRatio, noStyle, noClassName, noRawPlain };
 }

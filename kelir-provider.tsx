@@ -31,6 +31,7 @@ export function KelirProvider({
   children,
   defaultTheme,
   brandFont,
+  brandColors,
 }: KelirProviderProps) {
   // Server-driven: the provider starts at the theme the server already
   // rendered (cookie or static default). It is a plain selectable state.
@@ -249,6 +250,14 @@ export function KelirProvider({
       {brandFont ? (
         <style>
           {`:root { --kelir-font-brand: ${brandFont.replace(/[;{}<>]/g, "")}; }`}
+        </style>
+      ) : null}
+      {/* Warna merek konsumen (identitas, bukan tema): dua slot tetap,
+          `tone="brand-accent"|"brand-ink"`. Sama seperti font merek, nilai
+          dibersihkan sebelum masuk deklarasi. */}
+      {brandColors ? (
+        <style>
+          {`:root { --kelir-brand-accent: ${brandColors.accent.replace(/[;{}<>]/g, "")}; --kelir-brand-ink: ${brandColors.ink.replace(/[;{}<>]/g, "")}; }`}
         </style>
       ) : null}
       {/* Theme fonts. Rendered before the content so they load render-blocking
