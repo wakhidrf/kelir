@@ -64,6 +64,11 @@ export interface KelirProviderProps {
   // Ink"). Kit yang memasangnya sebagai --kelir-font-brand untuk
   // `Typography font="brand"` - konsumen tak menulis CSS sendiri.
   brandFont?: string;
+  // Warna identitas merek (dua slot tetap, bukan nilai bebas): kit memasang
+  // --kelir-brand-accent/--kelir-brand-ink untuk `Typography
+  // tone="brand-accent"|"brand-ink"` - teks merek yang TIDAK ikut tema (mis.
+  // dua kata pada judul). Nilai dibersihkan dari ; { } < >.
+  brandColors?: { accent: string; ink: string };
 }
 
 // 1. Accordion
@@ -115,6 +120,11 @@ export interface AlertDialogProps {
 export interface AspectRatioProps {
   ratio?: number;
   children: React.ReactNode;
+  // Batas lebar bingkai: `maxWidth` px di semua lebar (mis. 200) dan
+  // `maxWidthMobileVw` vw di bawah 600px (mis. 34) - pengganti max-width
+  // kelas konsumen. Default: selebar wadah.
+  maxWidth?: number;
+  maxWidthMobileVw?: number;
   // Tanpa permukaan: tanpa latar/radius/bayangan/border kit (untuk bingkai
   // logo/ilustrasi yang tampil apa adanya), default false.
   plain?: boolean;
@@ -965,31 +975,29 @@ export interface TooltipProps {
 // `align` = perataan TEKS (union tertutup; default `left`, nol-ubah visual).
 // `truncate?` = elipsis satu-baris milik kit (default `false`).
 // Tanpa style/sx/className/warna/font mentah — semua dari token kit.
+export type TypographyVariant =
+  | "hero"
+  | "hero-sm"
+  | "h1"
+  | "h2"
+  | "h3"
+  | "stat"
+  | "body-md"
+  | "body-sm"
+  | "caption"
+  | "label-caps";
+
 export interface TypographyProps {
   children?: React.ReactNode;
-  variant?:
-    | "hero"
-    | "h1"
-    | "h2"
-    | "h3"
-    | "stat"
-    | "body-md"
-    | "body-sm"
-    | "caption"
-    | "label-caps";
-  variantMd?:
-    | "hero"
-    | "h1"
-    | "h2"
-    | "h3"
-    | "stat"
-    | "body-md"
-    | "body-sm"
-    | "caption"
-    | "label-caps";
-  // Warna teks dari token (primary = teks utama, secondary = teks pendukung);
-  // tanpa = warna bawaan varian.
-  tone?: "primary" | "secondary";
+  variant?: TypographyVariant;
+  variantMd?: TypographyVariant;
+  // Varian di bawah 600px (token layout.mobile) - cermin `variantMd` untuk
+  // skala judul yang mengecil di ponsel (mis. hero -> hero-sm).
+  variantMobile?: TypographyVariant;
+  // Warna teks dari token tema (primary/secondary) atau identitas merek
+  // (brand-accent/brand-ink dari KelirProvider.brandColors); tanpa = warna
+  // bawaan varian.
+  tone?: "primary" | "secondary" | "brand-accent" | "brand-ink";
   // Font identitas: text = font aktif tema (bawaan), brand = font merek yang
   // didaftarkan lewat KelirProvider.brandFont.
   font?: "text" | "brand";
@@ -1128,6 +1136,14 @@ export interface ImageProps {
   maxWidth?: number;
   fit?: "contain" | "cover";
   radius?: "none" | "sm" | "md" | "lg";
+  // Isi penuh wadah ber-posisi (mis. di dalam AspectRatio): position absolute
+  // + inset 0 + 100% - menggantikan pola fill konsumen.
+  fill?: boolean;
+  // Muat lebih awal (loading eager + fetchPriority high) untuk media di atas
+  // lipatan; default false = perilaku bawaan peramban.
+  priority?: boolean;
+  // Petunjuk ukuran tampil untuk pemilihan sumber (atribut `sizes`).
+  sizes?: string;
   id?: string;
   "aria-label"?: string;
 }

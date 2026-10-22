@@ -84,6 +84,32 @@ describe("Image sealed (§6b)", () => {
     );
   });
 
+  it("fill/priority/sizes: isi wadah ber-posisi + muat awal", () => {
+    const { container } = renderSealed(
+      <Image
+        src="logo.webp"
+        alt="Kelir"
+        fill
+        priority
+        sizes="(max-width: 420px) 100vw, 200px"
+      />,
+    );
+    const el = container.querySelector("img") as HTMLElement;
+    expect(el.style.position).toBe("absolute");
+    expect(el.style.width).toBe("100%");
+    expect(el.style.height).toBe("100%");
+    expect(el.getAttribute("sizes")).toBe("(max-width: 420px) 100vw, 200px");
+    expect(el.getAttribute("loading")).toBe("eager");
+    expect(el.getAttribute("fetchpriority")).toBe("high");
+  });
+
+  it("tanpa fill/priority: perilaku lama (nol-ubah)", () => {
+    const { container } = renderSealed(<Image src="x.png" alt="x" />);
+    const el = container.querySelector("img") as HTMLElement;
+    expect(el.style.position).toBe("");
+    expect(el.getAttribute("loading")).toBeNull();
+  });
+
   it("tanpa fluid/maxHeight: perilaku lama (nol-ubah)", () => {
     const { container } = renderSealed(
       <Image src="x.png" alt="x" height="sm" />,

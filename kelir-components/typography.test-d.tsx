@@ -64,6 +64,19 @@ export function typographyContractChecks() {
       <Typography variant="stat">128</Typography>
     </>
   );
+  const okVariantMobile = (
+    <Typography variant="hero" variantMobile="hero-sm">
+      Project Kelir
+    </Typography>
+  );
+  const okBrandTone = (
+    <Typography tone="brand-accent">PROJECT</Typography>
+  );
+  const okBrandInk = (
+    <Typography tone="brand-ink" variant="hero-sm">
+      KELIR
+    </Typography>
+  );
   const okSegments = (
     <Typography
       variant="h1"
@@ -111,7 +124,17 @@ export function typographyContractChecks() {
   // (data-* ditoleransi tipe React 19 sebagai test hook; lihat stack.test-d)
   const noRest = <Typography title="x">teks</Typography>;
 
+  // @ts-expect-error — varian ponsel di luar kontrak haram
+  const noRawVariantMobile = <Typography variantMobile="h4">teks</Typography>;
+  // @ts-expect-error — tone merek bebas haram
+  const noRawBrandTone = <Typography tone="brand">teks</Typography>;
+
   return {
+    okVariantMobile,
+    okBrandTone,
+    okBrandInk,
+    noRawVariantMobile,
+    noRawBrandTone,
     okBody,
     okAlign,
     okStart,

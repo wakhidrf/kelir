@@ -10,6 +10,7 @@
 
 export interface KelirTypeScale {
   hero: string;
+  heroSm: string;
   h1: string;
   h2: string;
   stat: string;
@@ -21,6 +22,7 @@ export interface KelirTypeScale {
 export interface KelirTypographyTokens {
   scale: KelirTypeScale;
   lineHeight: { body: string };
+  letterSpacing: { hero: string };
   maxCh: { body: string };
   weights: {
     hero: number;
@@ -34,7 +36,8 @@ export interface KelirTypographyTokens {
 
 export const typography: KelirTypographyTokens = {
   scale: {
-    hero: "clamp(2.5rem, 5vw, 4rem)",
+    hero: "clamp(2.6rem, 6vw, 4.5rem)",
+    heroSm: "clamp(1.8rem, 9vw, 2.6rem)",
     h1: "2.25rem",
     h2: "1.5rem",
     stat: "1.875rem",
@@ -45,11 +48,14 @@ export const typography: KelirTypographyTokens = {
   lineHeight: {
     body: "1.6",
   },
+  letterSpacing: {
+    hero: "-1px",
+  },
   maxCh: {
     body: "72ch",
   },
   weights: {
-    hero: 700,
+    hero: 800,
     h1: 700,
     h2: 600,
     stat: 800,
@@ -62,6 +68,7 @@ export const typography: KelirTypographyTokens = {
 // usable from any inline style / sx without importing the JS object.
 export const typographyVars: string =
   `--type-hero: ${typography.scale.hero};\n` +
+  `--type-hero-sm: ${typography.scale.heroSm};\n` +
   `--type-h1: ${typography.scale.h1};\n` +
   `--type-h2: ${typography.scale.h2};\n` +
   `--type-stat: ${typography.scale.stat};\n` +
@@ -74,5 +81,6 @@ export const typographyVars: string =
   `--type-weight-stat: ${typography.weights.stat};\n` +
   `--type-weight-body: ${typography.weights.body};\n` +
   `--type-weight-label: ${typography.weights.label};\n` +
+  `--type-letterspacing-hero: ${typography.letterSpacing.hero};\n` +
   `--type-lineheight-body: ${typography.lineHeight.body};\n` +
   `--type-max-ch: ${typography.maxCh.body};\n`;

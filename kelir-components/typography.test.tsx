@@ -109,6 +109,33 @@ describe("Typography sealed (§6b)", () => {
     expect(css).toMatch(/@media \(min-width:\s*768px\)/);
   });
 
+  it("variantMobile (#92): varian dasar + override di bawah 600px via sx", () => {
+    renderSealed(
+      <Typography variant="hero" variantMobile="hero-sm">
+        Project Kelir
+      </Typography>,
+    );
+    const css = Array.from(document.querySelectorAll("style"))
+      .map((s) => s.textContent ?? "")
+      .join("\n");
+    expect(css).toContain("@media (max-width: calc(600px - 0.02px))");
+    expect(css).toContain("var(--type-hero-sm");
+  });
+
+  it("hero-sm + tone merek: skala ponsel dari token, warna dari brandColors", () => {
+    renderSealed(
+      <Typography tone="brand-accent" variant="hero-sm">
+        PROJECT
+      </Typography>,
+    );
+    const el = screen.getByText("PROJECT");
+    expect(el.style.color).toContain("--kelir-brand-accent");
+    expect(el.style.fontSize).toBe("var(--type-hero-sm, 1.8rem)");
+    expect(el.style.letterSpacing).toBe(
+      "var(--type-letterspacing-hero, -1px)",
+    );
+  });
+
   it("segments (#77): teks inline berhias dalam satu elemen heading", () => {
     renderSealed(
       <Typography

@@ -26,6 +26,25 @@ describe("KelirProvider (§3c)", () => {
     expect(screen.getByRole("button", { name: "tema-neumorphism" })).toBeDefined();
   });
 
+  it("brandFont + brandColors: kit memasang variabel identitas (dibersihkan)", () => {
+    renderSealed(
+      <KelirProvider
+        defaultTheme="neumorphism"
+        brandFont="'Vermin Vibes Out Of Ink'"
+        brandColors={{ accent: "#F07850", ink: "#505078; color: red" }}
+      >
+        <span>app</span>
+      </KelirProvider>,
+    );
+    const css = Array.from(document.querySelectorAll("style"))
+      .map((s) => s.textContent ?? "")
+      .join("\n");
+    expect(css).toContain("--kelir-font-brand: 'Vermin Vibes Out Of Ink'");
+    expect(css).toContain("--kelir-brand-accent: #F07850");
+    expect(css).toContain("--kelir-brand-ink: #505078 color: red");
+    expect(css).not.toContain("#505078; color");
+  });
+
   it("setTheme via context mengganti tema runtime (bukan via props)", () => {
     renderSealed(
       <KelirProvider defaultTheme="neumorphism">

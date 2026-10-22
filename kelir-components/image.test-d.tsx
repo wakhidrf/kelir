@@ -46,5 +46,15 @@ export function imageContractChecks() {
   // @ts-expect-error — prop tak dikenal tidak diteruskan ke DOM
   const noRest = <Image src="a.png" title="x" />;
 
-  return { okMin, okFull, okFluid, okCapped, noStyle, noSx, noClassName, noRawHeight, noRawFluid, noRawMaxHeight, noRawMaxWidth, noRawFit, noRawRadius, noSrc, noRest };
+  const okFrame = (
+    <Image src="a.png" alt="a" fill priority sizes="(max-width: 420px) 100vw, 200px" />
+  );
+  // @ts-expect-error — fill non-boolean haram
+  const noRawFill = <Image src="a.png" fill="yes" />;
+  // @ts-expect-error — priority non-boolean haram
+  const noRawPriority = <Image src="a.png" priority={1} />;
+  // @ts-expect-error — sizes string saja
+  const noRawSizes = <Image src="a.png" sizes={200} />;
+
+  return { okFrame, noRawFill, noRawPriority, noRawSizes, okMin, okFull, okFluid, okCapped, noStyle, noSx, noClassName, noRawHeight, noRawFluid, noRawMaxHeight, noRawMaxWidth, noRawFit, noRawRadius, noSrc, noRest };
 }

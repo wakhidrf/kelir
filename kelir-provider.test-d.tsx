@@ -23,5 +23,17 @@ export function kelirProviderContractChecks() {
   // @ts-expect-error — className passthrough haram
   const noClassName = <KelirProvider defaultTheme="neumorphism" className="x">app</KelirProvider>;
 
-  return { ok, noDefaultTheme, noRawSlug, noTheme, noStyle, noSx, noClassName };
+  const okBrand = (
+    <KelirProvider
+      defaultTheme="neumorphism"
+      brandFont="'Vermin Vibes Out Of Ink'"
+      brandColors={{ accent: "#F07850", ink: "#505078" }}
+    >
+      <span>app</span>
+    </KelirProvider>
+  );
+  // @ts-expect-error — brandColors butuh dua slot tetap (accent + ink)
+  const noPartialBrandColors = <KelirProvider defaultTheme="neumorphism" brandColors={{ accent: "#fff" }}>app</KelirProvider>;
+
+  return { okBrand, noPartialBrandColors, ok, noDefaultTheme, noRawSlug, noTheme, noStyle, noSx, noClassName };
 }

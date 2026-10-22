@@ -34,6 +34,9 @@ export function imagePx(height: NonNullable<ImageProps["height"]>): number {
 // `fluid?` = lebar mengisi wadah + tinggi auto (rasio asli terjaga) untuk
 // media dekoratif/hero; `maxHeight?` membatasi tinggi dari skala yang sama;
 // `maxWidth?` membatasi lebar dalam px (preseden TruncatedText.maxWidth).
+// `fill?` = mengisi penuh wadah ber-posisi (mis. di dalam AspectRatio);
+// `priority?` = loading eager + fetchPriority high; `sizes?` = petunjuk ukuran
+// tampil untuk pemilihan sumber.
 // `alt` selalu dirender sebagai atribut (string kosong bila tak diisi) agar
 // lolos axe image-alt. Tanpa shadow/border default, tanpa ...rest ke DOM dan
 // tanpa style passthrough — di luar kontrak = pelanggaran.
@@ -46,6 +49,9 @@ export function Image({
   maxWidth,
   fit = "contain",
   radius = "none",
+  fill = false,
+  priority = false,
+  sizes,
   id,
   "aria-label": ariaLabel,
 }: ImageProps) {
@@ -56,12 +62,23 @@ export function Image({
       alt={alt ?? ""}
       id={id}
       aria-label={ariaLabel}
+      sizes={sizes}
+      loading={priority ? "eager" : undefined}
+      fetchPriority={priority ? "high" : undefined}
       style={{
         display: "block",
-        ...(fluid
-          ? ({ width: "100%", height: "auto" } as const)
-          : ({ height: heights[height], width: "auto" } as const)),
-        maxWidth: maxWidth === undefined ? "100%" : maxWidth,
+        ...(fill
+          ? ({
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+            } as const)
+          : fluid
+            ? ({ width: "100%", height: "auto" } as const)
+            : ({ height: heights[height], width: "auto" } as const)),
+        maxWidth:
+          fill || maxWidth === undefined ? (fill ? "none" : "100%") : maxWidth,
         ...(maxHeight
           ? ({ maxHeight: heights[maxHeight] } as const)
           : null),
