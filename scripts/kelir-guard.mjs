@@ -232,7 +232,7 @@ for (const f of walk(SRC)) {
       if (/^[A-Z]/.test(tag) && isKelir && BANNED_PROPS.includes(name))
         add(warn, f, lineNo(src, idx), `props terlarang '${name}' pada komponen (perlu review: Kelir?)`);
       else if (intrinsic && name === "className")
-        add(warn, f, lineNo(src, idx), "inventaris F9: className pada intrinsik (§3) - ERROR sejak F9e");
+        add(err, f, lineNo(src, idx), "className pada intrinsik: CSS konsumen haram (§3)");
       else if (name === "style")
         add(
           warn,
@@ -244,7 +244,7 @@ for (const f of walk(SRC)) {
         );
     }
     if (intrinsic && RAW_TAGS.has(tag) && !exempt)
-      add(warn, f, lineNo(src, index), `inventaris F9: tag intrinsik <${tag}> mentah (§3) - ERROR sejak F9e`);
+      add(err, f, lineNo(src, index), `tag intrinsik <${tag}> mentah: pakai komponen kit (§3/F9)`);
   }
   // F9: blok <style> konsumen = ERROR, kecuali isinya CSS milik kit
   // (identifier hasil impor dari kelir, mis. hideBeforeReadyCss).
