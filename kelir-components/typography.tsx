@@ -16,6 +16,8 @@ const mappedVariant: Record<
 > = {
   hero: "h1",
   "hero-sm": "h1",
+  display: "h1",
+  title: "h2",
   h1: "h1",
   h2: "h2",
   h3: "h3",
@@ -43,6 +45,18 @@ const variantStyles: Record<Variant, React.CSSProperties> = {
   h3: {
     fontSize: "var(--type-h3, 1.25rem)",
     fontWeight: "var(--type-weight-h3, 600)",
+    color: css.colors.textPrimary,
+  },
+  display: {
+    fontSize: "clamp(2rem, 4.5vw, 3.2rem)",
+    fontWeight: 700,
+    lineHeight: 1.1,
+    letterSpacing: "-1.5px",
+    color: css.colors.textPrimary,
+  },
+  title: {
+    fontSize: "1.5rem",
+    fontWeight: 700,
     color: css.colors.textPrimary,
   },
   hero: {
@@ -95,6 +109,8 @@ const variantStyles: Record<Variant, React.CSSProperties> = {
 const defaultElement: Record<Variant, "h1" | "h2" | "h3" | "p"> = {
   hero: "h1",
   "hero-sm": "h1",
+  display: "h1",
+  title: "h2",
   h1: "h1",
   h2: "h2",
   h3: "h3",

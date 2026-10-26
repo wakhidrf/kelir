@@ -978,6 +978,8 @@ export interface TooltipProps {
 export type TypographyVariant =
   | "hero"
   | "hero-sm"
+  | "display"
+  | "title"
   | "h1"
   | "h2"
   | "h3"

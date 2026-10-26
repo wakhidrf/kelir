@@ -119,7 +119,7 @@ export function typographyContractChecks() {
   // @ts-expect-error — font bebas haram (text/brand)
   const noRawFont = <Typography font="serif">teks</Typography>;
   // @ts-expect-error — varian di luar skala kit haram
-  const noRawHeroVariant = <Typography variant="display">teks</Typography>;
+  const noRawHeroVariant = <Typography variant="giant">teks</Typography>;
   // @ts-expect-error — prop tak dikenal tidak diteruskan ke DOM
   // (data-* ditoleransi tipe React 19 sebagai test hook; lihat stack.test-d)
   const noRest = <Typography title="x">teks</Typography>;
