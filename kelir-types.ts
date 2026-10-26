@@ -1063,10 +1063,10 @@ export interface QuestionnaireProps {
 // (nol-ubah visual). Tanpa warna/border/shadow.
 export interface StackProps {
   children: React.ReactNode;
-  gap?: "xs" | "sm" | "md" | "lg";
+  gap?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
   // Jarak pada lebar >= 768px (token heroCollapse); tanpa = `gap` berlaku
   // di semua lebar (perilaku lama).
-  gapMd?: "xs" | "sm" | "md" | "lg";
+  gapMd?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
   direction?: "row" | "column";
   directionMd?: "row" | "column";
   reverseMd?: boolean;

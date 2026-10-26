@@ -5,7 +5,7 @@
     {
       "name": "KelirProvider",
       "description": "The single legitimate visual point: theme provider (defaultTheme closed union, children).",
-      "props": "`defaultTheme` (union tertutup), `brandFont?` (nama keluarga font merek; kit memasang `--kelir-font-brand` untuk `Typography font=\"brand\"`), `children` (§3c)"
+      "props": "`defaultTheme` (union tertutup), `brandFont?` (nama keluarga font merek; kit memasang `--kelir-font-brand` untuk `Typography font=\"brand\"`), `brandColors?` ({accent, ink} warna merek tetap; kit memasang `--kelir-brand-accent`/`--kelir-brand-ink`), `children` (§3c)"
     },
     {
       "name": "Accordion",
@@ -25,7 +25,7 @@
     {
       "name": "AspectRatio",
       "description": "A container that enforces the dimensional proportion of content (such as images or video).",
-      "props": "`ratio`, `plain?` (tanpa permukaan kit untuk logo/ilustrasi, default `false`), `children`"
+      "props": "`ratio`, `plain?` (tanpa permukaan kit untuk logo/ilustrasi, default `false`), `maxWidth?` (batas lebar px), `maxWidthMobileVw?` (batas lebar vw di bawah 600px), `children`"
     },
     {
       "name": "Attachment",
@@ -330,7 +330,7 @@
     {
       "name": "Typography",
       "description": "Dedicated text styling for headings, paragraphs, and small labels for consistency, with inline decorative segments for one heading.",
-      "props": "`variant` visual (`hero\\|h1\\|h2\\|h3\\|stat\\|body-md\\|body-sm\\|caption\\|label-caps`; `hero` = judul besar fluid, `stat` = angka besar, keduanya dari token skala), `tone?` (`primary\\|secondary`; warna teks dari token), `font?` (`text\\|brand`; `brand` = font merek dari `KelirProvider.brandFont`, default `text`), `variantMd?` (varian pada lebar >= 768px, token heroCollapse), `as?` semantik (`h1\\|h2\\|h3\\|h4\\|h5\\|h6\\|p\\|span\\|div`), `level?` (`1\\|2\\|3\\|4\\|5\\|6`; hanya menambah role heading + aria-level bila elemen non-heading; bila `as` sudah heading, level bawaan elemen berlaku), `align?` (`start\\|center\\|end\\|justify`, default `start`), `truncate?` (elipsis satu-baris, default `false`), `breakAll?` (pecah kata panjang, default `false`), `tracking?` (`normal\\|wide`; renggang 6 px milik kit, default `normal`), `segments?` (deretan segmen teks inline ber-token: tiap segmen punya teks, bisa bertone (muted/primary) atau berskala kecil, dan bisa pindah baris; menggantikan `children`), `children`"
+      "props": "`variant` visual (`hero\\|h1\\|h2\\|h3\\|stat\\|body-md\\|body-sm\\|caption\\|label-caps`; `hero` = judul besar fluid, `stat` = angka besar, keduanya dari token skala), `tone?` (`primary\\|secondary`; warna teks dari token), `font?` (`text\\|brand`; `brand` = font merek dari `KelirProvider.brandFont`, default `text`), `variantMd?` (varian pada lebar >= 768px, token heroCollapse), `variantMobile?` (varian di bawah 600px, token layout.mobile), `as?` semantik (`h1\\|h2\\|h3\\|h4\\|h5\\|h6\\|p\\|span\\|div`), `level?` (`1\\|2\\|3\\|4\\|5\\|6`; hanya menambah role heading + aria-level bila elemen non-heading; bila `as` sudah heading, level bawaan elemen berlaku), `align?` (`start\\|center\\|end\\|justify`, default `start`), `truncate?` (elipsis satu-baris, default `false`), `breakAll?` (pecah kata panjang, default `false`), `tracking?` (`normal\\|wide`; renggang 6 px milik kit, default `normal`), `segments?` (deretan segmen teks inline ber-token: tiap segmen punya teks, bisa bertone (muted/primary) atau berskala kecil, dan bisa pindah baris; menggantikan `children`), `children`"
     },
     {
       "name": "Questionnaire",
@@ -360,7 +360,7 @@
     {
       "name": "Image",
       "description": "A neutral media primitive with closed height, fit, and radius unions, an optional fluid mode with px width cap, and no shadow/border by default.",
-      "props": "`src`, `alt?`, `height?` (`xs\\|sm\\|md\\|lg\\|xl\\|2xl\\|3xl\\|4xl\\|5xl\\|6xl\\|7xl`, default `md`), `fluid?` (isi lebar wadah, tinggi auto; default `false`), `maxHeight?` (`xs\\|sm\\|md\\|lg\\|xl\\|2xl\\|3xl\\|4xl\\|5xl\\|6xl\\|7xl`; batas tinggi), `maxWidth?` (batas lebar dalam px), `fit?` (`contain\\|cover`, default `contain`), `radius?` (`none\\|sm\\|md\\|lg`, default `none`)"
+      "props": "`src`, `alt?`, `height?` (`xs\\|sm\\|md\\|lg\\|xl\\|2xl\\|3xl\\|4xl\\|5xl\\|6xl\\|7xl`, default `md`), `fluid?` (isi lebar wadah, tinggi auto; default `false`), `maxHeight?` (`xs\\|sm\\|md\\|lg\\|xl\\|2xl\\|3xl\\|4xl\\|5xl\\|6xl\\|7xl`; batas tinggi), `maxWidth?` (batas lebar dalam px), `fit?` (`contain\\|cover`, default `contain`), `radius?` (`none\\|sm\\|md\\|lg`, default `none`), `fill?` (isi penuh wadah ber-posisi), `priority?` (muat awal), `sizes?` (petunjuk ukuran tampil)"
     },
     {
       "name": "FlexItem",

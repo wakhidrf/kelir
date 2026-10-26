@@ -7,6 +7,10 @@ const gaps = {
   sm: css.layout.space.sm,
   md: css.layout.space.md,
   lg: css.layout.space.lg,
+  xl: css.layout.space.xl,
+  "2xl": css.layout.space["2xl"],
+  "3xl": css.layout.space["3xl"],
+  "4xl": css.layout.space["4xl"],
 } as const;
 
 // Ambang responsif kit (satu sumber: token heroCollapse 768px). Dipakai via
