@@ -15,10 +15,12 @@ export function Link({
   children,
   href,
   external = false,
+  icon = "auto",
   id,
   "aria-label": ariaLabel,
 }: LinkProps) {
   const Icon = external ? OpenInNewIcon : ArrowForwardIcon;
+  const showIcon = icon !== "none";
   return (
     <MuiBox
       component="a"
@@ -38,7 +40,7 @@ export function Link({
       }}
     >
       {children}
-      <Icon sx={{ fontSize: "1em" }} />
+      {showIcon && <Icon sx={{ fontSize: "1em" }} />}
     </MuiBox>
   );
 }

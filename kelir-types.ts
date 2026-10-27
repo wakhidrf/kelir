@@ -1246,6 +1246,8 @@ export interface LinkProps {
   children: React.ReactNode;
   href: string;
   external?: boolean;
+  // `icon?` tampilan ikon tautan: `auto` (default) = panah/buka-baru, `none` = teks saja.
+  icon?: "auto" | "none";
   id?: string;
   "aria-label"?: string;
 }
