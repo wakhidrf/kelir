@@ -330,7 +330,7 @@
     {
       "name": "Typography",
       "description": "Dedicated text styling for headings, paragraphs, and small labels for consistency, with inline decorative segments for one heading.",
-      "props": "`variant` visual (`hero\\|h1\\|h2\\|h3\\|stat\\|body-md\\|body-sm\\|caption\\|label-caps`; `hero` = judul besar fluid, `stat` = angka besar, keduanya dari token skala), `tone?` (`primary\\|secondary`; warna teks dari token), `font?` (`text\\|brand`; `brand` = font merek dari `KelirProvider.brandFont`, default `text`), `variantMd?` (varian pada lebar >= 768px, token heroCollapse), `variantMobile?` (varian di bawah 600px, token layout.mobile), `as?` semantik (`h1\\|h2\\|h3\\|h4\\|h5\\|h6\\|p\\|span\\|div`), `level?` (`1\\|2\\|3\\|4\\|5\\|6`; hanya menambah role heading + aria-level bila elemen non-heading; bila `as` sudah heading, level bawaan elemen berlaku), `align?` (`start\\|center\\|end\\|justify`, default `start`), `truncate?` (elipsis satu-baris, default `false`), `breakAll?` (pecah kata panjang, default `false`), `tracking?` (`normal\\|wide`; renggang 6 px milik kit, default `normal`), `segments?` (deretan segmen teks inline ber-token: tiap segmen punya teks, bisa bertone (muted/primary) atau berskala kecil, dan bisa pindah baris; menggantikan `children`), `children`"
+      "props": "`variant` visual (`hero\\|display\\|title\\|h1\\|h2\\|h3\\|stat\\|body-md\\|body-sm\\|caption\\|label-caps\\|label`; `hero` = judul besar fluid, `stat` = angka besar, keduanya dari token skala), `tone?` (`primary\\|secondary`; warna teks dari token), `font?` (`text\\|brand`; `brand` = font merek dari `KelirProvider.brandFont`, default `text`), `variantMd?` (varian pada lebar >= 768px, token heroCollapse), `variantMobile?` (varian di bawah 600px, token layout.mobile), `as?` semantik (`h1\\|h2\\|h3\\|h4\\|h5\\|h6\\|p\\|span\\|div`), `level?` (`1\\|2\\|3\\|4\\|5\\|6`; hanya menambah role heading + aria-level bila elemen non-heading; bila `as` sudah heading, level bawaan elemen berlaku), `align?` (`start\\|center\\|end\\|justify`, default `start`), `truncate?` (elipsis satu-baris, default `false`), `breakAll?` (pecah kata panjang, default `false`), `tracking?` (`normal\\|wide`; renggang 6 px milik kit, default `normal`), `segments?` (deretan segmen teks inline ber-token: tiap segmen punya teks, bisa bertone (muted/primary) atau berskala kecil, dan bisa pindah baris; menggantikan `children`), `children`"
     },
     {
       "name": "Questionnaire",
@@ -345,7 +345,7 @@
     {
       "name": "Grid",
       "description": "A responsive column grid with closed column and gap unions.",
-      "props": "`columns?` (`1\\|2\\|3\\|4\\|6\\|12`, bukan angka bebas), `minItem?` (`sm\\|md`; auto-fit lebar minimum item dari token 200px/320px, menggantikan columns*), `columnsSm?`/`columnsMd?` (jumlah kolom pada lebar >= 600px / >= 768px dari token layout; `columnsMd` menang bila keduanya cocok), `gap?` (`xs\\|sm\\|md\\|lg`), `children`"
+      "props": "`columns?` (`1\\|2\\|3\\|4\\|6\\|12`, bukan angka bebas), `minItem?` (`sm\\|md`; auto-fit lebar minimum item dari token 200px/320px, menggantikan columns*), `columnsSm?`/`columnsMd?` (jumlah kolom pada lebar >= 600px / >= 768px dari token layout; `columnsMd` menang bila keduanya cocok), `gap?` (`xs\\|sm\\|md\\|lg\\|xl\\|2xl\\|3xl\\|4xl`), `children`"
     },
     {
       "name": "Spacer",
@@ -395,7 +395,7 @@
     {
       "name": "Link",
       "description": "An inline text link with kit-owned icon, required href, and safe external target.",
-      "props": "`children`, `href` (wajib), `external?` (ikon buka-baru + target blank + rel noopener, default `false`)"
+      "props": "`children`, `href` (wajib), `external?` (ikon buka-baru + target blank + rel noopener, default `false`), `icon?` (`auto\\|none`; `none` = teks tanpa ikon)"
     },
     {
       "name": "LoadingOverlay",
@@ -415,7 +415,7 @@
     {
       "name": "Quote",
       "description": "A blockquote with a kit-owned accent bar, surface, and radius.",
-      "props": "`children` (slot isi kutipan), batang aksen + latar + radius + bayangan milik kit"
+      "props": "`children` (slot isi kutipan), `variant?` (`default\\|plain`; `plain` = tanpa batang/latar/bayangan, italic, lebar baca 800px), `align?` (`start\\|center`), batang aksen + latar + radius + bayangan milik kit"
     },
     {
       "name": "CodeBlock",
