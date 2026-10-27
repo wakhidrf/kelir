@@ -987,7 +987,8 @@ export type TypographyVariant =
   | "body-md"
   | "body-sm"
   | "caption"
-  | "label-caps";
+  | "label-caps"
+  | "label";
 
 export interface TypographyProps {
   children?: React.ReactNode;
@@ -1091,7 +1092,7 @@ export interface GridProps {
   // Auto-fit: lebar minimum item dari token (sm 200px / md 320px); jumlah
   // kolom mengikuti lebar wadah. Bila diisi, ia menggantikan columns*.
   minItem?: "sm" | "md";
-  gap?: "xs" | "sm" | "md" | "lg";
+  gap?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
   id?: string;
   "aria-label"?: string;
 }
@@ -1324,6 +1325,8 @@ export interface ListProps {
 // kit. Tanpa ...rest/style/sx/className.
 export interface QuoteProps {
   children: React.ReactNode;
+  variant?: "default" | "plain";
+  align?: "start" | "center";
   id?: string;
   "aria-label"?: string;
 }

@@ -26,6 +26,7 @@ const mappedVariant: Record<
   "body-sm": "body2",
   caption: "caption",
   "label-caps": "body1",
+  label: "body1",
 };
 
 // Skala tipe kit dari token/variabel tema Kelir (sama dengan tema provider:
@@ -97,6 +98,12 @@ const variantStyles: Record<Variant, React.CSSProperties> = {
     lineHeight: 1.5,
     color: css.colors.textSecondary,
   },
+  label: {
+    fontSize: "var(--type-small, 0.875rem)",
+    fontWeight: 700,
+    lineHeight: 1.5,
+    color: css.colors.textPrimary,
+  },
   "label-caps": {
     fontSize: "12px",
     fontWeight: 600,
@@ -119,6 +126,7 @@ const defaultElement: Record<Variant, "h1" | "h2" | "h3" | "p"> = {
   "body-sm": "p",
   caption: "p",
   "label-caps": "p",
+  label: "p",
 };
 
 // Ambang responsif kit (satu sumber: token layout) - mobile 600px untuk

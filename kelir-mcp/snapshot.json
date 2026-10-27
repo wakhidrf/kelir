@@ -340,7 +340,7 @@
     {
       "name": "Stack",
       "description": "A vertical/horizontal stack primitive with closed gap, direction, align, and justify unions, plus a full-screen min height and wide-screen order reversal.",
-      "props": "`gap?` (`xs\\|sm\\|md\\|lg`), `direction?` (`row\\|column`), `directionMd?` (`row\\|column`; arah pada lebar >= 768px, token heroCollapse), `gapMd?` (`xs\\|sm\\|md\\|lg`; jarak pada lebar >= 768px, token heroCollapse), `reverseMd?` (balik urutan anak pada lebar >= 768px, token heroCollapse; default `false`), `minHeight?` (`xs\\|sm\\|md\\|lg\\|xl\\|2xl\\|3xl\\|4xl\\|screen`; ruang tetap dari skala space, `screen` = 100dvh), `align?` (`start\\|center\\|end\\|stretch`, default `stretch`), `justify?` (`start\\|center\\|end\\|space-between`, default `start`), `wrap?` (flex-wrap, default `false`), `children`"
+      "props": "`gap?` (`xs\\|sm\\|md\\|lg\\|xl\\|2xl\\|3xl\\|4xl`), `direction?` (`row\\|column`), `directionMd?` (`row\\|column`; arah pada lebar >= 768px, token heroCollapse), `gapMd?` (`xs\\|sm\\|md\\|lg\\|xl\\|2xl\\|3xl\\|4xl`; jarak pada lebar >= 768px, token heroCollapse), `reverseMd?` (balik urutan anak pada lebar >= 768px, token heroCollapse; default `false`), `minHeight?` (`xs\\|sm\\|md\\|lg\\|xl\\|2xl\\|3xl\\|4xl\\|screen`; ruang tetap dari skala space, `screen` = 100dvh), `align?` (`start\\|center\\|end\\|stretch`, default `stretch`), `justify?` (`start\\|center\\|end\\|space-between`, default `start`), `wrap?` (flex-wrap, default `false`), `children`"
     },
     {
       "name": "Grid",
