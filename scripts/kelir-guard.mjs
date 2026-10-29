@@ -44,6 +44,12 @@ const RAW_TAGS = new Set([
 ]);
 const EXEMPT_FILES = new Set(["src/app/layout.tsx"]);
 
+// Galeri komponen internal (dev tooling, bukan UI produk) memakai stylesheet
+// chrome-nya sendiri. Dikecualikan dari larangan CSS konsumen F9 (keputusan
+// pemilik 2026-10-27: fidelitas galeri > puritanisme). Halaman produk tetap
+// 100% kit; file demo individual tetap diperiksa.
+const GALLERY_EXEMPT = new Set(["src/views/showcase-section.tsx"]);
+
 // Nama komponen kontrak (sumber tunggal kelir-types.ts — derivasi sama
 // dengan check-grit-sync): aturan prop hanya berlaku untuk nama ini.
 const KELIR_NAMES = new Set(
@@ -209,6 +215,7 @@ for (const f of walk(SRC)) {
   if (!/\.(tsx|jsx)$/.test(f)) continue;
   const src = readFileSync(f, "utf8");
   if (!/from\s+["'][^"']*kelir[^"']*["']/.test(src) && !/from\s+["']@\/views\/kelir/.test(src)) { scope.noImport++; continue; }
+  if (GALLERY_EXEMPT.has(rel(f))) { scope.scanned++; continue; }
   scope.scanned++;
   // Identifier yang diimpor dari kelir (memvalidasi <style> milik kit).
   const kelirImports = new Set();
