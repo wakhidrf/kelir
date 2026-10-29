@@ -55,7 +55,7 @@
     {
       "name": "Button",
       "description": "Displays an interactive button that follows the active theme, with closed sm/md/lg sizes.",
-      "props": "`children: string`, `startIcon?`/`endIcon?` (ikon Kelir), `variant` (`primary\\|secondary\\|destructive\\|outline\\|ghost`), `align?` (`start\\|center\\|end`, default `center`), `size?` (`sm\\|md\\|lg`, default `md` = hari ini; sm = padding rapat + ikon 18px, lg = lega + ikon 28px), `onClick`, `type` (`button\\|submit`, default `button`; `reset` disengaja tidak ada → `kelir-request`), `disabled`"
+      "props": "`children: string`, `startIcon?`/`endIcon?` (ikon Kelir), `endContent?` (simpul ujung baris, dorong kanan; bebas font-size slot ikon), `variant` (`primary\\|secondary\\|destructive\\|outline\\|ghost`), `align?` (`start\\|center\\|end`, default `center`), `size?` (`sm\\|md\\|lg`, default `md` = hari ini; sm = padding rapat + ikon 18px, lg = lega + ikon 28px), `onClick`, `type` (`button\\|submit`, default `button`; `reset` disengaja tidak ada → `kelir-request`), `disabled`"
     },
     {
       "name": "IconButton",

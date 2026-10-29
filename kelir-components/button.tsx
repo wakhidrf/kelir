@@ -1,3 +1,4 @@
+import MuiBox from "@mui/material/Box";
 import MuiButton from "@mui/material/Button";
 import type * as React from "react";
 import type { ButtonProps } from "../kelir-types";
@@ -15,6 +16,7 @@ export function Button({
   children,
   startIcon,
   endIcon,
+  endContent,
   variant = "primary",
   align = "center",
   size = "md",
@@ -133,6 +135,19 @@ export function Button({
       }}
     >
       {children}
+      {endContent ? (
+        <MuiBox
+          component="span"
+          sx={{
+            marginLeft: "auto",
+            display: "inline-flex",
+            alignItems: "center",
+            fontSize: "inherit",
+          }}
+        >
+          {endContent}
+        </MuiBox>
+      ) : null}
     </MuiButton>
   );
 }
