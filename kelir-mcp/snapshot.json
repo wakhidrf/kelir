@@ -345,7 +345,7 @@
     {
       "name": "Grid",
       "description": "A responsive column grid with closed column and gap unions.",
-      "props": "`columns?` (`1\\|2\\|3\\|4\\|6\\|12`, bukan angka bebas), `minItem?` (`sm\\|md`; auto-fit lebar minimum item dari token 200px/320px, menggantikan columns*), `columnsSm?`/`columnsMd?` (jumlah kolom pada lebar >= 600px / >= 768px dari token layout; `columnsMd` menang bila keduanya cocok), `gap?` (`xs\\|sm\\|md\\|lg\\|xl\\|2xl\\|3xl\\|4xl`), `children`"
+      "props": "`columns?` (`1\\|2\\|3\\|4\\|6\\|12`, bukan angka bebas), `minItem?` (`sm\\|md`; auto-fit lebar minimum item dari token 200px/320px, menggantikan columns*), `columnsSm?`/`columnsMd?` (jumlah kolom pada lebar >= 600px / >= 768px dari token layout; `columnsMd` menang bila keduanya cocok), `gap?` (`xs\\|sm\\|md\\|lg\\|xl\\|2xl\\|3xl\\|4xl`), `template?` (`auto\\|aside`; `aside` = panel tetap + isi fleksibel, satu kolom di bawah ambang), `asideWidth?` (`sm\\|md\\|lg` = 240/280/320px), `collapse?` (`md\\|lg` = 768/900px), `pinned?` (panel aside+isi tinggi tetap 680px, maks 100dvh-48px, scroll internal; desktop), `children`"
     },
     {
       "name": "Spacer",

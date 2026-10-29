@@ -21,6 +21,13 @@ const MD_QUERY = `@media (min-width: ${css.layout.breakpoints.heroCollapse})`;
 
 const columnsCss = (n: number) => `repeat(${n}, minmax(0, 1fr))`;
 
+// Panel aside: lebar tetap dari tangga kit + ambang collapse (900px = ambang
+// Sidebar internal agar aside & shell runtuh serempak).
+const asideWidths = { sm: 240, md: 280, lg: 320 } as const;
+const collapsePx = { md: css.layout.breakpoints.heroCollapse, lg: "900px" } as const;
+const PIN_HEIGHT = 680;
+const PIN_MAX = "calc(100dvh - 48px)";
+
 // Auto-fit: jumlah kolom mengikuti lebar wadah dengan lebar item minimum
 // dari token (tanpa media query - cukup inline).
 const autoFitCss = (minItem: "sm" | "md") =>
@@ -40,9 +47,41 @@ export function Grid({
   columnsMd,
   minItem,
   gap = "md",
+  template = "auto",
+  asideWidth = "md",
+  collapse = "lg",
+  pinned = false,
   id,
   "aria-label": ariaLabel,
 }: GridProps) {
+  if (template === "aside") {
+    const bp = collapsePx[collapse];
+    return (
+      <MuiBox
+        id={id}
+        aria-label={ariaLabel}
+        sx={{
+          display: "grid",
+          gridTemplateColumns: "minmax(0, 1fr)",
+          gap: gaps[gap],
+          alignItems: "start",
+          [`@media (min-width: ${bp})`]: {
+            gridTemplateColumns: `${asideWidths[asideWidth]}px minmax(0, 1fr)`,
+            ...(pinned
+              ? {
+                  height: PIN_HEIGHT,
+                  maxHeight: PIN_MAX,
+                  alignItems: "stretch",
+                }
+              : {}),
+          },
+          "& > *": { minWidth: 0, minHeight: 0 },
+        }}
+      >
+        {children}
+      </MuiBox>
+    );
+  }
   const responsive = columnsSm !== undefined || columnsMd !== undefined;
   const autoFit = minItem !== undefined;
   return (
