@@ -203,6 +203,9 @@ export interface ButtonProps {
   children: string;
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
+  // Simpul di ujung baris (mis. Badge), didorong ke kanan oleh flex;
+  // berbeda dari endIcon yang memakai slot ikon MUI (font-size 20px).
+  endContent?: React.ReactNode;
   variant?: "primary" | "secondary" | "destructive" | "outline" | "ghost";
   // Perataan isi (khusus tombol full-width mis. nav): center (default,
   // ikon+teks di tengah), start (rata awal, kolom ikon lurus), atau end.
