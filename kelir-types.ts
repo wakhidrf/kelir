@@ -1092,6 +1092,14 @@ export interface GridProps {
   // Auto-fit: lebar minimum item dari token (sm 200px / md 320px); jumlah
   // kolom mengikuti lebar wadah. Bila diisi, ia menggantikan columns*.
   minItem?: "sm" | "md";
+  // Tata letak dua panel: `aside` = kolom tetap (asideWidth) + isi fleksibel
+  // pada lebar >= ambang collapse; di bawahnya satu kolom. `pinned` =
+  // kedua panel berbagi tinggi tetap (680px, maks 100dvh-48px) dengan
+  // scroll internal masing-masing, khusus desktop.
+  template?: "auto" | "aside";
+  asideWidth?: "sm" | "md" | "lg";
+  collapse?: "md" | "lg";
+  pinned?: boolean;
   gap?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
   id?: string;
   "aria-label"?: string;
