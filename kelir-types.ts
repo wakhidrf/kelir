@@ -957,6 +957,7 @@ export interface ToggleGroupProps {
   onChange?: (value: string) => void;
   variant?: "separated" | "joined";
   disabled?: boolean;
+  size?: "sm" | "md" | "lg";
   id?: string;
   "aria-label"?: string;
 }
