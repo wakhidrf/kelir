@@ -14,6 +14,7 @@ export function ToggleGroup({
   onChange,
   variant = "separated",
   disabled,
+  size = "md",
   id,
   "aria-label": ariaLabel,
 }: ToggleGroupProps) {
@@ -61,11 +62,11 @@ export function ToggleGroup({
             color: joined ? css.colors.textSecondary : css.colors.textPrimary,
             backgroundColor: joined ? "transparent" : css.colors.surface,
             ...(joined
-              ? { fontWeight: 600, padding: "9px 14px" }
+              ? { fontWeight: 600, padding: size === "sm" ? "6px 12px" : size === "lg" ? "12px 18px" : "9px 14px" }
               : {
                   border: `1px solid ${css.border.light}`,
                   boxShadow: css.shadows.convex,
-                  padding: `${css.layout.space.sm} 14px`,
+                  padding: size === "sm" ? `${css.layout.space.xs} 12px` : size === "lg" ? `${css.layout.space.md} 18px` : `${css.layout.space.sm} 14px`,
                 }),
             "&:hover": joined
               ? { backgroundColor: css.divider }
