@@ -109,7 +109,7 @@ if (!existsSync(join(ROOT, "src"))) {
     "kelir-status: tidak menemukan <proyek>/src di " +
       `${join(ROOT, "src")}.\n` +
       "  Jalankan dari proyek konsumen yang menaruh kit di src/views/kelir\n" +
-      "  (mis. `npm run kelir:status` di kelir-web), bukan dari repo kit sendiri.",
+      "  (mis. `npm run kelir:status`), bukan dari repo kit sendiri.",
   );
   process.exit(2);
 }

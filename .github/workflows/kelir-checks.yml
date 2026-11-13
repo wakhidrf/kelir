@@ -2,7 +2,7 @@ name: kelir-checks
 
 # Pemeriksaan kit yang SELF-CONTAINED (issue #72). Gate parity/status yang
 # butuh STYLE.md + <proyek>/src TIDAK jalan di sini: kontrak §5 tinggal di
-# akar proyek induk (kelir-web), bukan di repo kit. Semua gate penuh
+# akar proyek induk, bukan di repo kit. Semua gate penuh
 # (drift/guard/status:check/MCP golden) dijalankan CI repo induk. Di sini
 # kit memastikan skrip + server tetap lolos parse (fail-fast PR kit).
 on:
@@ -39,4 +39,4 @@ jobs:
       - name: Catatan gate penuh
         run: |
           echo "Gate parity/status (kelir:drift, kelir:guard:strict, kelir:status:check, kelir:slop:strict)"
-          echo "butuh STYLE.md + <proyek>/src; dijalankan otomatis di CI repo induk kelir-web."
+          echo "butuh STYLE.md + <proyek>/src; dijalankan otomatis di CI repo induk."
