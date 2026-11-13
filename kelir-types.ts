@@ -211,10 +211,11 @@ export interface ButtonProps {
   // ikon+teks di tengah), start (rata awal, kolom ikon lurus), atau end.
   // Nilai logis: benar di LTR maupun RTL.
   align?: "center" | "start" | "end";
-  // Ukuran milik kit (khusus drawer sempit mis. nav mobile): sm = padding
-  // rapat + ikon ~18px, md (default) = perilaku hari ini, lg = lega +
-  // ikon ~28px. Union tertutup, tanpa angka bebas.
-  size?: "sm" | "md" | "lg";
+  // Ukuran milik kit (khusus drawer sempit mis. nav mobile): xs = padding
+  // paling rapat + teks 11px + ikon ~14px (aksi di dalam sel tabel),
+  // sm = padding rapat + ikon ~18px, md (default) = perilaku hari ini,
+  // lg = lega + ikon ~28px. Union tertutup, tanpa angka bebas.
+  size?: "xs" | "sm" | "md" | "lg";
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   type?: "button" | "submit";
   disabled?: boolean;
@@ -869,9 +870,12 @@ export interface SwitchProps {
 // 56. Table
 // 56. Table - tabel data sealed berbasis MUI (Gel.3c-10 STYLE.md §6).
 // `headers` TEKS[]; `rows` sel[][]. Lebar + visual milik kit.
+// `density?` = kerapatan baris: "default" (sel 14px) atau "compact"
+// (sel 12px + padding lebih rapat) untuk tabel dengan banyak kolom.
 export interface TableProps<TCell extends React.ReactNode = React.ReactNode> {
   headers: string[];
   rows: TCell[][];
+  density?: "default" | "compact";
 }
 
 // 57. Tabs
@@ -957,6 +961,7 @@ export interface ToggleGroupProps {
   onChange?: (value: string) => void;
   variant?: "separated" | "joined";
   disabled?: boolean;
+  size?: "sm" | "md" | "lg";
   id?: string;
   "aria-label"?: string;
 }

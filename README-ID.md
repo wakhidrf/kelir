@@ -261,7 +261,7 @@ Project Kelir memiliki **77 komponen** yang dikelompokkan ke beberapa kategori u
 ### 1. Input & Formulir
 Komponen yang menangkap interaksi pengguna dan input data dengan kontrol terintegrasi.
 
-1. **Button**: Menampilkan tombol interaktif yang mengikuti tema aktif, dengan ukuran sm/md/lg tertutup.
+1. **Button**: Menampilkan tombol interaktif yang mengikuti tema aktif, dengan ukuran xs/sm/md/lg tertutup (xs = aksi di dalam baris tabel).
 2. **Button Group**: Wadah untuk mengelompokkan tombol-tombol terkait dengan sudut membulat yang konsisten.
 3. **Checkbox**: Pilihan biner dengan label dan visualisasi centang.
 4. **Combobox**: Input teks auto-complete dengan daftar saran opsi.
@@ -310,7 +310,7 @@ Komponen untuk menampilkan data statis, visualisasi, dan struktur pesan.
 43. **Quote**: Kutipan blok dengan batang aksen, latar, dan radius milik kit.
 44. **Scroll Area**: Wadah dengan scrollbar kustom yang dioptimalkan untuk konsistensi lintas-browser.
 45. **Separator**: Garis pembagi horizontal atau vertikal antar elemen konten dengan teks berlabel opsional.
-46. **Table**: Struktur tabel dasar yang responsif untuk menyajikan data baris-kolom yang teratur.
+46. **Table**: Struktur tabel dasar yang responsif untuk menyajikan data baris-kolom yang teratur, dengan `density?` (`default`|`compact`) untuk data banyak kolom yang padat.
 47. **Tabs**: Navigasi konten berbasis tab untuk membagi informasi ke panel terpisah.
 48. **Typography**: Styling teks khusus untuk heading, paragraf, dan label kecil demi konsistensi, dengan segmen inline berhias untuk satu heading.
 
