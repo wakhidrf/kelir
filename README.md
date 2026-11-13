@@ -260,7 +260,7 @@ Project Kelir has **77 components** organized into several main categories to ma
 ### 1. Inputs & Forms
 Components that capture user interaction and data input with integrated controls.
 
-1. **Button**: Displays an interactive button that follows the active theme, with closed sm/md/lg sizes.
+1. **Button**: Displays an interactive button that follows the active theme, with closed xs/sm/md/lg sizes (xs = in-table row action).
 2. **Button Group**: A container for grouping related buttons with consistent rounded corners.
 3. **Checkbox**: A binary choice with a label and check visualization.
 4. **Combobox**: An auto-complete text input with a list of suggested options.
@@ -309,7 +309,7 @@ Components for displaying static data, visualizations, and message structures.
 43. **Quote**: A blockquote with a kit-owned accent bar, surface, and radius.
 44. **Scroll Area**: A container with a custom scrollbar optimized for cross-browser consistency.
 45. **Separator**: A horizontal or vertical divider line between content elements with an optional labeled text.
-46. **Table**: A basic responsive table structure for presenting organized row-column data.
+46. **Table**: A basic responsive table structure for presenting organized row-column data, with `density?` (`default`|`compact`) for dense multi-column data.
 47. **Tabs**: Tab-based content navigation for dividing information into separate panels.
 48. **Typography**: Dedicated text styling for headings, paragraphs, and small labels for consistency, with inline decorative segments for one heading.
 

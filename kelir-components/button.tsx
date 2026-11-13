@@ -38,8 +38,17 @@ export function Button({
       borderRadius: css.radius.button,
       textTransform: "none",
       fontWeight: 600,
-      // Ukuran milik kit: md = perilaku hari ini (nol-ubah visual).
-      padding: size === "sm" ? "6px 12px" : size === "lg" ? "14px 28px" : "10px 20px",
+      // Ukuran milik kit: xs = aksi di dalam sel tabel (teks 11px), sm = padding
+      // rapat, md = perilaku hari ini (nol-ubah visual), lg = lega.
+      padding:
+        size === "xs"
+          ? "3px 8px"
+          : size === "sm"
+            ? "6px 12px"
+            : size === "lg"
+              ? "14px 28px"
+              : "10px 20px",
+      ...(size === "xs" ? { fontSize: "11px" } : null),
       transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
       fontFamily: "inherit",
       // Perataan eksplisit (inline → teruji): default center = perilaku MUI.
@@ -98,11 +107,15 @@ export function Button({
       endIcon={endIcon}
       style={getStyles()}
       sx={{
-        // Ikon ~18px (sm, preseden tab chevron sidebar) / ~28px (lg);
+        // Ikon ~14px (xs) / ~18px (sm, preseden tab chevron sidebar) / ~28px (lg);
         // md tanpa aturan = bawaan MUI hari ini.
         ...(size === "md"
           ? null
-          : { "& .MuiSvgIcon-root": { fontSize: size === "sm" ? 18 : 28 } }),
+          : {
+              "& .MuiSvgIcon-root": {
+                fontSize: size === "xs" ? 14 : size === "sm" ? 18 : 28,
+              },
+            }),
         "&:hover": {
           backgroundColor:
             isOutline || isGhost

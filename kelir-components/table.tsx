@@ -10,10 +10,20 @@ import { css } from "../kelir-variants";
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
+// Satu tingkat lebih rapat: dipakai tabel padat (banyak kolom) tanpa mengubah
+// token warna/anti-aliasing kit. Ukuran rujukan: timeline penjadwalan audit
+// SIGAP (6 kolom, terbaca di desktop dan ponsel).
+const DENSITY = {
+  default: { cell: "14px", head: "14px", pad: "16px" },
+  compact: { cell: "12px", head: "11px", pad: "8px 12px" },
+} as const;
+
 export function Table<TCell extends React.ReactNode = React.ReactNode>({
   headers,
   rows,
+  density = "default",
 }: TableProps<TCell>) {
+  const sizes = DENSITY[density];
   return (
     <TableContainer
       style={{
@@ -27,11 +37,12 @@ export function Table<TCell extends React.ReactNode = React.ReactNode>({
     >
       <MuiTable
         sx={{
-          minWidth: 650,
+          minWidth: density === "compact" ? 600 : 650,
           "& .MuiTableCell-root": {
             fontFamily: "inherit",
             borderBottom: `1px solid ${css.divider}`,
             color: textPrimary,
+            padding: sizes.pad,
           },
         }}
       >
@@ -40,7 +51,11 @@ export function Table<TCell extends React.ReactNode = React.ReactNode>({
             {headers.map((header) => (
               <TableCell
                 key={header}
-                style={{ fontWeight: 700, color: textSecondary }}
+                style={{
+                  fontWeight: 700,
+                  color: textSecondary,
+                  fontSize: sizes.head,
+                }}
               >
                 {header}
               </TableCell>
@@ -53,7 +68,7 @@ export function Table<TCell extends React.ReactNode = React.ReactNode>({
               {row.map((cell, cellIndex) => (
                 <TableCell
                   key={`cell-${rowIndex}-${cellIndex}`}
-                  style={{ fontSize: "14px" }}
+                  style={{ fontSize: sizes.cell }}
                 >
                   {cell}
                 </TableCell>
