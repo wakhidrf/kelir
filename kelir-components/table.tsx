@@ -10,9 +10,9 @@ import { css } from "../kelir-variants";
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
-// Satu tingkat lebih rapat: dipakai tabel padat (banyak kolom) tanpa mengubah
-// token warna/anti-aliasing kit. Ukuran rujukan: timeline penjadwalan audit
-// SIGAP (6 kolom, terbaca di desktop dan ponsel).
+// Satu tingkat lebih rapat: tabel padat (banyak kolom) tanpa mengubah token
+// warna/anti-aliasing kit. Uji ukuran: tabel jadwal enam kolom (target,
+// kategori, auditee, auditor, tanggal, aksi) pada lebar desktop dan ponsel.
 const DENSITY = {
   default: { cell: "14px", head: "14px", pad: "16px" },
   compact: { cell: "12px", head: "11px", pad: "8px 12px" },
