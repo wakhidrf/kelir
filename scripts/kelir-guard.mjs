@@ -65,7 +65,7 @@ if (!existsSync(SRC)) {
     "kelir-guard: tidak menemukan <proyek>/src di " +
       `${SRC}.\n` +
       "  Jalankan dari proyek konsumen yang menaruh kit di src/views/kelir\n" +
-      "  (mis. `npm run kelir:guard` di kelir-web), bukan dari repo kit sendiri.",
+      "  (mis. `npm run kelir:guard`), bukan dari repo kit sendiri.",
   );
   process.exit(2);
 }

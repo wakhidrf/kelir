@@ -51,7 +51,7 @@ if (!existsSync(SRC)) {
     "kelir-slop: tidak menemukan <proyek>/src di " +
       `${SRC}.\n` +
       "  Jalankan dari proyek konsumen yang menaruh kit di src/views/kelir\n" +
-      "  (mis. `npm run kelir:slop` di kelir-web), bukan dari repo kit sendiri.",
+      "  (mis. `npm run kelir:slop`), bukan dari repo kit sendiri.",
   );
   process.exit(2);
 }

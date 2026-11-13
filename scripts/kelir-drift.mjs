@@ -99,7 +99,7 @@ function parseTable() {
     throw new Error(
       `kelir-drift: STYLE.md tak ditemukan di ${stylePath}.\n` +
         "  Skrip ini membaca kontrak §5 dari akar proyek induk; jalankan dari\n" +
-        "  proyek konsumen (mis. `npm run kelir:drift` di kelir-web), bukan dari repo kit.",
+        "  proyek konsumen (mis. `npm run kelir:drift`), bukan dari repo kit.",
     );
   }
   const src = readFileSync(stylePath, "utf8").replace(
