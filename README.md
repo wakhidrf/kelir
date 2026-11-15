@@ -13,7 +13,9 @@ Project Kelir is currently limited to **Next.js with TypeScript** projects. Befo
 
 The sealed contract (the component list and each component's allowed props, values, and tokens) is kept at the **host project's root** as `STYLE.md`, not inside this submodule. The parity, guard, and status gates therefore run from the host repository, where the kit is mounted at `src/views/kelir`. A standalone clone of Kelir only parse-checks its tooling; run the full gates from the host project so the contract, types, and catalog stay in sync.
 
-Alongside those, the anti-slop gate (`scripts/kelir-slop.mjs`, run as `npm run kelir:slop:strict`) runs from the host project too: it scans the host files that import Kelir plus the kit's own internals using the same pinned matchers as the MCP `audit` tool, and fails the build on any ERROR. A line carrying `kelir-allow: slop` (or the line above it) is an explicit, reviewable exemption.
+Alongside those, the anti-slop gate (`scripts/kelir-slop.mjs`, run as `npm run kelir:slop:strict`) runs from the host project too: it scans the host files that import Kelir plus the kit's own internals using the pinned matcher table defined in this gate, and fails the build on any ERROR. A line carrying `kelir-allow: slop` (or the line above it) is an explicit, reviewable exemption.
+
+The adoption gate (`scripts/kelir-hunt.mjs`, run as `npm run kelir:hunt:strict`) covers UI that never imports Kelir. Route files (`app/**` or `pages/**`) with raw intrinsic tags are ERROR; app components, canvas/iframes, dynamic-content sinks, CSS-in-JS, consumer stylesheets, and third-party UI imports are WARN. Tailwind directives are ERROR. A file-level `kelir-allow: hunt <reason>` is the explicit exemption.
 
 ## Per-Theme Typography
 
@@ -385,31 +387,14 @@ complete - keep the `N. **theme-id**:` format when adding a theme.
 
 ---
 
-## MCP Server (for AI Assistants, In Progress)
+## Anti-slop Rulebook (for AI Assistants)
 
-Project Kelir ships an experimental MCP server in `kelir-mcp/` so AI assistants can look up the component catalog, tokens, and usage contract instead of reading the whole repo.
+Project Kelir vendors the pinned [anti-slop](https://github.com/miqdadbadjuber/anti-slop) rulebook in `kelir-integration/` so AI assistants and the host gate share one deterministic filter. The folder contains only the upstream rulebook mirror plus the sync/index tools; the gate's matcher table lives in `scripts/kelir-slop.mjs`. The experimental MCP server was removed.
 
-Connect it as a local server (OpenCode example):
-
-```json
-{
-  "mcp": {
-    "kelir": {
-      "type": "local",
-      "command": ["node", "src/views/kelir/kelir-mcp/server.mjs"],
-      "enabled": true
-    }
-  }
-}
-```
-
-Status and limitations, honestly:
-
-- In progress: the server only serves a read-only catalog for now. Design suggestions and code checks are planned next.
-- Local use only: stdio, no remote or hosted mode.
-- The served catalog is a generated copy: it can lag behind the newest kit until regenerated.
-- Requires Node plus a one-time install inside `kelir-mcp/` (see its README).
-- Every MCP server adds model context: enable it only where needed.
+- Kind: static rules plus regex matchers; no network, no model call.
+- Host gate: `npm run kelir:slop:strict` scans shipped code using the same matchers.
+- Update: bump `PIN.ref` in `kelir-integration/tools/sync-antislop.mjs`, then run the sync and index tools.
+- Do not edit `kelir-integration/antislop/**` by hand; it is byte-checked against `upstream.lock.json`.
 
 ---
 

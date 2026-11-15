@@ -3,8 +3,8 @@ name: kelir-checks
 # Pemeriksaan kit yang SELF-CONTAINED (issue #72). Gate parity/status yang
 # butuh STYLE.md + <proyek>/src TIDAK jalan di sini: kontrak §5 tinggal di
 # akar proyek induk, bukan di repo kit. Semua gate penuh
-# (drift/guard/status:check/MCP golden) dijalankan CI repo induk. Di sini
-# kit memastikan skrip + server tetap lolos parse (fail-fast PR kit).
+# (drift/guard/status:check/anti-slop) dijalankan CI repo induk. Di sini
+# kit memastikan skrip + integrasi antislop tetap lolos parse (fail-fast PR kit).
 on:
   push:
     branches: ["**"]
@@ -18,10 +18,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Parse-check skrip kit + server MCP
+      - name: Parse-check skrip kit + integrasi antislop
         run: |
           fail=0
-          for f in scripts/*.mjs kelir-mcp/*.mjs kelir-mcp/tools/*.mjs; do
+          for f in scripts/*.mjs kelir-integration/tools/*.mjs; do
             if [ -f "$f" ]; then
               echo "node --check $f"
               node --check "$f" || fail=1
@@ -31,12 +31,12 @@ jobs:
             echo "::error::Ada berkas .mjs yang gagal parse."
             exit 1
           fi
-          echo "OK — skrip kit + server MCP lolos parse."
+          echo "OK - skrip kit + integrasi antislop lolos parse."
       - name: Mirror anti-slop tidak drift
         run: |
-          node kelir-mcp/tools/sync-antislop.mjs --check
-          node kelir-mcp/tools/build-antislop-index.mjs --check
+          node kelir-integration/tools/sync-antislop.mjs --check
+          node kelir-integration/tools/build-antislop-index.mjs --check
       - name: Catatan gate penuh
         run: |
-          echo "Gate parity/status (kelir:drift, kelir:guard:strict, kelir:status:check, kelir:slop:strict)"
+          echo "Gate parity/status (kelir:drift, kelir:guard:strict, kelir:hunt:strict, kelir:status:check, kelir:slop:strict)"
           echo "butuh STYLE.md + <proyek>/src; dijalankan otomatis di CI repo induk."

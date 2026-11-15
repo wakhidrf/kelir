@@ -1,8 +1,9 @@
 // kelir-slop.mjs - gate anti-slop repo (F6).
 //
 // Memindai kode yang SHIPPED (konsumen di <proyek>/src minus kit, plus internal
-// kit minus mirror/vendor) memakai matcher yang sama dengan MCP (satu sumber:
-// kelir-mcp/antislop.mjs). Tanpa dep baru, tanpa jaringan.
+// kit minus mirror/vendor) memakai tabel matcher di file ini; indeks aturan
+// dibaca dari kelir-integration/antislop/index.json (mirror upstream).
+// Tanpa dep baru, tanpa jaringan.
 //
 // Semantik (sengaja, sesuai rulebook upstream):
 //   - Aturan code (jsx/css/komentar) -> dijalankan atas sumber mentah.
@@ -16,28 +17,80 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
-import { MATCHERS, loadAntiSlop } from "../kelir-mcp/antislop.mjs";
 
 // scripts/ -> kelir/ -> views/ -> src/ -> <proyek>
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..", "..", "..", "..");
 const SRC = join(ROOT, "src");
 const KELIR = join(SRC, "views", "kelir");
-const MCP = join(KELIR, "kelir-mcp");
+const INTEGRATION = join(KELIR, "kelir-integration");
 const STRICT = process.argv.includes("--strict");
+
+// Tabel matcher gate. Setiap id WAJIB ada di index.json (fail-closed), jadi
+// rename aturan upstream ketahuan alih-alih diam-diam melemahkan filter.
+// scope: "text" = prose/copy (string/teks JSX), "code" = jsx/css/komentar,
+// "both".
+const MATCHERS = [
+  // core rules
+  { rule: "R-02", scope: "text", why: "em dash in written text; use a comma, period, colon, or parentheses", re: /[\u2014\u2013]/ },
+  { rule: "R-16", scope: "text", why: "buzzword; say what the thing does instead", re: /\b(?:unlock|elevate|empower|delve|seamless|game[\s-]?changer|cutting[\s-]edge|revolutionary|next[\s-]gen|unleash|effortless|supercharge|skyrocket|transformative|world[\s-]class|best[\s-]in[\s-]class|industry[\s-]leading|state[\s-]of[\s-]the[\s-]art|leverage|synergy|paradigm|robust)\b/i },
+  { rule: "R-17", scope: "text", why: "invented number; only claim figures you can back", re: /\b\d+(?:\.\d+)?\s?(?:%|x\b|percent)\b|\b\d{2,}(?:[,.]\d{3})*\+?\s+(?:users|customers|downloads|teams|companies|stars)\b/i },
+  { rule: "R-36", scope: "text", why: "unverifiable claim or social proof", re: /\btrusted by\b|\bstudies show\b|\bused by (?:thousands|millions)\b/i },
+  { rule: "R-39", scope: "code", why: "viewport disables zoom; keep pinch-zoom available", re: /\b(?:user-scalable\s*=\s*['"]?no|maximum-scale\s*=\s*['"]?1(?:\.0)?)\b/i },
+  // ui
+  { rule: "antislop-ui--generic-blue-purple-gradient", scope: "code", why: "default blue-purple gradient; pick a purposeful palette", re: /linear-gradient\([^)]*?(?:#6366f1|#8b5cf6|#a855f7|#7c3aed|#4f46e5|indigo|blueviolet)/i },
+  { rule: "antislop-ui--excessive-glassmorphism", scope: "code", why: "glassmorphism for no reason", re: /backdrop-filter\s*:\s*[^;]*blur/i },
+  { rule: "antislop-ui--excessive-border-radius", scope: "code", why: "oversized corner radius", re: /border-radius\s*:\s*(?:[2-9]\d{1,}|9{3,})px|border-radius\s*:\s*(?:999|9999)px/i },
+  { rule: "antislop-ui--emoji-as-decoration", scope: "both", why: "decorative emoji", re: /(?![\u2713\u2714])[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}]/u },
+  // copywriting
+  { rule: "antislop-copywriting--empty-ai-vocabulary", scope: "text", why: "empty AI vocabulary", re: /\b(?:pave the way|dive into|in the realm of|a tapestry of|when it comes to|it'?s worth noting)\b/i },
+  { rule: "antislop-copywriting--significance-inflation", scope: "text", why: "inflated significance", re: /\b(?:stands as a testament|plays a (?:vital|crucial|pivotal) role|underscores the importance|a beacon of)\b/i },
+  { rule: "antislop-copywriting--fabricated-specifics", scope: "text", why: "specific-looking number without a source", re: /\b\d+(?:\.\d+)?% of (?:users|developers|teams)\b/i },
+  { rule: "antislop-copywriting--all-caps-emphasis", scope: "text", why: "ALL-CAPS emphasis", re: /\b(?!(?:API|CSS|HTML|JSON|UI|UX|MCP|URL|HTTP|ID|CTA|FAQ|SVG|TODO|REST|CLI|DOM|SSR|SEO|OK|MIT|MVC|JSX|TSX|MUI|RTL|LTR|ARIA|WCAG|OTP|CPU|IDR|E2E|SQL|SDK|PNG|STYLE|README|CHANGELOG|LICENSE|CRLF)\b)(?![0-9A-F]{3,}\b)[A-Z]{3,}\b/ },
+  { rule: "antislop-copywriting--em-dashes", scope: "text", why: "em dash punctuation in copy", re: /\u2014/ },
+  // human / a11y
+  { rule: "antislop-human--removed-focus-outline", scope: "code", why: "focus outline removed; keyboard users lose the indicator", re: /outline\s*:\s*['"]?(?:none|0)\b/i },
+  // layoutmobile
+  { rule: "antislop-layoutmobile--100vh-sections", scope: "code", why: "100vh section; use dynamic units / min-height correctly", re: /\b100vh\b/ },
+  { rule: "antislop-layoutmobile--fixed-pixel-type", scope: "code", why: "fixed px font size; use relative units", re: /font-size\s*:\s*\d+px/i },
+  // code comments
+  { rule: "antislop-code--decorative-separators", scope: "code", why: "banner comment made of repeated characters", re: /(?:\/\/|#|\/\*|\{\/\*)[^\S\n]*[=\-*~_]{4,}/ },
+  { rule: "antislop-code--restating-the-obvious", scope: "code", why: "comment restates the code", re: /\/\/\s*(?:initialize|set up|process|validate the|handle the|loop through|return the|define the)\b/i },
+];
+
+function loadRuleMap(mirror) {
+  const index = JSON.parse(readFileSync(join(mirror, "index.json"), "utf8"));
+  const map = new Map();
+  for (const r of index.core.rules) {
+    map.set(r.id, { kind: "rule", id: r.id, title: r.title, skill: "antislop", target: "core", severity: r.severity, line: r.line });
+  }
+  for (const s of index.skills) {
+    for (const sec of s.sections) {
+      for (const p of sec.patterns) {
+        map.set(p.id, { kind: "pattern", id: p.id, title: p.name, skill: s.name, target: s.target, line: p.line });
+      }
+    }
+  }
+  for (const m of MATCHERS) {
+    if (!map.has(m.rule)) {
+      throw new Error(
+        `kelir-slop: matcher rule '${m.rule}' tak ada di index.json (aturan berubah?).`,
+      );
+    }
+  }
+  return map;
+}
 
 const CODE_EXT = /\.(tsx?|jsx?|mjs|cjs|css)$/;
 const TEST_EXT = /\.(test|test-d)\.(tsx?|jsx?)$/;
 // Di-generate / di-vendor: bukan milik kita untuk disunting.
 const GENERATED = [
-  join(MCP, "antislop"), // mirror upstream (jangan disentuh)
+  join(INTEGRATION, "antislop"), // mirror upstream (jangan disentuh)
   join(SRC, "views", "kelir-docs.ts"), // dari README/CHANGELOG
 ];
 // Berkas spesifikasi: memuat rulebook sendiri / korpus slop untuk uji gate.
 const SPEC = [
-  join(MCP, "antislop.mjs"), // tabel matcher = rulebook-nya sendiri
-  join(MCP, "tools", "test.mjs"), // korpus slop ("Our BEST-IN-CLASS ... 10x")
-  join(KELIR, "scripts", "kelir-slop.mjs"), // gate ini (memuat literal allow)
+  join(KELIR, "scripts", "kelir-slop.mjs"), // gate ini (tabel matcher + literal allow)
 ];
 
 // Kit internal adalah IMPLEMENTASI (mis. outline:none + ring sendiri,
@@ -153,7 +206,7 @@ function looksLikeCode(text) {
   return false;
 }
 
-const anti = loadAntiSlop(MCP);
+const RULES = loadRuleMap(join(INTEGRATION, "antislop"));
 const files = walk(SRC).filter(
   (f) => !GENERATED.some((g) => f.startsWith(g)) && !SPEC.includes(f),
 );
@@ -223,7 +276,7 @@ for (const f of files) {
     const key = `${h.rule}@${h.line}`;
     if (seen.has(key)) continue;
     seen.add(key);
-    const meta = anti.rules.get(h.rule) ?? {};
+    const meta = RULES.get(h.rule) ?? {};
     const entry = { f, ...h, target: meta.target ?? "", severity: meta.severity ?? null };
     if (allowedLine(h.line)) allowed.push(entry);
     else err.push(entry);

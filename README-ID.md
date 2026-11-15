@@ -13,7 +13,9 @@ Project Kelir saat ini terbatas untuk proyek **Next.js dengan TypeScript**. Sebe
 
 Kontrak sealed (daftar komponen beserta prop, nilai, dan token yang diizinkan tiap komponen) disimpan di **akar proyek induk** sebagai `STYLE.md`, bukan di dalam submodule ini. Gerbang parity, guard, dan status karena itu dijalankan dari repo induk, tempat kit terpasang di `src/views/kelir`. Clone Kelir yang berdiri sendiri hanya memeriksa parse perkakasnya; jalankan gerbang penuh dari proyek induk agar kontrak, tipe, dan katalog tetap selaras.
 
-Selain itu, gerbang anti-slop (`scripts/kelir-slop.mjs`, dijalankan sebagai `npm run kelir:slop:strict`) juga berjalan dari repo induk: ia memindai berkas induk yang mengimpor Kelir plus internal kit memakai matcher terpin yang sama dengan tool `audit` MCP, dan menggagalkan build pada tiap ERROR. Baris berisi `kelir-allow: slop` (atau baris di atasnya) adalah pengecualian eksplisit yang mudah ditinjau.
+Selain itu, gerbang anti-slop (`scripts/kelir-slop.mjs`, dijalankan sebagai `npm run kelir:slop:strict`) juga berjalan dari repo induk: ia memindai berkas induk yang mengimpor Kelir plus internal kit memakai tabel matcher terpin yang sama yang ada di gate ini, dan menggagalkan build pada tiap ERROR. Baris berisi `kelir-allow: slop` (atau baris di atasnya) adalah pengecualian eksplisit yang mudah ditinjau.
+
+Gerbang adopsi (`scripts/kelir-hunt.mjs`, dijalankan sebagai `npm run kelir:hunt:strict`) menutup UI yang tidak pernah mengimpor Kelir. Route (`app/**` atau `pages/**`) dengan tag intrinsik mentah = ERROR; komponen aplikasi, canvas/iframe, sink konten dinamis, CSS-in-JS, stylesheet konsumen, dan impor UI pihak ketiga = WARN. Direktif Tailwind = ERROR. Pengecualian eksplisit berupa `kelir-allow: hunt <alasan>` di level berkas.
 
 ## Tipografi Per Tema
 
@@ -386,31 +388,14 @@ bawah sudah lengkap - pertahankan format `N. **theme-id**:` bila menambah tema.
 
 ---
 
-## Server MCP (untuk Asisten AI, Dalam Pengerjaan)
+## Rulebook Anti-slop (untuk Asisten AI)
 
-Project Kelir membawa server MCP eksperimental di `kelir-mcp/` agar asisten AI bisa mencari katalog komponen, token, dan kontrak pakai tanpa membaca seluruh repo.
+Project Kelir mem-vendor rulebook [anti-slop](https://github.com/miqdadbadjuber/anti-slop) yang di-pin di `kelir-integration/` agar asisten AI dan gate host memakai satu filter deterministik yang sama. Folder ini hanya berisi mirror rulebook upstream plus alat sync/index; tabel matcher gate ada di `scripts/kelir-slop.mjs`. Server MCP eksperimental sudah dihapus.
 
-Sambungkan sebagai server lokal (contoh OpenCode):
-
-```json
-{
-  "mcp": {
-    "kelir": {
-      "type": "local",
-      "command": ["node", "src/views/kelir/kelir-mcp/server.mjs"],
-      "enabled": true
-    }
-  }
-}
-```
-
-Status dan batasan, apa adanya:
-
-- Dalam pengerjaan: server baru menyajikan katalog baca-saja. Saran desain dan pemeriksaan kode direncanakan berikutnya.
-- Hanya lokal: stdio, tanpa mode remote atau hosted.
-- Katalog yang disajikan adalah salinan hasil generate: bisa tertinggal dari kit terbaru sampai diregenerasi.
-- Butuh Node plus sekali instal di dalam `kelir-mcp/` (lihat README di sana).
-- Setiap server MCP menambah konteks model: aktifkan hanya bila dibutuhkan.
+- Jenis: aturan statis plus matcher regex; tanpa jaringan, tanpa panggilan model.
+- Gate host: `npm run kelir:slop:strict` memindai kode yang di-ship dengan matcher yang sama.
+- Update: ubah `PIN.ref` di `kelir-integration/tools/sync-antislop.mjs`, lalu jalankan alat sync dan index.
+- Jangan menyunting `kelir-integration/antislop/**` dengan tangan; isinya dicek byte-exact terhadap `upstream.lock.json`.
 
 ---
 
