@@ -1,0 +1,80 @@
+{
+  "repo": "miqdadbadjuber/anti-slop",
+  "ref": "v3.2.30",
+  "commit": "5e1108f74c537cfa05dee6cdfecc1302606c8ca6",
+  "version": "3.2.30",
+  "files": {
+    "antislop.md": {
+      "blob": "968c31195812fc32df90b21a750120babd58d88d",
+      "sha256": "c2341728e54e12db4f969f748c3431c701bbbccf67f276efa585a01e99e400d8"
+    },
+    "rules/antislop.md": {
+      "blob": "9c8e68f0e9b310ba5fb74f9b7f3bb85a997d6c9d",
+      "sha256": "f0084dbb37f1c2064ff6b0bbe94154ed30cd21db67e1160c8830003370147dcc"
+    },
+    "rules/antislop.mdc": {
+      "blob": "a5781f5c97e44fd5250ecfd6a9d66e09bae49d51",
+      "sha256": "80d21fe52c5d7707eca3f35bfdfc65d4a9a1c97a41d0064e366c14ac70865a06"
+    },
+    "skills/antislop-code/SKILL.md": {
+      "blob": "f53a5dab9edc8e3004d2d7e45dfdbe446710e24a",
+      "sha256": "cac8f34af374f085900fd9b211a92fdfb387f63826571e1221cfb927fb31a5ca"
+    },
+    "skills/antislop-copywriting/SKILL.md": {
+      "blob": "19612e0111909eb5d8effbfd8eefeecff174a702",
+      "sha256": "568efd8c763ce95a6ea123288e80f9a1ffdf1883143c1fad6e546a45a17659fc"
+    },
+    "skills/antislop-human/LICENSE-web-quality-skills": {
+      "blob": "90715bb429f374dcc4e05c35535b049d3c077313",
+      "sha256": "c122223ac43e86421958e18623979942c21b642951e2e3736dcb63eff13587c3"
+    },
+    "skills/antislop-human/SKILL.md": {
+      "blob": "dd37c1857771b6e3338ca155122c3005280272fa",
+      "sha256": "6cdd6f26d4f77ed629abe269fc423863edd063347c38fa6ce990a77914c1d8e6"
+    },
+    "skills/antislop-human/contrast-check.py": {
+      "blob": "63287d6b974c381fda3cb474281508f3753482b2",
+      "sha256": "393e6433d120632aa11184792a16cd7b325924dbc9993477825d9aa67fdbfe6e"
+    },
+    "skills/antislop-human/contrast-mcp.py": {
+      "blob": "da55ee3ca1b3c807ef239a9596f436c5c3f5de9b",
+      "sha256": "6879466e7c3704575f25faa79adaf4c954bf37ade7f1289adda4eeb3af83ad1f"
+    },
+    "skills/antislop-human/references/A11Y-PATTERNS.md": {
+      "blob": "3c8a4fdece461711b9abb81292b23b0086b5ab9f",
+      "sha256": "4cb6276a237fbe05616b53688075461732454365eb7674d732f7197dddb14fff"
+    },
+    "skills/antislop-human/references/WCAG.md": {
+      "blob": "3ea90ba80cdd9106c34b181f69d1e7aee83d2307",
+      "sha256": "409ac9e24007f09f3704f890585c880cdd66780e9f14274b1a0e0c4557672330"
+    },
+    "skills/antislop-layoutmobile/SKILL.md": {
+      "blob": "403605f9a44e43179ef5fd0ff8e52bc86632c1b4",
+      "sha256": "205c8e0785b4baa5ea53815526ff11e0225c53a4d8c97c3cfa29f2f58a1ed7ce"
+    },
+    "skills/antislop-ui/LICENSE-web-quality-skills": {
+      "blob": "90715bb429f374dcc4e05c35535b049d3c077313",
+      "sha256": "c122223ac43e86421958e18623979942c21b642951e2e3736dcb63eff13587c3"
+    },
+    "skills/antislop-ui/SKILL.md": {
+      "blob": "37169170ba8a2dc39ebc1d30eb32e0d22d23ee4b",
+      "sha256": "31d2cafe672545cb21d67d2d609b0809854ca88705af05c3867db651bd67aa82"
+    },
+    "skills/antislop-ui/references/CORE-WEB-VITALS.md": {
+      "blob": "f453feab4859d02fbe22e6fb98bcfd23b1067268",
+      "sha256": "782bc99ba1fc68e25aabb396967468ec8cb7ea33cd681bccf4b7b04a679acf23"
+    },
+    "skills/antislop-ui/references/WEB-BASELINE.md": {
+      "blob": "18270bbece73c5d0618286d43b51639335180c59",
+      "sha256": "f9a4c8d71a6e2ddf5ad0e46a11553eb188617c36f0bfb331e3d3930aecf772a2"
+    },
+    "skills/antislop/SKILL.md": {
+      "blob": "2b4bddd66553f49e2315d68c6597cd200c566c12",
+      "sha256": "7f6f6396ef7f4d5f6b76d585d143c7da6c3d949247b6f8d1666c4c093cfe5697"
+    },
+    "skills/antislop/VERSION": {
+      "blob": "6b5085b9c552f6de107370e947403b935a3b808e",
+      "sha256": "ebebdd520c062db8d51e4411f02b45274a44306cbc6acde260ccd452edf97bb8"
+    }
+  }
+}
