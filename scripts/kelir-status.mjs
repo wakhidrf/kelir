@@ -5,7 +5,7 @@
 //   - ada <basis>.test.tsx DAN lolos vitest (runtime spread + axe, §6b)
 //   - guard 0 error (grep, §9)
 // Tangga: belum → tipe-eksplisit → sealed. (lint-bersih pensiun: Biome
-// mengecualikan kit; diganti gate tsc+guard di PLAN.md.)
+// mengecualikan kit; diganti gate tsc+guard di kelir-dev/PLAN.md.)
 // Mode: tulis (default) vs --check (bandingkan file, exit 1 bila beda = CI merah).
 import { execSync } from "node:child_process";
 import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
@@ -16,7 +16,7 @@ import { fileURLToPath } from "node:url";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "..", "..");
 const KELIR = join(ROOT, "src", "views", "kelir");
 const KELIR_COMP = join(KELIR, "kelir-components");
-const STATUS_FILE = join(ROOT, "KELIR-STATUS.md");
+const STATUS_FILE = join(ROOT, "kelir-dev", "KELIR-STATUS.md");
 const CHECK = process.argv.includes("--check");
 
 // Gel.1 = selesai disegel (basis MUI + test-d + runtime + axe).
@@ -154,13 +154,13 @@ const date = new Date().toISOString().slice(0, 10);
 
 const doc = `# KELIR-STATUS.md — Status sealed per komponen (DIHASILKAN SKRIP, jangan edit tangan)
 
-> File ini **output generator** \`npm run kelir:status\` (§9 STYLE.md):
+> File ini **output generator** \`npm run kelir:status\` (§9 kelir-dev/STYLE.md):
 > status diturunkan dari fakta — interface eksplisit di \`kelir-types.ts\`,
 > ada \`*.test-d.tsx\` (§6b), ada \`*.test.tsx\` dan lolos vitest (runtime
 > spread + axe, §6b), guard 0 error (grep, §9). \`--check\` = CI merah bila
-> isi ≠ fakta. Kontrak props ada di \`STYLE.md\` §5.
+> isi ≠ fakta. Kontrak props ada di \`kelir-dev/STYLE.md\` §5.
 > Tangga: \`belum\` → \`tipe-eksplisit\` → \`sealed\`. (\`lint-bersih\`
-> pensiun: Biome mengecualikan kit; diganti gate tsc+guard di PLAN.md.)
+> pensiun: Biome mengecualikan kit; diganti gate tsc+guard di kelir-dev/PLAN.md.)
 > Dibangkitkan: ${date} — sealed ${sealed}/${rows.length}, tipe-eksplisit ${eksplisit}/${rows.length}, guard ${errors} ERROR.
 
 | Komponen | Status | Gel. | Bukti |

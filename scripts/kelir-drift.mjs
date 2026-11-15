@@ -92,7 +92,7 @@ function implExists(component) {
 function parseTable() {
   // Normalisasi CRLF: working copy Windows (autocrlf) memakai \r\n
   // (tanpanya jangkar `\|$` gagal di semua baris).
-  const stylePath = join(ROOT, "STYLE.md");
+  const stylePath = join(ROOT, "kelir-dev", "STYLE.md");
   // Preflight (issue #72): kontrak §5 tinggal di akar proyek induk, bukan di
   // repo kit. Gagal dengan pesan jelas bila dipanggil dari kit tanpa induk.
   if (!existsSync(stylePath)) {
