@@ -65,9 +65,9 @@ export function DatePicker({
   };
 
   const openCalendar = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // Tangkap target secara sinkron: pembacaan properti event di dalam
-    // updater tidak andal karena updater dieksekusi belakangan (setViewDate
-    // di atas sudah mengantre render hingga evaluasi eager dilewati).
+    // Capture the target synchronously: reading event properties inside an
+    // updater is unreliable because the updater runs later (the setViewDate
+    // above has already queued a render until the eager evaluation is skipped).
     const target = e.currentTarget;
     setViewDate(value ?? new Date());
     setPickerMode("days");
@@ -92,12 +92,12 @@ export function DatePicker({
     setViewDate(new Date(newYear, newMonth, 1));
   };
 
-  // Pilihan tahun: 30 tahun ke belakang hingga 30 tahun ke depan.
+  // Year choices: 30 years back to 30 years forward.
   const thisYear = today.getFullYear();
   const yearOptions = Array.from({ length: 61 }, (_, i) => thisYear - 30 + i);
 
-  // Tampilan kalender: hari, grid bulan, atau daftar tahun — semuanya inline
-  // di dalam satu popover agar tidak ada menu bertumpuk (masalah z-index).
+  // Calendar views: days, month grid, or year list - all inline within a single
+  // popover so there are no stacked menus (z-index issue).
   const [pickerMode, setPickerMode] = React.useState<
     "days" | "months" | "years"
   >("days");

@@ -10,8 +10,8 @@ const neumorphicBg = css.colors.surface;
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
-// Sealed (P1c STYLE.md §6): props eksplisit, tanpa ...rest ke DOM, tanpa
-// style/sx/className passthrough. Visual di bawah milik Kelir sepenuhnya.
+// Sealed (P1c STYLE.md §6): explicit props, no ...rest to the DOM, no
+// style/sx/className passthrough. The visuals below are entirely Kelir's.
 export function Button({
   children,
   startIcon,
@@ -38,8 +38,8 @@ export function Button({
       borderRadius: css.radius.button,
       textTransform: "none",
       fontWeight: 600,
-      // Ukuran milik kit: xs = aksi di dalam sel tabel (teks 11px), sm = padding
-      // rapat, md = perilaku hari ini (nol-ubah visual), lg = lega.
+      // Kit-owned sizes: xs = action inside a table cell (11px text), sm = tight
+      // padding, md = today's behavior (zero visual change), lg = roomy.
       padding:
         size === "xs"
           ? "3px 8px"
@@ -51,8 +51,8 @@ export function Button({
       ...(size === "xs" ? { fontSize: "11px" } : null),
       transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
       fontFamily: "inherit",
-      // Perataan eksplisit (inline → teruji): default center = perilaku MUI.
-      // Nilai logis start/end: flex-start/end mengikuti arah tulisan (RTL).
+      // Explicit alignment (inline → tested): default center = MUI behavior.
+      // Logical start/end values: flex-start/end follow writing direction (RTL).
       justifyContent:
         align === "start"
           ? "flex-start"
@@ -107,8 +107,8 @@ export function Button({
       endIcon={endIcon}
       style={getStyles()}
       sx={{
-        // Ikon ~14px (xs) / ~18px (sm, preseden tab chevron sidebar) / ~28px (lg);
-        // md tanpa aturan = bawaan MUI hari ini.
+        // Icons ~14px (xs) / ~18px (sm, sidebar tab chevron precedent) / ~28px (lg);
+        // md with no rule = MUI's current default.
         ...(size === "md"
           ? null
           : {

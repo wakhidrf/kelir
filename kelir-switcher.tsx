@@ -25,7 +25,7 @@ export function KelirSwitcher() {
       value={theme}
       onChange={(v) => setTheme(v as Theme)}
       options={themes.map((t) => ({ value: t.slug, label: t.label }))}
-      aria-label="Pilih tema"
+      aria-label="Choose theme"
     />
   );
 }

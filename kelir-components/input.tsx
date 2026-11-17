@@ -8,9 +8,9 @@ const neumorphicBg = css.colors.surface;
 const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 
-// INTERNAL kit (bukan kontrak publik): gaya field teks milik kit. Dipakai
-// Input + komposit internal (Combobox) agar tidak ada duplikasi visual.
-// Konsumen tidak mengimpor ini — visual hanya lewat komponen sealed.
+// INTERNAL kit (not public contract): text field styles belong to the kit. Used
+// by Input + internal composites (Combobox) so there is no visual duplication.
+// Consumers do not import this - visuals only through sealed components.
 export function getInputStyle(size: "small" | "medium"): React.CSSProperties {
   return {
     backgroundColor: neumorphicBg,
@@ -40,10 +40,10 @@ export const inputFocusSx = {
   },
 };
 
-// Field teks sealed (P1c STYLE.md §6): basis MUI (MuiInputBase) untuk
-// multi-platform; hanya props kontrak yang diteruskan — tanpa ...rest ke DOM,
-// tanpa style/sx/className konsumen. `onChange` semantik (menerima string,
-// bukan event) — adaptasi event→nilai milik kit, bukan konsumen.
+// Sealed text field (P1c STYLE.md §6): MUI basis (MuiInputBase) for
+// multi-platform; only contract props are forwarded - no ...rest to DOM,
+// no consumer style/sx/className. `onChange` is semantic (receives a string,
+// not an event) - the event→value adaptation belongs to the kit, not the consumer.
 export function Input({
   value,
   defaultValue,

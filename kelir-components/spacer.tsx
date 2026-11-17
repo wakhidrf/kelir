@@ -9,9 +9,9 @@ const sizes = {
   lg: css.layout.space.lg,
 } as const;
 
-// Jarak vertikal semantik (P1b STYLE.md). Presentasional: aria-hidden.
-// Ukuran union tertutup dari token css.layout.space. Basis MUI (MuiBox)
-// untuk multi-platform. Tanpa ...rest ke DOM.
+// Semantic vertical spacing (P1b STYLE.md). Presentational: aria-hidden.
+// Size is a closed union from the css.layout.space token. MUI base (MuiBox)
+// for multi-platform. No ...rest to the DOM.
 export function Spacer({ size = "md", id }: SpacerProps) {
   return (
     <MuiBox

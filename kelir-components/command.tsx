@@ -56,8 +56,8 @@ export function Command({
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={placeholder}
-          // A11y milik kit: placeholder bukan label (aturan axe label).
-          aria-label={placeholder ?? "Cari perintah"}
+          // Kit-owned a11y: placeholder is not a label (axe label rule).
+          aria-label={placeholder ?? "Search commands"}
           style={{
             flex: 1,
             border: "none",

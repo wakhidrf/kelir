@@ -4,13 +4,13 @@ import MuiBox from "@mui/material/Box";
 import type { LinkProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
-// Tautan sebaris sealed (P1b STYLE.md): teks + ikon segaris milik kit
-// (`external?` → ikon buka-baru + `target _blank` + `rel noopener`,
-// default ikon panah tautan internal). Warna textPrimary, tanpa underline.
-// `href` wajib — tanpa href pakai `Button variant="ghost"`. Basis MUI
-// (MuiBox = a + emotion + tema di tree) untuk multi-platform; visual
-// milik kit. Tanpa ...rest ke DOM dan tanpa style passthrough — di luar
-// kontrak = pelanggaran.
+// Sealed inline link (P1b STYLE.md): text + inline icon belong to the kit
+// (`external?` → open-in-new icon + `target _blank` + `rel noopener`,
+// default internal-link arrow icon). textPrimary color, no underline.
+// `href` is required - without href use `Button variant="ghost"`. MUI basis
+// (MuiBox = a + emotion + theme in tree) for multi-platform; visuals
+// belong to the kit. No ...rest to DOM and no style passthrough - outside
+// the contract = violation.
 export function Link({
   children,
   href,

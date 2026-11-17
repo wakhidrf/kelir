@@ -50,32 +50,32 @@ export interface KelirContextValue {
   unregisterSwitcher: () => void;
 }
 
-// 0. KelirProvider — satu-satunya titik visual yang legit (P1c STYLE.md §3c).
-// Props sah HANYA: `defaultTheme` (union tertutup Theme) + `children`.
-// Ganti tema runtime bukan via props tambahan, melainkan via context
-// `useKelir().setTheme` / `KelirSwitcher`. Props visual lain = pelanggaran.
+// 0. KelirProvider — the only legitimate visual entry point (P1c STYLE.md §3c).
+// Valid props are ONLY: `defaultTheme` (closed Theme union) + `children`.
+// Runtime theme switching is not via extra props, but via the context
+// `useKelir().setTheme` / `KelirSwitcher`. Any other visual prop = violation.
 export interface KelirProviderProps {
   children: React.ReactNode;
   /** Consumer-provided default theme — for this app the theme cookie already
    *  resolved on the server, so the first render matches the persisted choice
    *  and there is no flash. */
   defaultTheme: Theme;
-  // Font identitas konsumen (nama keluarga font, mis. "Vermin Vibes Out Of
-  // Ink"). Kit yang memasangnya sebagai --kelir-font-brand untuk
-  // `Typography font="brand"` - konsumen tak menulis CSS sendiri.
+  // Consumer brand font (font family name, e.g. "Vermin Vibes Out Of
+  // Ink"). The kit applies it as --kelir-font-brand for
+  // `Typography font="brand"` - consumers do not write their own CSS.
   brandFont?: string;
-  // Warna identitas merek (dua slot tetap, bukan nilai bebas): kit memasang
-  // --kelir-brand-accent/--kelir-brand-ink untuk `Typography
-  // tone="brand-accent"|"brand-ink"` - teks merek yang TIDAK ikut tema (mis.
-  // dua kata pada judul). Nilai dibersihkan dari ; { } < >.
+  // Brand identity colors (two fixed slots, not free-form values): the kit sets
+  // --kelir-brand-accent/--kelir-brand-ink for `Typography
+  // tone="brand-accent"|"brand-ink"` - brand text that does NOT follow the theme (e.g.
+  // two words in a title). Values are sanitized of ; { } < >.
   brandColors?: { accent: string; ink: string };
 }
 
 // 1. Accordion
-// 1. Accordion - ringkasan lipat sealed berbasis MUI (Gel.3c-6 STYLE.md §6).
-// `summary`/`details` slot TEKS; `expanded?` TERKONTROL + `defaultExpanded?`
-// + `onChange?(expanded)` semantik tanpa event; `disabled?`.
-// Tanpa children/slotProps/style/sx/className/onChange-event-MUI.
+// 1. Accordion - sealed collapsible based on MUI (Gel.3c-6 STYLE.md §6).
+// `summary`/`details` TEXT slots; `expanded?` CONTROLLED + `defaultExpanded?`
+// + `onChange?(expanded)` event-free semantics; `disabled?`.
+// No children/slotProps/style/sx/className/onChange-event-MUI.
 export interface AccordionProps {
   summary: string;
   details: string;
@@ -85,9 +85,9 @@ export interface AccordionProps {
   disabled?: boolean;
 }
 
-// 2. Alert — notifikasi inline sealed berbasis MUI (Gel.2 STYLE.md §6).
-// `severity` MAKNA wajib; `title` slot teks; `onClose?` = closable.
-// Tanpa style/sx/className/severity-MUI-mentah.
+// 2. Alert — sealed inline notification based on MUI (Gel.2 STYLE.md §6).
+// `severity` mandatory MEANING; `title` text slot; `onClose?` = closable.
+// No style/sx/className/raw-severity-MUI.
 export interface AlertProps {
   title?: string;
   children: React.ReactNode;
@@ -97,10 +97,10 @@ export interface AlertProps {
   "aria-label"?: string;
 }
 
-// 3. Alert Dialog — konfirmasi destruktif sealed berbasis MUI (Gel.2).
-// PERILAKU (`open`/`onCancel`/`onConfirm` semantik); `title`/`description`
-// slot teks; label tombol string. Escape/backdrop = cancel.
-// `disableScrollLock` hardcode milik kit. Tanpa ...rest/style/sx/className.
+// 3. Alert Dialog — sealed destructive confirmation based on MUI (Gel.2).
+// BEHAVIOR (`open`/`onCancel`/`onConfirm` semantic); `title`/`description`
+// text slots; button labels are strings. Escape/backdrop = cancel.
+// `disableScrollLock` is kit-hardcoded. No ...rest/style/sx/className.
 export interface AlertDialogProps {
   open: boolean;
   title: string;
@@ -114,27 +114,27 @@ export interface AlertDialogProps {
 }
 
 // 4. Aspect Ratio
-// 4. AspectRatio - bingkai rasio sealed (Gel.3c-6 STYLE.md §6).
-// `ratio?` angka; `children` slot media (img/video/kit).
-// Tanpa style/sx/className.
+// 4. AspectRatio - sealed aspect-ratio frame (Gel.3c-6 STYLE.md §6).
+// `ratio?` number; `children` media slot (img/video/kit).
+// No style/sx/className.
 export interface AspectRatioProps {
   ratio?: number;
   children: React.ReactNode;
-  // Batas lebar bingkai: `maxWidth` px di semua lebar (mis. 200) dan
-  // `maxWidthMobileVw` vw di bawah 600px (mis. 34) - pengganti max-width
-  // kelas konsumen. Default: selebar wadah.
+  // Frame width cap: `maxWidth` px at all widths (e.g. 200) and
+  // `maxWidthMobileVw` vw below 600px (e.g. 34) - replaces the consumer's
+  // max-width class. Default: full container width.
   maxWidth?: number;
   maxWidthMobileVw?: number;
-  // Tanpa permukaan: tanpa latar/radius/bayangan/border kit (untuk bingkai
-  // logo/ilustrasi yang tampil apa adanya), default false.
+  // No surface: no kit background/radius/shadow/border (for logo/illustration
+  // frames that display as-is), default false.
   plain?: boolean;
 }
 
 // 5. Attachment
-// 5. Attachment - kartu berkas sealed (Gel.3c-7 STYLE.md §6).
-// `name` TEKS; `size?`/`type?`/`url?` string; `status?` MAKNA;
-// `progress?` angka 0-100; `onRemove?` semantik tanpa event.
-// Tanpa style/sx/className.
+// 5. Attachment - sealed file card (Gel.3c-7 STYLE.md §6).
+// `name` TEXT; `size?`/`type?`/`url?` strings; `status?` MEANING;
+// `progress?` number 0-100; `onRemove?` event-free semantics.
+// No style/sx/className.
 export interface AttachmentProps {
   name: string;
   size?: string;
@@ -145,11 +145,11 @@ export interface AttachmentProps {
   onRemove?: () => void;
 }
 
-// 6. Avatar — identitas visual sealed berbasis MUI (Gel.3a STYLE.md §6).
-// `src?/alt?/fallbackText?` ISI; `size?` MAKNA (small/medium/large/xl/2xl/3xl
-// → px milik kit). `frame?` = logo berbingkai (latar surface + ring primary
-// tebal + padding dalam) untuk maskot yang mengambang di tepi kartu, default
-// `false` (perilaku lama). Tanpa ...rest/style/sx/className/onClick MUI.
+// 6. Avatar — sealed visual identity based on MUI (Gel.3a STYLE.md §6).
+// `src?/alt?/fallbackText?` CONTENT; `size?` MEANING (small/medium/large/xl/2xl/3xl
+// → kit-owned px). `frame?` = framed logo (surface background + thick primary
+// ring + inner padding) for a mascot floating at a card edge, default
+// `false` (legacy behavior). No ...rest/style/sx/className/onClick MUI.
 export interface AvatarProps {
   src?: string;
   alt?: string;
@@ -160,9 +160,9 @@ export interface AvatarProps {
   "aria-label"?: string;
 }
 
-// 7. Badge — label status sealed (Gel.3a STYLE.md §6).
-// `variant?` MAKNA (default primary); `children` teks status.
-// Tanpa ...rest/style/sx/className/onClick.
+// 7. Badge — sealed status label (Gel.3a STYLE.md §6).
+// `variant?` MEANING (default primary); `children` status text.
+// No ...rest/style/sx/className/onClick.
 export interface BadgeProps {
   variant?: "primary" | "secondary" | "destructive" | "outline";
   children: string;
@@ -171,8 +171,8 @@ export interface BadgeProps {
 }
 
 // 8. Breadcrumb
-// 8. Breadcrumb — navigasi remah sealed berbasis MUI (Gel.3c-4 §6).
-// `items` label TEKS + href?/active? MAKNA. Tanpa ...rest/style/sx.
+// 8. Breadcrumb — sealed breadcrumb navigation based on MUI (Gel.3c-4 §6).
+// `items` TEXT labels + href?/active? MEANING. No ...rest/style/sx.
 export interface BreadcrumbItem {
   label: string;
   href?: string;
@@ -185,9 +185,9 @@ export interface BreadcrumbProps {
 }
 
 // 9. Bubble
-// 9. Bubble - gelembung chat sealed (Gel.3c-7 STYLE.md §6).
-// `variant?`/`align?` MAKNA; `reactions?` string[]; `collapsible?` perilaku
-// lipat internal; `children` slot isi pesan. Tanpa style/sx/className.
+// 9. Bubble - sealed chat bubble (Gel.3c-7 STYLE.md §6).
+// `variant?`/`align?` MEANING; `reactions?` string[]; `collapsible?` internal
+// fold behavior; `children` message content slot. No style/sx/className.
 export interface BubbleProps {
   variant?: "sent" | "received";
   align?: "start" | "end";
@@ -196,41 +196,41 @@ export interface BubbleProps {
   children: React.ReactNode;
 }
 
-// 10. Button — sealed eksplisit (P1c STYLE.md §6): tanpa warisan MUI,
-// children string + slot ikon. type default "button"; "reset" disengaja
-// tidak ada (minta via kelir-request).
+// 10. Button — explicit sealed (P1c STYLE.md §6): no MUI inheritance,
+// children string + icon slot. type default "button"; "reset" is
+// intentionally absent (request via kelir-request).
 export interface ButtonProps {
   children: string;
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
-  // Simpul di ujung baris (mis. Badge), didorong ke kanan oleh flex;
-  // berbeda dari endIcon yang memakai slot ikon MUI (font-size 20px).
+  // Node at the end of the row (e.g. Badge), pushed right by flex;
+  // differs from endIcon which uses the MUI icon slot (font-size 20px).
   endContent?: React.ReactNode;
   variant?: "primary" | "secondary" | "destructive" | "outline" | "ghost";
-  // Perataan isi (khusus tombol full-width mis. nav): center (default,
-  // ikon+teks di tengah), start (rata awal, kolom ikon lurus), atau end.
-  // Nilai logis: benar di LTR maupun RTL.
+  // Content alignment (for full-width buttons e.g. nav): center (default,
+  // icon+text centered), start (flush start, straight icon column), or end.
+  // Logical values: correct in both LTR and RTL.
   align?: "center" | "start" | "end";
-  // Ukuran milik kit (khusus drawer sempit mis. nav mobile): xs = padding
-  // paling rapat + teks 11px + ikon ~14px (aksi di dalam sel tabel),
-  // sm = padding rapat + ikon ~18px, md (default) = perilaku hari ini,
-  // lg = lega + ikon ~28px. Union tertutup, tanpa angka bebas.
+  // Kit-owned sizes (for narrow drawers e.g. mobile nav): xs = tightest
+  // padding + 11px text + ~14px icons (actions inside table cells),
+  // sm = tight padding + ~18px icons, md (default) = today's behavior,
+  // lg = roomy + ~28px icons. Closed union, no free numbers.
   size?: "xs" | "sm" | "md" | "lg";
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   type?: "button" | "submit";
   disabled?: boolean;
-  // Boleh, TAPI wajib mengawali teks terlihat (WCAG 2.5.3 Label in Name).
-  // Tipe React 19 mentoleransi semua aria-* sehingga penolakan tak bisa
-  // di-type-test — ditegakkan via review (§2, §11).
+  // Allowed, BUT must prefix the visible text (WCAG 2.5.3 Label in Name).
+  // React 19 types tolerate all aria-* so rejection can't be type-tested
+  // — enforced via review (§2, §11).
   "aria-label"?: string;
   "aria-describedby"?: string;
   id?: string;
 }
 
-// 10c. Icon - pembungkus ikon dekoratif (P1c STYLE.md 6): warna dari token
-// (`intent`) + ukuran dari skala kit (`size`); elemen ikon diserahkan lewat
-// `children`. Tanpa `aria-label` = dekoratif (`aria-hidden` milik kit); label
-// aksesibel tetap milik tombol/tautan induk.
+// 10c. Icon - decorative icon wrapper (P1c STYLE.md 6): color from token
+// (`intent`) + size from kit scale (`size`); icon element passed via
+// `children`. No `aria-label` = decorative (`aria-hidden` owned by the kit);
+// accessible label remains owned by the parent button/link.
 export interface IconProps {
   children: React.ReactElement;
   intent?: "inherit" | "primary" | "secondary" | "accent";
@@ -239,17 +239,17 @@ export interface IconProps {
   "aria-label"?: string;
 }
 
-// 10b. IconButton — tombol ikon-only (P1c STYLE.md §6): icon + aria-label
-// wajib (WCAG 2.5.3 ditegakkan oleh bentuk komponen).
+// 10b. IconButton — icon-only button (P1c STYLE.md §6): icon + aria-label
+// required (WCAG 2.5.3 enforced by the component shape).
 export interface IconButtonProps {
   icon: React.ReactNode;
   "aria-label": string;
   variant?: "primary" | "secondary" | "destructive" | "outline" | "ghost";
-  // Bentuk bingkai: rounded (default, ikut token peran), circle, square.
+  // Frame shape: rounded (default, follows role token), circle, square.
   shape?: "rounded" | "circle" | "square";
-  // Ukuran milik kit (pasangan Button): sm = padding 6 + ikon ~18px,
-  // md (default) = perilaku hari ini, lg = padding 14 + ikon ~28px.
-  // Union tertutup, tanpa angka bebas.
+  // Kit-owned sizes (Button counterpart): sm = padding 6 + ~18px icon,
+  // md (default) = today's behavior, lg = padding 14 + ~28px icon.
+  // Closed union, no free numbers.
   size?: "sm" | "md" | "lg";
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   type?: "button" | "submit";
@@ -258,9 +258,8 @@ export interface IconButtonProps {
   id?: string;
 }
 
-// 11. Button Group
-// 11. ButtonGroup — grup tombol sealed berbasis MUI (Gel.3b STYLE.md §6).
-// `children` tombol Kelir; `disabled?` PERILAKU. Tanpa ...rest/style/sx.
+// 11. ButtonGroup — sealed button group based on MUI (Gel.3b STYLE.md §6).
+// `children` Kelir buttons; `disabled?` BEHAVIOR. No ...rest/style/sx.
 export interface ButtonGroupProps {
   children: React.ReactNode;
   disabled?: boolean;
@@ -269,21 +268,21 @@ export interface ButtonGroupProps {
 }
 
 // 12. Calendar
-// 12. Calendar - kalender pilih tanggal sealed (Gel.3c-8 STYLE.md §6).
-// `value?` TERKONTROL (Date) + `onChange?(date)` semantik tanpa event.
-// Navigasi bulan + visual milik kit. Tanpa style/sx/className.
+// 12. Calendar - sealed date picker calendar (Gel.3c-8 STYLE.md §6).
+// `value?` CONTROLLED (Date) + `onChange?(date)` event-free semantics.
+// Month navigation + visuals owned by the kit. No style/sx/className.
 export interface CalendarProps {
   value?: Date;
   onChange?: (date: Date) => void;
 }
 
-// 13. Card — kartu sealed berbasis MUI (P1c STYLE.md §6).
-// Slot teks (`title`/`subtitle`) = string; slot aksi/isi
-// (`headerActions`/`footer`/`children`) = ReactNode (tombol/komponen Kelir).
-// `headerAlign` = perataan judul + subjudul header (default `start`).
-// `scrollable?` = isi scroll internal, header/footer tetap (kartu jadi kolom
-// flex; default false; tinggi luar milik konsumen).
-// Tanpa style/sx/className/warna/font mentah — semua dari token kit.
+// 13. Card — sealed card based on MUI (P1c STYLE.md §6).
+// Text slots (`title`/`subtitle`) = string; action/content slots
+// (`headerActions`/`footer`/`children`) = ReactNode (Kelir button/component).
+// `headerAlign` = header title + subtitle alignment (default `start`).
+// `scrollable?` = internal scrolling content, header/footer fixed (card
+// becomes a flex column; default false; outer height owned by the consumer).
+// No style/sx/className/raw colors/fonts — everything from kit tokens.
 export interface CardProps {
   title?: string;
   subtitle?: string;
@@ -299,9 +298,9 @@ export interface CardProps {
 }
 
 // 14. Carousel
-// 14. Carousel - korsel sealed (Gel.3c-10 STYLE.md §6).
-// `items` slot slide[]; `autoPlay?`/`interval?` PERILAKU putar.
-// Navigasi + dot + visual milik kit. Tanpa style/sx/className.
+// 14. Carousel - sealed carousel (Gel.3c-10 STYLE.md §6).
+// `items` slide slots[]; `autoPlay?`/`interval?` rotate BEHAVIOR.
+// Navigation + dots + visuals owned by the kit. No style/sx/className.
 export interface CarouselProps<TItem extends React.ReactNode = React.ReactNode> {
   items: TItem[];
   autoPlay?: boolean;
@@ -309,10 +308,10 @@ export interface CarouselProps<TItem extends React.ReactNode = React.ReactNode> 
 }
 
 // 15. Chart
-// 15. Chart - grafik data sealed (Gel.3c-11 STYLE.md §6).
-// `data` baris-bebas (P2 generik ketat); `categories` string[];
-// `dataKey` string; `type?` MAKNA; `title?` slot TEKS.
-// Render bar/line/area + visual milik kit. Tanpa style/sx/className.
+// 15. Chart - sealed data chart (Gel.3c-11 STYLE.md §6).
+// `data` free-form rows (P2 strict generic); `categories` string[];
+// `dataKey` string; `type?` MEANING; `title?` TEXT slot.
+// Renders bar/line/area + kit-owned visuals. No style/sx/className.
 export interface ChartProps<
   TDatum extends object = Record<string, unknown>,
 > {
@@ -323,8 +322,8 @@ export interface ChartProps<
   title?: string;
 }
 
-// 16. Checkbox — pilihan biner sealed berbasis MUI (Gel.2 STYLE.md §6).
-// `onChange` semantik (boolean); `label` slot teks. Tanpa ...rest/style/sx.
+// 16. Checkbox — sealed binary choice based on MUI (Gel.2 STYLE.md §6).
+// `onChange` semantic (boolean); `label` text slot. No ...rest/style/sx.
 export interface CheckboxProps {
   checked?: boolean;
   defaultChecked?: boolean;
@@ -336,10 +335,10 @@ export interface CheckboxProps {
 }
 
 // 17. Collapsible
-// 17. Collapsible - lipatan sealed berbasis MUI Collapse (Gel.3c-6 STYLE.md §6).
-// `trigger` slot TEKS (kit yang me-render + menangani klik);
-// `open?` TERKONTROL + `defaultOpen?` + `onOpenChange?(open)` semantik.
-// Tanpa cloneElement/onClick-konsumen/style/sx/className.
+// 17. Collapsible - sealed collapsible based on MUI Collapse (Gel.3c-6 STYLE.md §6).
+// `trigger` TEXT slot (the kit renders it + handles the click);
+// `open?` CONTROLLED + `defaultOpen?` + `onOpenChange?(open)` semantic.
+// No cloneElement/consumer-onClick/style/sx/className.
 export interface CollapsibleProps {
   trigger: string;
   children: React.ReactNode;
@@ -349,11 +348,11 @@ export interface CollapsibleProps {
 }
 
 // 18. Combobox
-// 18. Combobox - pilih-satu sealed berbasis MUI Autocomplete (Gel.3c-11 §6).
-// `options` string[]; `value?/defaultValue?` TERKONTROL;
-// `onChange?(value)` semantik tanpa event; `label?`/`placeholder?` TEKS;
-// `disabled?`. multiple/freeSolo disengaja tidak ada (minta via kelir-request).
-// Wiring ref/input MUI internal milik kit. Tanpa ...rest/style/sx.
+// 18. Combobox - sealed single-select based on MUI Autocomplete (Gel.3c-11 §6).
+// `options` string[]; `value?/defaultValue?` CONTROLLED;
+// `onChange?(value)` event-free semantics; `label?`/`placeholder?` TEXT;
+// `disabled?`. multiple/freeSolo intentionally absent (request via kelir-request).
+// MUI internal ref/input wiring owned by the kit. No ...rest/style/sx.
 export interface ComboboxProps {
   options: string[];
   value?: string | null;
@@ -365,9 +364,9 @@ export interface ComboboxProps {
 }
 
 // 19. Command
-// 19. Command - palet perintah sealed (Gel.3c-8 STYLE.md §6).
-// `placeholder?` TEKS; `groups` CommandGroup[] (filter + visual milik kit;
-// `onSelect?` tiap item semantik tanpa event). Tanpa style/sx/className.
+// 19. Command - sealed command palette (Gel.3c-8 STYLE.md §6).
+// `placeholder?` TEXT; `groups` CommandGroup[] (filter + kit-owned visuals;
+// each item `onSelect?` event-free semantics). No style/sx/className.
 export interface CommandItem {
   label: string;
   value: string;
@@ -384,12 +383,12 @@ export interface CommandProps {
 }
 
 // 20. Context Menu
-// 20. ContextMenu - menu klik-kanan sealed berbasis MUI (Gel.3c-8 STYLE.md §6).
-// `trigger` slot TEKS (kit render area klik-kanan + tangani event, tanpa
-// cloneElement); `menuItems` ContextMenuItem[] (`onClick?` semantik).
-// `truncate?` = elipsis trigger milik kit (default `false`; title hover =
-// teks penuh).
-// Posisi + visual milik kit. Tanpa style/sx/className/slotProps.
+// 20. ContextMenu - sealed right-click menu based on MUI (Gel.3c-8 STYLE.md §6).
+// `trigger` TEXT slot (the kit renders the right-click area + handles the event,
+// no cloneElement); `menuItems` ContextMenuItem[] (`onClick?` semantic).
+// `truncate?` = kit-owned trigger ellipsis (default `false`; hover title =
+// full text).
+// Position + visuals owned by the kit. No style/sx/className/slotProps.
 export interface ContextMenuItem {
   label: string;
   icon?: React.ReactNode;
@@ -403,10 +402,10 @@ export interface ContextMenuProps {
 }
 
 // 21. Data Table
-// 21. DataTable - tabel + paginasi sealed berbasis MUI (Gel.3c-11 STYLE.md §6).
-// `columns` DataTableColumn[]; `data` baris-bebas (P2 generik ketat);
-// `paginated?`/`rowsPerPage?` PERILAKU; `title?` slot TEKS.
-// Halaman + visual milik kit. Tanpa style/sx/className.
+// 21. DataTable - sealed table + pagination based on MUI (Gel.3c-11 STYLE.md §6).
+// `columns` DataTableColumn[]; `data` free-form rows (P2 strict generic);
+// `paginated?`/`rowsPerPage?` BEHAVIOR; `title?` TEXT slot.
+// Paging + visuals owned by the kit. No style/sx/className.
 export interface DataTableColumn {
   header: string;
   accessorKey: string;
@@ -420,19 +419,19 @@ export interface DataTableProps {
 }
 
 // 22. Date Picker
-// 22. DatePicker - pemilih tanggal sealed (Gel.3c-8 STYLE.md §6).
-// `value?` TERKONTROL (Date) + `onChange?(date?)` semantik;
-// `placeholder?` TEKS. Popover + mode hari/bulan/tahun milik kit.
+// 22. DatePicker - sealed date picker (Gel.3c-8 STYLE.md §6).
+// `value?` CONTROLLED (Date) + `onChange?(date?)` semantic;
+// `placeholder?` TEXT. Popover + day/month/year mode owned by the kit.
 export interface DatePickerProps {
   value?: Date;
   onChange?: (date?: Date) => void;
   placeholder?: string;
 }
 
-// 23. Dialog — dialog sealed berbasis MUI (P1c STYLE.md §6).
-// PERILAKU (`open`/`onClose` semantik tanpa event) milik konsumen;
-// `title` slot teks (string); `children`/`actions` slot isi/aksi.
-// `disableScrollLock` keputusan kit (hardcode). Tanpa style/sx/className.
+// 23. Dialog — sealed dialog based on MUI (P1c STYLE.md §6).
+// BEHAVIOR (`open`/`onClose` event-free semantics) owned by the consumer;
+// `title` text slot (string); `children`/`actions` content/action slots.
+// `disableScrollLock` is a kit decision (hardcoded). No style/sx/className.
 export interface DialogProps {
   open: boolean;
   onClose: () => void;
@@ -444,40 +443,41 @@ export interface DialogProps {
 }
 
 // 24. Direction
-// 24. Direction - arah teks sealed (Gel.3c-6 STYLE.md §6).
-// `dir` MAKNA wajib; `children` slot. Tanpa style/sx/className.
+// 24. Direction - sealed text direction (Gel.3c-6 STYLE.md §6).
+// `dir` mandatory MEANING; `children` slot. No style/sx/className.
 export interface DirectionProps {
   dir: "ltr" | "rtl";
   children: React.ReactNode;
 }
 
 // 25. Drawer
-// 25. Drawer — laci samping sealed berbasis MUI (Gel.3c-5 STYLE.md §6).
-// `open` TERKONTROL PENUH (wajib); `onClose` semantik tanpa event/reason
-// (preseden Dialog); `title?` slot TEKS; anchor default kiri milik kit.
-// Tanpa ...rest/style/sx/slotProps MUI.
+// 25. Drawer — sealed side drawer based on MUI (Gel.3c-5 STYLE.md §6).
+// `open` FULLY CONTROLLED (required); `onClose` event-free/reason-free
+// semantics (Dialog precedent); `title?` TEXT slot; default left anchor
+// owned by the kit.
+// No ...rest/style/sx/MUI slotProps.
 export interface DrawerProps {
   open: boolean;
   onClose: () => void;
   title?: string;
   children?: React.ReactNode;
-  // Tinggi: full (default, drawer setinggi layar) atau auto
-  // (bungkus isi + tengah vertikal - mis. nav ringkas 3 tombol).
+  // Height: full (default, full-screen drawer) or auto
+  // (content wrap + vertical center - e.g. a 3-button compact nav).
   height?: "full" | "auto";
   id?: string;
   "aria-label"?: string;
 }
 
 // 26. Dropdown Menu
-// 26. DropdownMenu - menu klik sealed berbasis MUI (Gel.3c-9 STYLE.md §6).
-// `trigger` slot TEKS (kit render tombol pemicu + tangani klik, tanpa
-// cloneElement, preseden Collapsible/ContextMenu); `triggerVariant?` MAKNA
-// (`text|button`, default `text`): text = tombol teks polos hari ini;
-// button = pemicu dirender sebagai Button outline milik kit (affordance
-// tombol untuk toolbar). `truncate?` = elipsis trigger milik kit (default
-// `false`; hanya varian `text`, varian `button` mengabaikannya; title hover
-// = teks penuh). `items`
-// DropdownMenuItem[] (`onClick?` semantik). Posisi + visual milik kit.
+// 26. DropdownMenu - sealed click menu based on MUI (Gel.3c-9 STYLE.md §6).
+// `trigger` TEXT slot (the kit renders the trigger button + handles the click,
+// no cloneElement, Collapsible/ContextMenu precedent); `triggerVariant?`
+// MEANING (`text|button`, default `text`): text = today's plain text button;
+// button = the trigger rendered as the kit's outline Button (a button
+// affordance for toolbars). `truncate?` = kit-owned trigger ellipsis
+// (default `false`; only the `text` variant, the `button` variant ignores
+// it; hover title = full text). `items`
+// DropdownMenuItem[] (`onClick?` semantic). Position + visuals owned by the kit.
 export interface DropdownMenuItem {
   label: string;
   icon?: React.ReactNode;
@@ -493,9 +493,9 @@ export interface DropdownMenuProps {
 }
 
 // 27. Empty
-// 27. Empty — status kosong sealed (Gel.3c STYLE.md §6).
-// `title?/description?` slot TEKS; `action?/icon?` slot ReactNode.
-// Tanpa ...rest/style/sx/className/onClick.
+// 27. Empty — sealed empty state (Gel.3c STYLE.md §6).
+// `title?/description?` TEXT slots; `action?/icon?` ReactNode slots.
+// No ...rest/style/sx/className/onClick.
 export interface EmptyProps {
   title?: string;
   description?: string;
@@ -506,9 +506,9 @@ export interface EmptyProps {
 }
 
 // 28. Field
-// 27. Field — pembungkus label + kontrol + helper sealed (Gel.3b §6).
-// `label?/helperText?` slot TEKS; `error?` MAKNA; `children` kontrol.
-// fullWidth hardcode milik kit. Tanpa ...rest/style/sx/className.
+// 27. Field — sealed label + control + helper wrapper (Gel.3b §6).
+// `label?/helperText?` TEXT slots; `error?` MEANING; `children` control.
+// fullWidth is kit-hardcoded. No ...rest/style/sx/className.
 export interface FieldProps {
   label?: string;
   helperText?: string;
@@ -519,18 +519,20 @@ export interface FieldProps {
 }
 
 // 29. Hover Card
-// 29. HoverCard - kartu hover sealed berbasis MUI Popper (Gel.3c-7 STYLE.md §6).
-// `trigger` slot jangkar ELEMEN (butuh node untuk posisi, preseden Tooltip); `children` slot isi.
-// Placement + timer + visual milik kit. Tanpa style/sx/className.
+// 29. HoverCard - sealed hover card based on MUI Popper (Gel.3c-7 STYLE.md §6).
+// `trigger` ELEMENT anchor slot (needs a node for positioning, Tooltip
+// precedent); `children` content slot.
+// Placement + timer + visuals owned by the kit. No style/sx/className.
 export interface HoverCardProps {
   trigger: React.ReactElement;
   children: React.ReactNode;
 }
 
-// 30. Input — field teks sealed berbasis MUI (P1c STYLE.md §6).
-// ISI (`value`/`defaultValue`/`placeholder`), PERILAKU (`onChange` semantik
-// menerima string, bukan event; `type`; `disabled`), MAKNA (`size`).
-// Tanpa style/sx/className/warna/font mentah — semua dari token kit.
+// 30. Input — sealed text field based on MUI (P1c STYLE.md §6).
+// CONTENT (`value`/`defaultValue`/`placeholder`), BEHAVIOR (`onChange`
+// semantic, accepts a string, not an event; `type`; `disabled`), MEANING
+// (`size`).
+// No style/sx/className/raw colors/fonts — everything from kit tokens.
 export interface InputProps {
   value?: string;
   defaultValue?: string;
@@ -543,9 +545,8 @@ export interface InputProps {
   "aria-label"?: string;
 }
 
-// 31. Input Group
-// 31. InputGroup — grup adornment sealed (Gel.3c-3 STYLE.md §6).
-// `prefix?/suffix?` slot TEKS; `children` kontrol. Tanpa ...rest/style.
+// 31. InputGroup — sealed adornment group (Gel.3c-3 STYLE.md §6).
+// `prefix?/suffix?` TEXT slots; `children` control. No ...rest/style.
 export interface InputGroupProps {
   prefix?: string;
   suffix?: string;
@@ -554,9 +555,9 @@ export interface InputGroupProps {
   "aria-label"?: string;
 }
 
-// 32. InputOtp — kode sekali-pakai sealed (Gel.3c-3 STYLE.md §6).
-// `value/onChange(string)` semantik; `length?` MAKNA (default 4).
-// Tanpa ...rest/style/className.
+// 32. InputOtp — sealed one-time code (Gel.3c-3 STYLE.md §6).
+// `value/onChange(string)` semantic; `length?` MEANING (default 4).
+// No ...rest/style/className.
 export interface InputOtpProps {
   value: string;
   onChange: (value: string) => void;
@@ -566,9 +567,9 @@ export interface InputOtpProps {
 }
 
 // 33. Item
-// 33. Item — baris daftar sealed berbasis MUI (Gel.3c-5 STYLE.md §6).
-// `title/description?` slot TEKS; `media?/action?` slot komponen sealed.
-// Tanpa ...rest/style/sx/slotProps MUI.
+// 33. Item — sealed list row based on MUI (Gel.3c-5 STYLE.md §6).
+// `title/description?` TEXT slots; `media?/action?` sealed-component slots.
+// No ...rest/style/sx/MUI slotProps.
 export interface ItemProps {
   title: string;
   description?: string;
@@ -579,16 +580,16 @@ export interface ItemProps {
 }
 
 // 34. Kbd
-// 34. Kbd — tombol keyboard sealed (Gel.3c STYLE.md §6).
-// `children` teks tombol. Tanpa ...rest/style/sx/className.
+// 34. Kbd — sealed keyboard key (Gel.3c STYLE.md §6).
+// `children` key text. No ...rest/style/sx/className.
 export interface KbdProps {
   children: string;
   id?: string;
   "aria-label"?: string;
 }
 
-// 35. Label — label kontrol sealed berbasis MUI (Gel.3c STYLE.md §6).
-// `children` teks label; `htmlFor?` asosiasi MAKNA. Tanpa ...rest/style/sx.
+// 35. Label — sealed control label based on MUI (Gel.3c STYLE.md §6).
+// `children` label text; `htmlFor?` association MEANING. No ...rest/style/sx.
 export interface LabelProps {
   children: string;
   htmlFor?: string;
@@ -596,10 +597,10 @@ export interface LabelProps {
   "aria-label"?: string;
 }
 
-// 36. Marker — penanda semantik sealed berbasis MUI (P1c STYLE.md §6).
-// `variant` bentuk (status/note/border/separator); `intent` MAKNA
-// (primary/secondary/error/success/warning) — bukan `color` mentah.
-// Tanpa style/className/event HTML — semua visual dari token kit.
+// 36. Marker — sealed semantic marker based on MUI (P1c STYLE.md §6).
+// `variant` shape (status/note/border/separator); `intent` MEANING
+// (primary/secondary/error/success/warning) — not raw `color`.
+// No style/className/HTML events — all visuals from kit tokens.
 export interface MarkerProps {
   variant?: "status" | "note" | "border" | "separator";
   intent?: "primary" | "secondary" | "error" | "success" | "warning";
@@ -609,9 +610,9 @@ export interface MarkerProps {
 }
 
 // 37. Menubar
-// 37. Menubar - bilah menu sealed berbasis MUI (Gel.3c-9 STYLE.md §6).
-// `menus` MenubarMenu[] (trigger TEKS + items; `onClick?` semantik).
-// Menu terbuka + visual milik kit. Tanpa style/sx/className.
+// 37. Menubar - sealed menu bar based on MUI (Gel.3c-9 STYLE.md §6).
+// `menus` MenubarMenu[] (trigger TEXT + items; `onClick?` semantic).
+// Open menus + visuals owned by the kit. No style/sx/className.
 export interface MenubarItem {
   label: string;
   onClick?: () => void;
@@ -625,9 +626,9 @@ export interface MenubarProps {
 }
 
 // 38. Message
-// 38. Message — gelembung chat sealed (Gel.3b STYLE.md §6).
-// `sender/time?/text` slot TEKS; `avatar?` slot media; `align?` MAKNA.
-// Tanpa ...rest/style/sx/className/onClick.
+// 38. Message — sealed chat bubble (Gel.3b STYLE.md §6).
+// `sender/time?/text` TEXT slots; `avatar?` media slot; `align?` MEANING.
+// No ...rest/style/sx/className/onClick.
 export interface MessageProps {
   avatar?: React.ReactNode;
   sender: string;
@@ -639,9 +640,9 @@ export interface MessageProps {
 }
 
 // 39. Message Scroller
-// 39. MessageScroller - gulir pesan sealed (Gel.3c-9 STYLE.md §6).
-// `children` slot pesan; `onLoadMore?`/`hasMore?` PERILAKU muat-atas;
-// `maxHeight?` PERILAKU (default milik kit). Scrollbar milik kit.
+// 39. MessageScroller - sealed message scroll (Gel.3c-9 STYLE.md §6).
+// `children` message slot; `onLoadMore?`/`hasMore?` load-more BEHAVIOR;
+// `maxHeight?` BEHAVIOR (kit-owned default). Scrollbar owned by the kit.
 export interface MessageScrollerProps {
   children: React.ReactNode;
   onLoadMore?: () => void;
@@ -650,9 +651,9 @@ export interface MessageScrollerProps {
 }
 
 // 40. Native Select
-// 40. NativeSelect — select native sealed berbasis MUI (Gel.3c-3 §6).
-// `options` label/value string; `onChange` semantik (string, tanpa event);
-// `label?` slot teks (Typography sealed). Tanpa ...rest/style/onChange MUI.
+// 40. NativeSelect — sealed native select based on MUI (Gel.3c-3 §6).
+// `options` label/value strings; `onChange` semantic (string, no event);
+// `label?` text slot (sealed Typography). No ...rest/style/MUI onChange.
 export interface NativeSelectOption {
   label: string;
   value: string;
@@ -669,9 +670,10 @@ export interface NativeSelectProps {
 }
 
 // 41. Navigation Menu
-// 41. NavigationMenu - menu navigasi sealed (Gel.3c-9 STYLE.md §6).
-// `items` NavigationMenuItem[] (label TEKS; href?/onClick? semantik tanpa
-// event — adaptor zero-arg di sisi kit; active? MAKNA). Visual milik kit.
+// 41. NavigationMenu - sealed navigation menu (Gel.3c-9 STYLE.md §6).
+// `items` NavigationMenuItem[] (label TEXT; href?/onClick? event-free
+// semantics — a zero-arg adapter on the kit side; active? MEANING).
+// Visuals owned by the kit.
 export interface NavigationMenuItem {
   label: string;
   href?: string;
@@ -683,9 +685,9 @@ export interface NavigationMenuProps {
 }
 
 // 42. Pagination
-// 42. Pagination — halaman sealed berbasis MUI (Gel.3c-5 STYLE.md §6).
-// `count` wajib; `page?/defaultPage?` TERKONTROL PENUH; `onChange` semantik
-// (page number, tanpa event). Ukuran/warna milik kit. Tanpa ...rest/style/sx.
+// 42. Pagination — sealed pages based on MUI (Gel.3c-5 STYLE.md §6).
+// `count` required; `page?/defaultPage?` FULLY CONTROLLED; `onChange` semantic
+// (page number, no event). Size/colors owned by the kit. No ...rest/style/sx.
 export interface PaginationProps {
   count: number;
   page?: number;
@@ -697,10 +699,11 @@ export interface PaginationProps {
 }
 
 // 43. Popover
-// 43. Popover — lapisan konteks sealed berbasis MUI (Gel.3c-4 §6).
-// `trigger` slot pemicu; `open?` TERKONTROL PENUH vs internal (tak-beri-open
-// = kelola sendiri); `onClose` semantik tanpa event/reason (preseden Dialog).
-// anchorEl/posisi milik kit (trigger). Tanpa ...rest/style/sx/slotProps MUI.
+// 43. Popover — sealed context layer based on MUI (Gel.3c-4 §6).
+// `trigger` trigger slot; `open?` FULLY CONTROLLED vs internal (don't pass
+// open = manage it yourself); `onClose` event-free/reason-free semantics
+// (Dialog precedent).
+// anchorEl/position owned by the kit (trigger). No ...rest/style/sx/MUI slotProps.
 export interface PopoverProps {
   trigger: React.ReactNode;
   children: React.ReactNode;
@@ -711,8 +714,8 @@ export interface PopoverProps {
 }
 
 // 44. Progress
-// 44. Progress — status loading sealed berbasis MUI (Gel.3c-2 §6).
-// `value?` 0–100; `variant?` MAKNA (default determinate). Tanpa ...rest/style.
+// 44. Progress — sealed loading status based on MUI (Gel.3c-2 §6).
+// `value?` 0–100; `variant?` MEANING (default determinate). No ...rest/style.
 export interface ProgressProps {
   value?: number;
   variant?: "determinate" | "indeterminate";
@@ -720,8 +723,8 @@ export interface ProgressProps {
   "aria-label"?: string;
 }
 
-// 45. RadioGroup — pilihan tunggal sealed berbasis MUI (Gel.2 §6).
-// `options` label/value string; `onChange` semantik (string).
+// 45. RadioGroup — sealed single choice based on MUI (Gel.2 §6).
+// `options` label/value strings; `onChange` semantic (string).
 export interface RadioGroupProps {
   options: { label: string; value: string }[];
   value?: string;
@@ -733,27 +736,27 @@ export interface RadioGroupProps {
 }
 
 // 46. Resizable
-// 46. Resizable - panel geser sealed (Gel.3c-10 STYLE.md §6).
-// `panels` slot[]; `directions?` MAKNA. Drag + visual milik kit.
+// 46. Resizable - sealed sliding panel (Gel.3c-10 STYLE.md §6).
+// `panels` slots[]; `directions?` MEANING. Drag + visuals owned by the kit.
 export interface ResizableProps<TPanel extends React.ReactNode = React.ReactNode> {
   panels: TPanel[];
   directions?: "horizontal" | "vertical";
 }
 
 // 47. Scroll Area
-// 47. ScrollArea - area gulir sealed (Gel.3c-7 STYLE.md §6).
-// `maxHeight?` PERILAKU (batas gulir); `children` slot.
-// Scrollbar + visual milik kit. Tanpa style/sx/className.
+// 47. ScrollArea - sealed scroll area (Gel.3c-7 STYLE.md §6).
+// `maxHeight?` BEHAVIOR (scroll limit); `children` slot.
+// Scrollbar + visuals owned by the kit. No style/sx/className.
 export interface ScrollAreaProps {
   maxHeight?: string | number;
   children: React.ReactNode;
 }
 
-// 48. Select — dropdown sealed berbasis MUI (P1c STYLE.md §6).
-// ISI (`options` label/value string, `value`/`defaultValue`/`placeholder`),
-// PERILAKU (`onChange` semantik menerima string; `disabled`), MAKNA (`label`).
-// Menu/paper/scrollbar/lebar menu = perilaku milik kit. Tanpa style/sx/
-// className/MenuProps/onOpen mentah.
+// 48. Select — sealed dropdown based on MUI (P1c STYLE.md §6).
+// CONTENT (`options` label/value strings, `value`/`defaultValue`/`placeholder`),
+// BEHAVIOR (`onChange` semantic accepting a string; `disabled`), MEANING (`label`).
+// Menu/paper/scrollbar/menu width = kit-owned behavior. No style/sx/
+// className/raw MenuProps/onOpen.
 export interface SelectOption {
   label: string;
   value: string;
@@ -771,8 +774,8 @@ export interface SelectProps {
   "aria-label"?: string;
 }
 
-// 49. Separator — pemisah sealed berbasis MUI (P1c STYLE.md §6).
-// `label?` teks; `orientation?` arah. Tanpa style/sx/className/variant MUI.
+// 49. Separator — sealed divider based on MUI (P1c STYLE.md §6).
+// `label?` text; `orientation?` direction. No style/sx/className/MUI variant.
 export interface SeparatorProps {
   label?: string;
   orientation?: "horizontal" | "vertical";
@@ -781,9 +784,10 @@ export interface SeparatorProps {
 }
 
 // 50. Sheet
-// 50. Sheet — lembar bawah sealed berbasis MUI (Gel.3c-5 STYLE.md §6).
-// Seperti Drawer + anchor bottom hardcode milik kit (bukan warisan Drawer —
-// warisan transitif dilarang agar kontrak tiap komponen terbaca mandiri).
+// 50. Sheet — sealed bottom sheet based on MUI (Gel.3c-5 STYLE.md §6).
+// Like Drawer + kit-hardcoded bottom anchor (not a Drawer inheritance —
+// transitive inheritance is forbidden so each component's contract reads
+// independently).
 export interface SheetProps {
   open: boolean;
   onClose: () => void;
@@ -794,15 +798,16 @@ export interface SheetProps {
 }
 
 // 51. Sidebar
-// 51. Sidebar — navigasi samping sealed (Gel.3c STYLE.md §6; responsif ISSUE-005).
-// `header?/footer?/children` slot; `mode` putuskan docked-vs-overlay
-// (auto = docked ≥ md 900px, overlay di bawahnya); `open` hanya overlay
-// (terkontrol + tak-terkontrol via defaultOpen); `triggerVariant` pemicu tepi
-// milik kit khusus overlay (none/hamburger/chevron) — union gaya tombol,
-// bukan slot (slot-trigger komponen lain tak terkait); `overlayHeight`
-// full/auto khusus overlay (`none` = tombol sendiri, pakai elemen native);
-// lebar/tinggi milik kit; napas dalam sm di docked setara overlay (fix
-// paritas: dulu docked menempel ke bingkai). Tanpa ...rest/style.
+// 51. Sidebar — sealed side navigation (Gel.3c STYLE.md §6; responsive ISSUE-005).
+// `header?/footer?/children` slots; `mode` decides docked-vs-overlay
+// (auto = docked ≥ md 900px, overlay below that); `open` only for overlay
+// (controlled + uncontrolled via defaultOpen); `triggerVariant` kit-owned
+// edge trigger specifically for overlay (none/hamburger/chevron) — a button
+// style union, not a slot (other components' trigger slots are unrelated);
+// `overlayHeight`
+// full/auto overlay-specific (`none` = button alone, use a native element);
+// width/height owned by the kit; sm inner spacing in docked equals overlay
+// (parity fix: docked previously hugged the frame). No ...rest/style.
 export interface SidebarProps {
   header?: React.ReactNode;
   footer?: React.ReactNode;
@@ -814,13 +819,13 @@ export interface SidebarProps {
   triggerVariant?: "none" | "hamburger" | "chevron";
   overlayHeight?: "full" | "auto";
   id?: string;
-  // Wajib: landmark nav butuh nama (tombol buka/tutup menurunkannya).
+  // Required: the nav landmark needs a name (open/close buttons derive it).
   "aria-label": string;
 }
 
-// 52. Skeleton — placeholder loading sealed berbasis MUI (Gel.3a §6).
-// `variant?` bentuk; `width?/height?` DIMENSI (string|number, milik konsumen
-// sebagai data layout); `animation?` PERILAKU. Tanpa style/sx/className.
+// 52. Skeleton — sealed loading placeholder based on MUI (Gel.3a §6).
+// `variant?` shape; `width?/height?` DIMENSIONS (string|number, owned by the
+// consumer as layout data); `animation?` BEHAVIOR. No style/sx/className.
 export interface SkeletonProps {
   variant?: "text" | "rectangular" | "circular" | "rounded";
   width?: string | number;
@@ -831,9 +836,9 @@ export interface SkeletonProps {
 }
 
 // 53. Slider
-// 53. Slider — geser nilai tunggal sealed berbasis MUI (Gel.3c-4 §6).
-// Nilai TUNGGAL (number, bukan range); `onChange` semantik (number).
-// Tanpa ...rest/style/sx/onChange MUI.
+// 53. Slider — sealed single-value slider based on MUI (Gel.3c-4 §6).
+// SINGLE value (number, not range); `onChange` semantic (number).
+// No ...rest/style/sx/MUI onChange.
 export interface SliderProps {
   value?: number;
   defaultValue?: number;
@@ -846,17 +851,17 @@ export interface SliderProps {
   "aria-label"?: string;
 }
 
-// 54. Spinner — indikator loading sealed berbasis MUI (P1c STYLE.md §6).
-// `size?` MAKNA (small/medium/large → px milik kit). Tanpa style/sx/
-// className/variant/value MUI (indeterminate milik kit).
+// 54. Spinner — sealed loading indicator based on MUI (P1c STYLE.md §6).
+// `size?` MEANING (small/medium/large → kit-owned px). No style/sx/
+// className/MUI variant/value (indeterminate owned by the kit).
 export interface SpinnerProps {
   size?: "small" | "medium" | "large";
   id?: string;
   "aria-label"?: string;
 }
 
-// 55. Switch — sakelar sealed berbasis MUI (Gel.2 STYLE.md §6).
-// `onChange` semantik (boolean); `label?` slot teks. Tanpa ...rest/style/sx.
+// 55. Switch — sealed switch based on MUI (Gel.2 STYLE.md §6).
+// `onChange` semantic (boolean); `label?` text slot. No ...rest/style/sx.
 export interface SwitchProps {
   checked?: boolean;
   defaultChecked?: boolean;
@@ -868,10 +873,10 @@ export interface SwitchProps {
 }
 
 // 56. Table
-// 56. Table - tabel data sealed berbasis MUI (Gel.3c-10 STYLE.md §6).
-// `headers` TEKS[]; `rows` sel[][]. Lebar + visual milik kit.
-// `density?` = kerapatan baris: "default" (sel 14px) atau "compact"
-// (sel 12px + padding lebih rapat) untuk tabel dengan banyak kolom.
+// 56. Table - sealed data table based on MUI (Gel.3c-10 STYLE.md §6).
+// `headers` TEXT[]; `rows` cell[][]. Width + visuals owned by the kit.
+// `density?` = row density: "default" (14px cells) or "compact"
+// (12px cells + tighter padding) for tables with many columns.
 export interface TableProps<TCell extends React.ReactNode = React.ReactNode> {
   headers: string[];
   rows: TCell[][];
@@ -879,9 +884,9 @@ export interface TableProps<TCell extends React.ReactNode = React.ReactNode> {
 }
 
 // 57. Tabs
-// 57. Tabs — tab terkontrol/tak-terkontrol sealed berbasis MUI (Gel.3c-2 §6).
-// `items` label/value string + content; `value?/defaultValue?/onChange?(string)`
-// semantik (tanpa event). Tanpa ...rest/style/sx/className.
+// 57. Tabs — controlled/uncontrolled tabs based on MUI (Gel.3c-2 §6).
+// `items` label/value strings + content; `value?/defaultValue?/onChange?(string)`
+// semantic (no event). No ...rest/style/sx/className.
 export interface TabsItem {
   label: string;
   content: React.ReactNode;
@@ -897,10 +902,10 @@ export interface TabsProps {
 }
 
 // 58. Textarea
-// 58. Textarea — area teks sealed (Gel.3c-3 STYLE.md §6).
-// `label?/helperText?` slot TEKS; `error?` MAKNA; `onChange` semantik
-// (string, tanpa event, preseden Input); focus-ring milik kit.
-// Tanpa ...rest/style/onFocus/onBlur/event.
+// 58. Textarea — sealed text area (Gel.3c-3 STYLE.md §6).
+// `label?/helperText?` TEXT slots; `error?` MEANING; `onChange` semantic
+// (string, no event, Input precedent); focus-ring owned by the kit.
+// No ...rest/style/onFocus/onBlur/event.
 export interface TextareaProps {
   label?: string;
   error?: boolean;
@@ -915,10 +920,10 @@ export interface TextareaProps {
   "aria-label"?: string;
 }
 
-// 59. Toast — notifikasi sementara sealed berbasis MUI (Gel.2 §6).
-// `message` slot teks; `actionButton?` slot aksi (tombol Kelir);
-// `open`/`onClose` semantik; `autoHideDuration?` PERILAKU (ms, bukan motion
-// visual — durasi tampil, bukan durasi animasi §1.2). Tanpa ...rest/style.
+// 59. Toast — sealed transient notification based on MUI (Gel.2 §6).
+// `message` text slot; `actionButton?` action slot (Kelir button);
+// `open`/`onClose` semantic; `autoHideDuration?` BEHAVIOR (ms, not motion
+// visual — display duration, not animation duration §1.2). No ...rest/style.
 export interface ToastProps {
   message: string;
   tone?: "info" | "success" | "warning" | "error";
@@ -930,14 +935,14 @@ export interface ToastProps {
   "aria-label"?: string;
 }
 
-// Toaster (#107) — antrean notifikasi global di atas Toast sealed.
-// Bukan komponen visual: antrean FIFO, durasi tampil, batas antrean, dan live
-// region milik kit. `useToast()` memanggil notifikasi dari mana saja tanpa
-// state per-form. Tanpa ...rest/style/sx/className.
+// Toaster (#107) - global notification queue on top of the sealed Toast.
+// Not a visual component: the FIFO queue, display duration, queue limit, and
+// live region are kit-owned. `useToast()` notifies from anywhere without
+// per-form state. No ...rest/style/sx/className.
 export interface ToasterProps {
-  /** Jumlah notifikasi tampil serentak. Default 1 (FIFO). */
+  /** Number of notifications shown at once. Default 1 (FIFO). */
   maxVisible?: number;
-  /** Posisi layar logis; default "bottom-end". */
+  /** Logical screen position; default "bottom-end". */
   position?: "top-start" | "top-end" | "bottom-start" | "bottom-end";
   id?: string;
 }
@@ -948,9 +953,9 @@ export type ToastApi = {
 };
 
 // 60. Toggle
-// 60. Toggle — tombol tekan sealed berbasis MUI (Gel.3c-2 STYLE.md §6).
-// Model pressed (aria-pressed milik kit), bukan selected MUI; `children` teks.
-// Tanpa ...rest/style/sx/className/value/selected MUI.
+// 60. Toggle — sealed toggle button based on MUI (Gel.3c-2 STYLE.md §6).
+// Pressed model (aria-pressed owned by the kit), not MUI selected; `children` text.
+// No ...rest/style/sx/className/MUI value/selected.
 export interface ToggleProps {
   pressed?: boolean;
   defaultPressed?: boolean;
@@ -961,11 +966,11 @@ export interface ToggleProps {
   "aria-label"?: string;
 }
 
-// 61. ToggleGroup — grup pilihan tunggal sealed berbasis MUI (Gel.3c-2 §6).
-// exclusive hardcode milik kit (selalu satu terpilih); `onChange` semantik
-// (string, tanpa event); `variant?` (`separated` = tombol raised terpisah,
-// `joined` = satu pil menyatu rapat untuk segmented kecil, default
-// `separated`). Tanpa ...rest/style/sx/exclusive/onChange MUI.
+// 61. ToggleGroup — sealed single-choice group based on MUI (Gel.3c-2 §6).
+// exclusive kit-hardcoded (always one selected); `onChange` semantic
+// (string, no event); `variant?` (`separated` = separate raised buttons,
+// `joined` = one tight segmented pill for small segmented control, default
+// `separated`). No ...rest/style/sx/MUI exclusive/onChange.
 export interface ToggleGroupOption {
   label: string;
   value: string;
@@ -984,9 +989,9 @@ export interface ToggleGroupProps {
 }
 
 // 62. Tooltip
-// 62. Tooltip — info hover sealed berbasis MUI (Gel.3c-4 STYLE.md §6).
-// `title` TEKS; `children` elemen pemicu. slotProps konsumen-merge dihapus —
-// visual tooltip milik kit penuh. Tanpa ...rest/style/sx/slotProps.
+// 62. Tooltip — sealed hover info based on MUI (Gel.3c-4 STYLE.md §6).
+// `title` TEXT; `children` trigger element. consumer-merge slotProps removed
+// — tooltip visuals fully owned by the kit. No ...rest/style/sx/slotProps.
 export interface TooltipProps {
   title: string;
   children: React.ReactElement;
@@ -994,12 +999,12 @@ export interface TooltipProps {
   "aria-label"?: string;
 }
 
-// 63. Typography — teks sealed berbasis MUI (P1c STYLE.md §6).
-// `variant` = hierarki VISUAL (union tertutup milik kit); `as`/`level` =
-// hierarki DOKUMEN (elemen heading yang benar; hierarki dokumen ≠ visual);
-// `align` = perataan TEKS (union tertutup; default `left`, nol-ubah visual).
-// `truncate?` = elipsis satu-baris milik kit (default `false`).
-// Tanpa style/sx/className/warna/font mentah — semua dari token kit.
+// 63. Typography — sealed text based on MUI (P1c STYLE.md §6).
+// `variant` = VISUAL hierarchy (kit-owned closed union); `as`/`level` =
+// DOCUMENT hierarchy (correct heading element; document hierarchy ≠ visual);
+// `align` = TEXT alignment (closed union; default `left`, no visual change).
+// `truncate?` = kit-owned single-line ellipsis (default `false`).
+// No style/sx/className/raw colors/fonts — everything from kit tokens.
 export type TypographyVariant =
   | "hero"
   | "hero-sm"
@@ -1019,15 +1024,15 @@ export interface TypographyProps {
   children?: React.ReactNode;
   variant?: TypographyVariant;
   variantMd?: TypographyVariant;
-  // Varian di bawah 600px (token layout.mobile) - cermin `variantMd` untuk
-  // skala judul yang mengecil di ponsel (mis. hero -> hero-sm).
+  // Variant below 600px (token layout.mobile) - mirrors `variantMd` for
+  // heading scale that shrinks on phones (e.g. hero -> hero-sm).
   variantMobile?: TypographyVariant;
-  // Warna teks dari token tema (primary/secondary) atau identitas merek
-  // (brand-accent/brand-ink dari KelirProvider.brandColors); tanpa = warna
-  // bawaan varian.
+  // Text color from theme tokens (primary/secondary) or brand identity
+  // (brand-accent/brand-ink from KelirProvider.brandColors); none = the
+  // variant's default color.
   tone?: "primary" | "secondary" | "brand-accent" | "brand-ink";
-  // Font identitas: text = font aktif tema (bawaan), brand = font merek yang
-  // didaftarkan lewat KelirProvider.brandFont.
+  // Identity font: text = the active theme's font (default), brand = the
+  // brand font registered via KelirProvider.brandFont.
   font?: "text" | "brand";
   as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "div";
   level?: 1 | 2 | 3 | 4 | 5 | 6;
@@ -1040,9 +1045,9 @@ export interface TypographyProps {
   "aria-label"?: string;
 }
 
-// Segmen teks inline ber-token untuk Typography (satu elemen heading, bukan
-// heading bertingkat; `break` = <br/>). `tone` (muted/primary) & `scale`
-// (sm = 0.55em + bobot 500, md = bawaan) dari token kit.
+// Inline text segments with tokens for Typography (one heading element,
+// not nested headings; `break` = <br/>). `tone` (muted/primary) & `scale`
+// (sm = 0.55em + weight 500, md = default) from kit tokens.
 export interface TypographySegment {
   text?: string;
   tone?: "muted" | "primary";
@@ -1051,7 +1056,7 @@ export interface TypographySegment {
 }
 
 // 64. Questionnaire
-// Render dipecah modul internal (progress/item/nav/complete/model, P2 selesai).
+// Render split into internal modules (progress/item/nav/complete/model, P2 done).
 export interface QuestionnaireOption {
   label: string;
   value: string;
@@ -1080,18 +1085,18 @@ export interface QuestionnaireProps {
   completedLabel?: string;
 }
 
-// 65. Stack — primitif layout vertikal/horizontal (P1b STYLE.md).
-// Gap union tertutup dari token css.layout.space; `align`/`justify` union
-// tertutup perataan flex (nilai logis, RTL-benar); `wrap?` → flex-wrap
-// (default `false`); `reverseMd?` membalik urutan anak pada lebar >= 768px
-// (token heroCollapse, default `false`); `minHeight?` termasuk `screen`
-// (= 100dvh) untuk hero/interstitial satu layar. Default = perilaku lama
-// (nol-ubah visual). Tanpa warna/border/shadow.
+// 65. Stack — vertical/horizontal layout primitive (P1b STYLE.md).
+// Closed-union gap from token css.layout.space; `align`/`justify` closed-union
+// flex alignment (logical values, RTL-correct); `wrap?` → flex-wrap
+// (default `false`); `reverseMd?` reverses child order at widths >= 768px
+// (token heroCollapse, default `false`); `minHeight?` includes `screen`
+// (= 100dvh) for a single-screen hero/interstitial. Default = legacy behavior
+// (no visual change). No colors/border/shadow.
 export interface StackProps {
   children: React.ReactNode;
   gap?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
-  // Jarak pada lebar >= 768px (token heroCollapse); tanpa = `gap` berlaku
-  // di semua lebar (perilaku lama).
+  // Gap at widths >= 768px (token heroCollapse); none = `gap` applies at
+  // all widths (legacy behavior).
   gapMd?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
   direction?: "row" | "column";
   directionMd?: "row" | "column";
@@ -1104,23 +1109,23 @@ export interface StackProps {
   "aria-label"?: string;
 }
 
-// 66. Grid — primitif layout kolom (P1b STYLE.md).
-// Columns union tertutup (bukan angka bebas); gap dari css.layout.space.
+// 66. Grid — column layout primitive (P1b STYLE.md).
+// Closed-union columns (not a free number); gap from css.layout.space.
 export interface GridProps {
   children: React.ReactNode;
   columns?: 1 | 2 | 3 | 4 | 6 | 12;
-  // Jumlah kolom pada lebar >= 600px / >= 768px (token layout mobile &
-  // heroCollapse; `columnsMd` menang bila keduanya cocok). Union tertutup,
-  // bukan angka bebas - sama seperti `columns`.
+  // Column count at widths >= 600px / >= 768px (token layout mobile &
+  // heroCollapse; `columnsMd` wins when both match). Closed union,
+  // not a free number - same as `columns`.
   columnsSm?: 1 | 2 | 3 | 4 | 6 | 12;
   columnsMd?: 1 | 2 | 3 | 4 | 6 | 12;
-  // Auto-fit: lebar minimum item dari token (sm 200px / md 320px); jumlah
-  // kolom mengikuti lebar wadah. Bila diisi, ia menggantikan columns*.
+  // Auto-fit: minimum item width from tokens (sm 200px / md 320px); the
+  // column count follows the container width. When set, it replaces columns*.
   minItem?: "sm" | "md";
-  // Tata letak dua panel: `aside` = kolom tetap (asideWidth) + isi fleksibel
-  // pada lebar >= ambang collapse; di bawahnya satu kolom. `pinned` =
-  // kedua panel berbagi tinggi tetap (680px, maks 100dvh-48px) dengan
-  // scroll internal masing-masing, khusus desktop.
+  // Two-panel layout: `aside` = fixed column (asideWidth) + flexible content
+  // at widths >= the collapse threshold; below it a single column. `pinned` =
+  // both panels share a fixed height (680px, max 100dvh-48px) with their own
+  // internal scrolling, desktop only.
   template?: "auto" | "aside";
   asideWidth?: "sm" | "md" | "lg";
   collapse?: "md" | "lg";
@@ -1130,20 +1135,20 @@ export interface GridProps {
   "aria-label"?: string;
 }
 
-// 67. Spacer — jarak vertikal semantik (P1b STYLE.md).
-// Size union tertutup dari token css.layout.space.
+// 67. Spacer — semantic vertical spacing (P1b STYLE.md).
+// Closed-union size from token css.layout.space.
 export interface SpacerProps {
   size?: "xs" | "sm" | "md" | "lg";
   id?: string;
 }
 
-// 68. Container — penampung lebar halaman (P1b STYLE.md).
-// `maxWidth?` MAKNA (sm/md/lg/xl → px milik kit, default xl = token
-// container); `padding?` gutter halaman dari token css.layout.space
-// (default xl = token sidePadding). `paddingBlock?` napas vertikal dari
-// skala space yang sama (`none` = 0, default `none`); `clip?` memotong
-// isi meluap (`overflow: hidden`, default `false`). Murni layout: tanpa
-// warna/border/shadow/font. Tanpa ...rest/style/sx/className.
+// 68. Container — page width container (P1b STYLE.md).
+// `maxWidth?` MEANING (sm/md/lg/xl → kit-owned px, default xl = token
+// container); `padding?` page gutter from token css.layout.space
+// (default xl = token sidePadding). `paddingBlock?` vertical breathing room
+// from the same space scale (`none` = 0, default `none`); `clip?` clips
+// overflowing content (`overflow: hidden`, default `false`). Pure layout:
+// no colors/border/shadow/font. No ...rest/style/sx/className.
 export interface ContainerProps {
   children: React.ReactNode;
   maxWidth?: "sm" | "md" | "lg" | "xl";
@@ -1155,14 +1160,14 @@ export interface ContainerProps {
   "aria-label"?: string;
 }
 
-// 69. Image — media netral sealed (P1b STYLE.md).
-// `src` wajib; `alt?` selalu dirender sebagai atribut (string kosong bila
-// tak diisi → lolos axe image-alt). `height?` MAKNA (xs..7xl → px milik
-// kit, default md); lebar mengikuti rasio asli. `fluid?` isi lebar wadah
-// (tinggi auto); `maxHeight?`/`maxWidth?` MEMBATASI (px data, preseden
-// TruncatedText.maxWidth). `fit?` (contain/cover, default contain);
-// `radius?` dari token radius kit (default none — netral seperti Stack,
-// tanpa shadow/border). Tanpa ...rest/style/sx/className.
+// 69. Image — neutral sealed media (P1b STYLE.md).
+// `src` required; `alt?` always rendered as an attribute (empty string when
+// not set → passes axe image-alt). `height?` MEANING (xs..7xl → kit-owned
+// px, default md); width follows the original ratio. `fluid?` fills the
+// container width (auto height); `maxHeight?`/`maxWidth?` LIMIT (px data,
+// TruncatedText.maxWidth precedent). `fit?` (contain/cover, default contain);
+// `radius?` from the kit's radius tokens (default none — neutral like Stack,
+// no shadow/border). No ...rest/style/sx/className.
 export interface ImageProps {
   src: string;
   alt?: string;
@@ -1172,28 +1177,28 @@ export interface ImageProps {
   maxWidth?: number;
   fit?: "contain" | "cover";
   radius?: "none" | "sm" | "md" | "lg";
-  // Isi penuh wadah ber-posisi (mis. di dalam AspectRatio): position absolute
-  // + inset 0 + 100% - menggantikan pola fill konsumen.
+  // Fully fills a positioned container (e.g. inside AspectRatio): position
+  // absolute + inset 0 + 100% - replaces the consumer fill pattern.
   fill?: boolean;
-  // Muat lebih awal (loading eager + fetchPriority high) untuk media di atas
-  // lipatan; default false = perilaku bawaan peramban.
+  // Earlier load (loading eager + fetchPriority high) for media above the
+  // fold; default false = the browser's default behavior.
   priority?: boolean;
-  // Petunjuk ukuran tampil untuk pemilihan sumber (atribut `sizes`).
+  // Display-size hint for source selection (the `sizes` attribute).
   sizes?: string;
   id?: string;
   "aria-label"?: string;
 }
 
-// 70. FlexItem — kontrol item flex sealed (P1b STYLE.md).
-// Nama `Item` sudah dipakai baris daftar (title/description/media/action),
-// jadi primitif ini bernama `FlexItem`. `grow?` → `flex: 1, minWidth: 0`
-// (default `false`); `shrink?` = `false` → `flexShrink: 0` (default `true`);
-// `clip?` → `overflow: hidden` (default `false`, properti dihilangkan penuh
-// saat mati — preseden `Stack wrap?`; pasangan alami `grow clip` = pola
-// truncasi baris flex). `offsetY?` = tarik naik (margin atas negatif dari
-// token space: sm/md/lg) agar elemen menumpuk di tepi atas, mis. logo di
-// tepi kartu. Boolean tertutup, tanpa angka bebas. Default = blok biasa
-// (tanpa prop flex). Tanpa ...rest/style/sx/className.
+// 70. FlexItem — sealed flex item control (P1b STYLE.md).
+// The name `Item` is already used for the list row (title/description/media/
+// action), so this primitive is named `FlexItem`. `grow?` → `flex: 1,
+// minWidth: 0` (default `false`); `shrink?` = `false` → `flexShrink: 0`
+// (default `true`); `clip?` → `overflow: hidden` (default `false`, the
+// property is fully omitted when off — `Stack wrap?` precedent; natural
+// `grow clip` pair = the flex-row truncation pattern). `offsetY?` = pull up
+// (negative top margin from space tokens: sm/md/lg) so an element stacks at
+// the top edge, e.g. a logo at a card edge. Closed booleans, no free
+// numbers. Default = plain block (no flex props). No ...rest/style/sx/className.
 export interface FlexItemProps {
   children: React.ReactNode;
   grow?: boolean;
@@ -1204,11 +1209,11 @@ export interface FlexItemProps {
   "aria-label"?: string;
 }
 
-// 71. Shell — cangkang viewport app-shell admin (P1b STYLE.md).
-// `height: 100dvh, overflow: hidden`, arah baris (sidebar + konten
-// berdampingan) atau `stacked?` (kolom: TopBar + konten bertumpuk,
-// default `false`). Murni layout: tanpa warna/border/shadow.
-// Tanpa ...rest/style/sx/className.
+// 71. Shell — admin app-shell viewport shell (P1b STYLE.md).
+// `height: 100dvh, overflow: hidden`, row direction (sidebar + content
+// side by side) or `stacked?` (column: TopBar + stacked content,
+// default `false`). Pure layout: no colors/border/shadow.
+// No ...rest/style/sx/className.
 export interface ShellProps {
   children: React.ReactNode;
   stacked?: boolean;
@@ -1216,12 +1221,12 @@ export interface ShellProps {
   "aria-label"?: string;
 }
 
-// 72. Content — satu-satunya area scroll app-shell (P1b STYLE.md).
-// `flex: 1` + scroll vertikal internal + padding responsif dari token
-// (desktop lega, mobile rapat; `compact?` memaksa rapat, default
-// `false`) + latar background. SSR-aman: server + render pertama =
-// desktop, koreksi setelah mount (pola Sidebar, tanpa mismatch).
-// Tanpa ...rest/style/sx/className.
+// 72. Content — the app-shell's single scroll area (P1b STYLE.md).
+// `flex: 1` + internal vertical scroll + responsive padding from tokens
+// (desktop roomy, mobile tight; `compact?` forces tight, default
+// `false`) + background background. SSR-safe: server + first render =
+// desktop, corrected after mount (Sidebar pattern, no mismatch).
+// No ...rest/style/sx/className.
 export interface ContentProps {
   children: React.ReactNode;
   compact?: boolean;
@@ -1229,13 +1234,13 @@ export interface ContentProps {
   "aria-label"?: string;
 }
 
-// 73. TopBar — bar mobile app-shell (P1b STYLE.md).
-// Slot `left?`/`right?` (node; teks di dalamnya string) disejajarkan
-// ujung-ke-ujung; `variant?` MAKNA (`raised|flat`, default `raised`):
-// raised = bar terangkat ala komponen Kelir (surface + border bawah +
-// shadow); flat = sebaris transparan tanpa permukaan terangkat (baris aksi
-// di dalam konten). Landmark header. Tanpa warna/border/shadow kustom.
-// Tanpa ...rest/style/sx/className.
+// 73. TopBar — app-shell mobile bar (P1b STYLE.md).
+// `left?`/`right?` slots (nodes; text inside them is a string) aligned
+// edge-to-edge; `variant?` MEANING (`raised|flat`, default `raised`):
+// raised = a raised Kelir-component-style bar (surface + bottom border +
+// shadow); flat = a flush transparent line with no raised surface (an action
+// row inside the content). Header landmark. No custom colors/border/shadow.
+// No ...rest/style/sx/className.
 export interface TopBarProps {
   left?: React.ReactNode;
   right?: React.ReactNode;
@@ -1244,12 +1249,12 @@ export interface TopBarProps {
   "aria-label"?: string;
 }
 
-// 74. Tile — ubin ikon/logo sealed (P1b STYLE.md).
-// `tone?` MAKNA (`primary|secondary|plain`, default `primary`): latar +
-// teks dari token (plain = surface + border terang untuk logo di atas
-// surface). Tanpa `size?` = ubin-ikon fleksibel (padding token);
-// `size?` MAKNA (`sm|md|lg` → 32/48/64 px milik kit) = kotak ukuran-tetap
-// untuk logo. Radius token; tanpa shadow. Tanpa ...rest/style/sx/className.
+// 74. Tile — sealed icon/logo tile (P1b STYLE.md).
+// `tone?` MEANING (`primary|secondary|plain`, default `primary`): background +
+// text from tokens (plain = surface + subtle border for a logo over a
+// surface). No `size?` = flexible icon tile (token padding);
+// `size?` MEANING (`sm|md|lg` → kit-owned 32/48/64 px) = fixed-size box
+// for logos. Token radius; no shadow. No ...rest/style/sx/className.
 export interface TileProps {
   children: React.ReactNode;
   tone?: "primary" | "secondary" | "plain";
@@ -1258,11 +1263,11 @@ export interface TileProps {
   "aria-label"?: string;
 }
 
-// 75. Banner — spanduk status tengah sealed (P1b STYLE.md).
-// `tone?` MAKNA (`danger|warn|neutral`, default `neutral`): pasangan
-// bg/fg milik kit (preseden Marker-note: solid, bukan warna mentah);
-// teks anak mewarisi warna. Rata tengah. Tanpa ikon (itu `Alert`).
-// Tanpa ...rest/style/sx/className.
+// 75. Banner — sealed centered status banner (P1b STYLE.md).
+// `tone?` MEANING (`danger|warn|neutral`, default `neutral`): kit-owned
+// bg/fg pair (Marker-note precedent: solid, not a raw color);
+// child text inherits the color. Centered. No icon (that's `Alert`).
+// No ...rest/style/sx/className.
 export interface BannerProps {
   children: React.ReactNode;
   tone?: "danger" | "warn" | "neutral";
@@ -1270,25 +1275,25 @@ export interface BannerProps {
   "aria-label"?: string;
 }
 
-// 76. Link — tautan sebaris sealed (P1b STYLE.md).
-// `href` wajib (tanpanya pakai `Button variant="ghost"`); teks + ikon
-// segaris milik kit (`external?` → ikon buka-baru + `target _blank` +
-// `rel noopener`, default `false` → ikon panah). Warna textPrimary,
-// tanpa underline. Tanpa ...rest/style/sx/className.
+// 76. Link — sealed inline link (P1b STYLE.md).
+// `href` required (without it use `Button variant="ghost"`); text + icons
+// inline owned by the kit (`external?` → new-window icon + `target _blank` +
+// `rel noopener`, default `false` → arrow icon). textPrimary color,
+// no underline. No ...rest/style/sx/className.
 export interface LinkProps {
   children: React.ReactNode;
   href: string;
   external?: boolean;
-  // `icon?` tampilan ikon tautan: `auto` (default) = panah/buka-baru, `none` = teks saja.
+  // `icon?` link icon display: `auto` (default) = arrow/new-window, `none` = text only.
   icon?: "auto" | "none";
   id?: string;
   "aria-label"?: string;
 }
 
-// 77. LoadingOverlay - overlay pemuatan fullscreen sealed berbasis MUI (#54).
-// `open` TERKONTROL PENUH (wajib); `label?`/`progress?` slot TEKS; `children?` slot media (animasi milik konsumen).
-// Kartu tengah berdenyut + backdrop redup milik kit (irama denyut tetap, tanpa prop; backdrop = default MUI).
-// Tanpa onClose (pemuatan tak bisa di-dismiss; Escape/backdrop tak menutup). Tanpa ...rest/style/sx/slotProps MUI.
+// 77. LoadingOverlay - sealed fullscreen loading overlay based on MUI (#54).
+// `open` FULLY CONTROLLED (required); `label?`/`progress?` TEXT slots; `children?` media slot (consumer-owned animation).
+// Kit-owned pulsing center card + dim backdrop (fixed pulse rhythm, no prop; backdrop = MUI default).
+// No onClose (loading can't be dismissed; Escape/backdrop doesn't close). No ...rest/style/sx/MUI slotProps.
 export interface LoadingOverlayProps {
   open: boolean;
   label?: string;
@@ -1299,10 +1304,10 @@ export interface LoadingOverlayProps {
 }
 
 // 78. TruncatedText
-// 78. TruncatedText - teks satu-baris elipsis sealed (#56).
-// `text` slot TEKS (wajib); `maxWidth?` DATA (px, batas lebar milik kit;
-// tanpa = selebar wadah); `title` hover = teks penuh milik kit;
-// `id?`/`aria-label?` standar. Tanpa ...rest/style/sx/className.
+// 78. TruncatedText - sealed single-line ellipsis text (#56).
+// `text` TEXT slot (required); `maxWidth?` DATA (px, kit-owned width limit;
+// none = full container width); `title` hover = full text owned by the kit;
+// `id?`/`aria-label?` standard. No ...rest/style/sx/className.
 export interface TruncatedTextProps {
   text: string;
   maxWidth?: number;
@@ -1310,14 +1315,14 @@ export interface TruncatedTextProps {
   "aria-label"?: string;
 }
 
-// 79. List — daftar semantik sealed (isi terstruktur/markdown).
-// `items` slot simpul per butir (wajib, urut); `ordered?` MAKNA daftar
-// (default `false` = bullet, `true` = bernomor). Penanda, jarak, dan warna
-// milik kit. Tanpa ...rest/style/sx/className.
+// 79. List — sealed semantic list (structured content/markdown).
+// `items` per-item node slot (required, ordered); `ordered?` list MEANING
+// (default `false` = bullet, `true` = numbered). Markers, spacing, and
+// colors owned by the kit. No ...rest/style/sx/className.
 export interface PositionedProps {
   children: React.ReactNode;
-  // Titik tetap di viewport (offset dari token space): sudut atas, sudut
-  // bawah (pemicu gulir-ke-atas), atau tepi kiri tengah (pemicu geser mobile).
+  // Fixed points in the viewport (offset from space tokens): top corner,
+  // bottom corner (scroll-up trigger), or mid-left edge (mobile swipe trigger).
   anchor?:
     | "top-start"
     | "top-center"
@@ -1326,12 +1331,12 @@ export interface PositionedProps {
     | "bottom-center"
     | "bottom-end"
     | "center-start";
-  // Tampil di semua lebar (bawaan), hanya mobile (<600px), atau hanya
-  // desktop (>=600px) - token layout.mobile.
+  // Show at all widths (default), mobile only (<600px), or desktop only
+  // (>=600px) - token layout.mobile.
   visibility?: "always" | "mobile" | "desktop";
-  // Naikkan di atas konten (z-index token overlay). Matikan untuk wadah yang
-  // memuat pemicu sidebarnya sendiri - z-index membuat stacking context yang
-  // menjebak lapisan drawer.
+  // Raise above content (z-index overlay token). Turn off for containers
+  // that hold their own sidebar triggers - the z-index creates a stacking
+  // context that traps drawer layers.
   elevate?: boolean;
   id?: string;
   "aria-label"?: string;
@@ -1339,8 +1344,8 @@ export interface PositionedProps {
 
 export interface PageFrameProps {
   children: React.ReactNode;
-  // Slot chrome halaman: header (tengah, di atas main), footer (tengah, garis
-  // pemisah atas), overlays (slot pemicu/penukar tema bertitik tetap).
+  // Page chrome slots: header (centered, above main), footer (centered,
+  // top divider line), overlays (fixed-point trigger/theme-switcher slots).
   header?: React.ReactNode;
   footer?: React.ReactNode;
   overlays?: React.ReactNode;
@@ -1355,9 +1360,9 @@ export interface ListProps {
   "aria-label"?: string;
 }
 
-// 80. Quote — kutipan blok sealed.
-// `children` slot isi kutipan (wajib). Batang aksen + latar + radius milik
-// kit. Tanpa ...rest/style/sx/className.
+// 80. Quote — sealed blockquote.
+// `children` quote content slot (required). Accent bar + background + radius
+// owned by the kit. No ...rest/style/sx/className.
 export interface QuoteProps {
   children: React.ReactNode;
   variant?: "default" | "plain";
@@ -1366,10 +1371,10 @@ export interface QuoteProps {
   "aria-label"?: string;
 }
 
-// 81. CodeBlock — blok kode sealed + tombol salin milik kit.
-// `code` teks kode (wajib); `language?` label bahasa (tanpa = "code");
-// `copyLabel?`/`copiedLabel?` label tombol (default "Copy"/"Copied");
-// perilaku salin (clipboard + fallback) milik kit. Tanpa ...rest/style/sx/className.
+// 81. CodeBlock — sealed code block + kit-owned copy button.
+// `code` code text (required); `language?` language label (none = "code");
+// `copyLabel?`/`copiedLabel?` button labels (default "Copy"/"Copied");
+// copy behavior (clipboard + fallback) owned by the kit. No ...rest/style/sx/className.
 export interface CodeBlockProps {
   code: string;
   language?: string;

@@ -13,12 +13,12 @@ import { Drawer } from "./drawer";
 import { IconButton } from "./icon-button";
 import { ScrollArea } from "./scroll-area";
 
-// Lebar milik kit (ISSUE-005): overlay maksimal separuh halaman.
+// Kit-owned width (ISSUE-005): overlay maxes out at half the page.
 const SIDEBAR_WIDTH = "var(--sidebar-width, 260px)";
 const OVERLAY_WIDTH = `min(${SIDEBAR_WIDTH}, 75vw)`;
-// Napas tab pemicu dari tepi drawer saat terbuka (ISSUE-008).
+// Breathing room for the trigger tab from the drawer edge when open (ISSUE-008).
 const TRIGGER_GAP = css.layout.space.xs;
-// Ambang internal kit (md MUI); bukan angka konsumen.
+// Internal kit breakpoint (MUI md); not a consumer number.
 const DESKTOP_QUERY = "(min-width: 900px)";
 
 function SidebarBody({
@@ -29,9 +29,9 @@ function SidebarBody({
   return (
     <>
       {header && <MuiBox sx={{ flexShrink: 0 }}>{header}</MuiBox>}
-      {/* Komposisi internal kit-ke-kit: area tengah isi sisa ruang dan
-          scroll di dalam (ScrollArea bounded via maxHeight 100% bila root
-          bounded; bila root tak bounded, isi tumbuh mengikuti halaman). */}
+      {/* Kit-to-kit internal composition: the middle area fills the remaining space and
+          scrolls within (ScrollArea bounded via maxHeight 100% when the root is
+          bounded; when the root isn't bounded, content grows with the page). */}
       <MuiBox
         sx={{
           flex: 1,
@@ -61,23 +61,23 @@ export function Sidebar({
   id,
   "aria-label": ariaLabel,
 }: SidebarProps) {
-  // noSsr + defaultMatches: render server & pertama sama (docked),
-  // koreksi setelah mount — tanpa hydration mismatch.
+  // noSsr + defaultMatches: server & first render are the same (docked),
+  // corrected after mount — no hydration mismatch.
   const isDesktop = useMediaQuery(DESKTOP_QUERY, {
     defaultMatches: true,
     noSsr: true,
   });
-  // Portal + mode-auto butuh mount (hindari hydration mismatch: server
-  // tak render portal; pola noSsr MUI mengembalikan nilai asli saat render
-  // pertama klien vs default di server).
+  // Portal + mode-auto need mount (avoid hydration mismatch: the server
+  // doesn't render the portal; MUI's noSsr pattern returns the original value
+  // on first client render vs the default on the server).
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
   }, []);
   const resolved =
     mode === "auto"
-      ? // SSR-aman: server + render pertama = docked (cocok hidrasi);
-        // overlay hanya setelah mount.
+      ? // SSR-safe: server + first render = docked (matches hydration);
+        // overlay only after mount.
         !mounted || isDesktop
         ? "docked"
         : "overlay"
@@ -93,9 +93,9 @@ export function Sidebar({
     onOpenChange?.(true);
     if (open === undefined) setUncontrolled(true);
   };
-  // Pemicu toggle: tutup via tab tepi / backdrop / Escape / pilihan.
-  // Blur dulu: fokus tak boleh tertahan di pemicu (di luar dialog) saat
-  // modal meng-aria-hidden-kan page-root — temuan console Chrome mobile.
+  // Toggle trigger: close via edge tab / backdrop / Escape / selection.
+  // Blur first: focus must not stay on the trigger (outside the dialog) when
+  // the modal aria-hides the page root — a Chrome mobile console finding.
   const handleTriggerToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.blur();
     if (overlayOpen) handleClose();
@@ -103,8 +103,8 @@ export function Sidebar({
   };
 
   if (resolved === "overlay") {
-    const openLabel = ariaLabel ? `Tutup ${ariaLabel}` : "Tutup navigasi";
-    const closedLabel = ariaLabel ? `Buka ${ariaLabel}` : "Buka navigasi";
+    const openLabel = ariaLabel ? `Close ${ariaLabel}` : "Close navigation";
+    const closedLabel = ariaLabel ? `Open ${ariaLabel}` : "Open navigation";
     return (
       <>
         <Drawer
@@ -119,19 +119,19 @@ export function Sidebar({
               display: "flex",
               flexDirection: "column",
               width: OVERLAY_WIDTH,
-              // full = drawer penuh; auto = bungkus isi (paper Drawer
-              // ikut memendek + tengah vertikal via height).
+              // full = full drawer; auto = wrap content (Drawer
+              // paper shrinks accordingly + vertically centered via height).
               height: overlayHeight === "full" ? "100%" : "auto",
               maxHeight: overlayHeight === "full" ? "100dvh" : "90dvh",
-              // Napas isi dari tepi paper (kedua cabang paritas; dulu
-              // docked menempel ke bingkai — konsumen sealed tak bisa
-              // menambahkannya sendiri).
+              // Content breathing room from the paper edge (both branches in parity; docked
+              // used to sit flush to the frame — sealed consumers can't
+              // add it themselves).
               padding: css.layout.space.sm,
               color: css.colors.textPrimary,
               fontFamily: "inherit",
-              // auto = paper setinggi isi; bila meluap (68 tombol di HP),
-              // scroll di dalam paper — bukan kepotong. full = paper yang
-              // scroll, isi terkunci 100%.
+              // auto = paper as tall as its content; when it overflows (68 buttons on mobile),
+              // scroll inside the paper — not clipped. full = a scrolling paper,
+              // content locked to 100%.
               overflowX: "hidden",
               overflowY: overlayHeight === "auto" ? "auto" : "hidden",
             }}
@@ -141,11 +141,11 @@ export function Sidebar({
             </SidebarBody>
           </MuiBox>
         </Drawer>
-        {/* Satu IconButton portal untuk buka+tutup (ISSUE-008): fixed
-            setinggi tepi drawer, meluncur SINKRON dengan paper (durasi+easing
-            = transisi Slide MUI) — bukan muncul instan. Tertutup: mundur
-            selebar drawer hingga x≈0. Portal lepas dari paper (overflowY auto
-            memotong) dan stacking context — tanpa z-war. */}
+        {/* One portal IconButton for open+close (ISSUE-008): fixed
+            at drawer-edge height, slides IN SYNC with the paper (duration+easing
+            = MUI Slide transition) — not an instant appear. Closed: recedes
+            by the drawer width until x≈0. Portal is free of the paper (overflowY auto
+            clips) and stacking context — no z-war. */}
         {triggerVariant !== "none" &&
           mounted &&
           typeof document !== "undefined" &&
@@ -153,8 +153,8 @@ export function Sidebar({
             <MuiBox
               sx={{
                 position: "fixed",
-                // Terbuka: 4px dari tepi drawer (napas); tertutup: mundur
-                // selebar drawer hingga tepi layar (flush, seperti semula).
+                // Open: 4px from the drawer edge (breathing room); closed: recedes
+                // by the drawer width to the screen edge (flush, as before).
                 left: `calc(${OVERLAY_WIDTH} + ${TRIGGER_GAP})`,
                 top: "50%",
                 transform: `translateY(-50%)${
@@ -192,24 +192,24 @@ export function Sidebar({
       component="nav"
       id={id}
       aria-label={ariaLabel}
-      // Inline (bukan sx) agar paritas teruji di JSDOM; nilai = token yang
-      // sama dengan overlay (paritas fix #40).
+      // Inline (not sx) so parity is testable in JSDOM; value = the same token
+      // as overlay (parity fix #40).
       style={{ padding: css.layout.space.sm }}
       sx={{
         display: "flex",
         flexDirection: "column",
         position: "sticky",
         top: 0,
-        // Ikuti parent bila bounded (mis. kotak 680px showcase → scroll
-        // internal); bila tak bounded, tumbuh mengikuti halaman; dibatasi
-        // viewport agar tak pernah lebih tinggi dari layar.
+        // Follow the parent when bounded (e.g. a 680px showcase box → internal
+        // scroll); when unbounded, grow with the page; constrained to
+        // the viewport so it's never taller than the screen.
         height: "100%",
         maxHeight: "100dvh",
         width: SIDEBAR_WIDTH,
         flexShrink: 0,
         backgroundColor: css.colors.surface,
-        // Flush ke tepi viewport: sudut sisi-layar nol (logical, RTL-aman),
-        // sisi-konten tetap token radius; garis sisi-layar tak digambar.
+        // Flush to the viewport edge: screen-side corners zero (logical, RTL-safe),
+        // content-side keeps the radius token; the screen-side border isn't drawn.
         borderRadius: css.radius.card,
         borderStartStartRadius: 0,
         borderEndStartRadius: 0,

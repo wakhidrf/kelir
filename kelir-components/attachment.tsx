@@ -138,7 +138,7 @@ export function Attachment({
       {onRemove && (
         <button
           type="button"
-          // Adaptor zero-arg: kontrak kit tanpa event.
+          // Zero-arg adapter: kit contract takes no event.
           onClick={() => onRemove()}
           aria-label={`Delete ${name}`}
           style={{

@@ -5,15 +5,15 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import type { ContentProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
-// Ambang internal kit (md MUI, sama dengan Sidebar); bukan angka konsumen.
+// Kit internal breakpoint (MUI md, same as Sidebar); not a consumer number.
 const DESKTOP_QUERY = "(min-width: 900px)";
 
-// Satu-satunya area scroll app-shell sealed (P1b STYLE.md): isi sisa ruang
-// + scroll vertikal internal + padding responsif dari token (desktop lega,
-// mobile rapat; `compact?` memaksa rapat, default `false`) + latar
-// background. SSR-aman: noSsr + defaultMatches (server + render pertama =
-// desktop, koreksi setelah mount — tanpa hydration mismatch, pola Sidebar).
-// Tanpa ...rest ke DOM dan tanpa style passthrough.
+// The only sealed app-shell scroll area (P1b STYLE.md): fills the remaining
+// space + internal vertical scroll + responsive padding from tokens (roomy on
+// desktop, tight on mobile; `compact?` forces tight, default `false`) +
+// background. SSR-safe: noSsr + defaultMatches (server + first render =
+// desktop, correct after mount - no hydration mismatch, Sidebar pattern).
+// No ...rest to the DOM and no style passthrough.
 export function Content({
   children,
   compact = false,

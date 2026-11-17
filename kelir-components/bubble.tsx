@@ -80,9 +80,9 @@ export function Bubble({
             marginTop: "6px",
           }}
         >
-          {/* Key = nilai + indeks: reaksi boleh duplikat (mis. dua
-              jempol) tanpa peringatan key ganda React; tampilan tetap
-              apa adanya (tanpa dedup diam-diam). */}
+          {/* Key = value + index: reactions may duplicate (e.g. two
+              thumbs-up) without React duplicate-key warnings; display stays
+              as-is (no silent dedup). */}
           {reactions.map((reaction, index) => (
             <span
               key={`${reaction}-${index}`}

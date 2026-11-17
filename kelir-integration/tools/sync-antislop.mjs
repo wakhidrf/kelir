@@ -174,7 +174,7 @@ async function sync() {
   writeFileSync(lockPath, `${JSON.stringify(lock, null, 2)}\n`);
 
   console.log(
-    `sync-antislop: OK - ${wanted.length} file dari ${PIN.repo}@${PIN.ref} ` +
+    `sync-antislop: OK - ${wanted.length} files from ${PIN.repo}@${PIN.ref} ` +
       `(commit ${commit.slice(0, 9)}, v${version}) -> kelir-integration/antislop/`,
   );
 }
@@ -188,31 +188,31 @@ function check() {
   const extra = present.filter((p) => !expected.includes(p));
 
   const drift = [
-    ...missing.map((p) => `hilang: ${p}`),
-    ...extra.map((p) => `tak terdaftar di lock: ${p}`),
+    ...missing.map((p) => `missing: ${p}`),
+    ...extra.map((p) => `not registered in lock: ${p}`),
   ];
 
   for (const rel of expected) {
     const abs = join(mirrorDir, rel);
     if (!existsSync(abs)) continue;
     const got = sha256(readFileSync(abs));
-    if (got !== lock.files[rel].sha256) drift.push(`berubah: ${rel}`);
+    if (got !== lock.files[rel].sha256) drift.push(`changed: ${rel}`);
     if (readFileSync(abs, "utf8").includes("\r\n")) {
-      drift.push(`CRLF (harus LF): ${rel}`);
+      drift.push(`CRLF (must be LF): ${rel}`);
     }
   }
 
   if (drift.length > 0) {
-    console.error(`sync-antislop: drift - ${drift.length} masalah`);
+    console.error(`sync-antislop: drift - ${drift.length} issue(s)`);
     for (const d of drift) console.error(`  - ${d}`);
     console.error(
-      "  Mirror tidak boleh disunting tangan; jalankan `node kelir-integration/tools/sync-antislop.mjs`.",
+      "  The mirror must not be edited by hand; run `node kelir-integration/tools/sync-antislop.mjs`.",
     );
     process.exit(1);
   }
 
   console.log(
-    `sync-antislop: OK - ${expected.length} file cocok dengan lock ` +
+    `sync-antislop: OK - ${expected.length} files match the lock ` +
       `(${lock.repo}@${lock.ref}, v${lock.version}).`,
   );
 }
@@ -220,4 +220,4 @@ function check() {
 const args = process.argv.slice(2);
 if (args.includes("--check")) check();
 else if (args.length === 0) await sync();
-else die(2, `argumen tak dikenal: ${args.join(" ")} (pakai --check atau tanpa argumen).`);
+else die(2, `unknown argument: ${args.join(" ")} (use --check or no argument).`);

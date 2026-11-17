@@ -11,8 +11,8 @@ const AVATAR_PX = {
   "3xl": 160,
 } as const;
 
-// Logika murni (bukan DOM): peta size MAKNA → px milik kit.
-// Diuji unit langsung — jsdom tak menghitung stylesheet emotion.
+// Pure logic (no DOM): maps size MEANING → kit px.
+// Unit-tested directly - jsdom does not compute emotion stylesheets.
 export function avatarPx(size: NonNullable<AvatarProps["size"]>): number {
   return AVATAR_PX[size];
 }

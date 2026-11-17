@@ -9,8 +9,8 @@ const neumorphicBg = css.colors.surface;
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
-// Tombol ikon-only sealed (P1c STYLE.md §6): icon + aria-label wajib.
-// Tanpa ...rest ke DOM, tanpa style/sx/className passthrough.
+// Icon-only sealed button (P1c STYLE.md §6): icon + aria-label required.
+// No ...rest to DOM, no style/sx/className passthrough.
 export function IconButton({
   icon,
   "aria-label": ariaLabel,
@@ -39,7 +39,7 @@ export function IconButton({
             : css.radius.button,
       textTransform: "none",
       fontWeight: 600,
-      // Ukuran milik kit: md = perilaku hari ini (nol-ubah visual).
+      // Kit sizing: md = today's behavior (zero visual change).
       padding: size === "sm" ? "6px" : size === "lg" ? "14px" : "10px",
       minWidth: size === "sm" ? "32px" : size === "lg" ? "48px" : "40px",
       transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
@@ -90,7 +90,7 @@ export function IconButton({
       aria-describedby={ariaDescribedby}
       style={getStyles()}
       sx={{
-        // Ikon ~18px (sm) / ~28px (lg); md tanpa aturan = bawaan MUI.
+        // Icon ~18px (sm) / ~28px (lg); md without rule = MUI default.
         ...(size === "md"
           ? null
           : { "& .MuiSvgIcon-root": { fontSize: size === "sm" ? 18 : 28 } }),

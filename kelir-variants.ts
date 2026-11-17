@@ -4,12 +4,12 @@ import { easeMotion } from "./kelir-motion";
 import { typography as baseTypography } from "./kelir-typography";
 
 export interface KelirVariants {
-  // Warna inti dari DESIGN.md
+  // Core colors from DESIGN.md
   primary: string;
   secondary: string;
   tertiary: string;
   neutral: string;
-  // Warna turunan semantik (nilai bebas per tema, nama key fix)
+  // Derived semantic colors (free per-theme values, fixed key names)
   textPrimary: string;
   textSecondary: string;
   onPrimary: string;
@@ -61,8 +61,8 @@ export function createCss(
   return {
     colors: {
       background: color("background", variants.background),
-      // Kanvas opak tiap tema (background bisa gradien) — untuk elemen yang
-      // harus terbaca di semua tema (mis. tab tepi trigger Sidebar).
+      // Opaque canvas per theme (background may be a gradient) — for elements
+      // that must stay readable across all themes (e.g. the trigger Sidebar edge tab).
       baseBackground: color("background-base", variants.baseBackground),
       surface: color("surface", variants.surface),
       textPrimary: color("text-primary", variants.textPrimary),
@@ -89,8 +89,8 @@ export function createCss(
       sm: `var(--radius-sm, ${themeRounded.sm})`,
       md: `var(--radius-md, ${themeRounded.md})`,
       lg: `var(--radius-lg, ${themeRounded.lg})`,
-      // Peran (ISSUE-006): komponen memakai token peran, skala mentah
-      // hanya di definisi tema. Default = nilai kini (nol-ubah visual).
+      // Roles (ISSUE-006): components use role tokens, the raw scale only in
+      // theme definitions. Default = current values (zero visual change).
       button: `var(--radius-button, var(--radius-sm, ${themeRounded.sm}))`,
       card: `var(--radius-card, var(--radius-sm, ${themeRounded.sm}))`,
       surface: `var(--radius-surface, var(--radius-sm, ${themeRounded.sm}))`,
@@ -168,12 +168,12 @@ export function createCss(
 // deliberately theme-agnostic — never tied to any single theme — so consumers
 // cannot accidentally render a specific theme when the attribute is missing.
 export const variants = {
-  // Warna inti netral (bukan tema mana pun)
+  // Core neutral colors (not any theme)
   primary: "#8A8F98", // neutral gray (accent fallback)
   secondary: "#A6ABB3", // lighter gray
   tertiary: "#C4C8CE", // light gray
   neutral: "#3C4146", // dark gray (text / neutral)
-  // Warna turunan semantik (nilai netral)
+  // Derived semantic colors (neutral values)
   textPrimary: "#1F2328", // near-black (primary text)
   textSecondary: "#555B63", // muted gray (secondary text)
   onPrimary: "#FFFFFF", // white (text on primary)
@@ -181,7 +181,7 @@ export const variants = {
   onDestructive: "#FFFFFF", // white (text on destructive)
   destructive: "#B3261E", // neutral red (destructive background)
   background: "#F5F6F7", // neutral light canvas
-  baseBackground: "#E8E8E8", // neutral opaque canvas (edge tab dkk.)
+  baseBackground: "#E8E8E8", // neutral opaque canvas (edge tabs, etc.)
   surface: "#FFFFFF", // neutral surface
   borderLight: "rgba(0, 0, 0, 0.08)",
   borderMedium: "rgba(0, 0, 0, 0.14)",
@@ -194,9 +194,9 @@ export const variants = {
 
 export type VariantName = keyof typeof variants;
 
-// Status semantic palette (success/warning). Tetap netral (theme-agnostic)
-// sesuai aturan fallback: nilai sengaja tidak terkait satu tema, dan hanya
-// dipakai jika tema tidak menyediakan override status sendiri.
+// Status semantic palette (success/warning). Kept neutral (theme-agnostic) per
+// the fallback rule: the values are deliberately unrelated to any single theme
+// and are used only when the theme provides no status override of its own.
 export const statusColors = {
   success: { bg: "#C8E6C9", fg: "#1B5E20" },
   warning: { bg: "#FFE0B2", fg: "#B45309" },
@@ -210,8 +210,8 @@ export const shadows = {
 
 export const css = createCss(variants, shadows);
 
-// Scrollbar bertema: class statis + CSS yang warnanya mengikuti token tema
-// (runtime diisi KelirProvider dari kelir-themes lewat CSS variables).
+// Themed scrollbar: static class + CSS whose colors follow the theme tokens
+// (populated at runtime by KelirProvider from kelir-themes via CSS variables).
 export const scrollbarClass = "kelir-scrollbar";
 
 export const scrollbarCss = `

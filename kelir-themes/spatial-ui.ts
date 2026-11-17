@@ -5,19 +5,19 @@ import { createCss } from "../kelir-variants";
 // with very generous corner radius (24/48/72), floating glass panels and
 // spring physics. MATCHES springMotion (entry 540ms, stagger 120ms).
 export const variants = {
-  // Warna inti dari DESIGN.md
+  // Core colors from DESIGN.md
   primary: "#FFFFFF", // DESIGN primary (frosted glass white)
   secondary: "#E8F1F8", // derived soft glass-blue (secondary glass)
   tertiary: "#39C8FF", // derived spatial cyan accent
   neutral: "#0A0A0F", // derived deep ink (text / neutral)
-  // Warna turunan semantik
+  // Derived semantic colors
   textPrimary: "#1A1B22", // charcoal (primary text on glass)
   textSecondary: "rgba(10, 10, 15, 0.65)", // muted ink (secondary text)
   onPrimary: "#1A1B22", // ink (text on frosted glass)
   onSecondary: "#1A1B22", // ink (text on glass-blue)
   onDestructive: "#FFFFFF", // white (text on destructive)
   destructive: "#C0372B", // derived deep red (destructive)
-  // Warna turunan (nilai bebas per tema, nama key fix)
+  // Derived colors (free per-theme values, fixed key names)
   background:
     "radial-gradient(1200px 900px at 15% -10%, #3AA0FF 0%, transparent 55%), radial-gradient(900px 700px at 110% 20%, #39C8FF 0%, transparent 50%), linear-gradient(180deg, #EDF4FB 0%, #DFE9F2 100%)", // soft aerial glass-blue backdrop
   baseBackground: "#DFE9F2", // solid canvas base (gradient tail) for below-the-fold body

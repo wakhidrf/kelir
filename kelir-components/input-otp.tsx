@@ -84,7 +84,7 @@ export function InputOtp({
     <MuiBox
       role="group"
       id={id}
-      aria-label={ariaLabel ?? "Kode verifikasi"}
+      aria-label={ariaLabel ?? "Verification code"}
       sx={{
         display: "flex",
         gap: css.layout.space.sm,

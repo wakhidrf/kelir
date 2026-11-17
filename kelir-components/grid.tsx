@@ -13,33 +13,33 @@ const gaps = {
   "4xl": css.layout.space["4xl"],
 } as const;
 
-// Ambang responsif kit (satu sumber: token layout) - `mobile` 600px untuk
-// `columnsSm`, `heroCollapse` 768px untuk `columnsMd`. Aturan md ditulis
-// setelah sm supaya ia menang saat keduanya cocok.
+// Kit responsive thresholds (single source: layout tokens) - `mobile` 600px for
+// `columnsSm`, `heroCollapse` 768px for `columnsMd`. The md rule is written
+// after sm so it wins when both match.
 const SM_QUERY = `@media (min-width: ${css.layout.breakpoints.mobile})`;
 const MD_QUERY = `@media (min-width: ${css.layout.breakpoints.heroCollapse})`;
 
 const columnsCss = (n: number) => `repeat(${n}, minmax(0, 1fr))`;
 
-// Panel aside: lebar tetap dari tangga kit + ambang collapse (900px = ambang
-// Sidebar internal agar aside & shell runtuh serempak).
+// Aside panel: fixed width from the kit scale + collapse threshold (900px =
+// internal Sidebar threshold so aside & shell collapse together).
 const asideWidths = { sm: 240, md: 280, lg: 320 } as const;
 const collapsePx = { md: css.layout.breakpoints.heroCollapse, lg: "900px" } as const;
 const PIN_HEIGHT = 680;
 const PIN_MAX = "calc(100dvh - 48px)";
 
-// Auto-fit: jumlah kolom mengikuti lebar wadah dengan lebar item minimum
-// dari token (tanpa media query - cukup inline).
+// Auto-fit: column count follows container width with minimum item width
+// from tokens (no media query - inline is enough).
 const autoFitCss = (minItem: "sm" | "md") =>
   `repeat(auto-fit, minmax(${css.layout.gridMin[minItem]}, 1fr))`;
 
-// Primitif layout sealed (P1b STYLE.md): kolom union tertutup (bukan angka
-// bebas) + jarak dari token css.layout. `minItem` = auto-fit lebar minimum
-// item dari token (menggantikan columns*). `columnsSm`/`columnsMd` = jumlah kolom
-// pada lebar >= 600px / >= 768px; saat dipakai, kolom dasar ikut pindah ke
-// `sx` (emotion) agar media query bisa menang - tetap server-safe tanpa hook.
-// Basis MUI (MuiBox) untuk multi-platform; tanpa visual, tanpa ...rest ke DOM,
-// tanpa style passthrough.
+// Sealed layout primitive (P1b STYLE.md): closed-union columns (not arbitrary
+// numbers) + spacing from css.layout tokens. `minItem` = auto-fit minimum item
+// width from tokens (replaces columns*). `columnsSm`/`columnsMd` = column count
+// at width >= 600px / >= 768px; when used, the base columns also move to
+// `sx` (emotion) so the media query can win - still server-safe without hooks.
+// MUI basis (MuiBox) for multi-platform; no visuals, no ...rest to DOM,
+// no style passthrough.
 export function Grid({
   children,
   columns = 2,

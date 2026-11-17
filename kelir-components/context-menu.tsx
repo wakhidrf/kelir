@@ -32,7 +32,7 @@ export function ContextMenu({
 
   return (
     <>
-      {/* Area klik-kanan milik kit: trigger TEKS, event ditangani kit. */}
+      {/* Kit-owned right-click area: TEXT trigger, event handled by the kit. */}
       <div
         onContextMenu={handleContextMenu}
         title={truncate ? trigger : undefined}

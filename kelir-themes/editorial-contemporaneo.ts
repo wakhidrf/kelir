@@ -4,19 +4,19 @@ import { createCss } from "../kelir-variants";
 // dark grey) plus gold surface and navy accent. Light scheme, serif Display
 // (Playfair), ease-out motion (entry 420ms, stagger 80ms) = easeMotion default.
 export const variants = {
-  // Warna inti dari DESIGN.md
+  // Core colors from DESIGN.md
   primary: "#FFFFFF", // DESIGN primary (white surface)
   secondary: "#000000", // DESIGN secondary (black / ink)
   tertiary: "#800000", // DESIGN tertiary (wine red accent)
   neutral: "#333333", // DESIGN neutral (dark grey)
-  // Warna turunan semantik
+  // Derived semantic colors
   textPrimary: "#111111", // near-black (primary text)
   textSecondary: "rgba(17, 17, 17, 0.7)", // muted ink (secondary text)
   onPrimary: "#111111", // ink (text on white primary)
   onSecondary: "#FFFFFF", // white (text on black)
   onDestructive: "#FFFFFF", // white (text on destructive)
   destructive: "#800000", // DESIGN tertiary (wine red destructive)
-  // Warna turunan (nilai bebas per tema, nama key fix)
+  // Derived colors (free per-theme values, fixed key names)
   background: "#FAF8F2", // warm paper canvas
   baseBackground: "#FAF8F2", // solid canvas base (same as background for flat themes)
   surface: "#FFFFFF", // paper surface (editorial card)

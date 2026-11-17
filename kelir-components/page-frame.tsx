@@ -2,14 +2,14 @@ import MuiBox from "@mui/material/Box";
 import type { PageFrameProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
-// Ambang ponsel kit (satu sumber: token layout.mobile 600px).
+// Kit mobile threshold (single source: layout.mobile token 600px).
 const MOBILE_MAX = `@media (max-width: calc(${css.layout.breakpoints.mobile} - 0.02px))`;
 
-// Rangka halaman dokumen sealed (STYLE.md §6): tepi halaman + lebar isi +
-// napas main/footer semuanya dari token layout.page. Slot `overlays` menerima
-// pemicu bertitik tetap (Positioned), `header`/`footer` chrome tengah, dan
-// `children` isi utama. Font aktif tema + warna teks kit melekat di akar.
-// Tanpa ...rest ke DOM dan tanpa style passthrough.
+// Sealed document page frame (STYLE.md §6): page edges + content width +
+// main/footer breathing room all come from layout.page tokens. The `overlays`
+// slot receives fixed-dot triggers (Positioned), `header`/`footer` center chrome,
+// and `children` the main content. The active theme font + kit text colors attach
+// at the root. No ...rest to DOM and no style passthrough.
 export function PageFrame({
   children,
   header,

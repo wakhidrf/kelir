@@ -6,10 +6,10 @@ import type { CodeBlockProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 import { Button } from "./button";
 
-// Blok kode sealed (P2 STYLE.md 6): label bahasa, tombol salin, dan perilaku
-// clipboard milik kit; konsumen hanya memasok teks kode + label. Basis MUI
-// (MuiBox = pre + emotion + tema di tree). Tanpa ...rest ke DOM, tanpa
-// style/sx/className passthrough.
+// Code block sealed (P2 STYLE.md 6): language label, copy button, and
+// clipboard behavior owned by the kit; consumers only supply code text + label.
+// MUI-based (MuiBox = pre + emotion + theme in the tree). No ...rest to the
+// DOM, no style/sx/className passthrough.
 function copyText(codeText: string): Promise<void> {
   if (navigator.clipboard?.writeText) {
     return navigator.clipboard
@@ -19,8 +19,8 @@ function copyText(codeText: string): Promise<void> {
   return fallbackCopy(codeText);
 }
 
-// Cadangan saat clipboard API ditolak/tak ada: textarea sementara di luar
-// aliran dokumen, tanpa jejak visual maupun fokus yang berpindah.
+// Fallback when the clipboard API is denied/missing: a temporary textarea
+// outside the document flow, with no visual trace and no focus shift.
 function fallbackCopy(codeText: string): Promise<void> {
   const textarea = document.createElement("textarea");
   textarea.value = codeText;
@@ -60,8 +60,8 @@ export function CodeBlock({
         timer.current = setTimeout(() => setCopied(false), 2000);
       })
       .catch(() => {
-        // Clipboard tak tersedia dan cadangan gagal: label dibiarkan apa
-        // adanya, tanpa konfirmasi palsu.
+        // Clipboard unavailable and fallback failed: leave the label as-is,
+        // with no false confirmation.
       });
   };
 

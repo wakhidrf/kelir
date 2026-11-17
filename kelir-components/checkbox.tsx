@@ -5,9 +5,9 @@ import { css } from "../kelir-variants";
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
-// Pilihan biner sealed (Gel.2 STYLE.md §6): basis MUI; `onChange` semantik
-// (boolean, bukan event); label slot teks milik kit. Tanpa ...rest,
-// tanpa style/sx konsumen.
+// Binary choice sealed (Gel.2 STYLE.md §6): MUI-based; semantic `onChange`
+// (boolean, not event); label text slot owned by the kit. No ...rest,
+// no consumer style/sx.
 export function Checkbox({
   checked,
   defaultChecked,
@@ -33,7 +33,7 @@ export function Checkbox({
         onChange={(e) => onChange?.(e.target.checked)}
         disabled={disabled}
         id={id}
-        // MUI v9: atribut input lewat slotProps.input (inputProps usang).
+        // MUI v9: input attributes via slotProps.input (inputProps is deprecated).
         slotProps={{ input: { "aria-label": ariaLabel ?? label } }}
         sx={{
           color: textSecondary,

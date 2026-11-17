@@ -1,7 +1,7 @@
 import { css } from "../kelir-variants";
 
-// Bilah progres Questionnaire (internal, pecah P2 §8): step/total/pct
-// angka milik kit. Bukan kontrak publik — props lokal, tanpa §5.
+// Questionnaire progress bar (internal, P2 split §8): step/total/pct
+// numbers owned by the kit. Not a public contract — local props, no §5.
 interface QuestionnaireProgressProps {
   step: number;
   total: number;

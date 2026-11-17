@@ -3,17 +3,17 @@ import DialogContent from "@mui/material/DialogContent";
 import type { LoadingOverlayProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
-// LoadingOverlay sealed (No 77): overlay pemuatan fullscreen berbasis MUI
-// (portal + focus-trap + aria-modal gratis, preseden Dialog). Bukan dialog
-// konfirmasi: tanpa judul/tombol/aksi. Hanya props kontrak - tanpa onClose
-// (pemuatan tak bisa di-dismiss; Escape/backdrop tak menutup), tanpa
-// ...rest ke DOM, tanpa style/sx/className konsumen.
-// Kartu tengah berdenyut milik kit (`kelir-loading-pulse` dari CSS provider,
-// irama tetap tanpa prop); backdrop redup = default MUI (keputusan kit,
-// tanpa rgba hardcode). Nama aksesibel milik kit (aria-label > label >
-// progress > "Memuat") dipasang pada paper role=dialog - bukan root
-// presentation MUI yang diabaikan AT (preseden Dialog menaruhnya di root,
-// di sini dibetulkan).
+// LoadingOverlay sealed (No 77): MUI-based fullscreen loading overlay
+// (portal + focus-trap + aria-modal for free, Dialog precedent). Not a
+// confirmation dialog: no title/buttons/actions. Only contract props - no
+// onClose (loading cannot be dismissed; Escape/backdrop do not close), no
+// ...rest to DOM, no consumer style/sx/className.
+// The kit's pulsing center card (`kelir-loading-pulse` from the CSS provider,
+// fixed rhythm without props); dim backdrop = MUI default (kit decision,
+// no hardcoded rgba). The accessible name belongs to the kit (aria-label >
+// label > progress > "Loading"), set on the role=dialog paper - not the MUI
+// presentation root ignored by AT (Dialog precedent puts it on the root,
+// corrected here).
 export function LoadingOverlay({
   open,
   label,
@@ -22,7 +22,7 @@ export function LoadingOverlay({
   id,
   "aria-label": ariaLabel,
 }: LoadingOverlayProps) {
-  const name = ariaLabel ?? label ?? progress ?? "Memuat";
+  const name = ariaLabel ?? label ?? progress ?? "Loading";
   return (
     <MuiDialog
       open={open}

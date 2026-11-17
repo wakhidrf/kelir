@@ -1,4 +1,4 @@
-# Mirror anti-slop diuji byte-exact terhadap upstream (sha256 di
-# upstream.lock.json): paksa LF agar checkout Windows (autocrlf) tak mengubah
-# hash hasil sinkronisasi.
+# Mirror anti-slop tested byte-exact against upstream (sha256 in
+# upstream.lock.json): force LF so Windows checkout (autocrlf) does not change
+# the hash of the sync result.
 /kelir-integration/antislop/** text eol=lf

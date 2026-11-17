@@ -1,24 +1,24 @@
-// kelir-slop.mjs - gate anti-slop repo (F6).
+// kelir-slop.mjs - anti-slop gate for the repo (F6).
 //
-// Memindai kode yang SHIPPED (konsumen di <proyek>/src minus kit, plus internal
-// kit minus mirror/vendor) memakai tabel matcher di file ini; indeks aturan
-// dibaca dari kelir-integration/antislop/index.json (mirror upstream).
-// Tanpa dep baru, tanpa jaringan.
+// Scans SHIPPED code (consumers in <project>/src minus the kit, plus kit-internal
+// minus mirror/vendor) using the matcher table in this file; the rule index is
+// read from kelir-integration/antislop/index.json (upstream mirror).
+// No new deps, no network.
 //
-// Semantik (sengaja, sesuai rulebook upstream):
-//   - Aturan code (jsx/css/komentar) -> dijalankan atas sumber mentah.
-//   - Aturan text (copy)            -> HANYA atas string/teks JSX yang tampil ke
-//     pengguna; komentar kode bukan "copy" (upstream memisahkan antislop-code).
-//   - Aturan both (emoji)           -> keduanya.
-//   - Baris ber-'kelir-allow: slop' = pengecualian eksplisit per baris (alasan
-//     wajib ditulis di komentar), dilaporkan sebagai ALLOW (bukan sunyi).
+// Semantics (deliberate, matching the upstream rulebook):
+//   - code rules (jsx/css/comment) -> run against raw source.
+//   - text rules (copy)            -> ONLY against string/JSX text shown to
+//     users; code comments are not "copy" (upstream separates antislop-code).
+//   - both rules (emoji)           -> both.
+//   - Lines marked 'kelir-allow: slop' = explicit per-line exception (a
+//     reason must be written in the comment), reported as ALLOW (not silent).
 //
-// Mode: --strict -> exit 1 bila ada ERROR. Cakupan selalu dicetak.
+// Mode: --strict -> exit 1 when any ERROR. Scope is always printed.
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
-// scripts/ -> kelir/ -> views/ -> src/ -> <proyek>
+// scripts/ -> kelir/ -> views/ -> src/ -> <project>
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..", "..", "..", "..");
 const SRC = join(ROOT, "src");
@@ -26,9 +26,9 @@ const KELIR = join(SRC, "views", "kelir");
 const INTEGRATION = join(KELIR, "kelir-integration");
 const STRICT = process.argv.includes("--strict");
 
-// Tabel matcher gate. Setiap id WAJIB ada di index.json (fail-closed), jadi
-// rename aturan upstream ketahuan alih-alih diam-diam melemahkan filter.
-// scope: "text" = prose/copy (string/teks JSX), "code" = jsx/css/komentar,
+// Gate matcher table. Each id MUST exist in index.json (fail-closed), so an
+// upstream rule rename is caught instead of silently weakening the filter.
+// scope: "text" = prose/copy (string/JSX text), "code" = jsx/css/comment,
 // "both".
 const MATCHERS = [
   // core rules
@@ -74,7 +74,7 @@ function loadRuleMap(mirror) {
   for (const m of MATCHERS) {
     if (!map.has(m.rule)) {
       throw new Error(
-        `kelir-slop: matcher rule '${m.rule}' tak ada di index.json (aturan berubah?).`,
+        `kelir-slop: matcher rule '${m.rule}' is not in index.json (rule changed?).`,
       );
     }
   }
@@ -83,28 +83,28 @@ function loadRuleMap(mirror) {
 
 const CODE_EXT = /\.(tsx?|jsx?|mjs|cjs|css)$/;
 const TEST_EXT = /\.(test|test-d)\.(tsx?|jsx?)$/;
-// Di-generate / di-vendor: bukan milik kita untuk disunting.
+// Generated / vendored: not ours to edit.
 const GENERATED = [
-  join(INTEGRATION, "antislop"), // mirror upstream (jangan disentuh)
-  join(SRC, "views", "kelir-docs.ts"), // dari README/CHANGELOG
+  join(INTEGRATION, "antislop"), // upstream mirror (do not touch)
+  join(SRC, "views", "kelir-docs.ts"), // from README/CHANGELOG
 ];
-// Berkas spesifikasi: memuat rulebook sendiri / korpus slop untuk uji gate.
+// Spec files: carry their own rulebook / slop corpus to test the gate.
 const SPEC = [
-  join(KELIR, "scripts", "kelir-slop.mjs"), // gate ini (tabel matcher + literal allow)
+  join(KELIR, "scripts", "kelir-slop.mjs"), // this gate (matcher table + literal allow)
 ];
 
-// Kit internal adalah IMPLEMENTASI (mis. outline:none + ring sendiri,
-// tema glassmorphism, radius pill): aturan code ui/mobile/a11y di sini
-// false positive by design. Yang tetap dicek: copy (teks ke pengguna),
-// emoji hiasan, dan higiene komentar.
+// Kit-internal code is the IMPLEMENTATION (e.g. outline:none + its own ring,
+// glassmorphism theme, pill radius): the code/ui/mobile/a11y rules here are
+// false positives by design. Still checked: copy (user-facing text),
+// decorative emoji, and comment hygiene.
 const kitAllows = (m) => m.scope === "text" || m.scope === "both" || m.rule.startsWith("antislop-code--");
 
 if (!existsSync(SRC)) {
   console.error(
-    "kelir-slop: tidak menemukan <proyek>/src di " +
+    "kelir-slop: could not find <project>/src at " +
       `${SRC}.\n` +
-      "  Jalankan dari proyek konsumen yang menaruh kit di src/views/kelir\n" +
-      "  (mis. `npm run kelir:slop`), bukan dari repo kit sendiri.",
+      "  Run from a consumer project that places the kit at src/views/kelir\n" +
+      "  (e.g. `npm run kelir:slop`), not from the kit repo itself.",
   );
   process.exit(2);
 }
@@ -123,8 +123,8 @@ function walk(dir, out = []) {
   return out;
 }
 
-// Teks yang tampil ke pengguna: isi literal '...' "..." `...` (bagian literal
-// template saja) + node teks JSX (di luar {ekspresi}).
+// User-facing text: literal contents '...' "..." `...` (literal template
+// parts only) + JSX text nodes (outside {expression}).
 function copySpans(src) {
   const spans = [];
   const n = src.length;
@@ -171,7 +171,7 @@ function copySpans(src) {
       i++;
       continue;
     }
-    // sq | dq | tpl: kumpulkan isi literal.
+    // sq | dq | tpl: collect literal contents.
     if (c === "\\") { i += 2; continue; }
     const q = s === "sq" ? "'" : s === "dq" ? '"' : "`";
     if (c === q) { spans.push({ start: cur().start, end: i }); st.pop(); i++; continue; }
@@ -181,7 +181,7 @@ function copySpans(src) {
   return spans;
 }
 
-// Node teks JSX: teks di antara '>' dan '<' pada kedalaman kurung 0.
+// JSX text nodes: text between '>' and '<' at bracket depth 0.
 function jsxTextSpans(src) {
   const spans = [];
   const masked = src
@@ -198,7 +198,7 @@ function jsxTextSpans(src) {
   return spans;
 }
 
-// String yang jelas berupa kode/nilai (className, style, token util) bukan copy.
+// Strings that clearly look like code/values (className, style, utility token) are not copy.
 function looksLikeCode(text) {
   if (!/[A-Za-z]/.test(text)) return true;
   if (/[{};]/.test(text)) return true;
@@ -236,7 +236,7 @@ for (const f of files) {
     (lines[ln - 2] ?? "").includes("kelir-allow: slop");
   const hits = [];
 
-  // Aturan code (dan "both") atas sumber mentah.
+  // Code rules (and "both") against the raw source.
   for (const m of rules) {
     if (m.scope === "code" || m.scope === "both") {
       const re = new RegExp(m.re.source, m.re.flags.replace("g", "") + "g");
@@ -248,7 +248,7 @@ for (const f of files) {
     }
   }
 
-  // Aturan copy atas teks yang tampil ke pengguna.
+  // Copy rules against user-facing text.
   for (const sp of [...copySpans(src), ...jsxTextSpans(src)]) {
     const text = src.slice(sp.start, sp.end);
     if (looksLikeCode(text)) continue;
@@ -268,7 +268,7 @@ for (const f of files) {
     }
   }
 
-  // Dedupe rule+line; em dash (R-02) menyerap varian copywriting-nya.
+  // Dedupe rule+line; em dash (R-02) absorbs its copywriting variants.
   const seen = new Set();
   const dashLines = new Set(hits.filter((h) => h.rule === "R-02").map((h) => h.line));
   for (const h of hits) {
@@ -288,8 +288,8 @@ console.log(`kelir-slop: ${err.length} ERROR, ${allowed.length} ALLOW`);
 for (const a of allowed) console.log(`ALLOW ${fmt(a)}`);
 for (const e of err) console.log(`ERROR ${fmt(e)}`);
 console.log(
-  `cakupan: ${coverage.consumer} berkas konsumen + ${coverage.kit} berkas kit dipindai; ` +
-    `dilewati resmi: ${coverage.tests} test, ${coverage.noImport} tanpa impor kelir, ` +
-    `${GENERATED.length} generated/vendor, ${SPEC.length} spec/korpus.`,
+  `scope: ${coverage.consumer} consumer files + ${coverage.kit} kit files scanned; ` +
+    `officially skipped: ${coverage.tests} test, ${coverage.noImport} without kelir import, ` +
+    `${GENERATED.length} generated/vendor, ${SPEC.length} spec/corpus.`,
 );
 if (STRICT && err.length > 0) process.exit(1);
