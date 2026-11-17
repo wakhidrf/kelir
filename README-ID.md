@@ -256,9 +256,9 @@ sehingga tak pernah basi:
 ---
 
 <!-- kelir-doc: components -->
-## Daftar Lengkap 85 Komponen Project Kelir
+## Daftar Lengkap 86 Komponen Project Kelir
 
-Project Kelir memiliki **77 komponen** yang dikelompokkan ke beberapa kategori utama agar mudah merancang antarmuka yang terstruktur dan konsisten.
+Project Kelir memiliki **86 komponen** yang dikelompokkan ke beberapa kategori utama agar mudah merancang antarmuka yang terstruktur dan konsisten.
 
 ### 1. Input & Formulir
 Komponen yang menangkap interaksi pengguna dan input data dengan kontrol terintegrasi.
@@ -339,31 +339,32 @@ Komponen untuk notifikasi status, dialog interupsi, dan panduan melayang.
 62. **Sheet**: Ekstensi dialog geser-samping untuk menampilkan data pendukung.
 63. **Spinner**: Indikator loading melingkar yang mulus.
 64. **Toast**: Pesan notifikasi singkat yang muncul sementara di sudut layar.
-65. **Tooltip**: Penjelasan teks mini yang muncul saat elemen di-hover.
+65. **Toaster**: Antrean notifikasi global yang merender `Toast` untuk panggilan `useToast`, dengan urutan, durasi, live region, dan batas antrean milik kit.
+66. **Tooltip**: Penjelasan teks mini yang muncul saat elemen di-hover.
 
 ### 5. Tata Letak
 Komponen yang membentuk struktur dan penempatan elemen.
 
-66. **Direction**: Provider konteks untuk arah baca teks (LTR - kiri ke kanan, atau RTL - kanan ke kiri).
-67. **Grid**: Grid kolom responsif dengan union kolom dan gap tertutup.
-68. **Resizable**: Panel tata letak yang ukurannya bisa diatur dinamis dengan pembagi seret.
-69. **Skeleton**: Bingkai placeholder animasi redup-terang untuk elemen kosong sebagai visualisasi sebelum data selesai dimuat.
-70. **Spacer**: Primitif whitespace gap-tetap dengan union ukuran tertutup.
-71. **Stack**: Primitif tumpukan vertikal/horizontal dengan union gap, direction, align, dan justify tertutup, plus tinggi minimum satu layar dan pembalikan urutan di layar lebar.
-72. **Container**: Primitif penampung lebar halaman dengan union maxWidth dan padding tertutup dari token layout.
-73. **Image**: Primitif media netral dengan union height, fit, dan radius tertutup, mode fluid opsional dengan batas lebar px, dan tanpa shadow/border bawaan.
-74. **FlexItem**: Primitif kontrol item flex pasangan Stack, dengan union boolean grow, shrink, dan clip tertutup, plus offset naik ber-token.
-75. **Shell**: Primitif cangkang viewport app-shell dengan arah baris atau bertumpuk dari boolean tertutup.
-76. **Content**: Satu-satunya area scroll app-shell dengan padding token responsif dan latar.
-77. **TopBar**: Bar mobile app-shell yang menyejajarkan slot kiri dan kanan ujung-ke-ujung (`variant?` `raised|flat`, default `raised`; `flat` baris aksi transparan di dalam konten).
-78. **Tile**: Primitif ubin ikon/logo dengan union tone dan size tertutup dari token.
-79. **Banner**: Spanduk status tengah dengan union tone tertutup, teksnya mewarisi warna.
-80. **Link**: Tautan teks sebaris dengan ikon milik kit, href wajib, dan target eksternal yang aman.
-81. **LoadingOverlay**: Overlay pemuatan fullscreen yang menghalangi interaksi, dengan kartu tengah berdenyut milik kit, label status, teks kemajuan, dan slot media milik konsumen.
-82. **TruncatedText**: Teks elipsis satu baris dengan batas lebar milik kit (`text` wajib, `maxWidth?` data px, teks penuh saat hover); `ContextMenu`/`DropdownMenu` mendapat `truncate?` untuk pemicu teks elipsis.
-83. **Icon**: Pembungkus ikon dekoratif dengan warna (`intent`) dan ukuran dari token kit; tanpa `aria-label` ia tetap `aria-hidden` bagi pembaca layar.
-84. **Positioned**: Slot bertitik tetap untuk pemicu sudut dan tepi (`anchor` dari token space, `visibility` mobile/desktop dari token 600px, `elevate` mati bila slot memuat pemicu sidebar sendiri).
-85. **PageFrame**: Rangka halaman dokumen - tepi halaman, lebar isi, dan napas header/main/footer semuanya dari token `layout.page`, dengan slot `overlays` untuk pemicu bertitik tetap.
+67. **Direction**: Provider konteks untuk arah baca teks (LTR - kiri ke kanan, atau RTL - kanan ke kiri).
+68. **Grid**: Grid kolom responsif dengan union kolom dan gap tertutup.
+69. **Resizable**: Panel tata letak yang ukurannya bisa diatur dinamis dengan pembagi seret.
+70. **Skeleton**: Bingkai placeholder animasi redup-terang untuk elemen kosong sebagai visualisasi sebelum data selesai dimuat.
+71. **Spacer**: Primitif whitespace gap-tetap dengan union ukuran tertutup.
+72. **Stack**: Primitif tumpukan vertikal/horizontal dengan union gap, direction, align, dan justify tertutup, plus tinggi minimum satu layar dan pembalikan urutan di layar lebar.
+73. **Container**: Primitif penampung lebar halaman dengan union maxWidth dan padding tertutup dari token layout.
+74. **Image**: Primitif media netral dengan union height, fit, dan radius tertutup, mode fluid opsional dengan batas lebar px, dan tanpa shadow/border bawaan.
+75. **FlexItem**: Primitif kontrol item flex pasangan Stack, dengan union boolean grow, shrink, dan clip tertutup, plus offset naik ber-token.
+76. **Shell**: Primitif cangkang viewport app-shell dengan arah baris atau bertumpuk dari boolean tertutup.
+77. **Content**: Satu-satunya area scroll app-shell dengan padding token responsif dan latar.
+78. **TopBar**: Bar mobile app-shell yang menyejajarkan slot kiri dan kanan ujung-ke-ujung (`variant?` `raised|flat`, default `raised`; `flat` baris aksi transparan di dalam konten).
+79. **Tile**: Primitif ubin ikon/logo dengan union tone dan size tertutup dari token.
+80. **Banner**: Spanduk status tengah dengan union tone tertutup, teksnya mewarisi warna.
+81. **Link**: Tautan teks sebaris dengan ikon milik kit, href wajib, dan target eksternal yang aman.
+82. **LoadingOverlay**: Overlay pemuatan fullscreen yang menghalangi interaksi, dengan kartu tengah berdenyut milik kit, label status, teks kemajuan, dan slot media milik konsumen.
+83. **TruncatedText**: Teks elipsis satu baris dengan batas lebar milik kit (`text` wajib, `maxWidth?` data px, teks penuh saat hover); `ContextMenu`/`DropdownMenu` mendapat `truncate?` untuk pemicu teks elipsis.
+84. **Icon**: Pembungkus ikon dekoratif dengan warna (`intent`) dan ukuran dari token kit; tanpa `aria-label` ia tetap `aria-hidden` bagi pembaca layar.
+85. **Positioned**: Slot bertitik tetap untuk pemicu sudut dan tepi (`anchor` dari token space, `visibility` mobile/desktop dari token 600px, `elevate` mati bila slot memuat pemicu sidebar sendiri).
+86. **PageFrame**: Rangka halaman dokumen - tepi halaman, lebar isi, dan napas header/main/footer semuanya dari token `layout.page`, dengan slot `overlays` untuk pemicu bertitik tetap.
 
 ---
 

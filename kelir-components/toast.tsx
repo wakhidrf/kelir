@@ -1,7 +1,24 @@
+"use client";
+
 import MuiSnackbar from "@mui/material/Snackbar";
 import SnackbarContent from "@mui/material/SnackbarContent";
+import * as React from "react";
 import type { ToastProps } from "../kelir-types";
 import { css, statusColors } from "../kelir-variants";
+
+// INTERNAL kit: Toaster menumpuk Toast di dalam satu kontainer miliknya.
+// Konteks ini membuat root MUI Snackbar menjadi statis agar tiap Toast ikut
+// alur flex kontainer, tanpa prop visual baru di kontrak Toast.
+export const ToastStackContext = React.createContext(false);
+
+const stackedSnackbarStyle: React.CSSProperties = {
+  position: "static",
+  inset: "auto",
+  width: "auto",
+  maxWidth: "100%",
+  margin: 0,
+  transform: "none",
+};
 
 const convexShadow = css.shadows.convex;
 const neumorphicBg = css.colors.surface;
@@ -31,6 +48,8 @@ export function Toast({
   id,
   "aria-label": ariaLabel,
 }: ToastProps) {
+  const stacked = React.useContext(ToastStackContext);
+
   return (
     <MuiSnackbar
       open={open}
@@ -38,6 +57,7 @@ export function Toast({
       autoHideDuration={autoHideDuration}
       id={id}
       aria-label={ariaLabel}
+      style={stacked ? stackedSnackbarStyle : undefined}
     >
       <SnackbarContent
         message={
