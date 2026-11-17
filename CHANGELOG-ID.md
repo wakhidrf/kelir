@@ -43,6 +43,7 @@
 | Overflow kartu | Kartu selalu memotong tepinya | `Card overflow?` (`hidden\|visible`, default `hidden`); kartu `scrollable` tetap memotong agar isi bisa scroll |
 | Pemicu menu sempit | Pemicu terpotong bisa terlihat sesak atau terlalu lebar | `ContextMenu`/`DropdownMenu maxWidth?` (data px; berlaku pada pemicu yang di-truncate) |
 | Penekanan Toast | Setiap toast tampak sama | `Toast tone?` (`info\|success\|warning\|error`): strip aksen sisi kiri dari token kit/status; tanpa `tone` tetap netral |
+| Notifikasi global | Setiap form membangun state notifikasi dan host sendiri | `Toaster` + `useToast()`: antrean FIFO dengan batas dan durasi milik kit, satu tampil secara bawaan (`maxVisible?`), `position?` logis, dan `Toast` sealed sebagai satu-satunya renderer |
 | Layout responsif | Layout per-breakpoint butuh CSS/hook sendiri | `Stack directionMd?`, `Container paddingBlockMd?`, `Typography variantMd?`: satu breakpoint kit (768px) diterapkan di `>=768px`, nilai dari union yang sudah tertutup |
 | Gambar responsif | Media hero/fluid butuh pembungkus rakitan | `Image fluid?` (isi lebar wadah, tinggi auto) dan `maxHeight?` (dari skala ukuran) |
 | Ruang terpesan | Area tinggi tetap untuk konten async/pihak ketiga butuh style inline | `Stack minHeight?` dari skala space (`xs`..`4xl`), default tanpa |

@@ -930,6 +930,23 @@ export interface ToastProps {
   "aria-label"?: string;
 }
 
+// Toaster (#107) — antrean notifikasi global di atas Toast sealed.
+// Bukan komponen visual: antrean FIFO, durasi tampil, batas antrean, dan live
+// region milik kit. `useToast()` memanggil notifikasi dari mana saja tanpa
+// state per-form. Tanpa ...rest/style/sx/className.
+export interface ToasterProps {
+  /** Jumlah notifikasi tampil serentak. Default 1 (FIFO). */
+  maxVisible?: number;
+  /** Posisi layar logis; default "bottom-end". */
+  position?: "top-start" | "top-end" | "bottom-start" | "bottom-end";
+  id?: string;
+}
+
+export type ToastApi = {
+  notify: (message: string, tone?: ToastProps["tone"]) => void;
+  close: () => void;
+};
+
 // 60. Toggle
 // 60. Toggle — tombol tekan sealed berbasis MUI (Gel.3c-2 STYLE.md §6).
 // Model pressed (aria-pressed milik kit), bukan selected MUI; `children` teks.

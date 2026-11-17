@@ -255,9 +255,9 @@ goes stale:
 ---
 
 <!-- kelir-doc: components -->
-## Complete List of 85 Project Kelir Components
+## Complete List of 86 Project Kelir Components
 
-Project Kelir has **77 components** organized into several main categories to make it easier to design structured and consistent user interfaces.
+Project Kelir has **86 components** organized into several main categories to make it easier to design structured and consistent user interfaces.
 
 ### 1. Inputs & Forms
 Components that capture user interaction and data input with integrated controls.
@@ -338,31 +338,32 @@ Components for status notifications, interruption dialogs, and floating guides.
 62. **Sheet**: A side-sliding dialog extension for displaying supporting data.
 63. **Spinner**: A smooth circular loading indicator.
 64. **Toast**: A brief notification message that appears temporarily at the corner of the screen.
-65. **Tooltip**: A mini text explanation that appears when hovering over an element.
+65. **Toaster**: A global notification queue that renders `Toast` for calls from `useToast`, with kit-owned order, duration, live region, and queue limit.
+66. **Tooltip**: A mini text explanation that appears when hovering over an element.
 
 ### 5. Layout
 Components that shape the structure and placement of elements.
 
-66. **Direction**: A context provider for text reading direction (LTR - Left to Right, or RTL - Right to Left).
-67. **Grid**: A responsive column grid with closed column and gap unions.
-68. **Resizable**: A layout panel whose size can be dynamically adjusted with draggable dividers.
-69. **Skeleton**: An animated dimming-brightening placeholder frame for empty elements as a visualization before data finishes loading.
-70. **Spacer**: A fixed-gap whitespace primitive with a closed size union.
-71. **Stack**: A vertical/horizontal stack primitive with closed gap, direction, align, and justify unions, plus a full-screen min height and wide-screen order reversal.
-72. **Container**: A page-width containment primitive with closed maxWidth and padding unions from layout tokens.
-73. **Image**: A neutral media primitive with closed height, fit, and radius unions, an optional fluid mode with px width cap, and no shadow/border by default.
-74. **FlexItem**: A flex-item control primitive paired with Stack, with closed boolean grow, shrink, and clip unions, plus a token-based upward offset.
-75. **Shell**: A viewport app-shell primitive with row or stacked direction from a closed boolean.
-76. **Content**: The single scrollable app-shell area with responsive token padding and background.
-77. **TopBar**: A mobile app-shell bar aligning left and right slots edge to edge (`variant?` `raised|flat`, default `raised`; `flat` is a transparent in-content action row).
-78. **Tile**: An icon/logo tile primitive with closed tone and size unions from tokens.
-79. **Banner**: A centered status banner with closed tone union, its text inheriting the color.
-80. **Link**: An inline text link with kit-owned icon, required href, and safe external target.
-81. **LoadingOverlay**: A fullscreen loading overlay that blocks interaction, with a kit-pulsed center card, status label, progress text, and a consumer media slot.
-82. **TruncatedText**: Single-line ellipsis text with kit-owned width cap (`text` required, `maxWidth?` px data, full text on hover); `ContextMenu`/`DropdownMenu` gained `truncate?` for ellipsis text triggers.
-83. **Icon**: A decorative icon wrapper whose color (`intent`) and size come from kit tokens; without an `aria-label` it stays `aria-hidden` for screen readers.
-84. **Positioned**: A fixed viewport slot for corner and edge triggers (`anchor` from space tokens, `visibility` mobile/desktop from the 600px token, `elevate` off when the slot holds its own sidebar trigger).
-85. **PageFrame**: A document page frame - edge padding, content width, header, main and footer spacing all come from `layout.page` tokens, with an `overlays` slot for fixed triggers.
+67. **Direction**: A context provider for text reading direction (LTR - Left to Right, or RTL - Right to Left).
+68. **Grid**: A responsive column grid with closed column and gap unions.
+69. **Resizable**: A layout panel whose size can be dynamically adjusted with draggable dividers.
+70. **Skeleton**: An animated dimming-brightening placeholder frame for empty elements as a visualization before data finishes loading.
+71. **Spacer**: A fixed-gap whitespace primitive with a closed size union.
+72. **Stack**: A vertical/horizontal stack primitive with closed gap, direction, align, and justify unions, plus a full-screen min height and wide-screen order reversal.
+73. **Container**: A page-width containment primitive with closed maxWidth and padding unions from layout tokens.
+74. **Image**: A neutral media primitive with closed height, fit, and radius unions, an optional fluid mode with px width cap, and no shadow/border by default.
+75. **FlexItem**: A flex-item control primitive paired with Stack, with closed boolean grow, shrink, and clip unions, plus a token-based upward offset.
+76. **Shell**: A viewport app-shell primitive with row or stacked direction from a closed boolean.
+77. **Content**: The single scrollable app-shell area with responsive token padding and background.
+78. **TopBar**: A mobile app-shell bar aligning left and right slots edge to edge (`variant?` `raised|flat`, default `raised`; `flat` is a transparent in-content action row).
+79. **Tile**: An icon/logo tile primitive with closed tone and size unions from tokens.
+80. **Banner**: A centered status banner with closed tone union, its text inheriting the color.
+81. **Link**: An inline text link with kit-owned icon, required href, and safe external target.
+82. **LoadingOverlay**: A fullscreen loading overlay that blocks interaction, with a kit-pulsed center card, status label, progress text, and a consumer media slot.
+83. **TruncatedText**: Single-line ellipsis text with kit-owned width cap (`text` required, `maxWidth?` px data, full text on hover); `ContextMenu`/`DropdownMenu` gained `truncate?` for ellipsis text triggers.
+84. **Icon**: A decorative icon wrapper whose color (`intent`) and size come from kit tokens; without an `aria-label` it stays `aria-hidden` for screen readers.
+85. **Positioned**: A fixed viewport slot for corner and edge triggers (`anchor` from space tokens, `visibility` mobile/desktop from the 600px token, `elevate` off when the slot holds its own sidebar trigger).
+86. **PageFrame**: A document page frame - edge padding, content width, header, main and footer spacing all come from `layout.page` tokens, with an `overlays` slot for fixed triggers.
 
 ---
 

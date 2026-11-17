@@ -43,6 +43,7 @@
 | Card overflow | Cards always clipped their edges | `Card overflow?` (`hidden\|visible`, default `hidden`); `scrollable` cards still clip so the body can scroll |
 | Narrow menu triggers | Truncated triggers could look cramped or over-wide | `ContextMenu`/`DropdownMenu maxWidth?` (px data; applies to the truncated trigger) |
 | Toast emphasis | Every toast looked the same | `Toast tone?` (`info\|success\|warning\|error`): a left-edge accent strip from kit/status tokens; without `tone` it stays neutral |
+| Global notifications | Each form rebuilt its own notification state and host | `Toaster` + `useToast()`: a FIFO queue with a kit-owned queue limit and duration, one visible by default (`maxVisible?`), logical `position?`, and the sealed `Toast` as the only renderer |
 | Responsive layout | Per-breakpoint layout meant your own CSS or hooks | `Stack directionMd?`, `Container paddingBlockMd?`, `Typography variantMd?`: one kit breakpoint (768px) applied at `>=768px`, values from existing closed unions |
 | Responsive images | Fluid hero/media needed a hand-rolled wrapper | `Image fluid?` (fills the container width, auto height) and `maxHeight?` (from the size scale) |
 | Reserved space | Fixed-height areas for async/third-party content needed inline styles | `Stack minHeight?` from the space scale (`xs`..`4xl`), default none |
