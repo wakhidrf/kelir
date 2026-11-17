@@ -12,20 +12,20 @@ const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
-// Strip sisi milik kit (solid, preseden Marker-border): lebar napas token.
+// Kit-owned side strip (solid, Marker-border precedent): token breathing width.
 const flagColors = {
   danger: css.destructive,
   warn: statusColors.warning.bg,
 } as const;
 
-// Kartu sealed (P1c STYLE.md §6): basis MUI (MuiCard + sub-komponen) untuk
-// multi-platform; hanya props kontrak yang dipakai — tanpa ...rest ke DOM,
-// tanpa style/sx/className konsumen. Gaya header/konten/footer milik kit;
-// `headerAlign` mengatur textAlign judul + subjudul (default `start`);
-// `scrollable` menjadikan kartu kolom flex dengan isi scroll internal
-// (header/footer tetap; default false; tinggi luar milik konsumen).
-// `flag?` = strip status absolut di sisi kartu (default tanpa strip;
-// sudut strip mewarisi radius kartu).
+// Card sealed (P1c STYLE.md §6): MUI-based (MuiCard + sub-components) for
+// multi-platform; only contract props are used - no ...rest to the DOM,
+// no consumer style/sx/className. Header/content/footer styles belong to the
+// kit; `headerAlign` sets the title + subtitle textAlign (default `start`);
+// `scrollable` makes the card a flex column with internal scrolling content
+// (header/footer stay; default false; outer height owned by the consumer).
+// `flag?` = absolute status strip on the card side (default no strip;
+// strip corners inherit the card radius).
 export function Card({
   title,
   subtitle,
@@ -51,9 +51,9 @@ export function Card({
         backdropFilter: surfaceBlur,
         WebkitBackdropFilter: surfaceBlur,
         fontFamily: "inherit",
-        // `overflow` MAKNA (default `hidden` = perilaku lama). Hanya
-        // `visible` yang kita tulis inline; `hidden` bawaan tetap dari MUI
-        // (nol-ubah visual). Kartu `scrollable` tetap memotong tepi.
+        // `overflow` MEANING (default `hidden` = old behavior). Only
+        // `visible` is written inline; `hidden` keeps MUI's default
+        // (zero visual change). `scrollable` cards still clip edges.
         overflow: scrollable ? "hidden" : overflow === "visible" ? "visible" : undefined,
         ...(scrollable
           ? {

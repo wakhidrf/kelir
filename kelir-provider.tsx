@@ -244,17 +244,17 @@ export function KelirProvider({
           Rendered as React children (a static string, not user input) so no
           dangerouslySetInnerHTML is needed. */}
       <style>{kelirStyleCss()}</style>
-      {/* Font merek konsumen (identitas, bukan layout): kit yang memasang
-          variabelnya; kurung/kurawal dibuang agar nilai tak bisa keluar dari
-          deklarasi (string tetap dirender sebagai teks React, bukan HTML). */}
+      {/* Consumer brand font (identity, not layout): the kit that installs
+          exposes its variable; braces are stripped so a value cannot escape
+          the declaration (the string is still rendered as React text, not HTML). */}
       {brandFont ? (
         <style>
           {`:root { --kelir-font-brand: ${brandFont.replace(/[;{}<>]/g, "")}; }`}
         </style>
       ) : null}
-      {/* Warna merek konsumen (identitas, bukan tema): dua slot tetap,
-          `tone="brand-accent"|"brand-ink"`. Sama seperti font merek, nilai
-          dibersihkan sebelum masuk deklarasi. */}
+      {/* Consumer brand colors (identity, not theme): two fixed slots,
+          `tone="brand-accent"|"brand-ink"`. Same as the brand font, values are
+          sanitized before entering the declaration. */}
       {brandColors ? (
         <style>
           {`:root { --kelir-brand-accent: ${brandColors.accent.replace(/[;{}<>]/g, "")}; --kelir-brand-ink: ${brandColors.ink.replace(/[;{}<>]/g, "")}; }`}

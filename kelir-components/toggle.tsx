@@ -12,8 +12,8 @@ export function Toggle({
   id,
   "aria-label": ariaLabel,
 }: ToggleProps) {
-  // Mandiri tak-terkontrol (MuiToggleButton tanpa grup tak punya
-  // defaultSelected): state milik kit bila `pressed` tak diberikan.
+  // Standalone uncontrolled (MuiToggleButton without a group has no
+  // defaultSelected): state owned by the kit when `pressed` isn't provided.
   const [inner, setInner] = React.useState(defaultPressed ?? false);
   const pressed = pressedProp ?? inner;
   const flip = () => {

@@ -7,8 +7,8 @@ import { css } from "../kelir-variants";
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
-// Pilihan tunggal sealed (Gel.2 STYLE.md §6): basis MUI; `onChange` semantik
-// (string); opsi label/value milik kit. Tanpa ...rest, tanpa style konsumen.
+// Sealed single choice (Gel.2 STYLE.md §6): MUI base; `onChange` semantics
+// (string); option label/value owned by the kit. No ...rest, no consumer style.
 export function RadioGroup({
   options,
   value,

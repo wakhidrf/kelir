@@ -31,9 +31,9 @@ export interface KelirLayoutTokens {
   container: { maxWidth: string; sidePadding: string };
   sectionGap: string;
   breakpoints: { heroCollapse: string; mobile: string };
-  // Lebar minimum item Grid auto-fit (minItem), dari token yang sama.
+  // Minimum Grid auto-fit item width (minItem), from the same token set.
   gridMin: { sm: string; md: string };
-  // Rangka halaman dokumen (PageFrame): jarak tepi, lebar isi, napas main/footer.
+  // Document page frame (PageFrame): edge spacing, content width, main/footer breathing room.
   page: {
     paddingTop: string;
     paddingInline: string;

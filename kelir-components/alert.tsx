@@ -8,9 +8,9 @@ const neumorphicBg = css.colors.surface;
 const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 
-// Notifikasi inline sealed (Gel.2 STYLE.md §6): basis MUI; `severity`
-// diteruskan (ikon + role alert bawaan MUI), visual milik kit — tanpa
-// ...rest, tanpa style/sx/className konsumen. Closable hanya bila onClose ada.
+// Inline notification sealed (Gel.2 STYLE.md §6): MUI-based; `severity`
+// forwarded (icon + MUI's built-in alert role), visuals owned by the kit —
+// no ...rest, no consumer style/sx/className. Closable only when onClose exists.
 export function Alert({
   title,
   children,

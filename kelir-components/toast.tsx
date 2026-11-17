@@ -6,9 +6,9 @@ import * as React from "react";
 import type { ToastProps } from "../kelir-types";
 import { css, statusColors } from "../kelir-variants";
 
-// INTERNAL kit: Toaster menumpuk Toast di dalam satu kontainer miliknya.
-// Konteks ini membuat root MUI Snackbar menjadi statis agar tiap Toast ikut
-// alur flex kontainer, tanpa prop visual baru di kontrak Toast.
+// INTERNAL kit: Toaster stacks Toasts inside its own container.
+// This context makes the MUI Snackbar root static so each Toast follows the
+// container flex flow, without adding visual props to the Toast contract.
 export const ToastStackContext = React.createContext(false);
 
 const stackedSnackbarStyle: React.CSSProperties = {
@@ -25,9 +25,9 @@ const neumorphicBg = css.colors.surface;
 const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 
-// Aksen MAKNA milik kit (`tone?`): strip sisi kiri tebal — preseden
-// Card.flag (strip solid, bukan warna mentah). Tanpa `tone` = netral hari ini
-// (nol-ubah visual). Pasangan warna dari token kit/status.
+// Kit-owned MEANING accent (`tone?`): a thick left-side strip — precedent
+// Card.flag (solid strip, not raw color). Without `tone` = neutral today
+// (zero visual change). Color pairs from kit/status tokens.
 const toneAccents = {
   info: css.colors.primary,
   success: statusColors.success.fg,
@@ -35,9 +35,9 @@ const toneAccents = {
   error: css.destructive,
 } as const;
 
-// Notifikasi sementara sealed (Gel.2 STYLE.md §6): basis MUI; `onClose`
-// semantik (alasan MUI dibuang); konten + aksi milik kit. Tanpa ...rest,
-// tanpa style/sx/className/anchorOrigin konsumen.
+// Sealed transient notification (Gel.2 STYLE.md §6): MUI base; `onClose`
+// semantics (MUI reason dropped); content + action owned by the kit. No ...rest,
+// no consumer style/sx/className/anchorOrigin.
 export function Toast({
   message,
   tone,
@@ -61,8 +61,8 @@ export function Toast({
     >
       <SnackbarContent
         message={
-          // A11y milik kit (P2 PLAN.md): pesan = live region sopan agar
-          // screen reader mengumumkan notifikasi tanpa mencuri fokus.
+          // Kit-owned a11y (P2 PLAN.md): message = polite live region so
+          // screen readers announce the notification without stealing focus.
           <span
             role="status"
             aria-live="polite"

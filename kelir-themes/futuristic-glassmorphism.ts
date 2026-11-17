@@ -5,19 +5,19 @@ import { createCss } from "../kelir-variants";
 // #000000), Exo 2 typography, generous 16/32/48 radius, neon cyan accents and
 // spring physics (entry 540ms, stagger 120ms).
 export const variants = {
-  // Warna inti dari DESIGN.md
+  // Core colors from DESIGN.md
   primary: "#020814", // DESIGN primary (deep space navy)
   secondary: "#FFFFFF", // DESIGN secondary (glass white)
   tertiary: "#00F0FF", // DESIGN tertiary (neon cyan accent)
   neutral: "#000000", // DESIGN neutral (pure black)
-  // Warna turunan semantik
+  // Derived semantic colors
   textPrimary: "#FFFFFF", // DESIGN text (primary text on dark)
   textSecondary: "rgba(255, 255, 255, 0.6)", // muted white (secondary text)
   onPrimary: "#00F0FF", // neon cyan (text on dark primary)
   onSecondary: "#020814", // space navy (text on glass white)
   onDestructive: "#FFFFFF", // white (text on destructive)
   destructive: "#C0372B", // derived deep red (destructive)
-  // Warna turunan (nilai bebas per tema, nama key fix)
+  // Derived colors (free per-theme values, fixed key names)
   background:
     "radial-gradient(1200px 800px at 15% -10%, rgba(0, 240, 255, 0.22) 0%, transparent 55%), radial-gradient(1000px 700px at 110% 30%, rgba(0, 112, 255, 0.25) 0%, transparent 50%), linear-gradient(180deg, #030A18 0%, #020814 100%)", // deep space navy with cyan glow
   baseBackground: "#020814", // solid canvas base (gradient tail) for below-the-fold body

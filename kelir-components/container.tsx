@@ -17,21 +17,21 @@ const paddings = {
   "2xl": css.layout.space["2xl"],
 } as const;
 
-// `paddingBlock?` memakai skala space yang sama (`none` = 0).
+// `paddingBlock?` uses the same space scale (`none` = 0).
 const paddingBlocks = {
   none: "0",
   ...paddings,
 } as const;
 
-// Ambang responsif kit (satu sumber: token heroCollapse 768px).
+// Kit responsive breakpoint (single source: heroCollapse token 768px).
 const MD_QUERY = `@media (min-width: ${css.layout.breakpoints.heroCollapse})`;
 
-// Penampung lebar halaman sealed (P1b STYLE.md): maxWidth + margin auto +
-// gutter dari token css.layout. `paddingBlockMd?` = napas vertikal pada
-// lebar >= 768px (token heroCollapse); tanpa = `paddingBlock` berlaku di
-// semua lebar. Murni layout — tanpa warna/border/shadow. Basis MUI (MuiBox)
-// agar di tree tema; visual milik kit. Tanpa ...rest ke DOM dan tanpa style
-// passthrough — di luar kontrak = pelanggaran.
+// Sealed page width container (P1b STYLE.md): maxWidth + auto margin +
+// gutter from the css.layout tokens. `paddingBlockMd?` = vertical breathing
+// room at widths >= 768px (heroCollapse token); absent = `paddingBlock`
+// applies at all widths. Pure layout - no color/border/shadow. MUI-based
+// (MuiBox) so it's in the theme tree; visuals owned by the kit. No ...rest to
+// the DOM and no style passthrough - out of contract = violation.
 export function Container({
   children,
   maxWidth = "xl",

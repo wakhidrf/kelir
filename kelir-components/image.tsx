@@ -23,23 +23,23 @@ const radii = {
   lg: css.radius.lg,
 } as const;
 
-// Logika murni (bukan DOM): peta height MAKNA → px milik kit.
-// Diuji unit langsung — jsdom tak menghitung stylesheet emotion.
+// Pure logic (not DOM): maps height MEANING → kit px.
+// Unit-tested directly - jsdom does not compute emotion stylesheets.
 export function imagePx(height: NonNullable<ImageProps["height"]>): number {
   return heights[height];
 }
 
-// Media netral sealed (P1b STYLE.md): tinggi dari union tertutup (lebar
-// mengikuti rasio asli), fit contain/cover, radius token (default none).
-// `fluid?` = lebar mengisi wadah + tinggi auto (rasio asli terjaga) untuk
-// media dekoratif/hero; `maxHeight?` membatasi tinggi dari skala yang sama;
-// `maxWidth?` membatasi lebar dalam px (preseden TruncatedText.maxWidth).
-// `fill?` = mengisi penuh wadah ber-posisi (mis. di dalam AspectRatio);
-// `priority?` = loading eager + fetchPriority high; `sizes?` = petunjuk ukuran
-// tampil untuk pemilihan sumber.
-// `alt` selalu dirender sebagai atribut (string kosong bila tak diisi) agar
-// lolos axe image-alt. Tanpa shadow/border default, tanpa ...rest ke DOM dan
-// tanpa style passthrough — di luar kontrak = pelanggaran.
+// Sealed neutral media (P1b STYLE.md): height from a closed union (width follows
+// the original ratio), contain/cover fit, radius token (default none).
+// `fluid?` = width fills the container + auto height (original ratio preserved)
+// for decorative/hero media; `maxHeight?` limits height from the same scale;
+// `maxWidth?` limits width in px (TruncatedText.maxWidth precedent).
+// `fill?` = fills a positioned container fully (e.g. inside AspectRatio);
+// `priority?` = eager loading + high fetchPriority; `sizes?` = display size hint
+// for source selection.
+// `alt` is always rendered as an attribute (empty string when unset) so it
+// passes axe image-alt. No default shadow/border, no ...rest to DOM and
+// no style passthrough - outside the contract = violation.
 export function Image({
   src,
   alt,

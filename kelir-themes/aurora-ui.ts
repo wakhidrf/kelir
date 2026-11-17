@@ -6,19 +6,19 @@ import { createCss } from "../kelir-variants";
 // gradient canvas, spring physics (entry 480ms, stagger 100ms). MATCHES
 // liquidGlassMotion.
 export const variants = {
-  // Warna inti dari DESIGN.md
+  // Core colors from DESIGN.md
   primary: "#0080FF", // DESIGN primary (Electric Blue accent)
   secondary: "#FF1493", // DESIGN secondary (Magenta accent)
   tertiary: "#00FFFF", // DESIGN tertiary (Cyan accent)
   neutral: "#0B1020", // derived deep space navy (text / neutral)
-  // Warna turunan semantik
+  // Derived semantic colors
   textPrimary: "#F2F6FF", // near-white (primary text on aurora canvas)
   textSecondary: "rgba(242, 246, 255, 0.68)", // muted blue-white
   onPrimary: "#F2F6FF", // near-white (text on electric blue)
   onSecondary: "#F2F6FF", // near-white (text on magenta)
   onDestructive: "#FFFFFF", // white (text on destructive)
   destructive: "#E5484D", // derived vivid red (destructive)
-  // Warna turunan (nilai bebas per tema, nama key fix)
+  // Derived colors (free per-theme values, fixed key names)
   background:
     "radial-gradient(1200px 800px at 85% -10%, rgba(0, 128, 255, 0.4) 0%, transparent 55%), radial-gradient(1000px 700px at 10% 110%, rgba(255, 20, 147, 0.32) 0%, transparent 52%), radial-gradient(900px 600px at 55% 55%, rgba(0, 255, 255, 0.14) 0%, transparent 50%), linear-gradient(180deg, #0B0E1A 0%, #060711 100%)", // flowing aurora mesh on deep navy
   baseBackground: "#060711", // solid canvas base (gradient tail) for below-the-fold body

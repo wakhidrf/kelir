@@ -23,9 +23,9 @@ export function NativeSelect({
         onChange={(e) => onChange?.(e.target.value)}
         disabled={disabled}
         id={id}
-        // MUI v9: aria-label tak sampai input native bila hanya di root —
-        // (temuan Gel.2 pada Checkbox/Switch). NativeSelect merender
-        // <select> sendiri; aria di root cukup untuk peran listbox.
+        // MUI v9: aria-label does not reach the native input when only on the root -
+        // (Gel.2 finding on Checkbox/Switch). NativeSelect renders its own
+        // <select>; aria on the root is enough for the listbox role.
         aria-label={ariaLabel ?? label}
         input={
           <MuiInputBase

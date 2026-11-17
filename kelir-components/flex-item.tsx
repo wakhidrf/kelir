@@ -2,22 +2,22 @@ import MuiBox from "@mui/material/Box";
 import type { FlexItemProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
-// Tarik naik dari token space (negatif) agar elemen menumpuk di tepi atas.
+// Negative space token to pull up so elements stack at the top edge.
 const offsets = {
   sm: `-${css.layout.space.sm}`,
   md: `-${css.layout.space.lg}`,
   lg: `-${css.layout.space.xl}`,
 } as const;
 
-// Kontrol item flex sealed (P1b STYLE.md): pasangan `Stack` (kontainer).
-// `grow?` = isi sisa ruang (`flex: 1, minWidth: 0`, default `false`);
-// `shrink={false}` = tolak penyusutan (`flexShrink: 0`, default susut
-// normal); `clip?` = pemotong luapan (`overflow: hidden`, default `false`,
-// properti dihilangkan penuh saat mati); `offsetY?` = tarik naik (margin
-// atas negatif dari token space sm/md/lg) untuk menumpuk elemen di tepi
-// atas. Boolean tertutup, tanpa angka bebas. Default = blok biasa.
-// Basis MUI (MuiBox) agar di tree tema; visual milik kit. Tanpa ...rest
-// ke DOM dan tanpa style passthrough — di luar kontrak = pelanggaran.
+// Sealed flex item control (P1b STYLE.md): pair of `Stack` (container).
+// `grow?` = fill remaining space (`flex: 1, minWidth: 0`, default `false`);
+// `shrink={false}` = refuse shrinking (`flexShrink: 0`, normal shrink by
+// default); `clip?` = overflow cutter (`overflow: hidden`, default `false`,
+// property fully removed when off); `offsetY?` = pull up (negative top
+// margin from sm/md/lg space tokens) to stack elements at the top
+// edge. Closed set of booleans, no free numbers. Default = plain block.
+// MUI-based (MuiBox) so it's in the theme tree; visuals owned by the kit. No
+// ...rest to the DOM and no style passthrough - out of contract = violation.
 export function FlexItem({
   children,
   grow = false,

@@ -17,10 +17,10 @@ const markerPalettes: Record<
   warning: statusColors.warning,
 };
 
-// Penanda semantik sealed (P1c STYLE.md §6): basis MUI (MuiBox) untuk
-// multi-platform; `intent` = MAKNA (bukan warna mentah); tanpa warisan
-// HTMLAttributes, tanpa style/className/event konsumen. Visual per varian
-// milik kit sepenuhnya.
+// Sealed semantic marker (P1c STYLE.md §6): MUI basis (MuiBox) for
+// multi-platform; `intent` = MEANING (not a raw color); no HTMLAttributes
+// inheritance, no consumer style/className/event. Per-variant visuals
+// belong entirely to the kit.
 export function Marker({
   variant = "status",
   intent = "primary",

@@ -3,10 +3,10 @@ import MuiToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import type { ToggleGroupProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
-// Grup pilihan tunggal sealed (Gel.3c-2 §6). `separated` (default)
-// = pil berisi tombol raised terpisah, `joined` = satu pil menyatu tanpa
-// gap/isian: tombol non-aktif transparan berteks sekunder, yang aktif
-// primary. Visual sepenuhnya milik kit; tanpa ...rest/style/sx.
+// Sealed single-choice group (Gel.3c-2 §6). `separated` (default)
+// = a pill holding separate raised buttons, `joined` = one merged pill without
+// gap/fill: inactive buttons transparent with secondary text, the active one
+// primary. Visual entirely owned by the kit; no ...rest/style/sx.
 export function ToggleGroup({
   options,
   value,
@@ -25,8 +25,8 @@ export function ToggleGroup({
       value={value}
       defaultValue={defaultValue}
       onChange={(_e, newValue: string | null) => {
-        // Exclusive milik kit = selalu satu terpilih; klik ulang diabaikan
-        // (bukan deselect) agar kontrak onChange(string) total.
+        // Kit-owned exclusive = always one selected; repeat clicks are ignored
+        // (not deselect) so the onChange(string) contract is total.
         if (newValue !== null) onChange?.(newValue);
       }}
       disabled={disabled}

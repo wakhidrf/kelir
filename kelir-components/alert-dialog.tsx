@@ -11,9 +11,9 @@ const neumorphicBg = css.colors.surface;
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
-// Konfirmasi sealed (Gel.2 STYLE.md §6): basis MUI; tombol via Button sealed
-// (ghost/cancel + destructive/confirm); Escape/backdrop = onCancel.
-// Tanpa ...rest, tanpa style/sx/className, tanpa disableScrollLock konsumen.
+// Confirmation sealed (Gel.2 STYLE.md §6): MUI-based; buttons via sealed
+// Button (ghost/cancel + destructive/confirm); Escape/backdrop = onCancel.
+// No ...rest, no style/sx/className, no consumer disableScrollLock.
 export function AlertDialog({
   open,
   title,

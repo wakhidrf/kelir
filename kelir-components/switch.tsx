@@ -4,8 +4,8 @@ import { css } from "../kelir-variants";
 
 const textPrimary = css.colors.textPrimary;
 
-// Sakelar sealed (Gel.2 STYLE.md §6): basis MUI; `onChange` semantik
-// (boolean); label slot teks milik kit. Tanpa ...rest, tanpa style konsumen.
+// Sealed switch (Gel.2 STYLE.md §6): MUI base; `onChange` semantics
+// (boolean); text slot label owned by the kit. No ...rest, no consumer style.
 export function Switch({
   checked,
   defaultChecked,
@@ -31,7 +31,7 @@ export function Switch({
         onChange={(e) => onChange?.(e.target.checked)}
         disabled={disabled}
         id={id}
-        // MUI v9: atribut input lewat slotProps.input (inputProps usang).
+        // MUI v9: input attributes go through slotProps.input (inputProps is deprecated).
         slotProps={{ input: { "aria-label": ariaLabel ?? label } }}
       />
       {label && (

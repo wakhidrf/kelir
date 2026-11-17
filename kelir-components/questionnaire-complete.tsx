@@ -2,8 +2,8 @@ import CheckIcon from "@mui/icons-material/Check";
 import { css } from "../kelir-variants";
 import { Button } from "./button";
 
-// Layar selesai Questionnaire (internal, pecah P2 §8): ringkasan +
-// tombol ulangi milik kit. Props lokal, tanpa §5.
+// Questionnaire complete screen (internal, P2 split §8): summary +
+// restart button owned by the kit. Local props, no §5.
 interface QuestionnaireCompleteProps {
   answeredCount: number;
   total: number;

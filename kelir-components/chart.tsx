@@ -32,7 +32,7 @@ export function Chart<TDatum extends object = ChartRow>({
   type = "bar",
   title,
 }: ChartProps<TDatum>) {
-  // Akses kunci dinamis milik kit: cast internal + guard typeof di getValue.
+  // Kit-owned dynamic key access: internal cast + typeof guard in getValue.
   const rows = data as ChartRow[];
   const first = rows[0] ?? {};
   const categoriesAreSeries =
@@ -131,7 +131,7 @@ export function Chart<TDatum extends object = ChartRow>({
             preserveAspectRatio="none"
             style={{ display: "block", overflow: "visible" }}
           >
-            <title>Grafik data</title>
+            <title>Data chart</title>
             {seriesKeys.map((key, s) => {
               const color = seriesColors[s % seriesColors.length];
               const points = rows

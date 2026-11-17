@@ -10,9 +10,9 @@ import { css } from "../kelir-variants";
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
-// Satu tingkat lebih rapat: tabel padat (banyak kolom) tanpa mengubah token
-// warna/anti-aliasing kit. Uji ukuran: tabel data enam kolom pada lebar
-// desktop dan ponsel.
+// One notch tighter: dense tables (many columns) without changing the kit's
+// color/anti-aliasing tokens. Size test: a six-column data table at desktop
+// and mobile widths.
 const DENSITY = {
   default: { cell: "14px", head: "14px", pad: "16px" },
   compact: { cell: "12px", head: "11px", pad: "8px 12px" },

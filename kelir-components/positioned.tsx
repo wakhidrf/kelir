@@ -2,11 +2,11 @@ import MuiBox from "@mui/material/Box";
 import type { PositionedProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
-// Ambang ponsel kit (satu sumber: token layout.mobile 600px).
+// Kit mobile breakpoint (single source: the layout.mobile token, 600px).
 const MOBILE_MAX = `@media (max-width: calc(${css.layout.breakpoints.mobile} - 0.02px))`;
 const DESKTOP_MIN = `@media (min-width: ${css.layout.breakpoints.mobile})`;
 
-// Titik tetap milik kit: offset dari token space (bukan angka bebas).
+// Kit-owned fixed anchor points: offsets from the space token (not arbitrary numbers).
 const anchors = {
   "top-start": {
     top: css.layout.space.lg,
@@ -40,11 +40,11 @@ const anchors = {
   },
 } as const;
 
-// Slot bertitik tetap sealed (STYLE.md §6): pemicu tema/bahasa di sudut,
-// pemicu gulir-ke-atas di sudut bawah, dan pemicu geser di tepi kiri. `visibility?` memilih ponsel/desktop dari token
-// layout.mobile; `elevate?` (bawaan true) menaikkan di atas konten — matikan
-// bila wadah memuat pemicu sidebar sendiri (z-index membuat stacking context
-// yang menjebak lapisan drawer). Tanpa ...rest ke DOM dan tanpa style
+// Sealed fixed-position slot (STYLE.md §6): a theme/language trigger in a corner,
+// a scroll-to-top trigger in the bottom corner, and a slide trigger at the left edge. `visibility?` picks mobile/desktop from the
+// layout.mobile token; `elevate?` (default true) raises above content — turn it off
+// when the container has its own sidebar trigger (z-index creates a stacking context
+// that traps the drawer layer). No ...rest to the DOM and no style
 // passthrough.
 export function Positioned({
   children,

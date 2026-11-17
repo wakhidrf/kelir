@@ -2,13 +2,13 @@ import MuiBox from "@mui/material/Box";
 import type { TopBarProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
-// Bar mobile app-shell sealed (P1b STYLE.md): slot `left?`/`right?`
-// disejajarkan ujung-ke-ujung (sisi kosong = kotak kosong tak terlihat;
-// satu sisi saja tetap menempel di tepinya); `variant?` raised = permukaan
-// terangkat ala komponen Kelir (surface + border bawah + shadow);
-// flat = sebaris transparan tanpa permukaan (baris aksi dalam konten).
-// Landmark header. Tanpa warna/border/shadow kustom. Tanpa ...rest ke DOM
-// dan tanpa style passthrough — di luar kontrak = pelanggaran.
+// Sealed mobile app-shell bar (P1b STYLE.md): `left?`/`right?` slots are
+// aligned edge-to-edge (an empty side = an invisible empty box;
+// a single side still sits at its edge); `variant?` raised = a raised
+// surface in the Kelir component style (surface + bottom border + shadow);
+// flat = inline transparent with no surface (an action row within content).
+// Header landmark. No custom color/border/shadow. No ...rest to the DOM
+// and no style passthrough — outside the contract = violation.
 export function TopBar({
   left,
   right,

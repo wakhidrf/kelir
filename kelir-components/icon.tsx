@@ -15,13 +15,13 @@ const intents = {
   accent: css.colors.primary,
 } as const;
 
-// Pembungkus ikon sealed (P1c STYLE.md 6): warna + ukuran milik kit, konsumen
-// hanya menyerahkan elemen ikonnya. `intent` union tertutup dari token warna;
-// `size` union tertutup (SVG MUI dipaksa memakai `fontSize: inherit` supaya
-// skala kit yang menang). Ikon tanpa `aria-label` dianggap dekoratif
-// (`aria-hidden`) agar tak menambah kebisingan pembaca layar; label aksesibel
-// tetap milik tombol/tautan induk. Tanpa ...rest ke DOM dan tanpa
-// style/sx/className passthrough - di luar kontrak = pelanggaran.
+// Sealed icon wrapper (P1c STYLE.md 6): color + size belong to the kit, consumers
+// only supply the icon element. `intent` is a closed union from color tokens;
+// `size` is a closed union (MUI SVG is forced to use `fontSize: inherit` so the
+// kit scale wins). An icon without `aria-label` is treated as decorative
+// (`aria-hidden`) so it does not add screen-reader noise; the accessible label
+// stays with the parent button/link. No ...rest to DOM and no
+// style/sx/className passthrough - outside the contract = violation.
 export function Icon({
   children,
   intent = "inherit",

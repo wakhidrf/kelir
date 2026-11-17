@@ -2,9 +2,9 @@ import MuiBox from "@mui/material/Box";
 import type { QuoteProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
-// Kutipan blok sealed (P2 STYLE.md 6): batang aksen, latar, radius, dan
-// bayangan milik kit. Basis MUI (MuiBox = blockquote + emotion + tema di
-// tree). Tanpa ...rest ke DOM, tanpa style/sx/className passthrough.
+// Sealed block quote (P2 STYLE.md 6): accent bar, background, radius, and
+// shadow owned by the kit. MUI base (MuiBox = blockquote + emotion + theme in
+// the tree). No ...rest to the DOM, no style/sx/className passthrough.
 export function Quote({
   children,
   variant = "default",

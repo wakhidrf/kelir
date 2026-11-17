@@ -3,19 +3,19 @@ import { createCss } from "../kelir-variants";
 // Neumorphism: soft 3D, monochrome light scheme. DESIGN.md front matter
 // (primary #C8E0F4 / secondary #F5E0E8 / tertiary #E8E8E8 / neutral #2C4A63).
 export const variants = {
-  // Warna inti dari DESIGN.md
+  // Core colors from DESIGN.md
   primary: "#C8E0F4", // Soft Blue
   secondary: "#F5E0E8", // Soft Pink
   tertiary: "#E8E8E8", // Soft Grey
   neutral: "#2C4A63", // Deep Blue (neutral / text)
-  // Warna turunan semantik
+  // Derived semantic colors
   textPrimary: "#333333", // Charcoal (primary text)
   textSecondary: "#666666", // Slate (secondary text)
   onPrimary: "#2C4A63", // Deep Blue (text on primary)
   onSecondary: "#632C41", // Deep Pink (text on secondary)
   onDestructive: "#900C3F", // Deep Red (text on destructive)
   destructive: "#FFCCD5", // Soft Red (destructive background)
-  // Warna turunan (nilai bebas per tema, nama key fix)
+  // Derived colors (free per-theme values, fixed key names)
   background: "#E8E8E8", // Neumorphic background
   baseBackground: "#E8E8E8", // solid canvas base (same as background for flat themes)
   surface: "#E8E8E8", // Neumorphic surface (blend with background)

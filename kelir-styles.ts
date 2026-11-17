@@ -227,10 +227,10 @@ const baseCss = `
     min-height: 100%;
     display: flex;
     flex-direction: column;
-    /* Kritikal (§3b STYLE.md): !important di dalam layer mengalahkan CSS
-       normal tanpa layer dari konsumen — tanpa ini override polos pengimpor
-       menang atas stylesheet kit. Daftar kritis dibatasi: background, warna
-       teks, font. Di luar daftar ini dilarang !important. */
+    /* Critical (§3b STYLE.md): !important inside a layer beats unlayered normal
+       CSS from consumers — without it, a plain importer override would win over
+       the kit stylesheet. The critical list is limited: background, text color,
+       font. Beyond this list, !important is forbidden. */
     background-color: var(--color-background-base, #f5f6f7) !important;
     color: var(--color-text-primary, #1f2328) !important;
     font-family: var(--kelir-font-active, sans-serif) !important;
@@ -255,7 +255,7 @@ const baseCss = `
   /* Theme canvas is locked to the viewport (fixed layer) instead of being
      painted over the full scrollable height. Keeps the gradient computed
      against viewport size only, so long pages no longer stretch, relocate or
-     band the gradient ("belang-belang"). Below the fold, body's solid
+     band the gradient (banding). Below the fold, body's solid
      --color-background-base takes over seamlessly. */
   body::after {
     content: "";
@@ -288,8 +288,8 @@ export function kelirStyleCss(): string {
   0% { background-position: 0% 0%; }
   100% { background-position: 100% 100%; }
 }
-/* Irama denyut milik kit untuk kartu LoadingOverlay: tetap di semua tema,
-   tanpa prop konsumen (keputusan kit). */
+/* The kit's own pulse rhythm for the LoadingOverlay card: consistent across all
+   themes, no consumer prop needed (kit decision). */
 @keyframes kelir-loading-pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.55; }
@@ -299,11 +299,11 @@ export function kelirStyleCss(): string {
   const blocks = themes.map(
     (theme) => `${themeSelector(theme)} {\n  ${themeVars(theme)}\n}`,
   );
-  // Seluruh stylesheet kit dikunci dalam @layer kelir (§3b STYLE.md) agar
-  // urutan prioritas deterministik. KOREKSI v4 yang keliru: layer saja TIDAK
-  // cukup (CSS tanpa layer mengalahkan CSS ber-layer) — deklarasi kritis
-  // memakai !important di dalam layer, yang mengalahkan CSS normal tanpa
-  // layer.
+  // The whole kit stylesheet is locked inside @layer kelir (§3b STYLE.md) so
+  // priority order is deterministic. v4 CORRECTION that was wrong: a layer
+  // alone is NOT enough (unlayered CSS beats layered CSS) — the critical
+  // declarations use !important inside the layer, which beats unlayered normal
+  // CSS.
   const inner = `${baseCss}\n${keyframes}\n${blocks.join("\n\n")}\n\n${scrollbarCss}`;
   return `@layer kelir {\n${inner}\n}`;
 }

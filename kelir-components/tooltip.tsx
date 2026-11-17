@@ -8,11 +8,11 @@ export function Tooltip({
   id,
   "aria-label": ariaLabel,
 }: TooltipProps) {
-  // Anak kustom (mis. Button Kelir, sealed tanpa ...rest) tak meneruskan
-  // ref + handler hover/fokus yang disuntik MUI via clone ΓÇö tooltip tak
-  // pernah buka. Bungkus host span milik kit (pola anjuran MUI): jangkar
-  // + handler menempel di span, anak tampil apa adanya. Elemen host
-  // (mis. <button> natif) diteruskan langsung tanpa bungkus.
+  // Custom children (e.g. a Kelir Button, sealed with no ...rest) don't forward
+  // the ref + hover/focus handlers that MUI injects via clone — so the tooltip
+  // never opens. Wrap in a kit-owned host span (the MUI-recommended pattern): the anchor
+  // + handlers attach to the span, the child renders as-is. A host element
+  // (e.g. a native <button>) is passed through directly without a wrapper.
   const trigger =
     typeof children.type === "string" ? (
       children

@@ -11,10 +11,10 @@ const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
-// Dialog sealed (P1c STYLE.md §6): basis MUI untuk multi-platform; hanya
-// props kontrak — tanpa ...rest ke DOM, tanpa style/sx/className konsumen.
-// `onClose` semantik (tanpa event/reason MUI). `disableScrollLock` keputusan
-// kit. `aria-labelledby` dipasang otomatis dari title (a11y milik kit).
+// Dialog sealed (P1c STYLE.md §6): MUI-based for multi-platform; contract
+// props only - no ...rest to the DOM, no consumer style/sx/className.
+// Semantic `onClose` (no MUI event/reason). `disableScrollLock` is a kit
+// decision. `aria-labelledby` is set automatically from the title (kit a11y).
 export function Dialog({
   open,
   onClose,

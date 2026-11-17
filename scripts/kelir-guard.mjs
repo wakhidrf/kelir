@@ -1,30 +1,36 @@
-// kelir-guard.mjs — P1a STYLE.md: penjaga kontrak paten tanpa dep baru.
-// Hidup di repo kit (src/views/kelir/scripts) agar ikut terbawa saat kit
-// diimpor proyek lain (kit selalu di <proyek>/src/views/kelir).
-// Mode: --strict (exit 1 bila ERROR) vs default warn (exit 0 + laporan).
-// Cakupan: konsumen (src minus src/views/kelir) + kelir-components (hardcode).
-// Presisi (2026-10-11, STYLE §9): (a) intrinsik + className SAJA bukan cue —
-// consumer-CSS (stylesheet kelas milik app) adalah pola resmi (§8-P0/P1);
-// cue tersisa untuk style inline (escape hatch riil). (b) data-kelir-*
-// dikecualikan dari cek data-* (namespace milik kit = wiring kontrak
-// Provider dari kelir-styles, bukan slot leak).
-// F9 (2026-10-19, putusan pemilik): "nol CSS konsumen" - className pada
-// intrinsik, blok <style> non-kit, dan tag intrinsik tata letak/teks = ERROR
-// (pengecualian tercatat: html/body di src/app/layout.tsx + <style> berisi
-// CSS kit yang diimpor). Blok <style> konsumen non-kit = ERROR sejak F9b;
-// className intrinsik + tag intrinsik tata letak/teks = WARN inventaris
-// (naik ERROR di F9e sesudah migrasi F9c). STYLE §3/§9(a) direvisi selaras.
-// Sintaks (2026-10-11, issue #27): cek konsumen naik ke level sintaks —
-// komentar + isi string/regex disamarkan dulu, lalu tag JSX dipindai
-// lintas-baris (style={{...}} multi-baris tak lagi lolos). Aturan prop
-// komponen dibatasi ke nama kontrak kelir-types.ts (selaras GritQL;
-// komponen milik app = urusan app, bukan kontrak). Pengecualian cakupan
-// dicetak eksplisit di laporan (bukan sunyi).
+// kelir-guard.mjs — P1a STYLE.md: patent-contract guard with no new deps.
+// Lives in the kit repo (src/views/kelir/scripts) so it travels when the kit
+// is imported into other projects (the kit always lives at
+// <project>/src/views/kelir).
+// Mode: --strict (exit 1 on ERROR) vs default warn (exit 0 + report).
+// Scope: consumers (src minus src/views/kelir) + kelir-components (hardcode).
+// Precision (2026-10-11, STYLE §9): (a) intrinsic + className ONLY is not a
+// cue — consumer-CSS (a class stylesheet owned by the app) is the official
+// pattern (§8-P0/P1); remaining cues target inline style (the real escape
+// hatch). (b) data-kelir-* is excluded from the data-* check (kit-owned
+// namespace = wiring the Provider contract from kelir-styles, not a slot
+// leak).
+// F9 (2026-10-19, owner decision): "zero consumer CSS" — className on
+// intrinsics, non-kit <style> blocks, and intrinsic layout/text tags = ERROR
+// (recorded exception: html/body in src/app/layout.tsx + a <style> block
+// containing imported kit CSS). Non-kit consumer <style> blocks = ERROR
+// since F9b; className on intrinsics + intrinsic layout/text tags = WARN
+// inventory (becomes ERROR in F9e after the F9c migration). STYLE §3/§9(a)
+// revised accordingly.
+// Syntax (2026-10-11, issue #27): the consumer check rises to syntax level —
+// comments + string/regex contents are blanked first, then JSX tags are
+// scanned across lines (multi-line style={{...}} no longer slips through).
+// P0 of issue #110 is already covered: scanning runs over the whole blanked
+// source, so tags inside expression containers ({cond && <div />}) are
+// detected too. Component-prop rules are limited to the contract names in
+// kelir-types.ts (aligned with GritQL; app-owned components = app business,
+// not contract). Scope exceptions are printed explicitly in the report (not
+// silent).
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
-// scripts/ -> kelir/ -> views/ -> src/ -> <proyek>
+// scripts/ -> kelir/ -> views/ -> src/ -> <project>
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "..", "..");
 const SRC = join(ROOT, "src");
 const KELIR = join(SRC, "views", "kelir");
@@ -34,38 +40,45 @@ const STRICT = process.argv.includes("--strict");
 const ALLOW_FILES = new Set(["kelir-styles.ts", "kelir-variants.ts"]);
 const BANNED_PROPS = ["style", "sx", "className", "slotProps", "classes", "components", "componentsProps", "slot"];
 
-// F9 (STYLE §3, putusan pemilik 2026-10-19): "nol CSS konsumen". Tag intrinsik
-// tata letak/teks yang sudah punya komponen kit = ERROR; satu pengecualian
-// tercatat: html/body di src/app/layout.tsx (syarat Next.js).
+// F9 (STYLE §3, owner decision 2026-10-19): "zero consumer CSS". Intrinsic
+// layout/text tags that already have a kit component = ERROR; one recorded
+// exception: html/body in src/app/layout.tsx (a Next.js requirement).
 const RAW_TAGS = new Set([
   "div", "section", "main", "header", "footer", "nav", "article", "aside",
   "span", "p", "h1", "h2", "h3", "h4", "h5", "h6", "ul", "ol", "li",
   "blockquote", "figure", "figcaption", "hr",
+  // Tables and interactive controls are also required to use the kit. `strong`/`em`/`b`/`i`
+  // are deliberately left out for now: the kit has no bold/italic text
+  // component yet, and the Markdown parser uses those inline elements for
+  // semantics (issue #110).
+  "table", "thead", "tbody", "tfoot", "tr", "td", "th", "caption",
+  "colgroup", "col", "form", "fieldset", "legend", "button", "label",
+  "a", "input", "select", "textarea", "option", "optgroup", "img",
 ]);
 const EXEMPT_FILES = new Set(["src/app/layout.tsx"]);
 
 
-// Nama komponen kontrak (sumber tunggal kelir-types.ts — derivasi sama
-// dengan check-grit-sync): aturan prop hanya berlaku untuk nama ini.
+// Contract component names (single source kelir-types.ts — same derivation as
+// check-grit-sync): prop rules apply only to these names.
 const KELIR_NAMES = new Set(
   [...readFileSync(join(KELIR, "kelir-types.ts"), "utf8").matchAll(/^export interface (\w+)Props/gm)].map(
     (m) => (m[1] === "KelirProviderProps" ? "KelirProvider" : m[1].replace(/Props$/, "")),
   ),
 );
 
-// Cakupan eksplisit: dihitung saat jalan, dicetak di laporan (§8-P0/P1:
-// yang dikecualikan resmi harus terlihat, bukan sunyi).
+// Explicit scope: computed at run time, printed in the report (§8-P0/P1:
+// official exclusions must be visible, not silent).
 const scope = { scanned: 0, kitInternal: 0, noImport: 0 };
 
-// Preflight (issue #72): guard mengasumsikan kit hidup di
-// <proyek>/src/views/kelir. Bila dijalankan dari checkout repo kit sendiri
-// (tanpa <proyek>/src) gagal dengan pesan jelas, bukan ENOENT samar.
+// Preflight (issue #72): the guard assumes the kit lives at
+// <project>/src/views/kelir. When run from the kit repo checkout itself
+// (no <project>/src), it fails with a clear message instead of a vague ENOENT.
 if (!existsSync(SRC)) {
   console.error(
-    "kelir-guard: tidak menemukan <proyek>/src di " +
+    "kelir-guard: could not find <project>/src at " +
       `${SRC}.\n` +
-      "  Jalankan dari proyek konsumen yang menaruh kit di src/views/kelir\n" +
-      "  (mis. `npm run kelir:guard`), bukan dari repo kit sendiri.",
+      "  Run from a consumer project that places the kit at src/views/kelir\n" +
+      "  (e.g. `npm run kelir:guard`), not from the kit repo itself.",
   );
   process.exit(2);
 }
@@ -87,11 +100,11 @@ const add = (list, file, line, msg) => list.push(`${rel(file)}:${line}: ${msg}`)
 
 function lineNo(src, idx) { return src.slice(0, idx).split("\n").length; }
 
-// 1+2. Konsumen: file di luar kelir yang mengimpor kelir-* + props terlarang.
-// Level sintaks (issue #27): samarkan komentar + isi string/regex dulu
-// (panjang + newline dipertahankan → nomor baris tepat), lalu pindai tag
-// JSX lintas-baris. Pola sebaris lama lolos untuk style={{...}}
-// multi-baris — itu yang diperbaiki di sini.
+// 1+2. Consumer: files outside kelir that import kelir-* + banned props.
+// Syntax level (issue #27): blank comments + string/regex contents first
+// (length + newlines preserved → exact line numbers), then scan JSX tags
+// across lines. The old single-line pattern slipped through for multi-line
+// style={{...}} — that is what this fixes.
 function blankNonCode(src) {
   const out = new Array(src.length);
   let i = 0;
@@ -141,7 +154,7 @@ function blankNonCode(src) {
       else { out[i] = c === "\n" ? "\n" : " "; i++; }
       continue;
     }
-    // sq | dq | tpl: isi disamarkan, pembatas dipertahankan.
+    // sq | dq | tpl: blank the content, keep the delimiters.
     if (c === "\\") { out[i] = " "; out[i + 1] = " "; i += 2; continue; }
     const q = s === "sq" ? "'" : s === "dq" ? '"' : "`";
     if (c === q) { out[i] = c; st.pop(); i++; continue; }
@@ -152,9 +165,9 @@ function blankNonCode(src) {
   return out.join("");
 }
 
-// Pindai tag JSX pada sumber tersamar: kembalikan [{tag, attrs:[{name, idx}]}].
-// Atribut dibaca sampai '>' penutup pada kedalaman kurung 0 → tahan
-// multi-baris + ekspresi bersarang; string sudah samara jadi '"' aman.
+// Scan JSX tags on the blanked source: returns [{tag, attrs:[{name, idx}]}].
+// Attributes are read up to the closing '>' at bracket depth 0 → tolerates
+// multi-line + nested expressions; strings are blanked so '"' is safe.
 function scanJsxTags(blank) {
   const hits = [];
   const re = /<([A-Za-z][\w.]*)/g;
@@ -175,9 +188,9 @@ function scanJsxTags(blank) {
     if (end === -1) continue;
     const span = blank.slice(m.index + 1 + tag.length, end);
     const spanBase = m.index + 1 + tag.length;
-    // Atribut hanya pada kedalaman 0: JSX bersarang dalam ekspresi
-    // (mis. items={[{content: (<div className=...>)}]}) tak boleh
-    // teratribusi ke tag luar.
+    // Attributes only at depth 0: nested JSX inside an expression
+    // (e.g. items={[{content: (<div className=...>)}]}) must not be
+    // attributed to the outer tag.
     const attrs = [];
     let d = 0;
     let td = 0;
@@ -211,7 +224,7 @@ for (const f of walk(SRC)) {
   const src = readFileSync(f, "utf8");
   if (!/from\s+["'][^"']*kelir[^"']*["']/.test(src) && !/from\s+["']@\/views\/kelir/.test(src)) { scope.noImport++; continue; }
   scope.scanned++;
-  // Identifier yang diimpor dari kelir (memvalidasi <style> milik kit).
+  // Identifiers imported from kelir (validates kit-owned <style>).
   const kelirImports = new Set();
   for (const im of src.matchAll(/import\s+([\s\S]*?)\s+from\s+["'][^"']*kelir[^"']*["']/g)) {
     const def = /^\s*([A-Za-z_$][\w$]*)/.exec(im[1]);
@@ -231,24 +244,24 @@ for (const f of walk(SRC)) {
     const intrinsic = /^[a-z]/.test(tag);
     for (const { name, idx } of attrs) {
       if (/^[A-Z]/.test(tag) && isKelir && BANNED_PROPS.includes(name))
-        add(warn, f, lineNo(src, idx), `props terlarang '${name}' pada komponen (perlu review: Kelir?)`);
+        add(warn, f, lineNo(src, idx), `banned prop '${name}' on component (needs review: Kelir?)`);
       else if (intrinsic && name === "className")
-        add(err, f, lineNo(src, idx), "className pada intrinsik: CSS konsumen haram (§3)");
+        add(err, f, lineNo(src, idx), "className on intrinsic: consumer CSS is forbidden (§3)");
       else if (name === "style")
         add(
           warn,
           f,
           lineNo(src, idx),
           intrinsic
-            ? "slot heuristik: intrinsik ber-style inline di file pengimpor kelir"
-            : "style inline pada elemen non-intrinsik (§3: kit menutup seluruh visual)",
+            ? "heuristic slot: intrinsic with inline style in a kelir-importing file"
+            : "inline style on a non-intrinsic element (§3: the kit closes all visuals)",
         );
     }
     if (intrinsic && RAW_TAGS.has(tag) && !exempt)
-      add(err, f, lineNo(src, index), `tag intrinsik <${tag}> mentah: pakai komponen kit (§3/F9)`);
+      add(err, f, lineNo(src, index), `raw intrinsic <${tag}> tag: use a kit component (§3/F9)`);
   }
-  // F9: blok <style> konsumen = ERROR, kecuali isinya CSS milik kit
-  // (identifier hasil impor dari kelir, mis. hideBeforeReadyCss).
+  // F9: consumer <style> block = ERROR, unless its body is kit-owned CSS
+  // (identifiers imported from kelir, e.g. hideBeforeReadyCss).
   for (const st of blank.matchAll(/<style\b/g)) {
     const gte = blank.indexOf(">", st.index);
     if (gte === -1) continue;
@@ -258,15 +271,15 @@ for (const f of walk(SRC)) {
       new RegExp(`\\b${n.replace(/\$/g, "\\$")}\\b`).test(body),
     );
     if (!kitOwned)
-      add(err, f, lineNo(src, st.index), "blok <style> konsumen: CSS konsumen haram (§3) - pindah ke prop kit");
+      add(err, f, lineNo(src, st.index), "consumer <style> block: consumer CSS is forbidden (§3) - move to a kit prop");
   }
   const dataAttrs = [...src.matchAll(/data-[a-z-]+\s*=/g)].map((m) => m[0].split("=")[0].trim());
   const foreignData = dataAttrs.filter((a) => !a.startsWith("data-kelir-"));
   if (foreignData.length > 0 && /(style|StyleSheet|css)/.test(src))
-    add(warn, f, 1, "data-* + styling terdeteksi (cek manual: untuk styling?)");
+    add(warn, f, 1, "data-* + styling detected (manual check: for styling?)");
 }
 
-// 3. Override global .Mui* / .kelir-* di luar kelir
+// 3. Global .Mui* / .kelir-* override outside kelir
 for (const f of walk(SRC)) {
   if (inKelir(f)) continue;
   if (!/\.(css|tsx|jsx)$/.test(f)) continue;
@@ -274,39 +287,39 @@ for (const f of walk(SRC)) {
   const lines = src.split("\n");
   lines.forEach((ln, i) => {
     if (/\.Mui[A-Z][\w-]*\s*[{.,:#[]/.test(ln))
-      add(err, f, i + 1, "override global .Mui* di luar kelir (haram §3b)");
+      add(err, f, i + 1, "global .Mui* override outside kelir (forbidden §3b)");
     if (/\.kelir-[\w-]*\s*[{.,:#[]/.test(ln))
-      add(warn, f, i + 1, "selector .kelir-* di luar kit (pastikan bukan internal kit §3b)");
+      add(warn, f, i + 1, "selector .kelir-* outside the kit (make sure it is not kit-internal §3b)");
   });
 }
 
-// 4. Hardcode di kelir-components (allowlist file + baris kelir-allow)
+// 4. Hardcode in kelir-components (file allowlist + kelir-allow lines)
 for (const f of walk(KELIR_COMP)) {
   const src = readFileSync(f, "utf8");
   const lines = src.split("\n");
   lines.forEach((ln, i) => {
     if (/kelir-allow:/.test(ln)) return;
     if (/(?<![&\w])#[0-9a-fA-F]{3,8}\b/.test(ln) && !/^\s*(\/\/|\*)/.test(ln))
-      add(err, f, i + 1, "hex hardcode (pakai css.* atau pindah ke allowlist)");
+      add(err, f, i + 1, "hardcoded hex (use css.* or move to the allowlist)");
     if (/rgba?\s*\(/.test(ln))
-      add(err, f, i + 1, "rgba()/rgb() hardcode (pakai css.*)");
+      add(err, f, i + 1, "hardcoded rgba()/rgb() (use css.*)");
     if (/(box-shadow|font-family)\s*:/.test(ln))
-      add(err, f, i + 1, "box-shadow/font-family mentah (pakai css.*)");
+      add(err, f, i + 1, "raw box-shadow/font-family (use css.*)");
   });
 }
 
-// 5. Interim wrapper: Stack/Grid/Spacer/Container/FlexItem/Shell sudah
-// ada → wrapper token layout wajib migrasi (warn→error per §8-P1b,
-// tenggat 2026-11-10).
+// 5. Interim wrapper: Stack/Grid/Spacer/Container/FlexItem/Shell already
+// exist → layout-token wrappers must migrate (warn→error per §8-P1b,
+// deadline 2026-11-10).
 for (const f of walk(SRC)) {
   if (inKelir(f) || !/\.(tsx|jsx)$/.test(f)) continue;
   const src = readFileSync(f, "utf8");
   if (/css\.layout|var\(--space-|var\(--layout-/.test(src))
-    add(err, f, 1, "layout interim: pakai Stack/Grid/Spacer/Container/FlexItem/Shell, bukan wrapper token (§8-P1b)");
+    add(err, f, 1, "interim layout: use Stack/Grid/Spacer/Container/FlexItem/Shell, not token wrappers (§8-P1b)");
 }
 
 console.log(`kelir-guard: ${err.length} ERROR, ${warn.length} WARN`);
 for (const w of warn) console.log(`WARN  ${w}`);
 for (const e of err) console.log(`ERROR ${e}`);
-console.log(`cakupan: ${scope.scanned} file konsumen dipindai (sintaks JSX); dikecualikan resmi: ${scope.kitInternal} internal kit, ${scope.noImport} tanpa impor kelir, allowlist token: ${[...ALLOW_FILES].join(", ")}`);
+console.log(`scope: ${scope.scanned} consumer files scanned (JSX syntax); officially excluded: ${scope.kitInternal} kit-internal, ${scope.noImport} without kelir import, token allowlist: ${[...ALLOW_FILES].join(", ")}`);
 if (STRICT && err.length > 0) process.exit(1);

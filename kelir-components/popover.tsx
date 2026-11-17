@@ -25,7 +25,7 @@ export function Popover({
   const open = openProp ?? internalOpen;
   const popoverZIndex = useTheme().zIndex.modal + 1;
 
-  // TerkONTROL penuh: tanpa klik trigger tak ada anchor — jangkar ke wrapper.
+  // Fully controlled: with no trigger click there is no anchor — anchor to the wrapper.
   React.useEffect(() => {
     if (openProp && wrapperRef.current) {
       setAnchorEl(wrapperRef.current);

@@ -1,21 +1,21 @@
-// kelir-hunt.mjs - gate adopsi: cari UI/UX di luar Kelir.
+// kelir-hunt.mjs - adoption gate: find UI/UX outside Kelir.
 //
-// Guard hanya memeriksa file yang MENGIMPOR Kelir. Hunt melengkapi:
-//   - route (app/pages) yang merender tag intrinsik tanpa impor Kelir = ERROR
-//   - komponen non-route dengan tag intrinsik tanpa Kelir = WARN (inventaris)
-//   - canvas/iframe, konten dinamis, CSS-in-JS, stylesheet konsumen, dan impor
-//     library UI pihak ketiga = WARN
-//   - direktif Tailwind (@tailwind/@apply) = ERROR
+// Guard only checks files that IMPORT Kelir. Hunt complements it:
+//   - routes (app/pages) rendering intrinsic tags without a Kelir import = ERROR
+//   - non-route components with intrinsic tags without Kelir = WARN (inventory)
+//   - canvas/iframe, dynamic content, CSS-in-JS, consumer stylesheets, and
+//     third-party UI library imports = WARN
+//   - Tailwind directives (@tailwind/@apply) = ERROR
 //
-// Hunt hanya melihat sinyal statis, bukan hasil render: "100% Kelir" tetap
-// butuh review. Pengecualian eksplisit: `kelir-allow: hunt <alasan>` per file.
+// Hunt only sees static signals, not render output: "100% Kelir" still needs
+// review. Explicit exception: `kelir-allow: hunt <reason>` per file.
 //
-// Mode: --strict -> exit 1 bila ada ERROR. Default hanya laporan.
+// Mode: --strict -> exit 1 when any ERROR. Default is report-only.
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
-// scripts/ -> kelir/ -> views/ -> src/ -> <proyek>
+// scripts/ -> kelir/ -> views/ -> src/ -> <project>
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "..", "..");
 const SRC = join(ROOT, "src");
 const KELIR = join(SRC, "views", "kelir");
@@ -37,7 +37,7 @@ const ROUTE_BASES = new Set([
   "loading",
   "default",
 ]);
-// Tag dokumen HTML bukan UI aplikasi (html/body wajib di root layout Next.js).
+// HTML document tags, not app UI (html/body required in the root Next.js layout).
 const DOC_TAGS = new Set([
   "html",
   "head",
@@ -51,7 +51,7 @@ const DOC_TAGS = new Set([
   "template",
 ]);
 
-// Library UI di luar stack Kelir (MUI/emotion sengaja TIDAK didaftarkan).
+// UI libraries outside the Kelir stack (MUI/emotion intentionally NOT listed).
 const THIRD_PARTY_UI = [
   "antd",
   "bootstrap",
@@ -95,17 +95,17 @@ const allowed = [];
 
 if (!existsSync(SRC)) {
   console.error(
-    "kelir-hunt: tidak menemukan <proyek>/src di " +
+    "kelir-hunt: could not find <project>/src at " +
       `${SRC}.\n` +
-      "  Jalankan dari proyek konsumen yang menaruh kit di src/views/kelir\n" +
-      "  (mis. `npm run kelir:hunt`), bukan dari repo kit sendiri.",
+      "  Run from a consumer project that places the kit at src/views/kelir\n" +
+      "  (e.g. `npm run kelir:hunt`), not from the kit repo itself.",
   );
   process.exit(2);
 }
 
 const rel = (p) => relative(ROOT, p).replace(/\\/g, "/");
 const lineAt = (src, idx) => (idx < 0 ? 1 : src.slice(0, idx).split("\n").length);
-// `kelir-docs.ts` tidak boleh dianggap internal kit hanya karena prefix nama.
+// `kelir-docs.ts` must not be treated as kit-internal just because of its name prefix.
 const inKit = (p) => p.startsWith(KELIR + sep);
 
 function walk(dir, out = []) {
@@ -119,7 +119,7 @@ function walk(dir, out = []) {
   return out;
 }
 
-// Samarkan komentar + isi string/regex agar sinyal hanya datang dari kode.
+// Blank comments + string/regex contents so signals come only from code.
 function blankNonCode(src) {
   return src
     .replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, " "))
@@ -156,7 +156,7 @@ function packageMatches(spec, list) {
 function allowReason(src) {
   const m = /kelir-allow:\s*hunt\b([^\n]*)/.exec(src);
   if (!m) return null;
-  return { line: lineAt(src, m.index), reason: m[1].trim() || "tanpa alasan" };
+  return { line: lineAt(src, m.index), reason: m[1].trim() || "no reason" };
 }
 
 function tagList(tags) {
@@ -169,7 +169,7 @@ function commit(f, src, findings) {
   if (findings.length === 0) return;
   const allow = allowReason(src);
   if (allow) {
-    allowed.push({ f, line: allow.line, msg: `${findings.length} temuan - ${allow.reason}` });
+    allowed.push({ f, line: allow.line, msg: `${findings.length} finding(s) - ${allow.reason}` });
     return;
   }
   for (const x of findings) (x.level === "error" ? err : warn).push({ f, line: x.line, msg: x.msg });
@@ -202,13 +202,13 @@ for (const f of walk(SRC)) {
       findings.push({
         level: "error",
         line: lineAt(src, tw.index),
-        msg: "direktif Tailwind (@tailwind/@apply): CSS konsumen haram",
+        msg: "Tailwind directive (@tailwind/@apply): consumer CSS is forbidden",
       });
     } else {
       findings.push({
         level: "warn",
         line: 1,
-        msg: "stylesheet konsumen di luar Kelir; pindahkan ke token/kit atau beri alasan",
+        msg: "consumer stylesheet outside Kelir; move to a token/kit or give a reason",
       });
     }
     commit(f, src, findings);
@@ -236,13 +236,13 @@ for (const f of walk(SRC)) {
     findings.push({
       level: "error",
       line: 1,
-      msg: `route UI memakai tag intrinsik tanpa impor Kelir: ${tagList(intrinsic.map((t) => t.tag))}`,
+      msg: `route UI uses intrinsic tags without a Kelir import: ${tagList(intrinsic.map((t) => t.tag))}`,
     });
   } else if (!kelir && !route && intrinsic.length > 0) {
     findings.push({
       level: "warn",
       line: 1,
-      msg: `UI tanpa impor Kelir (${intrinsic.length} tag intrinsik: ${tagList(intrinsic.map((t) => t.tag))})`,
+      msg: `UI without a Kelir import (${intrinsic.length} intrinsic tags: ${tagList(intrinsic.map((t) => t.tag))})`,
     });
   }
 
@@ -252,22 +252,22 @@ for (const f of walk(SRC)) {
       findings.push({
         level: "warn",
         line: lineAt(src, hit.idx),
-        msg: `<${tag}> di luar komponen Kelir; bungkus + beri alasan`,
+        msg: `<${tag}> outside a Kelir component; wrap it + give a reason`,
       });
     }
   }
 
   const sinks = [
-    ["dangerouslySetInnerHTML", "HTML mentah via dangerouslySetInnerHTML"],
-    ["innerHTML", "manipulasi innerHTML"],
-    ["outerHTML", "manipulasi outerHTML"],
-    ["ReactMarkdown", "render markdown (react-markdown)"],
-    ["MDXContent", "render mdx dinamis"],
+    ["dangerouslySetInnerHTML", "raw HTML via dangerouslySetInnerHTML"],
+    ["innerHTML", "innerHTML manipulation"],
+    ["outerHTML", "outerHTML manipulation"],
+    ["ReactMarkdown", "markdown render (react-markdown)"],
+    ["MDXContent", "dynamic mdx render"],
   ];
   for (const [needle, label] of sinks) {
     const idx = masked.indexOf(needle);
     if (idx !== -1) {
-      findings.push({ level: "warn", line: lineAt(src, idx), msg: `konten dinamis: ${label}; batasi/sanitasi` });
+      findings.push({ level: "warn", line: lineAt(src, idx), msg: `dynamic content: ${label}; restrict/sanitize` });
     }
   }
 
@@ -281,17 +281,17 @@ for (const f of walk(SRC)) {
   for (const [re, label] of cssInJs) {
     const m = re.exec(masked);
     if (m) {
-      findings.push({ level: "warn", line: lineAt(src, m.index), msg: `CSS di luar Kelir: ${label}` });
+      findings.push({ level: "warn", line: lineAt(src, m.index), msg: `CSS outside Kelir: ${label}` });
     }
   }
   if (!kelir) {
     for (const [re, label] of [
       [/\bstyle\s*=\s*\{\{/, "inline style"],
-      [/<style\b/, "blok <style>"],
+      [/<style\b/, "<style> block"],
     ]) {
       const m = re.exec(masked);
       if (m) {
-        findings.push({ level: "warn", line: lineAt(src, m.index), msg: `CSS di luar Kelir: ${label}` });
+        findings.push({ level: "warn", line: lineAt(src, m.index), msg: `CSS outside Kelir: ${label}` });
       }
     }
   }
@@ -301,7 +301,7 @@ for (const f of walk(SRC)) {
       findings.push({
         level: "error",
         line: lineAt(src, idx),
-        msg: `impor Tailwind '${spec}': CSS konsumen haram`,
+        msg: `Tailwind import '${spec}': consumer CSS is forbidden`,
       });
       continue;
     }
@@ -310,7 +310,7 @@ for (const f of walk(SRC)) {
       findings.push({
         level: "warn",
         line: lineAt(src, idx),
-        msg: `impor UI pihak ketiga '${uiPkg}' di luar Kelir`,
+        msg: `third-party UI import '${uiPkg}' outside Kelir`,
       });
     }
     const canvasPkg = packageMatches(spec, CANVAS_LIBS);
@@ -318,7 +318,7 @@ for (const f of walk(SRC)) {
       findings.push({
         level: "warn",
         line: lineAt(src, idx),
-        msg: `library canvas/WebGL '${canvasPkg}' di luar Kelir`,
+        msg: `canvas/WebGL library '${canvasPkg}' outside Kelir`,
       });
     }
   }
@@ -332,8 +332,8 @@ for (const a of allowed) console.log(`ALLOW ${rel(a.f)}:${a.line}: ${a.msg}`);
 for (const w of warn) console.log(`WARN  ${fmt(w)}`);
 for (const e of err) console.log(`ERROR ${fmt(e)}`);
 console.log(
-  `cakupan: ${scope.ui} file UI konsumen dipindai (${scope.outside} tanpa impor Kelir); ` +
-    `dikecualikan: ${scope.kit} internal kit, ${scope.tests} test/fixture/story, ` +
-    `${scope.generated} generated, ${scope.noJsx} tanpa JSX, ${scope.css} stylesheet konsumen.`,
+  `scope: ${scope.ui} consumer UI files scanned (${scope.outside} without a Kelir import); ` +
+    `excluded: ${scope.kit} kit-internal, ${scope.tests} test/fixture/story, ` +
+    `${scope.generated} generated, ${scope.noJsx} without JSX, ${scope.css} consumer stylesheet.`,
 );
 if (STRICT && err.length > 0) process.exit(1);

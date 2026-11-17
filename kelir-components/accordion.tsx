@@ -5,8 +5,8 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import type { AccordionProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
-// Accordion sealed (Gel.3c-6 STYLE.md §6): summary/details slot TEKS,
-// expanded TERKONTROL + onChange semantik; visual milik kit.
+// Accordion sealed (Gel.3c-6 STYLE.md §6): summary/details TEXT slot,
+// expanded CONTROLLED + semantic onChange; visuals owned by the kit.
 export function Accordion({
   summary,
   details,
@@ -19,7 +19,7 @@ export function Accordion({
     <MuiAccordion
       expanded={expanded}
       defaultExpanded={defaultExpanded}
-      // Adaptor semantik: MUI kirim (event, expanded); kontrak kit boolean saja.
+      // Semantic adapter: MUI passes (event, expanded); kit contract is boolean only.
       onChange={onChange ? (_e, next) => onChange(next) : undefined}
       disabled={disabled}
       disableGutters

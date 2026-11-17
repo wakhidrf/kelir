@@ -30,9 +30,9 @@ export function DropdownMenu({
 
   return (
     <>
-      {/* Pemicu milik kit: text = tombol teks polos; button = Button
-          outline milik kit (affordance tombol untuk toolbar). Klik
-          ditangani kit di kedua varian. */}
+      {/* Kit-owned trigger: text = plain text button; button = kit's outline
+          Button (button affordance for toolbars). Clicks are handled by the
+          kit for both variants. */}
       {triggerVariant === "button" ? (
         <Button variant="outline" onClick={handleTriggerClick}>
           {trigger}

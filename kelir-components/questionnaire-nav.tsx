@@ -1,8 +1,8 @@
 import { css } from "../kelir-variants";
 import { Button } from "./button";
 
-// Navigasi Questionnaire (internal, pecah P2 §8): tombol kembali/lewati/
-// lanjut-kirim milik kit. Props lokal, tanpa §5.
+// Questionnaire navigation (internal, P2 split §8): back/skip/
+// next-submit buttons owned by the kit. Local props, no §5.
 interface QuestionnaireNavProps {
   backLabel: string;
   skipLabel: string;

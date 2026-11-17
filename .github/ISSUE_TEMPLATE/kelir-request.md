@@ -1,40 +1,42 @@
 name: "kelir-request"
-description: "Minta prop/varian di luar kontrak paten (§5 STYLE.md)"
+description: "Request a prop/variant outside the patent contract (§5 STYLE.md)"
 title: "[kelir-request] "
 labels: ["kelir-request"]
 body:
   - type: markdown
     attributes:
       value: |
-        Kontrak Kelir **paten**: hanya ISI + MAKNA + PERILAKU (§5 `STYLE.md`).
-        Gaya mentah (`style`/`sx`/`className`/hex-px) **tidak** dilayani —
-        baca §6 dulu. Isi form ini agar pemilik tabel memutuskan.
+        The Kelir contract is **patent**: only CONTENT + MEANING + BEHAVIOR
+        (§5 `STYLE.md`). Raw styling (`style`/`sx`/`className`/hex-px) is **not**
+        served — read §6 first. Fill in this form so the table owner can decide.
+
+        **Language:** please write this issue in English.
   - type: input
-    id: komponen
+    id: component
     attributes:
-      label: "Komponen (§5 No)"
-      placeholder: "mis. Select (no 48)"
+      label: "Component (§5 No)"
+      placeholder: "e.g. Select (no 48)"
     validations:
       required: true
   - type: textarea
-    id: kebutuhan
+    id: requirement
     attributes:
-      label: "Kebutuhan (ISI/MAKNA/PERILAKU, bukan visual)"
-      description: "Contoh baik: `size?: 'xl'` untuk sel tabel padat. Contoh ditolak: `style={{margin: 4}}`."
-      placeholder: "prop/varian yang diminta + alasan makna/perilaku"
+      label: "Requirement (CONTENT/MEANING/BEHAVIOR, not visual)"
+      description: "Good example: `size?: 'xl'` for dense table cells. Rejected example: `style={{margin: 4}}`."
+      placeholder: "requested prop/variant + meaning/behavior reason"
     validations:
       required: true
   - type: textarea
     id: workaround
     attributes:
-      label: "Workaround konsumen saat ini"
-      description: "Bagaimana kebutuhan dipenuhi hari ini tanpa ubah kit?"
+      label: "Current consumer workaround"
+      description: "How is the need met today without changing the kit?"
     validations:
       required: false
   - type: dropdown
-    id: urgensi
+    id: urgency
     attributes:
-      label: "Urgensi"
-      options: ["rendah — tunggu batch", "sedang — butuh sprint ini", "tinggi — blocker rilis"]
+      label: "Urgency"
+      options: ["low — wait for a batch", "medium — needed this sprint", "high — release blocker"]
     validations:
       required: true

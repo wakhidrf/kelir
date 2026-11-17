@@ -18,16 +18,16 @@ const textSecondary = css.colors.textSecondary;
 const borderLight = css.border.light;
 const convex = css.shadows.convex;
 const blur = css.motion.blur.backdrop;
-// Skala mentah tersisa (ISSUE-006): kontainer besar disengaja lg;
-// faktor-ukuran-peran (card kecil vs besar) pekerjaan susulan.
+// Remaining raw scale (ISSUE-006): large containers are intentionally lg;
+// the size-per-role factor (small vs large card) is follow-up work.
 const radiusLg = css.radius.lg;
 const spaceLg = css.layout.space.lg;
 const spaceXl = css.layout.space.xl;
 const typeBody = css.typography.scale.body;
 
-// Questionnaire sealed: orkestrasi state + langkah (pecah P2 PLAN.md §8).
-// Kontrak publik tak berubah; render dipecah ke modul internal
-// (progress/item/nav/complete/model). Tanpa ...rest/style/sx/className.
+// Questionnaire sealed: state + step orchestration (P2 PLAN.md split §8).
+// Public contract unchanged; rendering is split into internal modules
+// (progress/item/nav/complete/model). No ...rest/style/sx/className.
 export function Questionnaire({
   questions,
   value,

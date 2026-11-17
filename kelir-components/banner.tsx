@@ -2,18 +2,18 @@ import MuiBox from "@mui/material/Box";
 import type { BannerProps } from "../kelir-types";
 import { css, statusColors } from "../kelir-variants";
 
-// Pasangan bg/fg milik kit (preseden Marker-note: solid, bukan warna
-// mentah). `neutral` = abu token (Alert tak punya tone netral).
+// Kit-owned bg/fg pairs (Marker-note precedent: solid, not raw colors).
+// `neutral` = token gray (Alert has no neutral tone).
 const bannerPalettes = {
   danger: { bg: css.destructive, fg: css.on.destructive },
   warn: statusColors.warning,
   neutral: { bg: css.colors.neutral, fg: css.colors.surface },
 } as const;
 
-// Spanduk status tengah sealed (P1b STYLE.md): teks anak mewarisi warna
-// (tanpa override di dalam); rata tengah; tanpa ikon (itu `Alert`).
-// Basis MUI (MuiBox) agar di tree tema. Tanpa ...rest ke DOM dan tanpa
-// style passthrough — di luar kontrak = pelanggaran.
+// Centered status banner sealed (P1b STYLE.md): child text inherits the color
+// (no inner overrides); centered; no icon (that's `Alert`).
+// MUI-based (MuiBox) so it's in the theme tree. No ...rest to the DOM and no
+// style passthrough - out of contract = violation.
 export function Banner({
   children,
   tone = "neutral",

@@ -4,9 +4,9 @@ import { css } from "../kelir-variants";
 
 const textSecondary = css.colors.textSecondary;
 
-// Pemisah sealed (P1c STYLE.md §6): basis MUI untuk multi-platform; hanya
-// props kontrak — tanpa ...rest ke DOM, tanpa style/sx/className/variant
-// konsumen. Garis + tipografi label milik kit.
+// Sealed separator (P1c STYLE.md §6): MUI base for multi-platform; only
+// contract props — no ...rest to the DOM, no consumer style/sx/className/variant
+// Line + label typography owned by the kit.
 export function Separator({
   label,
   orientation = "horizontal",

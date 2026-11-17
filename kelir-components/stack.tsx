@@ -13,11 +13,11 @@ const gaps = {
   "4xl": css.layout.space["4xl"],
 } as const;
 
-// Ambang responsif kit (satu sumber: token heroCollapse 768px). Dipakai via
-// `sx` supaya komponen tetap server-safe (tanpa hook/useMediaQuery).
+// Kit responsive breakpoint (single source: the heroCollapse token, 768px). Used via
+// `sx` so the component stays server-safe (no hooks/useMediaQuery).
 const MD_QUERY = `@media (min-width: ${css.layout.breakpoints.heroCollapse})`;
 
-// `minHeight="screen"` = satu layar penuh (dvv supaya benar di mobile).
+// `minHeight="screen"` = one full screen (dvh so it's correct on mobile).
 const SCREEN_HEIGHT = "100dvh";
 
 function minHeightValue(
@@ -26,22 +26,22 @@ function minHeightValue(
   return minHeight === "screen" ? SCREEN_HEIGHT : css.layout.space[minHeight];
 }
 
-// Primitif layout sealed (P1b STYLE.md): susunan + jarak + perataan dari
-// token css.layout. `align`/`justify` union tertutup nilai logis
-// (RTL-benar); default stretch/start = perilaku lama (nol-ubah visual).
-// `wrap?` = flex-wrap milik kit (default `false`, properti dihilangkan
-// penuh saat mati). `directionMd?` = arah pada lebar >= 768px (token
-// heroCollapse); tanpa = `direction` berlaku di semua lebar (perilaku lama).
-// `minHeight?` = tinggi minimum dari skala space token atau `screen`
-// (= 100dvh) untuk hero/interstitial satu layar (menyediakan ruang tetap
-// untuk konten async/pihak ketiga; default tanpa tinggi). `reverseMd?` =
-// balik urutan anak pada lebar >= 768px (token heroCollapse; arah dasar
-// `gapMd?` = jarak pada lebar >= 768px (token heroCollapse); tanpa =
-// `gap` berlaku di semua lebar (perilaku lama).
-// `directionMd ?? direction`, default `false`). Tanpa warna/border/shadow/font.
-// Basis MUI (MuiBox = div + emotion + tema di tree) untuk multi-platform;
-// visual milik kit. Tanpa ...rest ke DOM dan tanpa style passthrough — di
-// luar kontrak = pelanggaran.
+// Sealed layout primitive (P1b STYLE.md): arrangement + spacing + alignment from
+// css.layout tokens. `align`/`justify` closed union of logical values
+// (RTL-correct); default stretch/start = legacy behavior (zero visual change).
+// `wrap?` = kit-owned flex-wrap (default `false`, property fully omitted
+// when off). `directionMd?` = direction at width >= 768px (the
+// heroCollapse token); without = `direction` applies at all widths (legacy behavior).
+// `minHeight?` = minimum height from the space token scale or `screen`
+// (= 100dvh) for one-screen hero/interstitial (provides fixed space
+// for async/third-party content; default no height). `reverseMd?` =
+// reverse child order at width >= 768px (heroCollapse token; base direction
+// `gapMd?` = gap at width >= 768px (heroCollapse token); without =
+// `gap` applies at all widths (legacy behavior).
+// `directionMd ?? direction`, default `false`). No color/border/shadow/font.
+// MUI base (MuiBox = div + emotion + theme in the tree) for multi-platform;
+// visuals owned by the kit. No ...rest to the DOM and no style passthrough —
+// outside the contract = violation.
 export function Stack({
   children,
   gap = "md",
@@ -83,8 +83,8 @@ export function Stack({
       }
       style={{
         display: "flex",
-        // Arah dasar tetap inline (perilaku lama); saat arah responsif
-        // dipakai, arah dipindah ke `sx` agar media query bisa menang.
+        // Base direction stays inline (legacy behavior); when responsive direction
+        // is used, direction moves to `sx` so the media query can take over.
         ...(responsiveDirection ? null : ({ flexDirection: direction } as const)),
         ...(responsiveGap ? null : ({ gap: gaps[gap] } as const)),
         alignItems: align,

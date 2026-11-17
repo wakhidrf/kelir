@@ -2,9 +2,9 @@ import MuiBox from "@mui/material/Box";
 import type { ListProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
-// Daftar semantik sealed (P2 STYLE.md 6): penanda, jarak, dan warna milik kit.
-// Basis MUI (MuiBox = ul/ol + emotion + tema di tree) untuk multi-platform.
-// Tanpa ...rest ke DOM, tanpa style/sx/className passthrough konsumen.
+// Sealed semantic list (P2 STYLE.md 6): markers, spacing, and color belong to the kit.
+// MUI basis (MuiBox = ul/ol + emotion + theme in tree) for multi-platform.
+// No ...rest to DOM, no consumer style/sx/className passthrough.
 export function List({
   items,
   ordered = false,
@@ -27,7 +27,7 @@ export function List({
       }}
     >
       {items.map((item, index) => (
-        // biome-ignore lint/suspicious/noArrayIndexKey: butir statis dari isi.
+        // biome-ignore lint/suspicious/noArrayIndexKey: static items from content.
         <MuiBox
           component="li"
           key={`item-${index}`}

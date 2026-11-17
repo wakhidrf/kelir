@@ -2,12 +2,12 @@ import MuiCircularProgress from "@mui/material/CircularProgress";
 import type { SpinnerProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
-// Ukuran milik kit (px tertutup, bukan angka bebas konsumen).
+// Kit-owned sizes (closed px values, not free consumer numbers).
 const sizes = { small: 16, medium: 24, large: 40 } as const;
 
-// Indikator loading sealed (P1c STYLE.md §6): basis MUI untuk
-// multi-platform; indeterminate + warna primer milik kit — tanpa ...rest,
-// tanpa style/sx/className/value/variant konsumen.
+// Sealed loading indicator (P1c STYLE.md §6): MUI base for
+// multi-platform; indeterminate + primary color owned by the kit — no ...rest,
+// no consumer style/sx/className/value/variant.
 export function Spinner({
   size = "medium",
   id,

@@ -56,7 +56,7 @@ export function NavigationMenu({ items }: NavigationMenuProps) {
             <a
               key={item.label}
               href={item.href}
-              // Adaptor zero-arg: kontrak kit tanpa event.
+              // Zero-arg adapter: kit contract without events.
               onClick={() => item.onClick?.()}
               style={{ ...itemStyle, textDecoration: "none" }}
             >
@@ -69,7 +69,7 @@ export function NavigationMenu({ items }: NavigationMenuProps) {
           <button
             key={item.label}
             type="button"
-            // Adaptor zero-arg: kontrak kit tanpa event.
+            // Zero-arg adapter: kit contract without events.
             onClick={() => item.onClick?.()}
             style={itemStyle}
           >

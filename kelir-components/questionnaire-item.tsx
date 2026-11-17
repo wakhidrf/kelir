@@ -5,8 +5,8 @@ import { RadioGroup } from "./radio-group";
 import { Textarea } from "./textarea";
 import type { AnswerValue } from "./questionnaire-model";
 
-// Isi pertanyaan Questionnaire (internal, pecah P2 §8): judul + deskripsi
-// + input sesuai tipe. Kit-komposisi sealed. Props lokal, tanpa §5.
+// Questionnaire question body (internal, P2 split §8): title + description
+// + input per type. Sealed kit composition. Local props, no §5.
 interface QuestionnaireItemProps {
   question: QuestionnaireQuestion;
   answer: AnswerValue | undefined;
@@ -123,7 +123,7 @@ export function QuestionnaireItem({
             placeholder={question.placeholder}
             value={(typeof answer === "string" ? answer : "") as string}
             onChange={(value) => onAnswer(value)}
-            // A11y milik kit: judul pertanyaan = nama aksesibel textarea.
+            // Kit-owned a11y: the question title is the textarea's accessible name.
             aria-label={question.title}
           />
         )}

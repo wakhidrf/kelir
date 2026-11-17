@@ -14,7 +14,7 @@ export function Sheet({
   return (
     <MuiDrawer
       open={open}
-      // Adaptor zero-arg: MUI memanggil (event, reason); kontrak kit tanpa argumen.
+      // Zero-arg adapter: MUI calls with (event, reason); the kit contract takes no arguments.
       onClose={() => onClose()}
       anchor="bottom"
       id={id}

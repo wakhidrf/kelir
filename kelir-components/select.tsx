@@ -17,9 +17,9 @@ const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
-// Scrollbar bertema, persis seperti .kelir-scrollbar (lihat scrollbarCss).
-// Dipasang langsung via sx agar menempel pada elemen yang benar-benar
-// melakukan scroll (paper/list).
+// Themed scrollbar, exactly like .kelir-scrollbar (see scrollbarCss).
+// Applied directly via sx so it attaches to the element that actually
+// scrolls (paper/list).
 const menuScrollbarSx = {
   scrollbarWidth: "thin",
   scrollbarColor: `color-mix(in srgb, ${css.colors.textSecondary} 45%, transparent) ${css.track}`,
@@ -41,16 +41,16 @@ const menuScrollbarSx = {
   },
 };
 
-// Dropdown sealed (P1c STYLE.md §6): basis MUI untuk multi-platform; hanya
-// props kontrak — tanpa ...rest ke DOM, tanpa style/sx/className/MenuProps/
-// onOpen konsumen. `onChange` semantik (string). Lebar menu mengikuti anchor,
-// disableScrollLock, scrollbar, paper = perilaku milik kit. Label dirender
-// kit via Stack + Typography (bukan InputLabel mentah konsumen).
+// Sealed dropdown (P1c STYLE.md §6): MUI base for multi-platform; only
+// contract props — no ...rest to the DOM, no consumer style/sx/className/MenuProps/
+// onOpen. `onChange` semantics (string). Menu width follows the anchor,
+// disableScrollLock, scrollbar, paper = kit-owned behavior. Label rendered
+// by the kit via Stack + Typography (not a raw consumer InputLabel).
 //
-// Pembungkus input internal: MUI Select menyuntik `notched: true` ke elemen
-// `input` (Select.js), tetapi MuiInputBase tak mengonsumsinya sehingga jatuh
-// ke div → React dev warning "non-boolean attribute notched". Dibuang di sini;
-// ref + props lain diteruskan agar wiring fokus/ukur MUI tetap utuh.
+// Internal input wrapper: MUI Select injects `notched: true` onto the
+// `input` element (Select.js), but MuiInputBase doesn't consume it so it falls
+// through to the div → React dev warning "non-boolean attribute notched". Removed here;
+// ref + other props passed through so MUI's focus/measure wiring stays intact.
 const KelirSelectInput = forwardRef<
   HTMLDivElement,
   { notched?: unknown; style?: CSSProperties } & Record<string, unknown>

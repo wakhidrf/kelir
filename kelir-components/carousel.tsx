@@ -102,7 +102,7 @@ export function Carousel<TItem extends React.ReactNode = React.ReactNode>({
             <button
               key={`dot-${slideIndex}`}
               type="button"
-              aria-label={`Ke slide ${slideIndex + 1}`}
+              aria-label={`Go to slide ${slideIndex + 1}`}
               onClick={() => setIndex(slideIndex)}
               style={{
                 width: slideIndex === index ? "20px" : "8px",

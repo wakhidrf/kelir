@@ -5,19 +5,19 @@ import { createCss } from "../kelir-variants";
 // neutral); the rest are derived. Layered box-shadow elevation, spring physics
 // (entry 540ms, stagger 120ms). MATCHES springMotion.
 export const variants = {
-  // Warna inti dari DESIGN.md
+  // Core colors from DESIGN.md
   primary: "#FFFFFF", // DESIGN primary (dominant surface)
   secondary: "#F5F5F5", // DESIGN secondary (raised surface)
   tertiary: "#E0E0E0", // DESIGN tertiary (supporting palette)
   neutral: "#1A1A1A", // derived deep charcoal (text / neutral)
-  // Warna turunan semantik
+  // Derived semantic colors
   textPrimary: "#1A1A1A", // charcoal (primary text)
   textSecondary: "rgba(26, 26, 26, 0.68)", // muted ink (secondary text)
   onPrimary: "#1A1A1A", // ink (text on white primary)
   onSecondary: "#1A1A1A", // ink (text on pale grey)
   onDestructive: "#FFFFFF", // white (text on destructive)
   destructive: "#B3261E", // derived deep red (destructive)
-  // Warna turunan (nilai bebas per tema, nama key fix)
+  // Derived colors (free per-theme values, fixed key names)
   background: "#F2F2F3", // neutral grey canvas (depth backdrop)
   baseBackground: "#F2F2F3", // solid canvas base (same as background for flat themes)
   surface: "#FFFFFF", // paper surface (top layer)

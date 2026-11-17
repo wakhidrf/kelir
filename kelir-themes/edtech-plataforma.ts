@@ -6,19 +6,19 @@ import { createCss } from "../kelir-variants";
 // white #FFFFFF, surface light grey #F8FAFC) + yellow warning accent. Ease-out
 // motion (entry 420ms, stagger 80ms) = easeMotion default. Poppins display.
 export const variants = {
-  // Warna inti dari DESIGN.md
+  // Core colors from DESIGN.md
   primary: "#FF6B00", // Orange (warm accent / CTA)
   secondary: "#7C3AED", // Purple (accent / emphasis)
   tertiary: "#2563EB", // Blue (accent highlight / links)
   neutral: "#FFFFFF", // White (neutral / secondary surface)
-  // Warna turunan semantik
+  // Derived semantic colors
   textPrimary: "#1F2937", // Charcoal (primary text, off-black)
   textSecondary: "#64748B", // Slate (secondary text)
   onPrimary: "#FFFFFF", // White (text on orange primary)
   onSecondary: "#FFFFFF", // White (text on purple)
   onDestructive: "#FFFFFF", // White (text on destructive)
   destructive: "#DC2626", // Solid red (destructive background)
-  // Warna turunan (nilai bebas per tema, nama key fix)
+  // Derived colors (free per-theme values, fixed key names)
   background: "#F8FAFC", // Light grey canvas
   baseBackground: "#F8FAFC", // solid canvas base (same as background for flat themes)
   surface: "#FFFFFF", // White paper surface

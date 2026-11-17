@@ -5,19 +5,19 @@ import { createCss } from "../kelir-variants";
 // Premium fluid glass: iridescent gradients, heavy backdrop blur, chromatic
 // highlights on dark surfaces.
 export const variants = {
-  // Warna inti dari DESIGN.md
+  // Core colors from DESIGN.md
   primary: "#1A1A1A", // DESIGN primary (deep charcoal)
   secondary: "#4A4A4A", // DESIGN secondary (graphite)
   tertiary: "#0066FF", // DESIGN tertiary (electric blue accent)
   neutral: "#FFFFFF", // DESIGN neutral (text)
-  // Warna turunan semantik
+  // Derived semantic colors
   textPrimary: "#FFFFFF", // neutral (primary text on dark glass)
   textSecondary: "rgba(255, 255, 255, 0.65)", // softly muted white
   onPrimary: "#FFFFFF", // neutral (text on primary)
   onSecondary: "#FFFFFF", // neutral (text on secondary)
   onDestructive: "#FFFFFF", // neutral (text on destructive)
   destructive: "#C0372B", // derived deep red (destructive)
-  // Warna turunan (nilai bebas per tema, nama key fix)
+  // Derived colors (free per-theme values, fixed key names)
   background:
     "radial-gradient(1200px 800px at 15% -10%, rgba(0, 102, 255, 0.35) 0%, transparent 55%), radial-gradient(1000px 700px at 110% 30%, rgba(0, 204, 255, 0.25) 0%, transparent 50%), radial-gradient(900px 600px at 85% 90%, rgba(255, 0, 200, 0.14) 0%, transparent 55%), linear-gradient(180deg, #12131A 0%, #0C0D14 100%)", // iridescent deep space-blue canvas
   baseBackground: "#0C0D14", // solid canvas base (gradient tail) for below-the-fold body

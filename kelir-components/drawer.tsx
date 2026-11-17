@@ -15,7 +15,7 @@ export function Drawer({
   return (
     <MuiDrawer
       open={open}
-      // Adaptor zero-arg: MUI memanggil (event, reason); kontrak kit tanpa argumen.
+      // Zero-arg adapter: MUI calls (event, reason); kit contract takes no arguments.
       onClose={() => onClose()}
       id={id}
       aria-label={ariaLabel}
@@ -25,21 +25,21 @@ export function Drawer({
             backgroundColor: css.colors.surface,
             boxShadow: css.shadows.convex,
             border: `1px solid ${css.border.light}`,
-            // Lengkung ala card HANYA sisi kanan (Drawer kit selalu
-            // menempel kiri; ISSUE-008).
+            // Card-like curve on the RIGHT side ONLY (kit Drawer always
+            // sticks to the left; ISSUE-008).
             borderTopRightRadius: css.radius.card,
             borderBottomRightRadius: css.radius.card,
             backdropFilter: css.motion.blur.backdrop,
             WebkitBackdropFilter: css.motion.blur.backdrop,
             fontFamily: "inherit",
-            // auto = paper bungkus isi + tengah vertikal. Syarat: height
-            // harus DEFINITE (fit-content) — height:auto + top/bottom:0
-            // justru meregang penuh karena margin auto jadi nol! Tanpa
-            // transform agar tak bentrok transisi Slide (margin yang
-            // memusatkan, bukan translate). overflowY visible: paper mode
-            // content TAK PERNAH scroll sendiri (pecahan subpixel 151.5 vs
-            // 150 memicu slider hantu); scroll milik ScrollArea dalam bila
-            // konten melebihi cap.
+            // auto = paper wraps content + vertically centered. Requirement: height
+            // must be DEFINITE (fit-content) - height:auto + top/bottom:0
+            // actually stretches full because auto margin becomes zero! No
+            // transform so it doesn't clash with the Slide transition (margin
+            // centers it, not translate). overflowY visible: content-mode paper
+            // NEVER scrolls on its own (subpixel fractions 151.5 vs 150
+            // trigger a ghost slider); scrolling belongs to the inner ScrollArea when
+            // content exceeds the cap.
             ...(height === "auto"
               ? {
                   height: "fit-content",
@@ -52,8 +52,8 @@ export function Drawer({
                 }
               : {}),
           },
-          // Nama dialog (role=dialog ada di paper, bukan root) — temuan axe
-          // via Sidebar overlay (ISSUE-008). Root tetap berlabel seperti semula.
+          // Dialog name (role=dialog is on the paper, not the root) - axe finding
+          // via the Sidebar overlay (ISSUE-008). Root stays labeled as before.
           ...(ariaLabel ? { "aria-label": ariaLabel } : {}),
         },
       }}

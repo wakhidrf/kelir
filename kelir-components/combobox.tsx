@@ -25,7 +25,7 @@ export function Combobox({
       options={options}
       value={value ?? null}
       defaultValue={defaultValue ?? undefined}
-      // Adaptor semantik: MUI kirim (event, value); kontrak kit value saja.
+      // Semantic adapter: MUI passes (event, value); kit contract is value only.
       onChange={onChange ? (_e, next) => onChange(next) : undefined}
       disabled={disabled}
       renderInput={(params) => {
@@ -33,10 +33,10 @@ export function Combobox({
         return (
           <div style={{ position: "relative", width: "100%" }}>
             {label && <Label htmlFor={params.id}>{label}</Label>}
-            {/* Komposit internal: render MuiInputBase langsung (bukan Input
-            yang sealed) karena Autocomplete WAJIB wiring ref/inputProps/
-            adornment MUI ke elemen input. Visual tetap milik kit via
-            helper internal getInputStyle/inputFocusSx — bukan style konsumen. */}
+            {/* Internal composite: render MuiInputBase directly (not the sealed
+            Input) because Autocomplete REQUIRES wiring MUI's ref/inputProps/
+            adornment to the input element. Visuals still owned by the kit via
+            the internal getInputStyle/inputFocusSx helpers - not consumer style. */}
             <MuiInputBase
               inputRef={ref}
               inputProps={params.slotProps.htmlInput}

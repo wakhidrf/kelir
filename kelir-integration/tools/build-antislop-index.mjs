@@ -230,25 +230,25 @@ function build() {
     .filter((e) => e.isDirectory())
     .map((e) => e.name);
   const missing = [CORE, ...SUB_SKILLS].filter((n) => !present.includes(n));
-  if (missing.length) die(`skill mirror tidak lengkap: ${missing.join(", ")} hilang.`);
+  if (missing.length) die(`skill mirror is incomplete: ${missing.join(", ")} missing.`);
   if (present.length !== 1 + SUB_SKILLS.length) {
-    die(`jumlah skill tak terduga: ${present.length} (harap telaah sebelum mempercayai indeks).`);
+    die(`unexpected skill count: ${present.length} (please review before trusting the index).`);
   }
 
   const core = parseCore(CORE);
   if (core.rules.length !== 40) {
-    die(`inti punya ${core.rules.length} aturan, harusnya 40 (bentuk SKILL.md berubah).`);
+    die(`core has ${core.rules.length} rules, expected 40 (SKILL.md shape changed).`);
   }
   const ids = core.rules.map((r) => r.id).sort();
   const expect = Array.from({ length: 40 }, (_, i) => `R-${String(i + 1).padStart(2, "0")}`);
   if (ids.join(",") !== expect.join(",")) {
-    die("id aturan inti tidak lagi R-01..R-38 tanpa celah/pengulangan.");
+    die("core rule ids are no longer R-01..R-38 without gaps/duplicates.");
   }
 
   const skills = SUB_SKILLS.map(parseSubSkill);
   for (const s of skills) {
     const n = s.sections.reduce((a, x) => a + x.patterns.length, 0);
-    if (n === 0) die(`skill ${s.name} tak punya pola ber-format '- **Tell:**'.`);
+    if (n === 0) die(`skill ${s.name} has no pattern in '- **Tell:**' format.`);
   }
 
   return {
@@ -284,18 +284,18 @@ if (args.includes("--check")) {
   try {
     current = readFileSync(indexPath, "utf8");
   } catch {
-    die("index.json belum ada; jalankan tanpa --check untuk membuatnya.");
+    die("index.json does not exist yet; run without --check to create it.");
   }
   if (current !== json) {
-    die("index.json basi/berbeda dari sumber; jalankan `node kelir-integration/tools/build-antislop-index.mjs`.");
+    die("index.json is stale/differs from the source; run `node kelir-integration/tools/build-antislop-index.mjs`.");
   }
   const n = JSON.parse(current);
   const patterns = n.skills.reduce((a, s) => a + s.patternCount, 0);
-  console.log(`build-antislop-index: OK - v${n.version}, ${n.core.rules.length} aturan inti + ${patterns} pola (cocok).`);
+  console.log(`build-antislop-index: OK - v${n.version}, ${n.core.rules.length} core rules + ${patterns} patterns (match).`);
 } else if (args.length === 0) {
   writeFileSync(indexPath, json);
   const patterns = build().skills.reduce((a, s) => a + s.patternCount, 0);
-  console.log(`build-antislop-index: OK - tulis antislop/index.json (40 aturan inti + ${patterns} pola).`);
+  console.log(`build-antislop-index: OK - wrote antislop/index.json (40 core rules + ${patterns} patterns).`);
 } else {
-  die(`argumen tak dikenal: ${args.join(" ")} (pakai --check atau tanpa argumen).`);
+  die(`unknown argument: ${args.join(" ")} (use --check or no argument).`);
 }

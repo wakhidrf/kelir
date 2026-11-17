@@ -5,11 +5,11 @@ import { css } from "../kelir-variants";
 
 type Variant = NonNullable<TypographyProps["variant"]>;
 
-// Basis MUI dipertahankan (ritel multi-platform nanti): MuiTypography sebagai
-// renderer (kelas + tema + emotion). Visual milik kit — dipetakan ke varian
-// MUI terdekat + dioverride eksplisit dari token, SELALU sesudah style MUI
-// (inline style menang atas kelas), dan TANPA merge style konsumen (tipe
-// sudah melarang style/sx/className; implementasi tidak meneruskan ...rest).
+// MUI base retained (for future multi-platform retail): MuiTypography as the
+// renderer (classes + theme + emotion). Visuals owned by the kit — mapped to the
+// nearest MUI variant + explicitly overridden from tokens, ALWAYS after MUI styles
+// (inline style wins over classes), and WITHOUT merging consumer style (the type
+// already forbids style/sx/className; the implementation doesn't forward ...rest).
 const mappedVariant: Record<
   Variant,
   "h1" | "h2" | "h3" | "body1" | "body2" | "caption"
@@ -29,9 +29,9 @@ const mappedVariant: Record<
   label: "body1",
 };
 
-// Skala tipe kit dari token/variabel tema Kelir (sama dengan tema provider:
+// Kit type scale from Kelir theme tokens/variables (same as the provider theme:
 // h1 2.25rem/700, h2 1.5rem/600, body 1rem/400/1.6, small 0.875rem/500/1.6).
-// Tambahan P1c: h3, caption. Konsumen tidak bisa mengubah apa pun di sini.
+// P1c additions: h3, caption. Consumers can't change anything here.
 const variantStyles: Record<Variant, React.CSSProperties> = {
   h1: {
     fontSize: "var(--type-h1, 2.25rem)",
@@ -129,19 +129,19 @@ const defaultElement: Record<Variant, "h1" | "h2" | "h3" | "p"> = {
   label: "p",
 };
 
-// Ambang responsif kit (satu sumber: token layout) - mobile 600px untuk
-// `variantMobile` (max-width, ambang dikurangi 0.02px seperti komponen lain),
-// heroCollapse 768px untuk `variantMd`.
+// Kit responsive breakpoints (single source: the layout token) - mobile 600px for
+// `variantMobile` (max-width, breakpoint reduced by 0.02px like other components),
+// heroCollapse 768px for `variantMd`.
 const MOBILE_QUERY = `@media (max-width: calc(${css.layout.breakpoints.mobile} - 0.02px))`;
 const MD_QUERY = `@media (min-width: ${css.layout.breakpoints.heroCollapse})`;
 
-// Font merek konsumen (dipasang KelirProvider lewat --kelir-font-brand);
-// tanpa itu jatuh ke font aktif tema.
+// Consumer brand font (installed by KelirProvider via --kelir-font-brand);
+// without it, falls back to the theme's active font.
 const BRAND_FONT =
   "var(--kelir-font-brand, var(--kelir-font-active, sans-serif))";
 
-// Gaya varian + penimpa dari kontrak: tone menimpa warna varian, font
-// memilih keluarga teks (identitas konsumen) tanpa CSS konsumen.
+// Variant style + overrides from the contract: tone overrides the variant color, font
+// picks the text family (consumer identity) without consumer CSS.
 function styleFor(
   variant: Variant,
   tone: TypographyProps["tone"],
@@ -158,7 +158,7 @@ function styleFor(
   return style;
 }
 
-// Gaya segmen inline: tetap di dalam satu elemen (satu heading), dari token.
+// Inline segment style: stays within a single element (one heading), from tokens.
 function segmentStyle(seg: TypographySegment): React.CSSProperties {
   const style: React.CSSProperties = {};
   if (seg.tone === "muted") style.color = css.colors.textSecondary;
@@ -170,27 +170,27 @@ function segmentStyle(seg: TypographySegment): React.CSSProperties {
   return style;
 }
 
-// Teks sealed (P1c STYLE.md §6): hanya props kontrak yang diteruskan ke MUI
-// (children, component, variant, align, style milik kit, id/aria/role) -
-// tanpa ...rest ke DOM. `as` memilih elemen dokumen; `level` menambah role
-// heading + aria-level bila elemennya non-heading (tampilan body tapi outline
-// dokumen setara heading) - hierarki dokumen ≠ visual. Bila `as` sudah
-// heading, level bawaan elemen yang berlaku. `tone?` = warna teks dari
-// token tema (primary/secondary) atau warna merek (brand-accent/brand-ink);
-// tanpa = bawaan varian); `font?` = keluarga teks
-// (text = font aktif tema, brand = font merek dari KelirProvider.brandFont).
-// Varian tambahan: `hero` (judul besar fluid), `hero-sm` (judul besar
-// ponsel), dan `stat` (angka besar); `variantMobile?` memilih varian di
-// bawah 600px.
-// `align` = textAlign milik kit
-// (default `left`); `truncate?` = elipsis satu-baris milik kit (default
-// `false`, properti dihilangkan penuh saat mati); `breakAll?` = pecah kata
-// panjang di mana saja (`word-break: break-all`, default `false`);
-// `tracking?` = spasi huruf (`normal` = bawaan varian, `wide` = renggang
-// 6 px milik kit untuk kode verifikasi, default `normal`). `segments?` =
-// teks inline berhias dalam SATU elemen (heading utuh, bukan heading
-// bertingkat): tiap segmen span ber-token, `break` menjadi <br/>; bila
-// diisi, menggantikan `children`.
+// Sealed text (P1c STYLE.md §6): only contract props are forwarded to MUI
+// (children, component, variant, align, kit-owned style, id/aria/role) -
+// no ...rest to the DOM. `as` picks the document element; `level` adds a heading
+// role + aria-level when the element is a non-heading (body appearance but a
+// heading-equivalent document outline) - document hierarchy ≠ visual. When `as` is
+// already a heading, the element's default level applies. `tone?` = text color from
+// theme tokens (primary/secondary) or brand color (brand-accent/brand-ink);
+// without = variant default); `font?` = text family
+// (text = theme active font, brand = brand font from KelirProvider.brandFont).
+// Additional variants: `hero` (fluid large heading), `hero-sm` (large mobile
+// heading), and `stat` (large number); `variantMobile?` picks the variant below
+// 600px.
+// `align` = kit-owned textAlign
+// (default `left`); `truncate?` = kit-owned one-line ellipsis (default
+// `false`, property fully omitted when off); `breakAll?` = break long words
+// anywhere (`word-break: break-all`, default `false`);
+// `tracking?` = letter spacing (`normal` = variant default, `wide` = kit's loose
+// 6 px for verification codes, default `normal`). `segments?` =
+// styled inline text within ONE element (a whole heading, not nested
+// headings): each segment is a tokenized span, `break` becomes <br/>; when
+// provided, it replaces `children`.
 export function Typography({
   children,
   variant = "body-md",
@@ -239,8 +239,8 @@ export function Typography({
       style={{
         fontFamily: font === "brand" ? BRAND_FONT : "inherit",
         margin: 0,
-        // Varian visual tetap inline (perilaku lama); saat `variantMd` diisi,
-        // blok varian pindah ke `sx` agar media query bisa menang.
+        // Visual variant stays inline (legacy behavior); when `variantMd` is set,
+        // the variant block moves to `sx` so the media query can take over.
         ...(responsiveVariant ? null : styleFor(variant, tone, font)),
         textAlign: align,
         ...(truncate

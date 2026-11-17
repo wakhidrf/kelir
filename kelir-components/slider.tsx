@@ -18,8 +18,8 @@ export function Slider({
       value={value}
       defaultValue={defaultValue}
       onChange={(_e, next) => {
-        // Kontrak nilai tunggal: range MUI (number[]) di luar kontrak —
-        // ambil batas pertama agar onChange(number) total.
+        // Single-value contract: MUI range (number[]) is outside the contract —
+        // take the first bound so onChange(number) is total.
         onChange?.(Array.isArray(next) ? (next[0] ?? 0) : next);
       }}
       min={min}
