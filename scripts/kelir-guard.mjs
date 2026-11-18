@@ -28,14 +28,20 @@
 // silent).
 // Issue #114: every error carries a rule id and a concrete replacement
 // suggestion (the token/component to use), and `--explain <rule>` prints the
-// rule summary + docs link (run it with no rule to list every rule).
+// rule summary + docs link + the files it affects (run it with no rule to list
+// every rule).
+// Issue #116: `--fix` rewrites the deterministic raw-tag -> kit component
+// mappings (only tags whose attributes the kit component accepts), `--dry-run`
+// previews them, and `.kelirrc` suppresses WARN rules a project considers its
+// own style (suppressed findings are reported as ALLOW, never silent).
 // Version: see kelir-version.mjs (bump the minor on rule changes that add
 // errors, so consumers can pin a known-good kit tag).
-import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
+import { CONFIG_REASON, loadConfig, suppressedBy } from "./kelir-config.mjs";
 import { TOOLS_VERSION } from "./kelir-version.mjs";
-import { printReport, printTable } from "./kelir-report.mjs";
+import { BOLD, RESET, printReport, printTable } from "./kelir-report.mjs";
 
 // scripts/ -> kelir/ -> views/ -> src/ -> <project>
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "..", "..");
@@ -43,6 +49,9 @@ const SRC = join(ROOT, "src");
 const KELIR = join(SRC, "views", "kelir");
 const KELIR_COMP = join(KELIR, "kelir-components");
 const STRICT = process.argv.includes("--strict");
+const FIX = process.argv.includes("--fix");
+const DRY_RUN = process.argv.includes("--dry-run");
+const NO_CONFIG = process.argv.includes("--no-config");
 
 const ALLOW_FILES = new Set(["kelir-styles.ts", "kelir-variants.ts"]);
 const BANNED_PROPS = ["style", "sx", "className", "slotProps", "classes", "components", "componentsProps", "slot"];
@@ -61,6 +70,11 @@ const RULES = {
   },
   style: {
     summary: "Inline style is consumer styling (§3); visuals belong to the kit.",
+    docs: `${DOCS}#5-usage-rules`,
+  },
+  "heuristic-slot": {
+    summary:
+      "Heuristic only: an intrinsic with inline style inside a kelir-importing file is a slot candidate, not proof.",
     docs: `${DOCS}#5-usage-rules`,
   },
   "banned-prop": {
@@ -157,6 +171,51 @@ const TAG_KIT = {
   img: "Image",
 };
 
+// Deterministic raw-tag -> kit component rewrites for `--fix` (issue #116).
+// A tag is rewritten only when every attribute it carries in the file is
+// accepted by the kit component, it has the component's required props, and
+// (for children: string components) its children are plain text. Anything else
+// stays an ERROR so the consumer decides; the report lists what was skipped.
+const TYPOGRAPHY_ATTRS = [
+  "variant", "variantMd", "variantMobile", "tone", "font", "as", "level",
+  "align", "truncate", "breakAll", "tracking", "segments", "id", "aria-label",
+];
+const TEXT_VARIANTS = { h1: "h1", h2: "h2", h3: "h3" };
+const FIX_TAGS = {
+  input: {
+    component: "Input",
+    attrs: ["value", "defaultValue", "onChange", "placeholder", "type", "disabled", "size", "id", "aria-label"],
+    void: true,
+  },
+  textarea: {
+    component: "Textarea",
+    attrs: ["label", "error", "helperText", "value", "defaultValue", "onChange", "placeholder", "rows", "disabled", "id", "aria-label"],
+    void: true,
+  },
+  button: {
+    component: "Button",
+    attrs: ["children", "startIcon", "endIcon", "endContent", "variant", "align", "size", "onClick", "type", "disabled", "id", "aria-label"],
+    textOnly: true,
+  },
+  label: {
+    component: "Label",
+    attrs: ["htmlFor", "id", "aria-label"],
+    textOnly: true,
+  },
+  a: { component: "Link", attrs: ["href", "external", "icon", "id", "aria-label"], requires: ["href"] },
+  img: { component: "Image", attrs: ["src", "alt", "height", "fluid", "maxHeight", "maxWidth", "fit", "radius", "fill", "priority", "id", "aria-label"], requires: ["src"], void: true },
+  hr: { component: "Separator", attrs: ["label", "orientation", "id", "aria-label"], void: true },
+  blockquote: { component: "Quote", attrs: ["variant", "align", "id", "aria-label"] },
+};
+for (const tag of ["p", "span", "h1", "h2", "h3"]) {
+  const variant = TEXT_VARIANTS[tag];
+  FIX_TAGS[tag] = {
+    component: "Typography",
+    attrs: TYPOGRAPHY_ATTRS,
+    insert: ` as="${tag}"${variant ? ` variant="${variant}"` : ""}`,
+  };
+}
+
 function explainTarget() {
   const i = process.argv.indexOf("--explain");
   if (i !== -1) return process.argv[i + 1] ?? "";
@@ -165,39 +224,99 @@ function explainTarget() {
 }
 
 const explain = explainTarget();
-if (explain !== null) {
+if (explain === "") {
   console.log(`kelir-guard v${TOOLS_VERSION}`);
   console.log("");
-  if (explain === "") {
-    printTable(
-      [
-        { key: "rule", label: "RULE" },
-        { key: "summary", label: "SUMMARY" },
-      ],
-      Object.entries(RULES).map(([rule, meta]) => ({
-        rule,
-        summary: meta.summary,
-      })),
-    );
-    process.exit(0);
-  }
-  if (!RULES[explain]) {
-    console.error(`kelir-guard: unknown rule '${explain}'.`);
-    console.error(`Available rules: ${Object.keys(RULES).join(", ")}`);
-    process.exit(2);
-  }
+  printTable(
+    [
+      { key: "rule", label: "RULE" },
+      { key: "summary", label: "SUMMARY" },
+    ],
+    Object.entries(RULES).map(([rule, meta]) => ({
+      rule,
+      summary: meta.summary,
+    })),
+  );
+  console.log("");
+  console.log(
+    "Suppress a warn rule per project in .kelirrc: " +
+      '{ "kelir-guard": { "warn": ["style"] } }',
+  );
+  process.exit(0);
+}
+if (explain !== null && !RULES[explain]) {
+  console.error(`kelir-guard: unknown rule '${explain}'.`);
+  console.error(`Available rules: ${Object.keys(RULES).join(", ")}`);
+  process.exit(2);
+}
+
+// A specific `--explain <rule>` reports the files the rule affects, so it runs
+// after the scan below.
+function printExplain(rule) {
+  console.log(`kelir-guard v${TOOLS_VERSION}`);
+  console.log("");
   printTable(
     [
       { key: "field", label: "FIELD" },
       { key: "value", label: "VALUE" },
     ],
     [
-      { field: "rule", value: explain },
-      { field: "summary", value: RULES[explain].summary },
-      { field: "docs", value: RULES[explain].docs },
+      { field: "rule", value: rule },
+      { field: "summary", value: RULES[rule].summary },
+      { field: "docs", value: RULES[rule].docs },
+      { field: "severity", value: ruleSeverity(rule) },
     ],
   );
+
+  const hits = [...err, ...warn].filter((e) => e.rule === rule);
+  const byFile = new Map();
+  for (const hit of hits) {
+    const key = rel(hit.file);
+    byFile.set(key, (byFile.get(key) ?? 0) + 1);
+  }
+  console.log("");
+  console.log(BOLD + "Affected files" + RESET);
+  printTable(
+    [
+      { key: "location", label: "LOCATION" },
+      { key: "findings", label: "FINDINGS" },
+    ],
+    [...byFile].map(([location, findings]) => ({ location, findings })),
+    "(no file is affected)",
+  );
+
+  if (rule === "raw-tag") {
+    const byTag = new Map();
+    for (const hit of hits) {
+      const tag = /<([a-z][\w]*)>/.exec(hit.msg)?.[1];
+      if (tag) byTag.set(tag, (byTag.get(tag) ?? 0) + 1);
+    }
+    console.log("");
+    console.log(BOLD + "Tag map" + RESET);
+    printTable(
+      [
+        { key: "tag", label: "TAG" },
+        { key: "findings", label: "FINDINGS" },
+        { key: "kit", label: "USE" },
+        { key: "fixable", label: "--fix" },
+      ],
+      [...byTag].map(([tag, findings]) => ({
+        tag: `<${tag}>`,
+        findings,
+        kit: TAG_KIT[tag] ?? "a kit component",
+        fixable: FIX_TAGS[tag] ? "yes" : "manual",
+      })),
+      "(no raw tags)",
+    );
+  }
   process.exit(0);
+}
+
+// Rule id -> ERROR/WARN, so --explain never guesses the severity.
+function ruleSeverity(rule) {
+  for (const w of warn) if (w.rule === rule) return "WARN";
+  for (const e of err) if (e.rule === rule) return "ERROR";
+  return Object.hasOwn(RULES, rule) ? "no current finding" : "unknown";
 }
 
 // F9 (STYLE §3, owner decision 2026-10-19): "zero consumer CSS". Intrinsic
@@ -228,9 +347,19 @@ const KELIR_NAMES = new Set(
 
 // Explicit scope: computed at run time, printed in the report (§8-P0/P1:
 // official exclusions must be visible, not silent).
-const scope = { scanned: 0, kitInternal: 0, noImport: 0 };
+const scope = { scanned: 0, kitInternal: 0, noImport: 0, suppressed: 0 };
 const allowed = [];
+const suppressed = [];
 const sourceCache = new Map();
+
+// Per-project WARN suppression (issue #116): .kelirrc in the project root.
+// A broken config is fatal (exit 2) so a typo cannot silently disable rules.
+const config = loadConfig({ enabled: !NO_CONFIG });
+if (config.error) {
+  console.error(`kelir-guard: ${config.error}`);
+  process.exit(2);
+}
+for (const note of config.invalid) console.error(`kelir-guard: ignoring ${note}`);
 
 // kelir-allow: <reason> on the flagged line or up to 2 lines above it.
 function allowReason(file, line) {
@@ -277,10 +406,20 @@ const rel = (p) => relative(ROOT, p).replace(/\\/g, "/");
 const inKelir = (p) => p.startsWith(KELIR);
 const warn = [];
 const err = [];
+// --fix bookkeeping (issue #116).
+const fixes = [];
+const skips = [];
+const rewritten = new Set();
+const planned = new Set();
 const add = (list, file, line, msg, rule, suggestion) => {
   const reason = allowReason(file, line);
   if (reason) {
     allowed.push({ file, line, msg, rule, suggestion, reason });
+    return;
+  }
+  // A WARN rule listed in .kelirrc is reported as ALLOW (never hidden).
+  if (list === warn && suppressedBy(config, "kelir-guard", rule)) {
+    suppressed.push({ file, line, msg, rule, suggestion, reason: CONFIG_REASON });
     return;
   }
   list.push({ file, line, msg, rule, suggestion });
@@ -401,9 +540,134 @@ function scanJsxTags(blank) {
       }
       k++;
     }
-    hits.push({ tag, attrs, index: m.index });
+    hits.push({
+      tag,
+      attrs,
+      index: m.index,
+      end,
+      span: blank.slice(m.index, end + 1),
+      selfClosing: /\/\s*>$/.test(blank.slice(m.index, end + 1)),
+    });
   }
   return hits;
+}
+
+// --- Issue #116: deterministic raw-tag -> kit component fixes -------------
+const IMPORT_BASE = "@/views/kelir/kelir-components";
+const importSpec = (component) => `${IMPORT_BASE}/${component.toLowerCase()}`;
+
+// null = safe to rewrite; a string = why it is left to the consumer.
+function fixBlockReason(occ, spec) {
+  if (spec.void && !occ.selfClosing) return "not self-closing";
+  const span = occ.span ?? "";
+  if (/\{\s*\.\.\./.test(span)) return "spread props";
+  const names = new Set(occ.attrs.map((a) => a.name));
+  for (const name of names)
+    if (!spec.attrs.includes(name)) return `unsupported attribute '${name}'`;
+  for (const name of spec.requires ?? [])
+    if (!names.has(name)) return `missing required attribute '${name}'`;
+  return null;
+}
+
+// Plan one tag's rewrites. All-or-nothing per tag: a single unsafe occurrence
+// keeps every occurrence of that tag as an ERROR for manual review.
+function planTagFix(tag, occurrences, src, blank) {
+  const spec = FIX_TAGS[tag];
+  const edits = [];
+  const lines = [];
+  for (const occ of occurrences) {
+    const reason = fixBlockReason(occ, spec);
+    if (reason) return { reason: `${reason} (line ${lineNo(src, occ.index)})` };
+    if (!spec.void) {
+      const close = blank.indexOf(`</${tag}`, occ.end + 1);
+      if (close === -1) return { reason: `unclosed <${tag}> (line ${lineNo(src, occ.index)})` };
+      if (spec.textOnly && /[<{]/.test(src.slice(occ.end + 1, close)))
+        return { reason: `children are not plain text (line ${lineNo(src, occ.index)})` };
+      edits.push({ start: close, end: close + 2 + tag.length, text: `</${spec.component}` });
+    }
+    edits.push({
+      start: occ.index,
+      end: occ.index + 1 + tag.length,
+      text: `<${spec.component}${spec.insert ?? ""}`,
+    });
+    lines.push(lineNo(src, occ.index));
+  }
+  return { edits, lines };
+}
+
+// Add `name` to an existing named import of `spec`, or insert a new one.
+function injectImport(src, name, spec) {
+  const importRe = /^import\s+([^;]*?)\s+from\s+["']([^"']+)["'];?/gm;
+  let lastEnd = 0;
+  let named = null;
+  let m;
+  while ((m = importRe.exec(src)) !== null) {
+    lastEnd = importRe.lastIndex;
+    if (m[2] !== spec) continue;
+    const clause = m[1].trim();
+    if (/^type\s/.test(clause) || !clause.includes("{")) continue;
+    named = m;
+  }
+  if (named) {
+    const open = named[0].indexOf("{");
+    const close = named[0].indexOf("}", open);
+    const inner = named[0].slice(open + 1, close);
+    const names = new Set(
+      inner
+        .split(",")
+        .map((part) => part.trim())
+        .filter(Boolean)
+        .map((part) => part.split(/\s+as\s+/)[0].trim()),
+    );
+    if (names.has(name)) return src;
+    const prefix = inner.trim() === "" || /,\s*$/.test(inner) ? " " : ", ";
+    const at = named.index + close;
+    return src.slice(0, at) + prefix + name + src.slice(at);
+  }
+  const eol = src.includes("\r\n") ? "\r\n" : "\n";
+  const line = `import { ${name} } from "${spec}";`;
+  return lastEnd > 0
+    ? `${src.slice(0, lastEnd)}${eol}${line}${src.slice(lastEnd)}`
+    : `${line}${eol}${src}`;
+}
+
+// Rewrite every deterministic raw tag in one file. Returns the applied tags,
+// the tags left to the consumer, and the new source.
+function applyFixes(src, blank, tags) {
+  const groups = new Map();
+  for (const hit of tags) {
+    if (!Object.hasOwn(FIX_TAGS, hit.tag)) continue;
+    const list = groups.get(hit.tag) ?? [];
+    list.push(hit);
+    groups.set(hit.tag, list);
+  }
+
+  const edits = [];
+  const applied = [];
+  const skipped = [];
+  const components = new Set();
+  for (const [tag, occurrences] of groups) {
+    const plan = planTagFix(tag, occurrences, src, blank);
+    if (plan.reason) {
+      skipped.push({ tag, reason: plan.reason, count: occurrences.length });
+      continue;
+    }
+    edits.push(...plan.edits);
+    components.add(FIX_TAGS[tag].component);
+    applied.push({
+      tag,
+      component: FIX_TAGS[tag].component,
+      count: occurrences.length,
+      line: plan.lines[0],
+    });
+  }
+  if (edits.length === 0) return { applied, skipped, next: src };
+
+  edits.sort((a, b) => b.start - a.start);
+  let next = src;
+  for (const edit of edits) next = next.slice(0, edit.start) + edit.text + next.slice(edit.end);
+  for (const component of components) next = injectImport(next, component, importSpec(component));
+  return { applied, skipped, next };
 }
 
 for (const f of walk(SRC)) {
@@ -426,7 +690,8 @@ for (const f of walk(SRC)) {
   }
   const exempt = EXEMPT_FILES.has(rel(f));
   const blank = blankNonCode(src);
-  for (const { tag, attrs, index } of scanJsxTags(blank)) {
+  const tags = scanJsxTags(blank);
+  for (const { tag, attrs, index } of tags) {
     const base = tag.split(".")[0];
     const isKelir = KELIR_NAMES.has(base);
     const intrinsic = /^[a-z]/.test(tag);
@@ -457,7 +722,7 @@ for (const f of walk(SRC)) {
           intrinsic
             ? "heuristic slot: intrinsic with inline style in a kelir-importing file"
             : "inline style on a non-intrinsic element (§3: the kit closes all visuals)",
-          "style",
+          intrinsic ? "heuristic-slot" : "style",
           intrinsic
             ? `move this visual into a kit component (e.g. ${TAG_KIT[tag] ?? "Stack/Card"})`
             : "move this visual into a kit component prop",
@@ -504,6 +769,30 @@ for (const f of walk(SRC)) {
       "data-attr",
       "use data-testid for tests; styling belongs to the kit",
     );
+
+  // Issue #116: rewrite the deterministic raw-tag -> kit component mappings.
+  // Fixed occurrences stop being ERRORs; anything unsafe stays an ERROR and is
+  // listed as SKIPPED so the consumer knows why.
+  if (FIX && !exempt) {
+    const { applied, skipped, next } = applyFixes(src, blank, tags);
+    for (const change of applied) {
+      fixes.push({ file: f, tag: change.tag, component: change.component, count: change.count, line: change.line });
+      for (let i = err.length - 1; i >= 0; i--) {
+        const entry = err[i];
+        if (entry.file === f && entry.rule === "raw-tag" && entry.msg.includes(`<${change.tag}>`))
+          err.splice(i, 1);
+      }
+    }
+    for (const skip of skipped)
+      skips.push({ file: f, tag: skip.tag, reason: skip.reason, count: skip.count });
+    if (applied.length > 0) {
+      if (DRY_RUN) planned.add(f);
+      else {
+        writeFileSync(f, next);
+        rewritten.add(f);
+      }
+    }
+  }
 }
 
 // 3. Global .Mui* / .kelir-* override outside kelir
@@ -595,11 +884,20 @@ for (const f of walk(SRC)) {
     );
 }
 
+// A specific --explain <rule> reports the affected files, so it runs after the
+// scan and replaces the report.
+if (explain !== null) printExplain(explain);
+
 printReport({
   gate: "kelir-guard",
   version: TOOLS_VERSION,
   status: err.length > 0 ? "FAIL" : "OK",
-  counts: { error: err.length, warn: warn.length, allow: allowed.length },
+  counts: {
+    error: err.length,
+    warn: warn.length,
+    allow: allowed.length + suppressed.length,
+    fixed: fixes.length,
+  },
   rows: [
     ...allowed.map((a) => ({
       level: "ALLOW",
@@ -607,6 +905,13 @@ printReport({
       rule: a.rule,
       message: a.msg,
       suggestion: a.reason,
+    })),
+    ...suppressed.map((s) => ({
+      level: "ALLOW",
+      location: `${rel(s.file)}:${s.line}`,
+      rule: s.rule,
+      message: s.msg,
+      suggestion: `${CONFIG_REASON} suppressed (config)`,
     })),
     ...warn.map((w) => ({
       level: "WARN",
@@ -628,6 +933,45 @@ printReport({
     "consumer files scanned": scope.scanned,
     "kit-internal excluded": scope.kitInternal,
     "without kelir import": scope.noImport,
+    "warn suppressed (.kelirrc)": suppressed.length,
+    ...(fixes.length > 0
+      ? { [DRY_RUN ? "files planned" : "files rewritten"]: DRY_RUN ? planned.size : rewritten.size }
+      : {}),
   },
 });
+
+if (fixes.length > 0) {
+  console.log("");
+  console.log(BOLD + (DRY_RUN ? "Planned fixes" : "Fixed") + RESET);
+  printTable(
+    [
+      { key: "location", label: "LOCATION" },
+      { key: "change", label: "CHANGE" },
+      { key: "count", label: "TAGS" },
+    ],
+    fixes.map((fix) => ({
+      location: `${rel(fix.file)}:${fix.line}`,
+      change: `<${fix.tag}> -> <${fix.component}>`,
+      count: fix.count,
+    })),
+  );
+}
+
+if (skips.length > 0) {
+  console.log("");
+  console.log(BOLD + "Skipped (manual review)" + RESET);
+  printTable(
+    [
+      { key: "location", label: "LOCATION" },
+      { key: "tag", label: "TAG" },
+      { key: "reason", label: "REASON" },
+    ],
+    skips.map((skip) => ({
+      location: rel(skip.file),
+      tag: `<${skip.tag}> x${skip.count}`,
+      reason: skip.reason,
+    })),
+  );
+}
+
 if (STRICT && err.length > 0) process.exit(1);

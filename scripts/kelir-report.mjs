@@ -7,8 +7,8 @@
 // and calls printReport with its counts + scope metrics.
 
 const ANSI = /\x1b\[[0-9;]*m/g;
-const RESET = "\x1b[0m";
-const BOLD = "\x1b[1m";
+export const RESET = "\x1b[0m";
+export const BOLD = "\x1b[1m";
 const DIM = "\x1b[2m";
 const RED = "\x1b[31m";
 const GREEN = "\x1b[32m";
@@ -61,6 +61,8 @@ export function printReport({
   console.log(BOLD + `${gate} v${version}` + RESET);
   console.log("");
 
+  // FIXED only appears when a gate actually rewrote something (--fix), so the
+  // header stays identical for every other run.
   renderTable(
     [
       { key: "gate", label: "GATE" },
@@ -68,6 +70,7 @@ export function printReport({
       { key: "errors", label: "ERRORS" },
       { key: "warnings", label: "WARNINGS" },
       { key: "allowed", label: "ALLOWED" },
+      ...(counts.fixed ? [{ key: "fixed", label: "FIXED" }] : []),
     ],
     [
       {
@@ -77,6 +80,7 @@ export function printReport({
         errors: counts.error ?? 0,
         warnings: counts.warn ?? 0,
         allowed: counts.allow ?? 0,
+        fixed: counts.fixed ?? 0,
       },
     ],
   );

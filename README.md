@@ -17,6 +17,16 @@ Alongside those, the anti-slop gate (`scripts/kelir-slop.mjs`, run as `npm run k
 
 The adoption gate (`scripts/kelir-hunt.mjs`, run as `npm run kelir:hunt:strict`) covers UI that never imports Kelir. Route files (`app/**` or `pages/**`) with raw intrinsic tags are ERROR; app components, canvas/iframes, dynamic-content sinks, CSS-in-JS, consumer stylesheets, and third-party UI imports are WARN. Tailwind directives are ERROR. A file-level `kelir-allow: hunt <reason>` is the explicit exemption.
 
+### Gate Tooling v1.2.0
+
+Every gate prints the same table (`GATE | STATUS | ERRORS | WARNINGS | ALLOWED`, then `FINDINGS` and `SCOPE`) and reports a version from `scripts/kelir-version.mjs`, so a consumer can pin a known-good kit tag. On top of that:
+
+- `node src/views/kelir/scripts/kelir-all.mjs` (used by `npm run kelir`) runs all six gates without `&&` short-circuiting, prints every report, then a combined summary, and exits 1 if any gate failed. The runner always adds `--strict` so the summary matches the status each gate printed. `--only=kelir-guard` runs a subset and `--list` prints the order.
+- `kelir-guard --fix` rewrites the deterministic raw-tag to kit-component mappings (`<input>` to `Input`, `<a>` to `Link`, `<img>` to `Image`, `<p>`/`<h1>` to `Typography`, and so on) and adds the matching import. A tag is rewritten only when every attribute it carries is accepted by the kit component; anything else stays an ERROR and is listed under `Skipped` with the reason. `--fix --dry-run` previews without writing.
+- `kelir-guard --explain <rule>` prints the rule, its docs link, the files it affects, and - for `raw-tag` - a tag map with the recommended kit component and whether `--fix` can handle it.
+- `.kelirrc` in the host project root suppresses WARN rules the project considers its own style: `{ "kelir-guard": { "warn": ["style", "heuristic-slot"] } }`. Suppressed findings are reported as ALLOW, never silent; ERROR rules cannot be suppressed, and a malformed file fails the gate with exit 2.
+- `kelir-hunt --scope=views,app` restricts the scan to those `src` subdirectories, and files whose name marks them as server code (`*controller*`, `*action*`, `*queries*`, `*repository*`, `*service*`, `*server*`, `*db*`, `*schema*`, `*seed*`, `*migration*`) are skipped and counted instead of reported as "UI without a Kelir import". `--all-files` disables that heuristic.
+
 ## Per-Theme Typography
 
 Besides multi-theme, every design language from DESIGN.md carries its own typography. The UI font and monospace font are automatically paired with the theme, so all components match the design identity with no extra configuration.

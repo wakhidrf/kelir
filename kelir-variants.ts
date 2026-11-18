@@ -1,10 +1,10 @@
-// Barrel — varian token, `css`, dan scrollbar. Dipecah per tanggung jawab di
-// file sibling (SRP; tiap file <= 100 baris). Nama & bentuk ekspor tidak
-// berubah; impor `../kelir-variants` dan `./kelir-variants` tetap sah.
+// Barrel - token variants, `css`, and the scrollbar. Split per responsibility
+// into sibling files (SRP; each file <= 100 lines). Names and shapes are
+// unchanged; imports `../kelir-variants` and `./kelir-variants` stay valid.
 //
-// - tipe:          ./kelir-variants-types
-// - nilai netral:  ./kelir-variant-values
-// - builder css:   ./kelir-css-sections + ./kelir-create-css
+// - types:         ./kelir-variants-types
+// - neutral value: ./kelir-variant-values
+// - css builder:   ./kelir-css-sections + ./kelir-create-css
 // - scrollbar:     ./kelir-scrollbar
 
 export type {
