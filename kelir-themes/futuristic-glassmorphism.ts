@@ -1,5 +1,7 @@
 import { springMotion } from "../kelir-motion";
 import { createCss } from "../kelir-variants";
+import { rounded, typography } from "./futuristic-glassmorphism-scale";
+export { rounded, typography };
 // Futuristic UI Glassmorphism: dark futuristic glass. DESIGN.md front matter
 // colors (primary #020814 / secondary #FFFFFF / tertiary #00F0FF / neutral
 // #000000), Exo 2 typography, generous 16/32/48 radius, neon cyan accents and
@@ -40,30 +42,6 @@ export const shadows = {
     "0 0 0 1px rgba(0, 240, 255, 0.12) inset, 0 0 24px rgba(0, 240, 255, 0.12), 0 12px 32px rgba(0, 0, 0, 0.5)",
   concave:
     "inset 0 2px 6px rgba(0, 0, 0, 0.5), inset 0 -1px 2px rgba(255, 255, 255, 0.04)",
-} as const;
-
-export const rounded = {
-  sm: "16px", // DESIGN sm
-  md: "32px", // DESIGN md
-  lg: "48px", // DESIGN lg
-} as const;
-
-export const typography = {
-  h1: {
-    fontFamily: '"Exo 2", sans-serif',
-    fontSize: "2.5rem", // DESIGN h1
-    fontWeight: 700,
-  },
-  bodyMd: {
-    fontFamily: '"Exo 2", sans-serif',
-    fontSize: "1rem",
-    fontWeight: 400,
-  },
-  labelCaps: {
-    fontFamily: '"Exo 2", sans-serif',
-    fontSize: "0.75rem",
-    fontWeight: 500,
-  },
 } as const;
 
 export const css = createCss(variants, shadows, rounded, springMotion);

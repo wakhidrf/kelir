@@ -1,21 +1,8 @@
 import MuiBox from "@mui/material/Box";
 import type * as React from "react";
 import type { MarkerProps } from "../kelir-types";
-import { css, statusColors } from "../kelir-variants";
-
-const textPrimary = css.colors.textPrimary;
-const textSecondary = css.colors.textSecondary;
-
-const markerPalettes: Record<
-  NonNullable<MarkerProps["intent"]>,
-  { bg: string; fg: string }
-> = {
-  primary: { bg: css.colors.primary, fg: css.on.primary },
-  secondary: { bg: css.colors.secondary, fg: css.on.secondary },
-  error: { bg: css.destructive, fg: css.on.destructive },
-  success: statusColors.success,
-  warning: statusColors.warning,
-};
+import { css } from "../kelir-variants";
+import { getMarkerContainer, markerPalettes } from "./marker-styles";
 
 // Sealed semantic marker (P1c STYLE.md §6): MUI basis (MuiBox) for
 // multi-platform; `intent` = MEANING (not a raw color); no HTMLAttributes
@@ -29,56 +16,8 @@ export function Marker({
   "aria-label": ariaLabel,
 }: MarkerProps) {
   const palette = markerPalettes[intent];
-
-  const getContainer = (): React.CSSProperties => {
-    if (variant === "status") {
-      return {
-        display: "inline-flex",
-        alignItems: "center",
-        gap: css.layout.space.sm,
-        fontSize: "13px",
-        fontWeight: 600,
-        color: textPrimary,
-        padding: `${css.layout.space.xs} 0`,
-      };
-    }
-    if (variant === "note") {
-      return {
-        display: "flex",
-        alignItems: "center",
-        gap: css.layout.space.sm,
-        fontSize: "13px",
-        lineHeight: "1.5",
-        padding: "10px 14px",
-        borderRadius: css.control.radius,
-        backgroundColor: palette.bg,
-        color: palette.fg,
-      };
-    }
-    if (variant === "border") {
-      return {
-        display: "block",
-        borderLeft: `4px solid ${palette.bg}`,
-        paddingLeft: "10px",
-        fontSize: "13px",
-        color: textPrimary,
-      };
-    }
-    // separator
-    return {
-      display: "flex",
-      alignItems: "center",
-      gap: css.layout.space.md,
-      fontSize: "12px",
-      fontWeight: 600,
-      textTransform: "uppercase",
-      letterSpacing: "1px",
-      color: textSecondary,
-    };
-  };
-
   const container: React.CSSProperties = {
-    ...getContainer(),
+    ...getMarkerContainer(variant, palette),
     fontFamily: "inherit",
   };
 

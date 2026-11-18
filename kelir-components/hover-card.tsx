@@ -1,13 +1,9 @@
 "use client";
 
-import Popper from "@mui/material/Popper";
 import * as React from "react";
 import type { HoverCardProps } from "../kelir-types";
-import { css } from "../kelir-variants";
-
-const neumorphicBg = css.colors.surface;
-const surfaceBlur = css.motion.blur.backdrop;
-const textPrimary = css.colors.textPrimary;
+import { HoverCardPanel } from "./hover-card-panel";
+import { HoverCardTrigger } from "./hover-card-trigger";
 
 export function HoverCard({ trigger, children }: HoverCardProps) {
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
@@ -41,9 +37,9 @@ export function HoverCard({ trigger, children }: HoverCardProps) {
         position: "relative",
       }}
     >
-      <button
-        ref={triggerRef}
-        type="button"
+      <HoverCardTrigger
+        trigger={trigger}
+        triggerRef={triggerRef}
         onMouseEnter={() => {
           cancelClose();
           setAnchorEl(triggerRef.current);
@@ -62,44 +58,15 @@ export function HoverCard({ trigger, children }: HoverCardProps) {
             setAnchorEl(null);
           }
         }}
-        style={{
-          display: "inline-block",
-          padding: 0,
-          border: "none",
-          background: "transparent",
-          color: "inherit",
-          font: "inherit",
-          cursor: "pointer",
-        }}
-      >
-        {trigger}
-      </button>
-      <Popper
+      />
+      <HoverCardPanel
         open={open}
         anchorEl={anchorEl}
-        placement="bottom-start"
-        style={{ zIndex: css.layout.zIndex.overlay }}
         onMouseEnter={cancelClose}
         onMouseLeave={scheduleClose}
       >
-        <div
-          style={{
-            maxWidth: "280px",
-            padding: `${css.layout.space.md} ${css.layout.space.lg}`,
-            backgroundColor: neumorphicBg,
-            borderRadius: css.radius.surface,
-            boxShadow: css.shadows.card,
-            border: `1px solid ${css.border.medium}`,
-            backdropFilter: surfaceBlur,
-            WebkitBackdropFilter: surfaceBlur,
-            color: textPrimary,
-            fontFamily: "inherit",
-            fontSize: "14px",
-          }}
-        >
-          {children}
-        </div>
-      </Popper>
+        {children}
+      </HoverCardPanel>
     </div>
   );
 }

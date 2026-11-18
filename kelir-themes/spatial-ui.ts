@@ -1,5 +1,7 @@
 import { springMotion } from "../kelir-motion";
 import { createCss } from "../kelir-variants";
+import { rounded, typography } from "./spatial-ui-scale";
+export { rounded, typography };
 // Spatial UI (VisionOS): frosted white glass primary #FFFFFF per DESIGN.md
 // front matter (only primary is defined; the rest are derived). Light scheme
 // with very generous corner radius (24/48/72), floating glass panels and
@@ -40,27 +42,6 @@ export const shadows = {
     "0 2px 6px rgba(255,255,255,0.5) inset, 0 12px 34px rgba(20, 40, 70, 0.14)",
   concave:
     "inset 0 2px 6px rgba(20, 40, 70, 0.08), inset 0 -1px 2px rgba(255, 255, 255, 0.6)",
-} as const;
-
-export const rounded = {
-  sm: "24px", // DESIGN smooth (button / chip)
-  md: "48px", // DESIGN md
-  lg: "72px", // DESIGN lg
-} as const;
-
-export const typography = {
-  h1: {
-    fontSize: "2.25rem",
-    fontWeight: 700,
-  },
-  bodyMd: {
-    fontSize: "1rem",
-    fontWeight: 400,
-  },
-  labelCaps: {
-    fontSize: "0.75rem",
-    fontWeight: 500,
-  },
 } as const;
 
 export const css = createCss(variants, shadows, rounded, springMotion);

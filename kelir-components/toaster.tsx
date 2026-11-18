@@ -2,64 +2,21 @@
 
 import Portal from "@mui/material/Portal";
 import * as React from "react";
-import type { ToastApi, ToastProps, ToasterProps } from "../kelir-types";
+import type { ToastApi, ToasterProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 import { Toast, ToastStackContext } from "./toast";
+import {
+  close,
+  dismiss,
+  getServerSnapshot,
+  getSnapshot,
+  notify,
+  subscribe,
+} from "./toast-store";
 
-type StoredToast = {
-  id: number;
-  message: string;
-  tone?: ToastProps["tone"];
-};
-
-export const TOAST_QUEUE_LIMIT = 20;
+export { TOAST_QUEUE_LIMIT } from "./toast-store";
 
 const TOAST_AUTO_HIDE_DURATION = 6000;
-const EMPTY_QUEUE: readonly StoredToast[] = [];
-const listeners = new Set<() => void>();
-
-let queue: readonly StoredToast[] = [];
-let nextId = 0;
-
-function emit() {
-  for (const listener of listeners) listener();
-}
-
-function notify(message: string, tone?: ToastProps["tone"]) {
-  const room =
-    queue.length >= TOAST_QUEUE_LIMIT ? queue.slice(1) : queue;
-  queue = [...room, { id: ++nextId, message, tone }];
-  emit();
-}
-
-function close() {
-  if (queue.length === 0) return;
-  queue = queue.slice(1);
-  emit();
-}
-
-function dismiss(id: number) {
-  const next = queue.filter((item) => item.id !== id);
-  if (next.length === queue.length) return;
-  queue = next;
-  emit();
-}
-
-function subscribe(listener: () => void) {
-  listeners.add(listener);
-  return () => {
-    listeners.delete(listener);
-    if (listeners.size === 0) queue = EMPTY_QUEUE;
-  };
-}
-
-function getSnapshot() {
-  return queue;
-}
-
-function getServerSnapshot() {
-  return EMPTY_QUEUE;
-}
 
 const toastApi: ToastApi = { notify, close };
 
@@ -67,7 +24,11 @@ export function useToast(): ToastApi {
   return toastApi;
 }
 
-export function Toaster({ maxVisible = 1, position = "bottom-end", id }: ToasterProps) {
+export function Toaster({
+  maxVisible = 1,
+  position = "bottom-end",
+  id,
+}: ToasterProps) {
   const items = React.useSyncExternalStore(
     subscribe,
     getSnapshot,

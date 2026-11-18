@@ -1,5 +1,7 @@
 import { liquidGlassMotion } from "../kelir-motion";
 import { createCss } from "../kelir-variants";
+import { rounded, typography } from "./aurora-ui-scale";
+export { rounded, typography };
 // Aurora UI: dark theme inspired by Northern Lights. DESIGN.md front matter
 // defines primary/Electric Blue #0080FF, secondary/Magenta #FF1493,
 // tertiary/Cyan #00FFFF (no neutral); the rest are derived. Flowing mesh
@@ -41,27 +43,6 @@ export const shadows = {
     "inset 0 1px 2px rgba(255,255,255,0.06), 0 0 24px rgba(0, 128, 255, 0.14), 0 12px 32px rgba(4, 8, 20, 0.5)",
   concave:
     "inset 0 2px 8px rgba(4, 8, 20, 0.55), inset 0 -1px 2px rgba(255, 255, 255, 0.05)",
-} as const;
-
-export const rounded = {
-  sm: "8px",
-  md: "16px",
-  lg: "24px",
-} as const;
-
-export const typography = {
-  h1: {
-    fontSize: "2.25rem",
-    fontWeight: 700,
-  },
-  bodyMd: {
-    fontSize: "1rem",
-    fontWeight: 400,
-  },
-  labelCaps: {
-    fontSize: "0.75rem",
-    fontWeight: 500,
-  },
 } as const;
 
 export const css = createCss(variants, shadows, rounded, liquidGlassMotion);

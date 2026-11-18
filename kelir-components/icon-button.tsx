@@ -1,9 +1,8 @@
 import MuiButton from "@mui/material/Button";
-import type * as React from "react";
 import type { IconButtonProps } from "../kelir-types";
 import { css } from "../kelir-variants";
+import { getIconButtonStyles } from "./icon-button-styles";
 
-const convexShadow = css.shadows.convex;
 const concaveShadow = css.shadows.concave;
 const neumorphicBg = css.colors.surface;
 const textPrimary = css.colors.textPrimary;
@@ -29,56 +28,6 @@ export function IconButton({
   const isOutline = variant === "outline";
   const isGhost = variant === "ghost";
 
-  const getStyles = (): React.CSSProperties => {
-    const base: React.CSSProperties = {
-      borderRadius:
-        shape === "circle"
-          ? "50%"
-          : shape === "square"
-            ? 0
-            : css.radius.button,
-      textTransform: "none",
-      fontWeight: 600,
-      // Kit sizing: md = today's behavior (zero visual change).
-      padding: size === "sm" ? "6px" : size === "lg" ? "14px" : "10px",
-      minWidth: size === "sm" ? "32px" : size === "lg" ? "48px" : "40px",
-      transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
-      fontFamily: "inherit",
-    };
-
-    if (isPrimary) {
-      base.background = css.control.background;
-      base.border = "none";
-      base.boxShadow = convexShadow;
-      base.color = css.on.primary;
-    } else if (isSecondary) {
-      base.backgroundColor = css.colors.secondary;
-      base.border = "none";
-      base.boxShadow = convexShadow;
-      base.color = css.on.secondary;
-    } else if (isDestructive) {
-      base.backgroundColor = css.destructive;
-      base.border = "none";
-      base.boxShadow = convexShadow;
-      base.color = css.on.destructive;
-    } else if (isOutline) {
-      base.backgroundColor = "transparent";
-      base.border = `1.5px solid ${css.border.medium}`;
-      base.color = textPrimary;
-    } else if (isGhost) {
-      base.backgroundColor = "transparent";
-      base.border = "none";
-      base.boxShadow = "none";
-      base.color = textPrimary;
-    } else {
-      base.backgroundColor = neumorphicBg;
-      base.border = `1px solid ${css.border.light}`;
-      base.boxShadow = convexShadow;
-      base.color = textPrimary;
-    }
-    return base;
-  };
-
   return (
     <MuiButton
       variant="text"
@@ -88,7 +37,7 @@ export function IconButton({
       id={id}
       aria-label={ariaLabel}
       aria-describedby={ariaDescribedby}
-      style={getStyles()}
+      style={getIconButtonStyles({ variant, shape, size })}
       sx={{
         // Icon ~18px (sm) / ~28px (lg); md without rule = MUI default.
         ...(size === "md"

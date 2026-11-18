@@ -1,4 +1,6 @@
 import { createCss } from "../kelir-variants";
+import { rounded, typography } from "./edtech-plataforma-scale";
+export { rounded, typography };
 
 // EdTech Course Platform: vibrant gamified learning, orange CTA, purple/blue
 // accents, progress badges, light scheme. DESIGN.md front matter (primary
@@ -39,31 +41,6 @@ export const shadows = {
   convex:
     "0 4px 14px rgba(15, 23, 42, 0.12), 0 12px 32px rgba(15, 23, 42, 0.08)",
   concave: "inset 0 2px 6px rgba(15, 23, 42, 0.06)",
-} as const;
-
-export const rounded = {
-  sm: "12px", // DESIGN base radius
-  md: "24px",
-  lg: "36px",
-} as const;
-
-export const typography = {
-  h1: {
-    fontFamily: '"Poppins", sans-serif',
-    fontSize: "2.25rem",
-    fontWeight: 700,
-  },
-  bodyMd: {
-    fontFamily: '"Poppins", sans-serif',
-    fontSize: "1rem",
-    fontWeight: 400,
-  },
-  labelCaps: {
-    fontFamily: '"Poppins", sans-serif',
-    fontSize: "0.875rem",
-    fontWeight: 500,
-    letterSpacing: "0.02em",
-  },
 } as const;
 
 export const css = createCss(variants, shadows, rounded);

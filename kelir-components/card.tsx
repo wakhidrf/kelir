@@ -1,22 +1,15 @@
-import MuiBox from "@mui/material/Box";
 import MuiCard from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import CardHeader from "@mui/material/CardHeader";
 import type { CardProps } from "../kelir-types";
-import { css, statusColors } from "../kelir-variants";
+import { css } from "../kelir-variants";
+import { CardFlag } from "./card-flag";
+import { CardHeaderBlock } from "./card-header";
 
 const cardShadow = css.shadows.card;
 const neumorphicBg = css.colors.surface;
 const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
-const textSecondary = css.colors.textSecondary;
-
-// Kit-owned side strip (solid, Marker-border precedent): token breathing width.
-const flagColors = {
-  danger: css.destructive,
-  warn: statusColors.warning.bg,
-} as const;
 
 // Card sealed (P1c STYLE.md §6): MUI-based (MuiCard + sub-components) for
 // multi-platform; only contract props are used - no ...rest to the DOM,
@@ -66,43 +59,13 @@ export function Card({
         ...(flag ? ({ position: "relative" } as const) : null),
       }}
     >
-      {flag && (
-        <MuiBox
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            top: 0,
-            bottom: 0,
-            left: 0,
-            width: css.layout.space.xs,
-            backgroundColor: flagColors[flag],
-            borderTopLeftRadius: "inherit",
-            borderBottomLeftRadius: "inherit",
-          }}
-        />
-      )}
+      {flag && <CardFlag flag={flag} />}
       {(title || subtitle || headerActions) && (
-        <CardHeader
+        <CardHeaderBlock
           title={title}
-          subheader={subtitle}
-          action={headerActions}
-          slotProps={{
-            title: {
-              variant: "h6",
-              style: {
-                fontWeight: 700,
-                color: textPrimary,
-                textAlign: headerAlign,
-              },
-            },
-            subheader: {
-              style: {
-                color: textSecondary,
-                fontSize: "14px",
-                textAlign: headerAlign,
-              },
-            },
-          }}
+          subtitle={subtitle}
+          headerActions={headerActions}
+          headerAlign={headerAlign}
         />
       )}
       <CardContent

@@ -1,7 +1,8 @@
 // kelir-split.mjs - file-length gate (issue #110).
 //
 // Every TypeScript file under <project>/src is capped at 100 lines so each
-// file keeps one responsibility. The vendored kit at src/views/kelir is exempt.
+// file keeps one responsibility. The vendored kit at src/views/kelir is scanned
+// too.
 //
 // Usage:
 //   node src/views/kelir/scripts/kelir-split.mjs [--max=100]
@@ -15,7 +16,6 @@ import { fileURLToPath } from "node:url";
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..", "..", "..", "..");
 const SRC = join(ROOT, "src");
-const KIT = join(SRC, "views", "kelir");
 
 const EXT_RE = /\.(?:ts|tsx|mts|cts)$/;
 const maxArg = process.argv.find((arg) => arg.startsWith("--max="));
@@ -36,13 +36,11 @@ if (!Number.isInteger(MAX) || MAX < 1) {
 }
 
 const rel = (p) => relative(ROOT, p).split(sep).join("/");
-const inKit = (p) => p === KIT || p.startsWith(KIT + sep);
 
 function walk(dir, out = []) {
   for (const name of readdirSync(dir)) {
     if (name === "node_modules" || name === ".next" || name === ".git") continue;
     const full = join(dir, name);
-    if (inKit(full)) continue;
     const stat = statSync(full);
     if (stat.isDirectory()) walk(full, out);
     else if (EXT_RE.test(name)) out.push(full);

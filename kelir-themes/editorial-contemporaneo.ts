@@ -1,4 +1,6 @@
 import { createCss } from "../kelir-variants";
+import { rounded, typography } from "./editorial-contemporaneo-scale";
+export { rounded, typography };
 // Contemporary Editorial: artistic editorial / magazine design. DESIGN.md
 // front matter (primary white, secondary black, tertiary wine-red, neutral
 // dark grey) plus gold surface and navy accent. Light scheme, serif Display
@@ -38,30 +40,6 @@ export const shadows = {
     "0 2px 6px rgba(255,255,255,0.6) inset, 0 8px 24px rgba(0, 0, 0, 0.08)",
   concave:
     "inset 0 2px 6px rgba(0, 0, 0, 0.08), inset 0 -1px 2px rgba(255, 255, 255, 0.8)",
-} as const;
-
-export const rounded = {
-  sm: "8px", // DESIGN base radius
-  md: "14px",
-  lg: "20px",
-} as const;
-
-export const typography = {
-  h1: {
-    fontFamily: '"Playfair Display", serif',
-    fontSize: "2.25rem",
-    fontWeight: 700,
-  },
-  bodyMd: {
-    fontFamily: '"Playfair Display", serif',
-    fontSize: "1rem",
-    fontWeight: 400,
-  },
-  labelCaps: {
-    fontFamily: '"Playfair Display", serif',
-    fontSize: "0.75rem",
-    fontWeight: 500,
-  },
 } as const;
 
 export const css = createCss(variants, shadows, rounded);

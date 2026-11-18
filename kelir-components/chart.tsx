@@ -1,29 +1,15 @@
-import { Fragment } from "react";
 import type { ChartProps } from "../kelir-types";
 import { css } from "../kelir-variants";
+import { getSeriesLabel, getValue } from "./chart-utils";
+import { BarChart } from "./chart-bar";
+import { LineChart } from "./chart-line";
 
 const convexShadow = css.shadows.convex;
 const neumorphicBg = css.colors.surface;
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
-const seriesColors = [css.colors.primary, css.colors.secondary];
 
 type ChartRow = Record<string, unknown>;
-
-function getSeriesLabel(
-  row: ChartRow,
-  dataKey: string,
-  fallback: string,
-  index: number,
-) {
-  const raw = row[dataKey];
-  if (raw !== undefined && raw !== null && raw !== "") return String(raw);
-  return fallback || String(index);
-}
-
-function getValue(row: ChartRow, key: string) {
-  return typeof row[key] === "number" ? (row[key] as number) : 0;
-}
 
 export function Chart<TDatum extends object = ChartRow>({
   data,
@@ -32,7 +18,6 @@ export function Chart<TDatum extends object = ChartRow>({
   type = "bar",
   title,
 }: ChartProps<TDatum>) {
-  // Kit-owned dynamic key access: internal cast + typeof guard in getValue.
   const rows = data as ChartRow[];
   const first = rows[0] ?? {};
   const categoriesAreSeries =
@@ -41,16 +26,12 @@ export function Chart<TDatum extends object = ChartRow>({
 
   const seriesKeys = categoriesAreSeries ? categories : [dataKey];
   const labels = rows.map((row, i) =>
-    categoriesAreSeries
-      ? getSeriesLabel(row, dataKey, "", i)
-      : (categories[i] ?? String(i)),
+    categoriesAreSeries ? getSeriesLabel(row, dataKey, "", i) : (categories[i] ?? String(i)),
   );
   const allValues = rows.flatMap((row) =>
     seriesKeys.map((key) => getValue(row, key)),
   );
   const maxValue = Math.max(1, ...allValues);
-
-  const plotHeight = 180;
 
   return (
     <div
@@ -79,92 +60,11 @@ export function Chart<TDatum extends object = ChartRow>({
           {title}
         </div>
       )}
-      <div style={{ position: "relative", height: plotHeight }}>
+      <div style={{ position: "relative", height: 180 }}>
         {type === "bar" ? (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "flex-end",
-              gap: css.layout.space.sm,
-              height: "100%",
-            }}
-          >
-            {rows.map((row, i) => (
-              <div
-                key={`bar-${labels[i]}`}
-                style={{
-                  flex: 1,
-                  display: "flex",
-                  alignItems: "flex-end",
-                  justifyContent: "center",
-                  gap: css.layout.space.xs,
-                  height: "100%",
-                }}
-              >
-                {seriesKeys.map((key, s) => {
-                  const value = getValue(row, key);
-                  return (
-                    <div
-                      key={key}
-                      title={`${labels[i]}: ${value}`}
-                      style={{
-                        width: "60%",
-                        maxWidth: "24px",
-                        height: `${(value / maxValue) * 100}%`,
-                        minHeight: "2px",
-                        borderRadius: "6px 6px 0 0",
-                        backgroundColor: seriesColors[s % seriesColors.length],
-                        boxShadow: convexShadow,
-                        transition: `height ${css.motion.duration.hover} ${css.motion.easing.curve}`,
-                      }}
-                    />
-                  );
-                })}
-              </div>
-            ))}
-          </div>
+          <BarChart rows={rows} seriesKeys={seriesKeys} labels={labels} maxValue={maxValue} />
         ) : (
-          <svg
-            width="100%"
-            height="100%"
-            viewBox="0 0 100 50"
-            preserveAspectRatio="none"
-            style={{ display: "block", overflow: "visible" }}
-          >
-            <title>Data chart</title>
-            {seriesKeys.map((key, s) => {
-              const color = seriesColors[s % seriesColors.length];
-              const points = rows
-                .map((row, i) => {
-                  const value = getValue(row, key);
-                  const x =
-                    rows.length === 1 ? 50 : (i / (rows.length - 1)) * 100;
-                  const y = 50 - (value / maxValue) * 45;
-                  return `${x},${y}`;
-                })
-                .join(" ");
-              const areaPoints =
-                rows.length === 1
-                  ? `50,50 ${points} 50,50`
-                  : `0,50 ${points} 100,50`;
-              return (
-                <Fragment key={key}>
-                  {type === "area" && (
-                    <polygon points={areaPoints} fill={color} opacity={0.25} />
-                  )}
-                  <polyline
-                    points={points}
-                    fill="none"
-                    stroke={color}
-                    strokeWidth={2}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    vectorEffect="non-scaling-stroke"
-                  />
-                </Fragment>
-              );
-            })}
-          </svg>
+          <LineChart rows={rows} seriesKeys={seriesKeys} maxValue={maxValue} type={type} />
         )}
       </div>
       <div style={{ display: "flex", gap: css.layout.space.sm }}>

@@ -3,30 +3,11 @@
 import * as React from "react";
 import type { CarouselProps } from "../kelir-types";
 import { css } from "../kelir-variants";
+import { CarouselDots, CarouselNav } from "./carousel-controls";
 
 const convexShadow = css.shadows.convex;
 const neumorphicBg = css.colors.surface;
 const textPrimary = css.colors.textPrimary;
-
-const navButtonStyles: React.CSSProperties = {
-  position: "absolute",
-  top: "50%",
-  transform: "translateY(-50%)",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  width: "32px",
-  height: "32px",
-  border: `1px solid ${css.border.light}`,
-  borderRadius: "999px",
-  backgroundColor: neumorphicBg,
-  color: textPrimary,
-  boxShadow: convexShadow,
-  cursor: "pointer",
-  fontFamily: "inherit",
-  fontSize: "18px",
-  transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
-};
 
 export function Carousel<TItem extends React.ReactNode = React.ReactNode>({
   items,
@@ -72,53 +53,10 @@ export function Carousel<TItem extends React.ReactNode = React.ReactNode>({
             {item}
           </div>
         ))}
-        <button
-          type="button"
-          aria-label="Previous slide"
-          onClick={() => goTo(index - 1)}
-          style={{ ...navButtonStyles, left: "8px" }}
-        >
-          ‹
-        </button>
-        <button
-          type="button"
-          aria-label="Next slide"
-          onClick={() => goTo(index + 1)}
-          style={{ ...navButtonStyles, right: "8px", left: "auto" }}
-        >
-          ›
-        </button>
+        <CarouselNav index={index} onGoTo={goTo} />
       </div>
       {count > 1 && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: css.layout.space.sm,
-            marginTop: css.layout.space.md,
-          }}
-        >
-          {slides.map(({ slideIndex }) => (
-            <button
-              key={`dot-${slideIndex}`}
-              type="button"
-              aria-label={`Go to slide ${slideIndex + 1}`}
-              onClick={() => setIndex(slideIndex)}
-              style={{
-                width: slideIndex === index ? "20px" : "8px",
-                height: "8px",
-                padding: 0,
-                border: "none",
-                borderRadius: "999px",
-                backgroundColor:
-                  slideIndex === index ? css.colors.primary : css.track,
-                boxShadow: slideIndex === index ? convexShadow : "none",
-                cursor: "pointer",
-                transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
-              }}
-            />
-          ))}
-        </div>
+        <CarouselDots index={index} count={count} onSelect={setIndex} />
       )}
     </div>
   );
