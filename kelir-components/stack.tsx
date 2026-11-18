@@ -1,30 +1,6 @@
 import MuiBox from "@mui/material/Box";
 import type { StackProps } from "../kelir-types";
-import { css } from "../kelir-variants";
-
-const gaps = {
-  xs: css.layout.space.xs,
-  sm: css.layout.space.sm,
-  md: css.layout.space.md,
-  lg: css.layout.space.lg,
-  xl: css.layout.space.xl,
-  "2xl": css.layout.space["2xl"],
-  "3xl": css.layout.space["3xl"],
-  "4xl": css.layout.space["4xl"],
-} as const;
-
-// Kit responsive breakpoint (single source: the heroCollapse token, 768px). Used via
-// `sx` so the component stays server-safe (no hooks/useMediaQuery).
-const MD_QUERY = `@media (min-width: ${css.layout.breakpoints.heroCollapse})`;
-
-// `minHeight="screen"` = one full screen (dvh so it's correct on mobile).
-const SCREEN_HEIGHT = "100dvh";
-
-function minHeightValue(
-  minHeight: NonNullable<StackProps["minHeight"]>,
-): string {
-  return minHeight === "screen" ? SCREEN_HEIGHT : css.layout.space[minHeight];
-}
+import { gaps, MD_QUERY, minHeightValue } from "./stack-tokens";
 
 // Sealed layout primitive (P1b STYLE.md): arrangement + spacing + alignment from
 // css.layout tokens. `align`/`justify` closed union of logical values

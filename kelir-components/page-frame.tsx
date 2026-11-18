@@ -1,9 +1,8 @@
 import MuiBox from "@mui/material/Box";
 import type { PageFrameProps } from "../kelir-types";
 import { css } from "../kelir-variants";
-
-// Kit mobile threshold (single source: layout.mobile token 600px).
-const MOBILE_MAX = `@media (max-width: calc(${css.layout.breakpoints.mobile} - 0.02px))`;
+import { PageFrameBody } from "./page-frame-body";
+import { MOBILE_MAX, page } from "./page-frame-tokens";
 
 // Sealed document page frame (STYLE.md §6): page edges + content width +
 // main/footer breathing room all come from layout.page tokens. The `overlays`
@@ -18,7 +17,6 @@ export function PageFrame({
   id,
   "aria-label": ariaLabel,
 }: PageFrameProps) {
-  const page = css.layout.page;
   return (
     <MuiBox
       id={id}
@@ -43,60 +41,9 @@ export function PageFrame({
       }}
     >
       {overlays}
-      <MuiBox
-        style={{
-          width: "100%",
-          maxWidth: page.contentMax,
-          marginLeft: "auto",
-          marginRight: "auto",
-          display: "flex",
-          flexDirection: "column",
-          gap: page.gap,
-        }}
-      >
-        {header ? (
-          <MuiBox
-            component="header"
-            sx={{ [MOBILE_MAX]: { gap: page.headerGapMobile } }}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              textAlign: "center",
-              gap: page.headerGap,
-            }}
-          >
-            {header}
-          </MuiBox>
-        ) : null}
-        <MuiBox
-          component="main"
-          style={{
-            minHeight: page.mainMinHeight,
-            paddingTop: page.mainPaddingBlock,
-            paddingBottom: page.mainPaddingBlock,
-          }}
-        >
-          {children}
-        </MuiBox>
-        {footer ? (
-          <MuiBox
-            component="footer"
-            style={{
-              textAlign: "center",
-              paddingTop: page.footerPaddingTop,
-              borderTop: `1px solid ${css.border.light}`,
-              color: css.colors.textSecondary,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: page.footerGap,
-            }}
-          >
-            {footer}
-          </MuiBox>
-        ) : null}
-      </MuiBox>
+      <PageFrameBody header={header} footer={footer}>
+        {children}
+      </PageFrameBody>
     </MuiBox>
   );
 }

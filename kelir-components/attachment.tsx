@@ -1,16 +1,14 @@
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import CloseIcon from "@mui/icons-material/Close";
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutlined";
 import type * as React from "react";
 import type { AttachmentProps } from "../kelir-types";
 import { css } from "../kelir-variants";
+import { AttachmentStatus, AttachmentProgress } from "./attachment-status";
+import { AttachmentFileInfo, AttachmentRemoveButton } from "./attachment-info";
 
 const convexShadow = css.shadows.convex;
 const concaveShadow = css.shadows.concave;
 const neumorphicBg = css.colors.surface;
 const textPrimary = css.colors.textPrimary;
-const textSecondary = css.colors.textSecondary;
 
 export function Attachment({
   name,
@@ -28,15 +26,6 @@ export function Attachment({
   ) : (
     name
   );
-
-  const statusStyle: React.CSSProperties = {
-    display: "inline-flex",
-    alignItems: "center",
-    gap: css.layout.space.xs,
-    fontSize: "11px",
-    fontWeight: 600,
-    flexShrink: 0,
-  };
 
   return (
     <div
@@ -88,78 +77,14 @@ export function Attachment({
           >
             {nameNode}
           </span>
-          {status === "uploading" && (
-            <span style={{ ...statusStyle, color: textSecondary }}>
-              Uploading {Math.min(100, Math.max(0, progress))}%
-            </span>
-          )}
-          {status === "success" && (
-            <span style={{ ...statusStyle, color: textPrimary }}>
-              <CheckCircleIcon style={{ fontSize: 14 }} /> Saved
-            </span>
-          )}
-          {status === "error" && (
-            <span style={{ ...statusStyle, color: css.destructive }}>
-              <ErrorOutlineIcon style={{ fontSize: 14 }} /> Failed
-            </span>
+          {status !== "idle" && (
+            <AttachmentStatus status={status} progress={progress} />
           )}
         </div>
-        <div
-          style={{
-            color: textSecondary,
-            fontSize: "12px",
-            marginTop: "2px",
-          }}
-        >
-          {[size, type].filter(Boolean).join(" • ") || "Attached file"}
-        </div>
-        {status === "uploading" && (
-          <div
-            style={{
-              marginTop: css.layout.space.sm,
-              height: "6px",
-              borderRadius: "999px",
-              backgroundColor: css.track,
-              overflow: "hidden",
-            }}
-          >
-            <div
-              style={{
-                height: "100%",
-                width: `${Math.min(100, Math.max(0, progress))}%`,
-                borderRadius: "999px",
-                backgroundColor: css.colors.primary,
-                transition: `width ${css.motion.duration.hover} ${css.motion.easing.curve}`,
-              }}
-            />
-          </div>
-        )}
+        <AttachmentFileInfo size={size} type={type} />
+        {status === "uploading" && <AttachmentProgress progress={progress} />}
       </div>
-      {onRemove && (
-        <button
-          type="button"
-          // Zero-arg adapter: kit contract takes no event.
-          onClick={() => onRemove()}
-          aria-label={`Delete ${name}`}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "28px",
-            height: "28px",
-            flexShrink: 0,
-            border: `1px solid ${css.border.light}`,
-            borderRadius: css.radius.button,
-            backgroundColor: neumorphicBg,
-            color: textSecondary,
-            cursor: "pointer",
-            boxShadow: convexShadow,
-            transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
-          }}
-        >
-          <CloseIcon style={{ fontSize: 16 }} />
-        </button>
-      )}
+      {onRemove && <AttachmentRemoveButton name={name} onRemove={onRemove} />}
     </div>
   );
 }

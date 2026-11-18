@@ -2,10 +2,8 @@
 
 import * as React from "react";
 import type { BubbleProps } from "../kelir-types";
-import { css } from "../kelir-variants";
-
-const convexShadow = css.shadows.convex;
-const textPrimary = css.colors.textPrimary;
+import { BubbleReactions } from "./bubble-reactions";
+import { getBubbleStyle } from "./bubble-style";
 
 export function Bubble({
   variant = "received",
@@ -17,33 +15,7 @@ export function Bubble({
   const [collapsed, setCollapsed] = React.useState(false);
   const isSent = variant === "sent";
   const side = align ?? (isSent ? "end" : "start");
-
-  const bubbleStyles: React.CSSProperties = {
-    maxWidth: "80%",
-    padding: "10px 14px",
-    borderRadius: css.radius.prominent,
-    fontSize: "14px",
-    lineHeight: 1.5,
-    fontFamily: "inherit",
-    wordBreak: "break-word",
-    boxShadow: convexShadow,
-    textAlign: "left",
-    appearance: "none",
-    cursor: collapsible ? "pointer" : "default",
-    transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
-    ...(isSent
-      ? {
-          backgroundColor: css.colors.primary,
-          color: css.on.primary,
-          borderBottomRightRadius: 6,
-        }
-      : {
-          backgroundColor: css.colors.surface,
-          color: textPrimary,
-          border: `1px solid ${css.border.light}`,
-          borderBottomLeftRadius: 6,
-        }),
-  };
+  const bubbleStyle = getBubbleStyle(isSent, collapsible);
 
   return (
     <div
@@ -57,7 +29,7 @@ export function Bubble({
       {collapsible ? (
         <button
           type="button"
-          style={bubbleStyles}
+          style={bubbleStyle}
           title={collapsed ? "Click to expand" : "Click to collapse"}
           onClick={() => setCollapsed((c) => !c)}
           onKeyDown={(event) => {
@@ -70,40 +42,10 @@ export function Bubble({
           {collapsed ? "•••" : children}
         </button>
       ) : (
-        <div style={bubbleStyles}>{children}</div>
+        <div style={bubbleStyle}>{children}</div>
       )}
       {reactions && reactions.length > 0 && (
-        <div
-          style={{
-            display: "flex",
-            gap: "6px",
-            marginTop: "6px",
-          }}
-        >
-          {/* Key = value + index: reactions may duplicate (e.g. two
-              thumbs-up) without React duplicate-key warnings; display stays
-              as-is (no silent dedup). */}
-          {reactions.map((reaction, index) => (
-            <span
-              key={`${reaction}-${index}`}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                minWidth: "28px",
-                height: "24px",
-                padding: `0 ${css.layout.space.sm}`,
-                fontSize: "13px",
-                borderRadius: "999px",
-                backgroundColor: css.colors.surface,
-                border: `1px solid ${css.border.light}`,
-                boxShadow: convexShadow,
-              }}
-            >
-              {reaction}
-            </span>
-          ))}
-        </div>
+        <BubbleReactions reactions={reactions} />
       )}
     </div>
   );

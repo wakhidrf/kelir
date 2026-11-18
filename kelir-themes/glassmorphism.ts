@@ -1,4 +1,6 @@
 import { createCss } from "../kelir-variants";
+import { rounded, typography } from "./glassmorphism-scale";
+export { rounded, typography };
 
 export const variants = {
   // Core colors from DESIGN.md
@@ -33,27 +35,6 @@ export const shadows = {
   card: "0 2px 12px rgba(0, 0, 0, 0.06)",
   convex: "0 4px 20px rgba(0, 0, 0, 0.12)",
   concave: "inset 0 1px 4px rgba(0, 0, 0, 0.08)",
-} as const;
-
-export const rounded = {
-  sm: "4px",
-  md: "8px",
-  lg: "16px",
-} as const;
-
-export const typography = {
-  h1: {
-    fontSize: "2.25rem",
-    fontWeight: 700,
-  },
-  bodyMd: {
-    fontSize: "1rem",
-    fontWeight: 400,
-  },
-  labelCaps: {
-    fontSize: "0.75rem",
-    fontWeight: 500,
-  },
 } as const;
 
 export const css = createCss(variants, shadows, rounded);

@@ -1,39 +1,15 @@
 "use client";
 
 import MuiBox from "@mui/material/Box";
-import * as React from "react";
 import type { CodeBlockProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 import { Button } from "./button";
+import { useCodeBlockCopy } from "./code-block-copy";
 
 // Code block sealed (P2 STYLE.md 6): language label, copy button, and
 // clipboard behavior owned by the kit; consumers only supply code text + label.
 // MUI-based (MuiBox = pre + emotion + theme in the tree). No ...rest to the
 // DOM, no style/sx/className passthrough.
-function copyText(codeText: string): Promise<void> {
-  if (navigator.clipboard?.writeText) {
-    return navigator.clipboard
-      .writeText(codeText)
-      .catch(() => fallbackCopy(codeText));
-  }
-  return fallbackCopy(codeText);
-}
-
-// Fallback when the clipboard API is denied/missing: a temporary textarea
-// outside the document flow, with no visual trace and no focus shift.
-function fallbackCopy(codeText: string): Promise<void> {
-  const textarea = document.createElement("textarea");
-  textarea.value = codeText;
-  textarea.setAttribute("readonly", "");
-  textarea.style.position = "fixed";
-  textarea.style.opacity = "0";
-  document.body.appendChild(textarea);
-  textarea.select();
-  const ok = document.execCommand("copy");
-  textarea.remove();
-  return ok ? Promise.resolve() : Promise.reject(new Error("copy denied"));
-}
-
 export function CodeBlock({
   code,
   language,
@@ -42,28 +18,7 @@ export function CodeBlock({
   id,
   "aria-label": ariaLabel,
 }: CodeBlockProps) {
-  const [copied, setCopied] = React.useState(false);
-  const timer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  React.useEffect(
-    () => () => {
-      if (timer.current) clearTimeout(timer.current);
-    },
-    [],
-  );
-
-  const handleCopy = () => {
-    copyText(code)
-      .then(() => {
-        setCopied(true);
-        if (timer.current) clearTimeout(timer.current);
-        timer.current = setTimeout(() => setCopied(false), 2000);
-      })
-      .catch(() => {
-        // Clipboard unavailable and fallback failed: leave the label as-is,
-        // with no false confirmation.
-      });
-  };
+  const { copied, handleCopy } = useCodeBlockCopy(code);
 
   return (
     <MuiBox

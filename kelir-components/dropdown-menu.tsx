@@ -6,7 +6,7 @@ import MenuItem from "@mui/material/MenuItem";
 import * as React from "react";
 import type { DropdownMenuProps } from "../kelir-types";
 import { css } from "../kelir-variants";
-import { Button } from "./button";
+import { DropdownMenuTrigger } from "./dropdown-menu-trigger";
 
 const convexShadow = css.shadows.convex;
 const neumorphicBg = css.colors.surface;
@@ -30,41 +30,13 @@ export function DropdownMenu({
 
   return (
     <>
-      {/* Kit-owned trigger: text = plain text button; button = kit's outline
-          Button (button affordance for toolbars). Clicks are handled by the
-          kit for both variants. */}
-      {triggerVariant === "button" ? (
-        <Button variant="outline" onClick={handleTriggerClick}>
-          {trigger}
-        </Button>
-      ) : (
-        <button
-          type="button"
-          onClick={handleTriggerClick}
-          title={truncate ? trigger : undefined}
-          style={{
-            border: "none",
-            background: "none",
-            cursor: "pointer",
-            padding: `6px ${css.layout.space.md}`,
-            borderRadius: css.radius.button,
-            fontSize: "13px",
-            fontWeight: 600,
-            color: textSecondary,
-            fontFamily: "inherit",
-            ...(truncate
-              ? {
-                  maxWidth: maxWidth === undefined ? "100%" : `${maxWidth}px`,
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                }
-              : null),
-          }}
-        >
-          {trigger}
-        </button>
-      )}
+      <DropdownMenuTrigger
+        trigger={trigger}
+        triggerVariant={triggerVariant}
+        truncate={truncate}
+        maxWidth={maxWidth}
+        onClick={handleTriggerClick}
+      />
       <MuiMenu
         open={open}
         onClose={() => setAnchorEl(null)}

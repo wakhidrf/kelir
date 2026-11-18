@@ -1,18 +1,11 @@
 "use client";
 
-import MuiTable from "@mui/material/Table";
-import MuiTableBody from "@mui/material/TableBody";
-import MuiTableCell from "@mui/material/TableCell";
-import MuiTableHead from "@mui/material/TableHead";
-import MuiTableRow from "@mui/material/TableRow";
 import * as React from "react";
 import type { DataTableProps } from "../kelir-types";
-import { css } from "../kelir-variants";
-
-const convexShadow = css.shadows.convex;
-const neumorphicBg = css.colors.surface;
-const textPrimary = css.colors.textPrimary;
-const textSecondary = css.colors.textSecondary;
+import { DataTablePagination } from "./data-table-pagination";
+import { TableHead } from "./data-table-head";
+import { TableBody } from "./data-table-body";
+import { TableContainer } from "./data-table-container";
 
 export function DataTable({
   columns,
@@ -34,136 +27,19 @@ export function DataTable({
       )
       .join("|");
 
-  const pageButtonStyle = (disabled: boolean): React.CSSProperties => ({
-    padding: "6px 14px",
-    border: `1px solid ${css.border.light}`,
-    borderRadius: css.radius.button,
-    backgroundColor: neumorphicBg,
-    color: textPrimary,
-    boxShadow: convexShadow,
-    cursor: disabled ? "not-allowed" : "pointer",
-    opacity: disabled ? 0.5 : 1,
-    fontFamily: "inherit",
-    fontSize: "12px",
-    fontWeight: 600,
-    transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
-  });
-
   return (
-    <div
-      style={{
-        backgroundColor: neumorphicBg,
-        borderRadius: css.radius.card,
-        boxShadow: convexShadow,
-        border: `1px solid ${css.border.light}`,
-        overflow: "hidden",
-        fontFamily: "inherit",
-      }}
-    >
-      {title && (
-        <div
-          style={{
-            fontWeight: 700,
-            color: textPrimary,
-            padding: `${css.layout.space.md} ${css.layout.space.md} 0`,
-            marginBottom: css.layout.space.sm,
-            fontFamily: "inherit",
-          }}
-        >
-          {title}
-        </div>
-      )}
-      <MuiTable>
-        <MuiTableHead>
-          <MuiTableRow>
-            {columns.map((col) => (
-              <MuiTableCell
-                key={col.accessorKey}
-                style={{
-                  color: textSecondary,
-                  fontWeight: 700,
-                  fontSize: "12px",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.05em",
-                  borderBottom: `1px solid ${css.divider}`,
-                  fontFamily: "inherit",
-                }}
-              >
-                {col.header}
-              </MuiTableCell>
-            ))}
-          </MuiTableRow>
-        </MuiTableHead>
-        <MuiTableBody>
-          {visibleRows.map((row) => (
-            <MuiTableRow key={`row-${rowKey(row)}`}>
-              {columns.map((col) => {
-                const value = (row as Record<string, unknown>)[col.accessorKey];
-                return (
-                  <MuiTableCell
-                    key={col.accessorKey}
-                    style={{
-                      color: textPrimary,
-                      fontSize: "14px",
-                      borderBottom: `1px solid ${css.divider}`,
-                      fontFamily: "inherit",
-                    }}
-                  >
-                    {String(value ?? "")}
-                  </MuiTableCell>
-                );
-              })}
-            </MuiTableRow>
-          ))}
-          {visibleRows.length === 0 && (
-            <MuiTableRow>
-              <MuiTableCell
-                colSpan={columns.length}
-                align="center"
-                style={{
-                  color: textSecondary,
-                  fontSize: "14px",
-                  borderBottom: "none",
-                }}
-              >
-                No data
-              </MuiTableCell>
-            </MuiTableRow>
-          )}
-        </MuiTableBody>
-      </MuiTable>
+    <div>
+      <TableContainer title={title}>
+        <TableHead columns={columns} />
+        <TableBody columns={columns} visibleRows={visibleRows} rowKey={rowKey} />
+      </TableContainer>
       {paginated && data.length > rowsPerPage && (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: `${css.layout.space.md} ${css.layout.space.lg}`,
-            borderTop: `1px solid ${css.divider}`,
-          }}
-        >
-          <span style={{ fontSize: "12px", color: textSecondary }}>
-            Page {safePage + 1} of {pageCount}
-          </span>
-          <div style={{ display: "flex", gap: css.layout.space.sm }}>
-            <button
-              type="button"
-              disabled={safePage === 0}
-              onClick={() => setPage((p) => Math.max(0, p - 1))}
-              style={pageButtonStyle(safePage === 0)}
-            >
-              Previous
-            </button>
-            <button
-              type="button"
-              disabled={safePage >= pageCount - 1}
-              onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))}
-              style={pageButtonStyle(safePage >= pageCount - 1)}
-            >
-              Next
-            </button>
-          </div>
-        </div>
+        <DataTablePagination
+          page={safePage}
+          pageCount={pageCount}
+          rowsPerPage={rowsPerPage}
+          onPageChange={setPage}
+        />
       )}
     </div>
   );

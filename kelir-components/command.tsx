@@ -4,6 +4,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import * as React from "react";
 import type { CommandProps } from "../kelir-types";
 import { css } from "../kelir-variants";
+import { CommandGroupItems } from "./command-group";
+import { filterCommandGroups } from "./command-model";
 
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
@@ -13,20 +15,9 @@ export function Command({
   groups,
 }: CommandProps) {
   const [query, setQuery] = React.useState("");
-
-  const normalized = query.trim().toLowerCase();
-
   const filteredGroups = React.useMemo(
-    () =>
-      groups
-        .map((group) => ({
-          ...group,
-          items: group.items.filter((item) =>
-            item.label.toLowerCase().includes(normalized),
-          ),
-        }))
-        .filter((group) => group.items.length > 0),
-    [groups, normalized],
+    () => filterCommandGroups(groups, query),
+    [groups, query],
   );
 
   return (
@@ -83,48 +74,7 @@ export function Command({
           </div>
         )}
         {filteredGroups.map((group) => (
-          <div key={group.heading} style={{ marginBottom: "6px" }}>
-            <div
-              style={{
-                fontSize: "11px",
-                fontWeight: 700,
-                textTransform: "uppercase",
-                letterSpacing: "1px",
-                color: textSecondary,
-                padding: `${css.layout.space.sm} 10px ${css.layout.space.xs}`,
-              }}
-            >
-              {group.heading}
-            </div>
-            {group.items.map((item) => (
-              <button
-                key={item.value}
-                type="button"
-                onClick={() => item.onSelect?.()}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  width: "100%",
-                  border: "none",
-                  background: "none",
-                  cursor: "pointer",
-                  textAlign: "left",
-                  padding: "9px 10px",
-                  borderRadius: css.radius.button,
-                  fontSize: "14px",
-                  color: textPrimary,
-                  fontFamily: "inherit",
-                  transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
-                }}
-              >
-                {item.icon && (
-                  <span style={{ color: css.colors.primary }}>{item.icon}</span>
-                )}
-                <span>{item.label}</span>
-              </button>
-            ))}
-          </div>
+          <CommandGroupItems key={group.heading} group={group} />
         ))}
       </div>
     </div>

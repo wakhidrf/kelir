@@ -1,4 +1,6 @@
 import { createCss } from "../kelir-variants";
+import { rounded, typography } from "./neumorphism-scale";
+export { rounded, typography };
 
 // Neumorphism: soft 3D, monochrome light scheme. DESIGN.md front matter
 // (primary #C8E0F4 / secondary #F5E0E8 / tertiary #E8E8E8 / neutral #2C4A63).
@@ -35,27 +37,6 @@ export const shadows = {
   card: "3px 3px 10px rgba(0, 0, 0, 0.05), -3px -3px 10px rgba(255, 255, 255, 0.8)",
   convex: `5px 5px 15px ${variants.shadowDark}, -5px -5px 15px ${variants.shadowLight}`,
   concave: `inset 5px 5px 10px ${variants.shadowDark}, inset -5px -5px 10px ${variants.shadowLight}`,
-} as const;
-
-export const rounded = {
-  sm: "14px",
-  md: "28px",
-  lg: "42px",
-} as const;
-
-export const typography = {
-  h1: {
-    fontSize: "2.25rem",
-    fontWeight: 700,
-  },
-  bodyMd: {
-    fontSize: "1rem",
-    fontWeight: 400,
-  },
-  labelCaps: {
-    fontSize: "0.75rem",
-    fontWeight: 500,
-  },
 } as const;
 
 export const css = createCss(variants, shadows, rounded);
