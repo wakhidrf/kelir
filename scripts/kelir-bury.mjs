@@ -1,4 +1,4 @@
-// kelir-bury.mjs - dead-code gate (issue #110).
+// kelir-bury.mjs - dead-code gate (issue #110, #114).
 //
 //   node src/views/kelir/scripts/kelir-bury.mjs [--tsc]
 //
@@ -10,6 +10,12 @@
 //   C. Dead logic   - constant conditions and identical ternary branches.
 //   D. (--tsc)      - unused variables/imports/parameters.
 //
+// Escape hatch (issue #114): mark an intentional exception with
+// `kelir-allow: <reason>` on the flagged line or up to 2 lines above it. The
+// marker is shared by the gate scripts (same model as kelir-slop); a reason is
+// required. Allowed findings are reported as ALLOW (never silent) and do not
+// fail --strict.
+//
 // The kit at src/views/kelir is still part of the consumer graph (imported by
 // app modules), but it is not reported as a candidate. Heuristics can produce
 // false positives: verify manually before deleting.
@@ -19,6 +25,8 @@ import { spawnSync } from "node:child_process";
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { basename, dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
+import { TOOLS_VERSION } from "./kelir-version.mjs";
+import { printReport } from "./kelir-report.mjs";
 
 // scripts/ -> kelir/ -> views/ -> src/ -> <project>
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -90,6 +98,22 @@ const graphFiles = allFiles.filter(
 );
 const byPath = new Set(graphFiles);
 const sources = new Map(allFiles.map((file) => [file, readFileSync(file, "utf8")]));
+const sourceLines = new Map(
+  [...sources].map(([file, src]) => [file, src.split("\n")]),
+);
+
+// kelir-allow: <reason> on the flagged line or up to 2 lines above it. The
+// marker is generic across the gate scripts (no script name).
+const ALLOW_RE = /kelir-allow:\s*(.*)$/;
+function allowFor(file, line) {
+  const lines = sourceLines.get(file);
+  if (!lines) return { found: false, reason: "" };
+  for (let i = line; i >= Math.max(1, line - 2); i--) {
+    const m = ALLOW_RE.exec(lines[i - 1] ?? "");
+    if (m) return { found: true, reason: m[1].trim() };
+  }
+  return { found: false, reason: "" };
+}
 
 function tryResolve(base) {
   const noExt = base.replace(SOURCE_RE, "");
@@ -196,30 +220,76 @@ if (RUN_TSC) {
     .filter((line) => /is declared but|never read/.test(line) && !/kelir/.test(line));
 }
 
-function section(title, items, format) {
-  if (items.length === 0) {
-    console.log(`OK   ${title}: 0`);
+const rows = [];
+let allowedTotal = 0;
+
+function push(item, rule, message, suggestion) {
+  const a = item.file
+    ? allowFor(item.file, item.line)
+    : { found: false, reason: "" };
+  if (a.found && a.reason) {
+    allowedTotal++;
+    rows.push({
+      level: "ALLOW",
+      location: item.location,
+      rule,
+      message,
+      suggestion: a.reason,
+    });
     return;
   }
-  console.error(`FAIL ${title}: ${items.length}`);
-  for (const item of items) console.error(`  ${format(item)}`);
+  rows.push({
+    level: "ERROR",
+    location: item.location,
+    rule,
+    message:
+      a.found && !a.reason
+        ? `${message} [kelir-allow: requires a reason]`
+        : message,
+    suggestion,
+  });
 }
 
-section("Dead files (unreachable)", deadFiles, rel);
-section("Dead exports", deadExports, (item) => `${rel(item.file)}:${item.line}  ${item.name}`);
-section(
-  "Dead logic",
-  deadLogic,
-  (item) => `${rel(item.file)}:${item.line}  ${item.label} -> ${item.text}`,
-);
-if (RUN_TSC) section("Unused variables/imports/parameters", unused, (line) => line.trim());
-
-const total = deadFiles.length + deadExports.length + deadLogic.length + unused.length;
-if (total > 0) {
-  console.error(
-    `\nkelir-bury: ${total} findings. Verify manually (heuristics can produce false positives), then remove or refactor.`,
+for (const file of deadFiles)
+  push(
+    { file, line: 1, location: rel(file) },
+    "dead-file",
+    "unreachable from an entry point",
+    "remove or wire it",
   );
-  process.exit(1);
-}
+for (const e of deadExports)
+  push(
+    { file: e.file, line: e.line, location: `${rel(e.file)}:${e.line}` },
+    "dead-export",
+    `export '${e.name}' is only referenced at its declaration`,
+    "remove or export it",
+  );
+for (const l of deadLogic)
+  push(
+    { file: l.file, line: l.line, location: `${rel(l.file)}:${l.line}` },
+    "dead-logic",
+    `${l.label} -> ${l.text}`,
+    "remove the dead branch",
+  );
+if (RUN_TSC)
+  for (const u of unused)
+    rows.push({
+      level: "ERROR",
+      location: "tsc",
+      rule: "unused",
+      message: u.trim(),
+      suggestion: "remove or use it",
+    });
 
-console.log("kelir-bury: OK - no dead code or logic detected.");
+const errors = rows.filter((r) => r.level === "ERROR").length;
+
+printReport({
+  gate: "kelir-bury",
+  version: TOOLS_VERSION,
+  status: errors > 0 ? "FAIL" : "OK",
+  counts: { error: errors, warn: 0, allow: allowedTotal },
+  rows,
+  emptyText: "(no dead code or logic detected)",
+  scope: { "files scanned": allFiles.length, "graph files": graphFiles.length },
+});
+if (errors > 0) process.exit(1);

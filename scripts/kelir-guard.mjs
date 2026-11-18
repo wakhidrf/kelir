@@ -26,9 +26,16 @@
 // kelir-types.ts (aligned with GritQL; app-owned components = app business,
 // not contract). Scope exceptions are printed explicitly in the report (not
 // silent).
+// Issue #114: every error carries a rule id and a concrete replacement
+// suggestion (the token/component to use), and `--explain <rule>` prints the
+// rule summary + docs link (run it with no rule to list every rule).
+// Version: see kelir-version.mjs (bump the minor on rule changes that add
+// errors, so consumers can pin a known-good kit tag).
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
+import { TOOLS_VERSION } from "./kelir-version.mjs";
+import { printReport, printTable } from "./kelir-report.mjs";
 
 // scripts/ -> kelir/ -> views/ -> src/ -> <project>
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "..", "..");
@@ -39,6 +46,159 @@ const STRICT = process.argv.includes("--strict");
 
 const ALLOW_FILES = new Set(["kelir-styles.ts", "kelir-variants.ts"]);
 const BANNED_PROPS = ["style", "sx", "className", "slotProps", "classes", "components", "componentsProps", "slot"];
+
+// Rule catalog for --explain (issue #114). Each error carries a rule id; the
+// suggestion names the concrete token/component to use.
+const DOCS = "https://github.com/wakhidrf/kelir/blob/main/README.md";
+const RULES = {
+  "raw-tag": {
+    summary: "Raw intrinsic layout/text tags are forbidden; render a kit component.",
+    docs: `${DOCS}#5-usage-rules`,
+  },
+  className: {
+    summary: "className on an intrinsic is consumer CSS (§3); use a kit component.",
+    docs: `${DOCS}#5-usage-rules`,
+  },
+  style: {
+    summary: "Inline style is consumer styling (§3); visuals belong to the kit.",
+    docs: `${DOCS}#5-usage-rules`,
+  },
+  "banned-prop": {
+    summary:
+      "Style-escape props (style/sx/className/slotProps/classes/components/slot) are outside the contract.",
+    docs: `${DOCS}#5-usage-rules`,
+  },
+  "consumer-style": {
+    summary: "Consumer <style> blocks are forbidden (§3); use a kit prop or the theme.",
+    docs: `${DOCS}#5-usage-rules`,
+  },
+  "data-attr": {
+    summary: "data-* is not a styling hook (only data-testid is allowed).",
+    docs: `${DOCS}#5-usage-rules`,
+  },
+  "mui-override": {
+    summary: "Global .Mui* overrides outside the kit are forbidden (§3b).",
+    docs: `${DOCS}#5-usage-rules`,
+  },
+  "kelir-selector": {
+    summary:
+      "Selectors prefixed .kelir-* are kit-internal (§3b); do not target them from an app.",
+    docs: `${DOCS}#anti-slop-rulebook-for-ai-assistants`,
+  },
+  hex: {
+    summary: "Hardcoded hex colors are forbidden; use a css.* color token.",
+    docs: `${DOCS}#anti-slop-rulebook-for-ai-assistants`,
+  },
+  rgba: {
+    summary: "Hardcoded rgb()/rgba() colors are forbidden; use a css.* color token.",
+    docs: `${DOCS}#anti-slop-rulebook-for-ai-assistants`,
+  },
+  "box-shadow": {
+    summary: "Raw box-shadow is forbidden; use css.shadows.* (card/convex/concave).",
+    docs: `${DOCS}#anti-slop-rulebook-for-ai-assistants`,
+  },
+  "font-family": {
+    summary: "Raw font-family is forbidden; the active theme owns typography.",
+    docs: `${DOCS}#anti-slop-rulebook-for-ai-assistants`,
+  },
+  "layout-interim": {
+    summary:
+      "Token-wrapper layout is superseded by kit layout primitives (§8-P1b).",
+    docs: `${DOCS}#5-usage-rules`,
+  },
+};
+
+// Tag -> the kit component(s) that replace it (issue #114 actionable errors).
+const TAG_KIT = {
+  div: "Stack / Container / PageFrame",
+  section: "Container / Stack",
+  main: "PageFrame",
+  header: "PageFrame (header slot) / TopBar",
+  footer: "PageFrame (footer slot)",
+  nav: "Sidebar / NavigationMenu / TopBar",
+  article: "Card",
+  aside: 'Grid template="aside" / Sidebar',
+  span: "Typography",
+  p: "Typography",
+  h1: "Typography",
+  h2: "Typography",
+  h3: "Typography",
+  h4: "Typography",
+  h5: "Typography",
+  h6: "Typography",
+  ul: "List",
+  ol: "List",
+  li: "List",
+  blockquote: "Quote",
+  figure: "Image",
+  figcaption: "Image",
+  hr: "Separator",
+  table: "Table / DataTable",
+  thead: "Table / DataTable",
+  tbody: "Table / DataTable",
+  tfoot: "Table / DataTable",
+  tr: "Table / DataTable",
+  td: "Table / DataTable",
+  th: "Table / DataTable",
+  caption: "Table / DataTable",
+  colgroup: "Table / DataTable",
+  col: "Table / DataTable",
+  form: "Field / Questionnaire",
+  fieldset: "Field / Questionnaire",
+  legend: "Field / Questionnaire",
+  button: "Button / IconButton",
+  label: "Label / Field",
+  a: "Link",
+  input: "Input",
+  select: "Select / NativeSelect",
+  textarea: "Textarea",
+  option: "Select / NativeSelect options",
+  optgroup: "Select / NativeSelect options",
+  img: "Image",
+};
+
+function explainTarget() {
+  const i = process.argv.indexOf("--explain");
+  if (i !== -1) return process.argv[i + 1] ?? "";
+  const eq = process.argv.find((a) => a.startsWith("--explain="));
+  return eq ? eq.slice("--explain=".length) : null;
+}
+
+const explain = explainTarget();
+if (explain !== null) {
+  console.log(`kelir-guard v${TOOLS_VERSION}`);
+  console.log("");
+  if (explain === "") {
+    printTable(
+      [
+        { key: "rule", label: "RULE" },
+        { key: "summary", label: "SUMMARY" },
+      ],
+      Object.entries(RULES).map(([rule, meta]) => ({
+        rule,
+        summary: meta.summary,
+      })),
+    );
+    process.exit(0);
+  }
+  if (!RULES[explain]) {
+    console.error(`kelir-guard: unknown rule '${explain}'.`);
+    console.error(`Available rules: ${Object.keys(RULES).join(", ")}`);
+    process.exit(2);
+  }
+  printTable(
+    [
+      { key: "field", label: "FIELD" },
+      { key: "value", label: "VALUE" },
+    ],
+    [
+      { field: "rule", value: explain },
+      { field: "summary", value: RULES[explain].summary },
+      { field: "docs", value: RULES[explain].docs },
+    ],
+  );
+  process.exit(0);
+}
 
 // F9 (STYLE §3, owner decision 2026-10-19): "zero consumer CSS". Intrinsic
 // layout/text tags that already have a kit component = ERROR; one recorded
@@ -69,6 +229,27 @@ const KELIR_NAMES = new Set(
 // Explicit scope: computed at run time, printed in the report (§8-P0/P1:
 // official exclusions must be visible, not silent).
 const scope = { scanned: 0, kitInternal: 0, noImport: 0 };
+const allowed = [];
+const sourceCache = new Map();
+
+// kelir-allow: <reason> on the flagged line or up to 2 lines above it.
+function allowReason(file, line) {
+  let src = sourceCache.get(file);
+  if (src === undefined) {
+    try {
+      src = readFileSync(file, "utf8");
+    } catch {
+      src = "";
+    }
+    sourceCache.set(file, src);
+  }
+  const lines = src.split("\n");
+  for (let i = line; i >= Math.max(1, line - 2); i--) {
+    const m = /kelir-allow:\s*(.*)$/.exec(lines[i - 1] ?? "");
+    if (m && m[1].trim()) return m[1].trim();
+  }
+  return null;
+}
 
 // Preflight (issue #72): the guard assumes the kit lives at
 // <project>/src/views/kelir. When run from the kit repo checkout itself
@@ -96,7 +277,14 @@ const rel = (p) => relative(ROOT, p).replace(/\\/g, "/");
 const inKelir = (p) => p.startsWith(KELIR);
 const warn = [];
 const err = [];
-const add = (list, file, line, msg) => list.push(`${rel(file)}:${line}: ${msg}`);
+const add = (list, file, line, msg, rule, suggestion) => {
+  const reason = allowReason(file, line);
+  if (reason) {
+    allowed.push({ file, line, msg, rule, suggestion, reason });
+    return;
+  }
+  list.push({ file, line, msg, rule, suggestion });
+};
 
 function lineNo(src, idx) { return src.slice(0, idx).split("\n").length; }
 
@@ -244,9 +432,23 @@ for (const f of walk(SRC)) {
     const intrinsic = /^[a-z]/.test(tag);
     for (const { name, idx } of attrs) {
       if (/^[A-Z]/.test(tag) && isKelir && BANNED_PROPS.includes(name))
-        add(warn, f, lineNo(src, idx), `banned prop '${name}' on component (needs review: Kelir?)`);
+        add(
+          warn,
+          f,
+          lineNo(src, idx),
+          `banned prop '${name}' on component (needs review: Kelir?)`,
+          "banned-prop",
+          `remove '${name}'; visuals belong to the kit component`,
+        );
       else if (intrinsic && name === "className")
-        add(err, f, lineNo(src, idx), "className on intrinsic: consumer CSS is forbidden (§3)");
+        add(
+          err,
+          f,
+          lineNo(src, idx),
+          "className on intrinsic: consumer CSS is forbidden (§3)",
+          "className",
+          `use a kit component instead of <${tag}>`,
+        );
       else if (name === "style")
         add(
           warn,
@@ -255,10 +457,21 @@ for (const f of walk(SRC)) {
           intrinsic
             ? "heuristic slot: intrinsic with inline style in a kelir-importing file"
             : "inline style on a non-intrinsic element (§3: the kit closes all visuals)",
+          "style",
+          intrinsic
+            ? `move this visual into a kit component (e.g. ${TAG_KIT[tag] ?? "Stack/Card"})`
+            : "move this visual into a kit component prop",
         );
     }
     if (intrinsic && RAW_TAGS.has(tag) && !exempt)
-      add(err, f, lineNo(src, index), `raw intrinsic <${tag}> tag: use a kit component (§3/F9)`);
+      add(
+        err,
+        f,
+        lineNo(src, index),
+        `raw intrinsic <${tag}> tag: use a kit component (§3/F9)`,
+        "raw-tag",
+        `replace <${tag}> with ${TAG_KIT[tag] ?? "a kit component"}`,
+      );
   }
   // F9: consumer <style> block = ERROR, unless its body is kit-owned CSS
   // (identifiers imported from kelir, e.g. hideBeforeReadyCss).
@@ -271,12 +484,26 @@ for (const f of walk(SRC)) {
       new RegExp(`\\b${n.replace(/\$/g, "\\$")}\\b`).test(body),
     );
     if (!kitOwned)
-      add(err, f, lineNo(src, st.index), "consumer <style> block: consumer CSS is forbidden (§3) - move to a kit prop");
+      add(
+        err,
+        f,
+        lineNo(src, st.index),
+        "consumer <style> block: consumer CSS is forbidden (§3) - move to a kit prop",
+        "consumer-style",
+        "move these rules into a kit prop (e.g. Stack gap, Card title) or the theme",
+      );
   }
   const dataAttrs = [...src.matchAll(/data-[a-z-]+\s*=/g)].map((m) => m[0].split("=")[0].trim());
   const foreignData = dataAttrs.filter((a) => !a.startsWith("data-kelir-"));
   if (foreignData.length > 0 && /(style|StyleSheet|css)/.test(src))
-    add(warn, f, 1, "data-* + styling detected (manual check: for styling?)");
+    add(
+      warn,
+      f,
+      1,
+      "data-* + styling detected (manual check: for styling?)",
+      "data-attr",
+      "use data-testid for tests; styling belongs to the kit",
+    );
 }
 
 // 3. Global .Mui* / .kelir-* override outside kelir
@@ -287,9 +514,23 @@ for (const f of walk(SRC)) {
   const lines = src.split("\n");
   lines.forEach((ln, i) => {
     if (/\.Mui[A-Z][\w-]*\s*[{.,:#[]/.test(ln))
-      add(err, f, i + 1, "global .Mui* override outside kelir (forbidden §3b)");
+      add(
+        err,
+        f,
+        i + 1,
+        "global .Mui* override outside kelir (forbidden §3b)",
+        "mui-override",
+        "use the kit component instead of a global .Mui* override",
+      );
     if (/\.kelir-[\w-]*\s*[{.,:#[]/.test(ln))
-      add(warn, f, i + 1, "selector .kelir-* outside the kit (make sure it is not kit-internal §3b)");
+      add(
+        warn,
+        f,
+        i + 1,
+        "selector .kelir-* outside the kit (make sure it is not kit-internal §3b)",
+        "kelir-selector",
+        "target the kit component, not its internal .kelir-* class",
+      );
   });
 }
 
@@ -298,13 +539,42 @@ for (const f of walk(KELIR_COMP)) {
   const src = readFileSync(f, "utf8");
   const lines = src.split("\n");
   lines.forEach((ln, i) => {
-    if (/kelir-allow:/.test(ln)) return;
     if (/(?<![&\w])#[0-9a-fA-F]{3,8}\b/.test(ln) && !/^\s*(\/\/|\*)/.test(ln))
-      add(err, f, i + 1, "hardcoded hex (use css.* or move to the allowlist)");
+      add(
+        err,
+        f,
+        i + 1,
+        "hardcoded hex (use css.* or move to the allowlist)",
+        "hex",
+        "use a css.* token (colors / border / shadows)",
+      );
     if (/rgba?\s*\(/.test(ln))
-      add(err, f, i + 1, "hardcoded rgba()/rgb() (use css.*)");
-    if (/(box-shadow|font-family)\s*:/.test(ln))
-      add(err, f, i + 1, "raw box-shadow/font-family (use css.*)");
+      add(
+        err,
+        f,
+        i + 1,
+        "hardcoded rgba()/rgb() (use css.*)",
+        "rgba",
+        "use a css.* color token",
+      );
+    if (/box-shadow\s*:/.test(ln))
+      add(
+        err,
+        f,
+        i + 1,
+        "raw box-shadow (use css.*)",
+        "box-shadow",
+        "use css.shadows.card / convex / concave",
+      );
+    if (/font-family\s*:/.test(ln))
+      add(
+        err,
+        f,
+        i + 1,
+        "raw font-family (use css.*)",
+        "font-family",
+        "use the active theme font (css.typography / fontFamily)",
+      );
   });
 }
 
@@ -315,11 +585,49 @@ for (const f of walk(SRC)) {
   if (inKelir(f) || !/\.(tsx|jsx)$/.test(f)) continue;
   const src = readFileSync(f, "utf8");
   if (/css\.layout|var\(--space-|var\(--layout-/.test(src))
-    add(err, f, 1, "interim layout: use Stack/Grid/Spacer/Container/FlexItem/Shell, not token wrappers (§8-P1b)");
+    add(
+      err,
+      f,
+      1,
+      "interim layout: use Stack/Grid/Spacer/Container/FlexItem/Shell, not token wrappers (§8-P1b)",
+      "layout-interim",
+      "use Stack / Grid / Spacer / Container / FlexItem / Shell",
+    );
 }
 
-console.log(`kelir-guard: ${err.length} ERROR, ${warn.length} WARN`);
-for (const w of warn) console.log(`WARN  ${w}`);
-for (const e of err) console.log(`ERROR ${e}`);
-console.log(`scope: ${scope.scanned} consumer files scanned (JSX syntax); officially excluded: ${scope.kitInternal} kit-internal, ${scope.noImport} without kelir import, token allowlist: ${[...ALLOW_FILES].join(", ")}`);
+printReport({
+  gate: "kelir-guard",
+  version: TOOLS_VERSION,
+  status: err.length > 0 ? "FAIL" : "OK",
+  counts: { error: err.length, warn: warn.length, allow: allowed.length },
+  rows: [
+    ...allowed.map((a) => ({
+      level: "ALLOW",
+      location: `${rel(a.file)}:${a.line}`,
+      rule: a.rule,
+      message: a.msg,
+      suggestion: a.reason,
+    })),
+    ...warn.map((w) => ({
+      level: "WARN",
+      location: `${rel(w.file)}:${w.line}`,
+      rule: w.rule,
+      message: w.msg,
+      suggestion: w.suggestion,
+    })),
+    ...err.map((e) => ({
+      level: "ERROR",
+      location: `${rel(e.file)}:${e.line}`,
+      rule: e.rule,
+      message: e.msg,
+      suggestion: e.suggestion,
+    })),
+  ],
+  emptyText: "(no guard violations)",
+  scope: {
+    "consumer files scanned": scope.scanned,
+    "kit-internal excluded": scope.kitInternal,
+    "without kelir import": scope.noImport,
+  },
+});
 if (STRICT && err.length > 0) process.exit(1);

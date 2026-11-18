@@ -11,6 +11,8 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
+import { printReport } from "./kelir-report.mjs";
+import { TOOLS_VERSION } from "./kelir-version.mjs";
 
 // scripts/ -> kelir/ -> views/ -> src/ -> <project>
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -60,13 +62,43 @@ const violations = files
   .filter((entry) => entry.lines > MAX)
   .sort((a, b) => b.lines - a.lines);
 
-if (violations.length > 0) {
-  console.error(`kelir-split: ${violations.length} files exceed ${MAX} lines.`);
-  for (const v of violations) {
-    console.error(`  ${String(v.lines).padStart(4)}  ${rel(v.file)}`);
+// kelir-allow: <reason> in the first 3 lines exempts a file (reported as ALLOW).
+const ALLOW_RE = /kelir-allow:\s*(.*)$/;
+function allowReason(file) {
+  const head = readFileSync(file, "utf8").split(/\r?\n/).slice(0, 3);
+  for (const ln of head) {
+    const m = ALLOW_RE.exec(ln);
+    if (m && m[1].trim()) return m[1].trim();
   }
-  console.error("\nSplit by responsibility; do not raise the limit without a reason.");
-  process.exit(1);
+  return null;
 }
 
-console.log(`kelir-split: OK - ${files.length} files are <= ${MAX} lines.`);
+const withReason = violations.map((v) => ({ ...v, reason: allowReason(v.file) }));
+const blocked = withReason.filter((v) => !v.reason);
+const allowed = withReason.filter((v) => v.reason);
+
+printReport({
+  gate: "kelir-split",
+  version: TOOLS_VERSION,
+  status: blocked.length > 0 ? "FAIL" : "OK",
+  counts: { error: blocked.length, warn: 0, allow: allowed.length },
+  rows: [
+    ...allowed.map(({ file, lines, reason }) => ({
+      level: "ALLOW",
+      location: rel(file),
+      rule: "file-length",
+      message: `${lines} lines (limit ${MAX})`,
+      suggestion: reason,
+    })),
+    ...blocked.map(({ file, lines }) => ({
+      level: "ERROR",
+      location: rel(file),
+      rule: "file-length",
+      message: `${lines} lines (limit ${MAX})`,
+      suggestion: "split by responsibility (do not raise the limit without a reason)",
+    })),
+  ],
+  emptyText: `(all files are <= ${MAX} lines)`,
+  scope: { "files scanned": files.length, "line limit": MAX },
+});
+if (blocked.length > 0) process.exit(1);

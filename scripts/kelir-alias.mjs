@@ -9,6 +9,8 @@ import { existsSync } from "node:fs";
 import { readdir, readFile } from "node:fs/promises";
 import { dirname, join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
+import { printReport } from "./kelir-report.mjs";
+import { TOOLS_VERSION } from "./kelir-version.mjs";
 
 // scripts/ -> kelir/ -> views/ -> src/ -> <project>
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -108,25 +110,55 @@ function blankComments(src) {
 const files = await walk(SRC);
 const offenders = [];
 
+const ALLOW_RE = /kelir-allow:\s*(.*)$/;
+function allowReason(source, line) {
+  const lines = source.split("\n");
+  for (let i = line; i >= Math.max(1, line - 2); i--) {
+    const m = ALLOW_RE.exec(lines[i - 1] ?? "");
+    if (m && m[1].trim()) return m[1].trim();
+  }
+  return null;
+}
+
 for (const file of files) {
   const source = await readFile(file, "utf8");
   const scanned = blankComments(source);
   for (const match of scanned.matchAll(RELATIVE_RE)) {
+    const line = lineAt(source, match.index);
     offenders.push({
       file,
-      line: lineAt(source, match.index),
+      line,
       spec: match[2],
+      reason: allowReason(source, line),
     });
   }
 }
 
-if (offenders.length > 0) {
-  console.error(`kelir-alias: ${offenders.length} relative imports outside src/views/kelir.`);
-  for (const o of offenders) {
-    console.error(`  ${rel(o.file)}:${o.line} -> ${o.spec}`);
-  }
-  console.error("\nUse the @/ alias (see tsconfig paths).");
-  process.exit(1);
-}
+const blocked = offenders.filter((o) => !o.reason);
+const allowed = offenders.filter((o) => o.reason);
 
-console.log(`kelir-alias: OK - ${files.length} files use absolute imports.`);
+printReport({
+  gate: "kelir-alias",
+  version: TOOLS_VERSION,
+  status: blocked.length > 0 ? "FAIL" : "OK",
+  counts: { error: blocked.length, warn: 0, allow: allowed.length },
+  rows: [
+    ...allowed.map((o) => ({
+      level: "ALLOW",
+      location: `${rel(o.file)}:${o.line}`,
+      rule: "relative-import",
+      message: `relative import '${o.spec}'`,
+      suggestion: o.reason,
+    })),
+    ...blocked.map((o) => ({
+      level: "ERROR",
+      location: `${rel(o.file)}:${o.line}`,
+      rule: "relative-import",
+      message: `relative import '${o.spec}'`,
+      suggestion: "use the @/ alias (see tsconfig paths)",
+    })),
+  ],
+  emptyText: "(all imports use the @/ alias)",
+  scope: { "files scanned": files.length },
+});
+if (blocked.length > 0) process.exit(1);
