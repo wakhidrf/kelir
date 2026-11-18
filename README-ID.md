@@ -17,6 +17,16 @@ Selain itu, gerbang anti-slop (`scripts/kelir-slop.mjs`, dijalankan sebagai `npm
 
 Gerbang adopsi (`scripts/kelir-hunt.mjs`, dijalankan sebagai `npm run kelir:hunt:strict`) menutup UI yang tidak pernah mengimpor Kelir. Route (`app/**` atau `pages/**`) dengan tag intrinsik mentah = ERROR; komponen aplikasi, canvas/iframe, sink konten dinamis, CSS-in-JS, stylesheet konsumen, dan impor UI pihak ketiga = WARN. Direktif Tailwind = ERROR. Pengecualian eksplisit berupa `kelir-allow: hunt <alasan>` di level berkas.
 
+### Perkakas Gerbang v1.2.0
+
+Setiap gerbang mencetak tabel yang sama (`GATE | STATUS | ERRORS | WARNINGS | ALLOWED`, lalu `FINDINGS` dan `SCOPE`) dan melaporkan versi dari `scripts/kelir-version.mjs`, sehingga konsumen bisa mematok tag kit yang sudah pasti baik. Di atas itu:
+
+- `node src/views/kelir/scripts/kelir-all.mjs` (dipakai `npm run kelir`) menjalankan enam gerbang tanpa short-circuit `&&`, mencetak semua laporan, lalu ringkasan gabungan, dan keluar 1 bila ada gerbang yang gagal. Runner selalu menambahkan `--strict` agar ringkasan cocok dengan status yang dicetak tiap gerbang. `--only=kelir-guard` menjalankan sebagian, `--list` mencetak urutannya.
+- `kelir-guard --fix` menulis ulang pemetaan deterministik tag mentah ke komponen kit (`<input>` ke `Input`, `<a>` ke `Link`, `<img>` ke `Image`, `<p>`/`<h1>` ke `Typography`, dan seterusnya) plus impor yang sesuai. Tag hanya ditulis ulang bila seluruh atribut yang dipakainya diterima komponen kit; sisanya tetap ERROR dan tercantum di `Skipped` beserta alasannya. `--fix --dry-run` untuk pratinjau tanpa menulis.
+- `kelir-guard --explain <rule>` mencetak aturan, tautan dokumen, berkas yang terdampak, dan - untuk `raw-tag` - tabel tag berisi komponen kit yang disarankan serta apakah `--fix` bisa menanganinya.
+- `.kelirrc` di root repo induk menekan aturan WARN yang dianggap gaya proyek: `{ "kelir-guard": { "warn": ["style", "heuristic-slot"] } }`. Temuan yang ditekan dilaporkan sebagai ALLOW, tidak pernah senyap; aturan ERROR tidak bisa ditekan, dan berkas yang cacat menggagalkan gerbang dengan keluar 2.
+- `kelir-hunt --scope=views,app` membatasi pindaian ke subdirektori `src` tersebut, dan berkas yang namanya menandai kode server (`*controller*`, `*action*`, `*queries*`, `*repository*`, `*service*`, `*server*`, `*db*`, `*schema*`, `*seed*`, `*migration*`) dilewati dan dihitung, bukan dilaporkan sebagai "UI tanpa impor Kelir". `--all-files` menonaktifkan heuristik itu.
+
 ## Tipografi Per Tema
 
 Selain multi-tema, setiap bahasa desain dari DESIGN.md membawa tipografinya sendiri. Font UI dan font monospace otomatis dipasangkan dengan tema, sehingga semua komponen selaras dengan identitas desain tanpa konfigurasi tambahan.

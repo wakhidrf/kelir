@@ -1,6 +1,6 @@
-// Barrel — sumber tunggal kontrak Paten v7 (PLAN.md §5) dipecah per domain
-// di ./kelir-types/ (SRP; tiap file <= 100 baris). Nama & bentuk tipe tidak
-// berubah; impor `@/views/kelir/kelir-types` dan `../kelir-types` tetap sah.
+// Barrel - single source for the patent contract v7 (PLAN.md §5), split per
+// domain in ./kelir-types/ (SRP; each file <= 100 lines). Names and shapes are
+// unchanged; imports `@/views/kelir/kelir-types` and `../kelir-types` stay valid.
 export * from "./kelir-types/actions";
 export * from "./kelir-types/data-display-content";
 export * from "./kelir-types/data-display-data";
