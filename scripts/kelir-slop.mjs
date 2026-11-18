@@ -10,13 +10,15 @@
 //   - text rules (copy)            -> ONLY against string/JSX text shown to
 //     users; code comments are not "copy" (upstream separates antislop-code).
 //   - both rules (emoji)           -> both.
-//   - Lines marked 'kelir-allow: slop' = explicit per-line exception (a
+//   - Lines marked 'kelir-allow: <reason>' = explicit per-line exception (a
 //     reason must be written in the comment), reported as ALLOW (not silent).
 //
 // Mode: --strict -> exit 1 when any ERROR. Scope is always printed.
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
+import { printReport } from "./kelir-report.mjs";
+import { TOOLS_VERSION } from "./kelir-version.mjs";
 
 // scripts/ -> kelir/ -> views/ -> src/ -> <project>
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -231,9 +233,14 @@ for (const f of files) {
 
   const rules = MATCHERS.filter((m) => !isKit || kitAllows(m));
   const lines = src.split("\n");
-  const allowedLine = (ln) =>
-    (lines[ln - 1] ?? "").includes("kelir-allow: slop") ||
-    (lines[ln - 2] ?? "").includes("kelir-allow: slop");
+  const ALLOW_RE = /kelir-allow:\s*(.*)$/;
+  const allowedLine = (ln) => {
+    for (let i = ln; i >= Math.max(1, ln - 2); i--) {
+      const m = ALLOW_RE.exec(lines[i - 1] ?? "");
+      if (m && m[1].trim()) return true;
+    }
+    return false;
+  };
   const hits = [];
 
   // Code rules (and "both") against the raw source.
@@ -283,13 +290,35 @@ for (const f of files) {
   }
 }
 
-const fmt = (x) => `${rel(x.f)}:${x.line}: ${x.rule} (${x.target || "core"}) - ${x.excerpt}`;
-console.log(`kelir-slop: ${err.length} ERROR, ${allowed.length} ALLOW`);
-for (const a of allowed) console.log(`ALLOW ${fmt(a)}`);
-for (const e of err) console.log(`ERROR ${fmt(e)}`);
-console.log(
-  `scope: ${coverage.consumer} consumer files + ${coverage.kit} kit files scanned; ` +
-    `officially skipped: ${coverage.tests} test, ${coverage.noImport} without kelir import, ` +
-    `${GENERATED.length} generated/vendor, ${SPEC.length} spec/corpus.`,
-);
+printReport({
+  gate: "kelir-slop",
+  version: TOOLS_VERSION,
+  status: err.length > 0 ? "FAIL" : "OK",
+  counts: { error: err.length, warn: 0, allow: allowed.length },
+  rows: [
+    ...allowed.map((a) => ({
+      level: "ALLOW",
+      location: `${rel(a.f)}:${a.line}`,
+      rule: a.rule,
+      message: `${a.target || "core"} - ${a.excerpt}`,
+      suggestion: "allowed by kelir-allow",
+    })),
+    ...err.map((e) => ({
+      level: "ERROR",
+      location: `${rel(e.f)}:${e.line}`,
+      rule: e.rule,
+      message: `${e.target || "core"} - ${e.excerpt}`,
+      suggestion: "rewrite with the Kelir meaning",
+    })),
+  ],
+  emptyText: "(no anti-slop violations)",
+  scope: {
+    "consumer files": coverage.consumer,
+    "kit files": coverage.kit,
+    "tests skipped": coverage.tests,
+    "without kelir import": coverage.noImport,
+    "generated/vendor": GENERATED.length,
+    "spec/corpus": SPEC.length,
+  },
+});
 if (STRICT && err.length > 0) process.exit(1);

@@ -8,12 +8,14 @@
 //   - Tailwind directives (@tailwind/@apply) = ERROR
 //
 // Hunt only sees static signals, not render output: "100% Kelir" still needs
-// review. Explicit exception: `kelir-allow: hunt <reason>` per file.
+// review. Explicit exception: `kelir-allow: <reason>` per file.
 //
 // Mode: --strict -> exit 1 when any ERROR. Default is report-only.
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
+import { printReport } from "./kelir-report.mjs";
+import { TOOLS_VERSION } from "./kelir-version.mjs";
 
 // scripts/ -> kelir/ -> views/ -> src/ -> <project>
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "..", "..");
@@ -154,9 +156,11 @@ function packageMatches(spec, list) {
 }
 
 function allowReason(src) {
-  const m = /kelir-allow:\s*hunt\b([^\n]*)/.exec(src);
+  const m = /kelir-allow:\s*([^\n]*)/.exec(src);
   if (!m) return null;
-  return { line: lineAt(src, m.index), reason: m[1].trim() || "no reason" };
+  const reason = m[1].trim();
+  if (!reason) return null;
+  return { line: lineAt(src, m.index), reason };
 }
 
 function tagList(tags) {
@@ -326,14 +330,43 @@ for (const f of walk(SRC)) {
   commit(f, src, findings);
 }
 
-const fmt = (x) => `${rel(x.f)}:${x.line}: ${x.msg}`;
-console.log(`kelir-hunt: ${err.length} ERROR, ${warn.length} WARN, ${allowed.length} ALLOW`);
-for (const a of allowed) console.log(`ALLOW ${rel(a.f)}:${a.line}: ${a.msg}`);
-for (const w of warn) console.log(`WARN  ${fmt(w)}`);
-for (const e of err) console.log(`ERROR ${fmt(e)}`);
-console.log(
-  `scope: ${scope.ui} consumer UI files scanned (${scope.outside} without a Kelir import); ` +
-    `excluded: ${scope.kit} kit-internal, ${scope.tests} test/fixture/story, ` +
-    `${scope.generated} generated, ${scope.noJsx} without JSX, ${scope.css} consumer stylesheet.`,
-);
+printReport({
+  gate: "kelir-hunt",
+  version: TOOLS_VERSION,
+  status: err.length > 0 ? "FAIL" : "OK",
+  counts: { error: err.length, warn: warn.length, allow: allowed.length },
+  rows: [
+    ...allowed.map((a) => ({
+      level: "ALLOW",
+      location: `${rel(a.f)}:${a.line}`,
+      rule: "kelir-allow",
+      message: a.msg,
+      suggestion: "allowed by kelir-allow",
+    })),
+    ...warn.map((w) => ({
+      level: "WARN",
+      location: `${rel(w.f)}:${w.line}`,
+      rule: "third-party",
+      message: w.msg,
+      suggestion: "use the Kelir equivalent",
+    })),
+    ...err.map((e) => ({
+      level: "ERROR",
+      location: `${rel(e.f)}:${e.line}`,
+      rule: "consumer-css",
+      message: e.msg,
+      suggestion: "use the Kelir component",
+    })),
+  ],
+  emptyText: "(no hunt violations)",
+  scope: {
+    "consumer UI files": scope.ui,
+    "without kelir import": scope.outside,
+    "kit-internal excluded": scope.kit,
+    tests: scope.tests,
+    generated: scope.generated,
+    "without JSX": scope.noJsx,
+    "consumer stylesheets": scope.css,
+  },
+});
 if (STRICT && err.length > 0) process.exit(1);
