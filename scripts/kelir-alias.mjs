@@ -9,7 +9,7 @@ import { existsSync } from "node:fs";
 import { readdir, readFile } from "node:fs/promises";
 import { dirname, join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
-import { printReport } from "./kelir-report.mjs";
+import { allowReasonNear, printReport } from "./kelir-report.mjs";
 import { TOOLS_VERSION } from "./kelir-version.mjs";
 
 // scripts/ -> kelir/ -> views/ -> src/ -> <project>
@@ -110,14 +110,10 @@ function blankComments(src) {
 const files = await walk(SRC);
 const offenders = [];
 
-const ALLOW_RE = /kelir-allow:\s*(.*)$/;
+// kelir-allow: <reason> on the flagged line or up to 2 lines above it.
+// Parsing lives in kelir-report.mjs so CRLF checkouts keep working (issue #118).
 function allowReason(source, line) {
-  const lines = source.split("\n");
-  for (let i = line; i >= Math.max(1, line - 2); i--) {
-    const m = ALLOW_RE.exec(lines[i - 1] ?? "");
-    if (m && m[1].trim()) return m[1].trim();
-  }
-  return null;
+  return allowReasonNear(source.split(/\r?\n/), line);
 }
 
 for (const file of files) {

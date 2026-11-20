@@ -23,7 +23,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { CONFIG_REASON, loadConfig, suppressedBy } from "./kelir-config.mjs";
-import { printReport } from "./kelir-report.mjs";
+import { parseAllowReason, printReport } from "./kelir-report.mjs";
 import { TOOLS_VERSION } from "./kelir-version.mjs";
 
 // scripts/ -> kelir/ -> views/ -> src/ -> <project>
@@ -70,6 +70,47 @@ const DOC_TAGS = new Set([
   "noscript",
   "template",
 ]);
+
+// TypeScript type keywords that appear as `<keyword>` in generic positions
+// (`Record<string, x>`, `useState<void>()`). They start lowercase, so without
+// this set the tag filter below reads them as intrinsic HTML tags and reports a
+// `ui-outside` finding for a file that contains no JSX at all (issue #119).
+// `object` is deliberately absent: `<object>` is a real HTML element.
+const TS_TYPE_KEYWORDS = new Set([
+  "any",
+  "bigint",
+  "boolean",
+  "infer",
+  "keyof",
+  "never",
+  "number",
+  "readonly",
+  "string",
+  "symbol",
+  "typeof",
+  "unknown",
+  "void",
+]);
+
+// JSX tags only: a `<` that directly follows a word character is a generic
+// type argument (`Map<string, …>`), not an element. The following-character
+// lookahead keeps the match to a real tag name.
+const JSX_TAG_RE = /<([A-Za-z][\w.]*)(?=[\s/>])/g;
+const JSX_FILE_RE = /\.(?:tsx|jsx)$/;
+
+// Extracts JSX element tags from masked source. `.ts` files cannot contain JSX,
+// so they yield no tags (issue #119: the old `/<[A-Za-z][\w.]*[\s/>]/` test read
+// TS generics as intrinsic tags).
+function jsxTags(masked, file) {
+  if (!JSX_FILE_RE.test(file)) return [];
+  const tags = [];
+  for (const m of masked.matchAll(JSX_TAG_RE)) {
+    const before = m.index === 0 ? "" : masked[m.index - 1];
+    if (/[A-Za-z0-9_$]/.test(before)) continue;
+    tags.push({ tag: m[1], idx: m.index });
+  }
+  return tags;
+}
 
 // UI libraries outside the Kelir stack (MUI/emotion intentionally NOT listed).
 const THIRD_PARTY_UI = [
@@ -192,12 +233,16 @@ function packageMatches(spec, list) {
   );
 }
 
+// kelir-allow: <reason> anywhere in the file (the marker is file-scoped for
+// hunt). Parsing lives in kelir-report.mjs so CRLF checkouts keep working
+// (issue #118); the reported line is the marker line itself.
 function allowReason(src) {
-  const m = /kelir-allow:\s*([^\n]*)/.exec(src);
-  if (!m) return null;
-  const reason = m[1].trim();
-  if (!reason) return null;
-  return { line: lineAt(src, m.index), reason };
+  const lines = src.split(/\r?\n/);
+  for (let i = 0; i < lines.length; i++) {
+    const reason = parseAllowReason(lines[i]);
+    if (reason) return { line: i + 1, reason };
+  }
+  return null;
 }
 
 function tagList(tags) {
@@ -277,19 +322,20 @@ for (const f of walk(SRC)) {
   }
 
   const masked = blankNonCode(src);
-  const hasJsx = /<[A-Za-z][\w.]*[\s/>]/.test(masked);
-  if (!hasJsx) {
+  const tags = jsxTags(masked, f);
+  if (tags.length === 0) {
     scope.noJsx++;
     continue;
   }
 
   const kelir = importsKelir(src);
   const route = isRoute(relFromSrc);
-  const tags = [...masked.matchAll(/<([A-Za-z][\w.]*)/g)].map((m) => ({
-    tag: m[1],
-    idx: m.index,
-  }));
-  const intrinsic = tags.filter((t) => /^[a-z]/.test(t.tag) && !DOC_TAGS.has(t.tag));
+  const intrinsic = tags.filter(
+    (t) =>
+      /^[a-z]/.test(t.tag) &&
+      !DOC_TAGS.has(t.tag) &&
+      !TS_TYPE_KEYWORDS.has(t.tag),
+  );
   scope.ui++;
   if (!kelir) scope.outside++;
 

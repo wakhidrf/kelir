@@ -17,7 +17,7 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
-import { printReport } from "./kelir-report.mjs";
+import { allowReasonNear, printReport } from "./kelir-report.mjs";
 import { TOOLS_VERSION } from "./kelir-version.mjs";
 
 // scripts/ -> kelir/ -> views/ -> src/ -> <project>
@@ -232,15 +232,9 @@ for (const f of files) {
   }
 
   const rules = MATCHERS.filter((m) => !isKit || kitAllows(m));
-  const lines = src.split("\n");
-  const ALLOW_RE = /kelir-allow:\s*(.*)$/;
-  const allowedLine = (ln) => {
-    for (let i = ln; i >= Math.max(1, ln - 2); i--) {
-      const m = ALLOW_RE.exec(lines[i - 1] ?? "");
-      if (m && m[1].trim()) return true;
-    }
-    return false;
-  };
+  const lines = src.split(/\r?\n/);
+  // Parsing lives in kelir-report.mjs so CRLF checkouts keep working (issue #118).
+  const allowedLine = (ln) => allowReasonNear(lines, ln) !== null;
   const hits = [];
 
   // Code rules (and "both") against the raw source.
