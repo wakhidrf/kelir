@@ -1,13 +1,14 @@
 // The self-hosted @font-face table. kelir-styles.ts turns each entry into an
 // @font-face rule; kelir-theme-fonts.ts lists which families a theme needs.
 //
-// Kelir never fetches a third-party stylesheet: every rule points at the host
-// app's own origin, so a cold visit makes no cross-origin request and no
-// stylesheet render-blocks the first paint. font-display: swap keeps text
-// visible while the file arrives.
+// The font files ship with the kit (./fonts/), so the kit owns both the stack
+// and the binaries. Each path below is resolved by the bundler into a hashed
+// URL on the app's own origin: no third-party stylesheet is fetched, nothing
+// render-blocks the first paint, and a consumer that copies the kit brings the
+// fonts with it. font-display: swap keeps text visible while a file arrives.
 
 export interface FontFaceFile {
-  /** Absolute path inside the host app (served from its own origin). */
+  /** Resolved URL on the app's own origin. */
   src: string;
   /** CSS font-weight: a single value, or a range for a variable file. */
   weight: string;
@@ -27,31 +28,62 @@ export type FontKey =
   | "poppins"
   | "exo-2";
 
-// Files live in the host app's public/fonts/ (see Kelir's README: the host
-// serves these eight files, or its own equivalents, at the same paths).
+// Paths are relative to this file and static, which is what lets the bundler
+// emit them. Files are the latin subsets, licensed SIL OFL 1.1 (see
+// ./fonts/LICENSE.md).
 export const FONT_FACES: Record<FontKey, FontFace> = {
   "jetbrains-mono": {
     family: '"JetBrains Mono"',
-    files: [{ src: "/fonts/jetbrains-mono-variable.woff2", weight: "100 800" }],
+    files: [
+      {
+        src: new URL("./fonts/jetbrains-mono-variable.woff2", import.meta.url)
+          .href,
+        weight: "100 800",
+      },
+    ],
   },
   "playfair-display": {
     family: '"Playfair Display"',
     files: [
-      { src: "/fonts/playfair-display-variable.woff2", weight: "400 900" },
+      {
+        src: new URL("./fonts/playfair-display-variable.woff2", import.meta.url)
+          .href,
+        weight: "400 900",
+      },
     ],
   },
   poppins: {
     family: '"Poppins"',
     files: [
-      { src: "/fonts/poppins-400.woff2", weight: "400" },
-      { src: "/fonts/poppins-500.woff2", weight: "500" },
-      { src: "/fonts/poppins-600.woff2", weight: "600" },
-      { src: "/fonts/poppins-700.woff2", weight: "700" },
-      { src: "/fonts/poppins-800.woff2", weight: "800" },
+      {
+        src: new URL("./fonts/poppins-400.woff2", import.meta.url).href,
+        weight: "400",
+      },
+      {
+        src: new URL("./fonts/poppins-500.woff2", import.meta.url).href,
+        weight: "500",
+      },
+      {
+        src: new URL("./fonts/poppins-600.woff2", import.meta.url).href,
+        weight: "600",
+      },
+      {
+        src: new URL("./fonts/poppins-700.woff2", import.meta.url).href,
+        weight: "700",
+      },
+      {
+        src: new URL("./fonts/poppins-800.woff2", import.meta.url).href,
+        weight: "800",
+      },
     ],
   },
   "exo-2": {
     family: '"Exo 2"',
-    files: [{ src: "/fonts/exo-2-variable.woff2", weight: "100 900" }],
+    files: [
+      {
+        src: new URL("./fonts/exo-2-variable.woff2", import.meta.url).href,
+        weight: "100 900",
+      },
+    ],
   },
 };

@@ -32,7 +32,7 @@ Every gate prints the same table (`GATE | STATUS | ERRORS | WARNINGS | ALLOWED`,
 
 Besides multi-theme, every design language from DESIGN.md carries its own typography. The UI font and monospace font are automatically paired with the theme, so all components match the design identity with no extra configuration.
 
-The files are **self-hosted**: Kelir never pulls a third-party font stylesheet. `KelirProvider` emits the `@font-face` block itself (`font-display: swap`) and preloads only the active theme's text + mono files, so a cold visit blocks on nothing and calls no font CDN. The host app serves these files from its own `public/fonts/`:
+The files are **self-hosted**: Kelir never pulls a third-party font stylesheet. The eight woff2 files ship inside the kit (`fonts/`), and `KelirProvider` emits the `@font-face` block itself (`font-display: swap`) and preloads only the active theme's text + mono files, so a cold visit blocks on nothing and calls no font CDN. Each path is resolved by the bundler into a hashed URL on the app's own origin, so a consumer that copies the kit brings the fonts with it:
 
 | File | Family | Weight |
 |---|---|---|
@@ -43,7 +43,7 @@ The files are **self-hosted**: Kelir never pulls a third-party font stylesheet. 
 
 Only four families exist across the eleven themes: JetBrains Mono is the monospace face everywhere, while Playfair Display, Poppins and Exo 2 are the text face for exactly one theme each. The other seven themes use the system UI stack and ship no text file at all.
 
-All four are licensed under the SIL Open Font License 1.1; the copyright notices and the full license text ship with the files in `public/fonts/LICENSE.md`.
+All four are licensed under the SIL Open Font License 1.1; the copyright notices and the full license text ship with the files in `fonts/LICENSE.md`.
 
 ---
 
