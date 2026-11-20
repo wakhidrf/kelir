@@ -43,6 +43,8 @@ Berkasnya **di-host sendiri**: Kelir tidak pernah menarik stylesheet font pihak 
 
 Hanya ada empat keluarga untuk sebelas tema: JetBrains Mono adalah wajah monospace di semua tema, sedangkan Playfair Display, Poppins, dan Exo 2 masing-masing menjadi wajah teks untuk tepat satu tema. Tujuh tema lainnya memakai system UI stack dan tidak mengirim berkas teks sama sekali.
 
+Keempatnya berlisensi SIL Open Font License 1.1; pemberitahuan hak cipta dan teks lisensi lengkapnya menyertai berkas di `public/fonts/LICENSE.md`.
+
 ---
 
 <!-- kelir-doc: install -->

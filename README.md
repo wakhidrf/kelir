@@ -43,6 +43,8 @@ The files are **self-hosted**: Kelir never pulls a third-party font stylesheet. 
 
 Only four families exist across the eleven themes: JetBrains Mono is the monospace face everywhere, while Playfair Display, Poppins and Exo 2 are the text face for exactly one theme each. The other seven themes use the system UI stack and ship no text file at all.
 
+All four are licensed under the SIL Open Font License 1.1; the copyright notices and the full license text ship with the files in `public/fonts/LICENSE.md`.
+
 ---
 
 <!-- kelir-doc: install -->
