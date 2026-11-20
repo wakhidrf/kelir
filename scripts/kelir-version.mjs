@@ -6,4 +6,4 @@
 // bump the PATCH for message, suggestion, or allow-only changes. Consumers can
 // print the version from any gate (`kelir-guard`, `kelir-bury`, ...) to confirm
 // which rule set they are running.
-export const TOOLS_VERSION = "1.2.0";
+export const TOOLS_VERSION = "1.2.1";

@@ -17,7 +17,7 @@ Alongside those, the anti-slop gate (`scripts/kelir-slop.mjs`, run as `npm run k
 
 The adoption gate (`scripts/kelir-hunt.mjs`, run as `npm run kelir:hunt:strict`) covers UI that never imports Kelir. Route files (`app/**` or `pages/**`) with raw intrinsic tags are ERROR; app components, canvas/iframes, dynamic-content sinks, CSS-in-JS, consumer stylesheets, and third-party UI imports are WARN. Tailwind directives are ERROR. A file-level `kelir-allow: hunt <reason>` is the explicit exemption.
 
-### Gate Tooling v1.2.0
+### Gate Tooling v1.2.1
 
 Every gate prints the same table (`GATE | STATUS | ERRORS | WARNINGS | ALLOWED`, then `FINDINGS` and `SCOPE`) and reports a version from `scripts/kelir-version.mjs`, so a consumer can pin a known-good kit tag. On top of that:
 
@@ -26,6 +26,7 @@ Every gate prints the same table (`GATE | STATUS | ERRORS | WARNINGS | ALLOWED`,
 - `kelir-guard --explain <rule>` prints the rule, its docs link, the files it affects, and - for `raw-tag` - a tag map with the recommended kit component and whether `--fix` can handle it.
 - `.kelirrc` in the host project root suppresses WARN rules the project considers its own style: `{ "kelir-guard": { "warn": ["style", "heuristic-slot"] } }`. Suppressed findings are reported as ALLOW, never silent; ERROR rules cannot be suppressed, and a malformed file fails the gate with exit 2.
 - `kelir-hunt --scope=views,app` restricts the scan to those `src` subdirectories, and files whose name marks them as server code (`*controller*`, `*action*`, `*queries*`, `*repository*`, `*service*`, `*server*`, `*db*`, `*schema*`, `*seed*`, `*migration*`) are skipped and counted instead of reported as "UI without a Kelir import". `--all-files` disables that heuristic.
+- `kelir-allow: <reason>` is read by one shared, line-ending-agnostic parser in `kelir-report.mjs`, so the marker keeps working in CRLF checkouts (`core.autocrlf=true`) across `kelir-guard`, `kelir-alias`, `kelir-bury`, `kelir-slop` and `kelir-hunt`; `/* kelir-allow: why */` and the JSX form `{/* kelir-allow: why */}` both yield `why`. `kelir-hunt` reads JSX tags only from `.tsx`/`.jsx` files and ignores TypeScript generics (`Record<string, x>`, `useState<void>()`), so a non-UI `.ts` file is no longer reported as UI.
 
 ## Per-Theme Typography
 

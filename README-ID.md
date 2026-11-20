@@ -17,7 +17,7 @@ Selain itu, gerbang anti-slop (`scripts/kelir-slop.mjs`, dijalankan sebagai `npm
 
 Gerbang adopsi (`scripts/kelir-hunt.mjs`, dijalankan sebagai `npm run kelir:hunt:strict`) menutup UI yang tidak pernah mengimpor Kelir. Route (`app/**` atau `pages/**`) dengan tag intrinsik mentah = ERROR; komponen aplikasi, canvas/iframe, sink konten dinamis, CSS-in-JS, stylesheet konsumen, dan impor UI pihak ketiga = WARN. Direktif Tailwind = ERROR. Pengecualian eksplisit berupa `kelir-allow: hunt <alasan>` di level berkas.
 
-### Perkakas Gerbang v1.2.0
+### Perkakas Gerbang v1.2.1
 
 Setiap gerbang mencetak tabel yang sama (`GATE | STATUS | ERRORS | WARNINGS | ALLOWED`, lalu `FINDINGS` dan `SCOPE`) dan melaporkan versi dari `scripts/kelir-version.mjs`, sehingga konsumen bisa mematok tag kit yang sudah pasti baik. Di atas itu:
 
@@ -26,6 +26,7 @@ Setiap gerbang mencetak tabel yang sama (`GATE | STATUS | ERRORS | WARNINGS | AL
 - `kelir-guard --explain <rule>` mencetak aturan, tautan dokumen, berkas yang terdampak, dan - untuk `raw-tag` - tabel tag berisi komponen kit yang disarankan serta apakah `--fix` bisa menanganinya.
 - `.kelirrc` di root repo induk menekan aturan WARN yang dianggap gaya proyek: `{ "kelir-guard": { "warn": ["style", "heuristic-slot"] } }`. Temuan yang ditekan dilaporkan sebagai ALLOW, tidak pernah senyap; aturan ERROR tidak bisa ditekan, dan berkas yang cacat menggagalkan gerbang dengan keluar 2.
 - `kelir-hunt --scope=views,app` membatasi pindaian ke subdirektori `src` tersebut, dan berkas yang namanya menandai kode server (`*controller*`, `*action*`, `*queries*`, `*repository*`, `*service*`, `*server*`, `*db*`, `*schema*`, `*seed*`, `*migration*`) dilewati dan dihitung, bukan dilaporkan sebagai "UI tanpa impor Kelir". `--all-files` menonaktifkan heuristik itu.
+- `kelir-allow: <reason>` dibaca oleh satu pembaca bersama yang kebal akhir-baris di `kelir-report.mjs`, jadi penanda itu tetap bekerja pada checkout CRLF (`core.autocrlf=true`) di `kelir-guard`, `kelir-alias`, `kelir-bury`, `kelir-slop`, dan `kelir-hunt`; `/* kelir-allow: alasan */` maupun bentuk JSX `{/* kelir-allow: alasan */}` sama-sama menghasilkan `alasan`. `kelir-hunt` membaca tag JSX hanya dari berkas `.tsx`/`.jsx` dan mengabaikan generics TypeScript (`Record<string, x>`, `useState<void>()`), sehingga berkas `.ts` non-UI tidak lagi dilaporkan sebagai UI.
 
 ## Tipografi Per Tema
 

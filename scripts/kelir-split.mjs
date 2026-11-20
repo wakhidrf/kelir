@@ -11,7 +11,7 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
-import { printReport } from "./kelir-report.mjs";
+import { parseAllowReason, printReport } from "./kelir-report.mjs";
 import { TOOLS_VERSION } from "./kelir-version.mjs";
 
 // scripts/ -> kelir/ -> views/ -> src/ -> <project>
@@ -63,12 +63,12 @@ const violations = files
   .sort((a, b) => b.lines - a.lines);
 
 // kelir-allow: <reason> in the first 3 lines exempts a file (reported as ALLOW).
-const ALLOW_RE = /kelir-allow:\s*(.*)$/;
+// Parsing lives in kelir-report.mjs so CRLF checkouts keep working (issue #118).
 function allowReason(file) {
   const head = readFileSync(file, "utf8").split(/\r?\n/).slice(0, 3);
   for (const ln of head) {
-    const m = ALLOW_RE.exec(ln);
-    if (m && m[1].trim()) return m[1].trim();
+    const reason = parseAllowReason(ln);
+    if (reason) return reason;
   }
   return null;
 }

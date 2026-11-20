@@ -44,6 +44,39 @@ function renderTable(columns, rows, emptyText) {
 
 const LEVEL_COLOR = { ERROR: RED, WARN: YELLOW, ALLOW: CYAN };
 
+// kelir-allow: <reason> — the generic per-line/per-file exception shared by
+// kelir-alias, kelir-bury, kelir-guard, kelir-hunt, kelir-slop and kelir-split.
+// The parser lives here (issue #118) so every gate reads the marker the same
+// way instead of re-implementing it with a subtly different regex. It is
+// line-ending agnostic: `core.autocrlf=true` (Windows) checks files out with
+// CRLF, and the old `split("\n")` + `$` combination silently dropped the
+// reason because the trailing `\r` was eaten by `\s*` and `$` then matched at
+// end of input with an empty capture.
+export const ALLOW_RE = /kelir-allow:\s*([^\r\n]*)/;
+
+// Reason on a single line, or null when the marker is absent/empty. A trailing
+// comment terminator is stripped so `/* kelir-allow: why */` and the JSX form
+// `{/* kelir-allow: why */}` both yield "why" on LF and CRLF checkouts.
+export function matchAllowReason(line) {
+  const m = ALLOW_RE.exec(line ?? "");
+  if (!m) return { found: false, reason: "" };
+  return { found: true, reason: m[1].replace(/\*\/\s*\}?\s*$/, "").trim() };
+}
+
+export function parseAllowReason(line) {
+  const { reason } = matchAllowReason(line);
+  return reason || null;
+}
+
+// Reason on `line` or up to `radius` lines above it (1-based line numbers).
+export function allowReasonNear(lines, line, radius = 2) {
+  for (let i = line; i >= Math.max(1, line - radius); i--) {
+    const reason = parseAllowReason(lines[i - 1]);
+    if (reason) return reason;
+  }
+  return null;
+}
+
 export function printTable(columns, rows, emptyText) {
   renderTable(columns, rows, emptyText);
 }

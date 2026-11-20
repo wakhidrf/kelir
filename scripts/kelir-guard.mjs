@@ -41,7 +41,13 @@ import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { CONFIG_REASON, loadConfig, suppressedBy } from "./kelir-config.mjs";
 import { TOOLS_VERSION } from "./kelir-version.mjs";
-import { BOLD, RESET, printReport, printTable } from "./kelir-report.mjs";
+import {
+  BOLD,
+  RESET,
+  allowReasonNear,
+  printReport,
+  printTable,
+} from "./kelir-report.mjs";
 
 // scripts/ -> kelir/ -> views/ -> src/ -> <project>
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "..", "..");
@@ -362,6 +368,7 @@ if (config.error) {
 for (const note of config.invalid) console.error(`kelir-guard: ignoring ${note}`);
 
 // kelir-allow: <reason> on the flagged line or up to 2 lines above it.
+// Parsing lives in kelir-report.mjs so CRLF checkouts keep working (issue #118).
 function allowReason(file, line) {
   let src = sourceCache.get(file);
   if (src === undefined) {
@@ -372,12 +379,7 @@ function allowReason(file, line) {
     }
     sourceCache.set(file, src);
   }
-  const lines = src.split("\n");
-  for (let i = line; i >= Math.max(1, line - 2); i--) {
-    const m = /kelir-allow:\s*(.*)$/.exec(lines[i - 1] ?? "");
-    if (m && m[1].trim()) return m[1].trim();
-  }
-  return null;
+  return allowReasonNear(src.split(/\r?\n/), line);
 }
 
 // Preflight (issue #72): the guard assumes the kit lives at

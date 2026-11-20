@@ -26,7 +26,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { basename, dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { TOOLS_VERSION } from "./kelir-version.mjs";
-import { printReport } from "./kelir-report.mjs";
+import { matchAllowReason, printReport } from "./kelir-report.mjs";
 
 // scripts/ -> kelir/ -> views/ -> src/ -> <project>
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -99,18 +99,19 @@ const graphFiles = allFiles.filter(
 const byPath = new Set(graphFiles);
 const sources = new Map(allFiles.map((file) => [file, readFileSync(file, "utf8")]));
 const sourceLines = new Map(
-  [...sources].map(([file, src]) => [file, src.split("\n")]),
+  [...sources].map(([file, src]) => [file, src.split(/\r?\n/)]),
 );
 
 // kelir-allow: <reason> on the flagged line or up to 2 lines above it. The
-// marker is generic across the gate scripts (no script name).
-const ALLOW_RE = /kelir-allow:\s*(.*)$/;
+// marker is generic across the gate scripts (no script name); parsing lives in
+// kelir-report.mjs so CRLF checkouts keep working (issue #118). `found` stays
+// true for an empty reason so it can be reported as "requires a reason".
 function allowFor(file, line) {
   const lines = sourceLines.get(file);
   if (!lines) return { found: false, reason: "" };
   for (let i = line; i >= Math.max(1, line - 2); i--) {
-    const m = ALLOW_RE.exec(lines[i - 1] ?? "");
-    if (m) return { found: true, reason: m[1].trim() };
+    const hit = matchAllowReason(lines[i - 1]);
+    if (hit.found) return hit;
   }
   return { found: false, reason: "" };
 }
