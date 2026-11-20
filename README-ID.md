@@ -32,6 +32,17 @@ Setiap gerbang mencetak tabel yang sama (`GATE | STATUS | ERRORS | WARNINGS | AL
 
 Selain multi-tema, setiap bahasa desain dari DESIGN.md membawa tipografinya sendiri. Font UI dan font monospace otomatis dipasangkan dengan tema, sehingga semua komponen selaras dengan identitas desain tanpa konfigurasi tambahan.
 
+Berkasnya **di-host sendiri**: Kelir tidak pernah menarik stylesheet font pihak ketiga. `KelirProvider` sendiri yang mengeluarkan blok `@font-face` (`font-display: swap`) dan hanya memuat awal berkas teks + mono milik tema aktif, jadi kunjungan pertama tidak memblokir apa pun dan tidak memanggil CDN font. Aplikasi induk menyajikan berkas-berkas ini dari `public/fonts/` miliknya:
+
+| Berkas | Keluarga | Bobot |
+|---|---|---|
+| `jetbrains-mono-variable.woff2` | JetBrains Mono | `100 800` (variabel) |
+| `playfair-display-variable.woff2` | Playfair Display | `400 900` (variabel) |
+| `poppins-400.woff2` ... `poppins-800.woff2` | Poppins | `400` / `500` / `600` / `700` / `800` |
+| `exo-2-variable.woff2` | Exo 2 | `100 900` (variabel) |
+
+Hanya ada empat keluarga untuk sebelas tema: JetBrains Mono adalah wajah monospace di semua tema, sedangkan Playfair Display, Poppins, dan Exo 2 masing-masing menjadi wajah teks untuk tepat satu tema. Tujuh tema lainnya memakai system UI stack dan tidak mengirim berkas teks sama sekali.
+
 ---
 
 <!-- kelir-doc: install -->

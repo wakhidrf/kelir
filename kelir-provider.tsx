@@ -78,11 +78,19 @@ export function KelirProvider({
           {`:root { --kelir-brand-accent: ${brandColors.accent.replace(/[;{}<>]/g, "")}; --kelir-brand-ink: ${brandColors.ink.replace(/[;{}<>]/g, "")}; }`}
         </style>
       ) : null}
-      {/* Theme fonts. Rendered before the content so they load render-blocking
-          and are cached — switching themes/fonts never flashes to a fallback.
-          React 19 dedupes identical <link>s by href. */}
-      {fontLinks().map(({ href }) => (
-        <link key={href} rel="stylesheet" href={href} />
+      {/* Theme fonts, self-hosted. @font-face ships inside the token sheet above and
+          preloads cover the active theme's text + mono faces, so nothing here is
+          render-blocking and no third-party stylesheet is fetched. React 19
+          dedupes identical <link>s by href. */}
+      {fontLinks(themeName).map(({ href }) => (
+        <link
+          key={href}
+          rel="preload"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+          href={href}
+        />
       ))}
       <KelirContext.Provider value={contextValue}>
         <MuiThemeProvider theme={muiTheme}>{children}</MuiThemeProvider>

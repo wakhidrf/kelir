@@ -8,14 +8,16 @@
 // no hardcoded default theme here: the consumer supplies the default via
 // KelirProvider, and this module merely emits a selector per registered theme.
 //
-// Barrel: constants in ./kelir-style-constants, font/scheme tables in
-// ./kelir-theme-fonts, per-theme vars in ./kelir-theme-vars, base sheet in
-// ./kelir-base-css. Names of the public exports are unchanged.
+// Barrel: constants in ./kelir-style-constants, font stacks in
+// ./kelir-theme-fonts, @font-face files in ./kelir-theme-font-faces, per-theme
+// vars in ./kelir-theme-vars, base sheet in ./kelir-base-css. Names of the
+// public exports are unchanged.
 
 import { baseCss } from "./kelir-base-css";
 import { themeRegistry } from "./kelir-registry";
+import { FONT_FACES } from "./kelir-theme-font-faces";
+import { FONTS } from "./kelir-theme-fonts";
 import type { Theme } from "./kelir-types";
-import { FONT_URLS, MONO_FONT_URL } from "./kelir-theme-fonts";
 import { themeSelector, themeVars } from "./kelir-theme-vars";
 import { scrollbarCss } from "./kelir-variants";
 
@@ -49,17 +51,34 @@ export function kelirStyleCss(): string {
   // declarations use !important inside the layer, which beats unlayered normal
   // CSS.
   const inner = `${baseCss}\n${keyframes}\n${blocks.join("\n\n")}\n\n${scrollbarCss}`;
-  return `@layer kelir {\n${inner}\n}`;
+  // @font-face first, outside the layer: the browser discovers the files while
+  // the (much larger) token sheet is still parsing.
+  return `${fontFaceCss()}\n@layer kelir {\n${inner}\n}`;
 }
 
-// Font stylesheets rendered by KelirProvider so they load before the content
-// paints (render-blocking) and are cached for instant theme/font switching.
-export function fontLinks(): Array<{ href: string }> {
-  const links = new Map<string, true>();
-  links.set(MONO_FONT_URL, true);
-  for (const theme of Object.keys(themeRegistry) as Theme[]) {
-    const url = FONT_URLS[theme];
-    if (url) links.set(url, true);
+// @font-face rules for every family a theme can use, pointing at the host's own
+// origin. Declaring all of them costs nothing until a family is used: an
+// unreferenced @font-face downloads no file.
+export function fontFaceCss(): string {
+  return Object.values(FONT_FACES)
+    .flatMap((face) =>
+      face.files.map(
+        (file) =>
+          `@font-face {\n  font-family: ${face.family};\n  font-style: normal;\n  font-weight: ${file.weight};\n  font-display: swap;\n  src: url("${file.src}") format("woff2");\n}`,
+      ),
+    )
+    .join("\n");
+}
+
+// Preload hints for the active theme: the first file of each family it uses, so
+// the text face and the mono face start downloading during HTML parse instead of
+// after the token sheet lands. Remaining weights are declared by fontFaceCss()
+// and fetched only when a rule actually uses them.
+export function fontLinks(theme: Theme): Array<{ href: string }> {
+  const hrefs = new Set<string>();
+  for (const key of FONTS[theme].faces) {
+    const file = FONT_FACES[key]?.files[0];
+    if (file) hrefs.add(file.src);
   }
-  return [...links.keys()].map((href) => ({ href }));
+  return [...hrefs].map((href) => ({ href }));
 }
