@@ -32,6 +32,17 @@ Every gate prints the same table (`GATE | STATUS | ERRORS | WARNINGS | ALLOWED`,
 
 Besides multi-theme, every design language from DESIGN.md carries its own typography. The UI font and monospace font are automatically paired with the theme, so all components match the design identity with no extra configuration.
 
+The files are **self-hosted**: Kelir never pulls a third-party font stylesheet. `KelirProvider` emits the `@font-face` block itself (`font-display: swap`) and preloads only the active theme's text + mono files, so a cold visit blocks on nothing and calls no font CDN. The host app serves these files from its own `public/fonts/`:
+
+| File | Family | Weight |
+|---|---|---|
+| `jetbrains-mono-variable.woff2` | JetBrains Mono | `100 800` (variable) |
+| `playfair-display-variable.woff2` | Playfair Display | `400 900` (variable) |
+| `poppins-400.woff2` ... `poppins-800.woff2` | Poppins | `400` / `500` / `600` / `700` / `800` |
+| `exo-2-variable.woff2` | Exo 2 | `100 900` (variable) |
+
+Only four families exist across the eleven themes: JetBrains Mono is the monospace face everywhere, while Playfair Display, Poppins and Exo 2 are the text face for exactly one theme each. The other seven themes use the system UI stack and ship no text file at all.
+
 ---
 
 <!-- kelir-doc: install -->

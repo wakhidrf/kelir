@@ -1,78 +1,50 @@
-// Per-theme font stacks, stylesheet URLs and native color scheme. Split out of
-// kelir-styles.ts (SRP, <= 100 lines). The kelir-styles.ts barrel consumes
-// these to emit per-theme CSS variables and render font <link>s.
+// Per-theme font stacks plus the families each theme pulls in. Split out of
+// kelir-styles.ts (SRP, <= 100 lines); the @font-face table itself lives in
+// ./kelir-theme-font-faces, and kelir-styles.ts composes both into the sheet.
+//
+// The stacks come from kelir-dev/design/<theme>.md. Every theme sets its mono
+// face to JetBrains Mono; only four add a display face on top of it.
 
+import type { FontKey } from "./kelir-theme-font-faces";
 import type { Theme } from "./kelir-types";
 
 interface ThemeFonts {
   active: string;
   mono: string;
+  /** Families this theme needs; drives @font-face emission and preload. */
+  faces: FontKey[];
 }
 
-// Font stacks per theme. The font files themselves are loaded (render-blocking)
-// via <link> tags rendered by KelirProvider, so no fallback font flashes.
+const SYSTEM =
+  '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+const MONO = '"JetBrains Mono", monospace';
+const MONO_ONLY: FontKey[] = ["jetbrains-mono"];
+
 export const FONTS: Record<Theme, ThemeFonts> = {
-  "aurora-ui": {
-    active: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-    mono: '"JetBrains Mono", monospace',
-  },
-  neumorphism: {
-    active: '"Product Sans", sans-serif',
-    mono: '"JetBrains Mono", monospace',
-  },
-  glassmorphism: {
-    active: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-    mono: '"JetBrains Mono", monospace',
-  },
-  "liquid-glass": {
-    active: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-    mono: '"JetBrains Mono", monospace',
-  },
-  "spatial-ui": {
-    active: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-    mono: '"JetBrains Mono", monospace',
-  },
-  claymorphism: {
-    active: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-    mono: '"JetBrains Mono", monospace',
-  },
-  "dimensional-layering": {
-    active: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-    mono: '"JetBrains Mono", monospace',
-  },
+  "aurora-ui": { active: SYSTEM, mono: MONO, faces: MONO_ONLY },
+  neumorphism: { active: SYSTEM, mono: MONO, faces: MONO_ONLY },
+  glassmorphism: { active: SYSTEM, mono: MONO, faces: MONO_ONLY },
+  "liquid-glass": { active: SYSTEM, mono: MONO, faces: MONO_ONLY },
+  "spatial-ui": { active: SYSTEM, mono: MONO, faces: MONO_ONLY },
+  claymorphism: { active: SYSTEM, mono: MONO, faces: MONO_ONLY },
+  "dimensional-layering": { active: SYSTEM, mono: MONO, faces: MONO_ONLY },
   "editorial-contemporaneo": {
-    active: '"Playfair Display", serif', // DESIGN typography (Playfair Display)
-    mono: '"JetBrains Mono", monospace',
+    active: '"Playfair Display", serif',
+    mono: MONO,
+    faces: ["playfair-display", "jetbrains-mono"],
   },
   "edtech-plataforma": {
-    active: '"Poppins", sans-serif', // DESIGN typography (Poppins)
-    mono: '"JetBrains Mono", monospace',
+    active: '"Poppins", sans-serif',
+    mono: MONO,
+    faces: ["poppins", "jetbrains-mono"],
   },
   "futuristic-glassmorphism": {
-    active: '"Exo 2", sans-serif', // DESIGN typography (Exo 2)
-    mono: '"JetBrains Mono", monospace',
+    active: '"Exo 2", sans-serif',
+    mono: MONO,
+    faces: ["exo-2", "jetbrains-mono"],
   },
-  skeuomorphism: {
-    active: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-    mono: '"JetBrains Mono", monospace',
-  },
+  skeuomorphism: { active: SYSTEM, mono: MONO, faces: MONO_ONLY },
 };
-
-export const FONT_URLS: Record<Theme, string> = {
-  "aurora-ui": "https://fonts.cdnfonts.com/css/jetbrains-mono",
-  neumorphism: "https://fonts.cdnfonts.com/css/product-sans",
-  glassmorphism: "https://fonts.cdnfonts.com/css/jetbrains-mono",
-  "liquid-glass": "https://fonts.cdnfonts.com/css/jetbrains-mono",
-  "spatial-ui": "https://fonts.cdnfonts.com/css/jetbrains-mono",
-  claymorphism: "https://fonts.cdnfonts.com/css/jetbrains-mono",
-  "dimensional-layering": "https://fonts.cdnfonts.com/css/jetbrains-mono",
-  "editorial-contemporaneo": "https://fonts.cdnfonts.com/css/playfair-display",
-  "edtech-plataforma": "https://fonts.cdnfonts.com/css/poppins",
-  "futuristic-glassmorphism": "https://fonts.cdnfonts.com/css/exo-2",
-  skeuomorphism: "https://fonts.cdnfonts.com/css/jetbrains-mono",
-};
-
-export const MONO_FONT_URL = "https://fonts.cdnfonts.com/css/jetbrains-mono";
 
 // Native color scheme: matches whether the theme uses light or dark text so
 // OS-rendered surfaces (native <select> dropdown, scrollbars, overlays) get the
