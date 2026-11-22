@@ -1,4 +1,5 @@
 import type * as React from "react";
+import type { KitAxis } from "./kit-axis";
 
 // 14. Carousel
 // 14. Carousel - sealed carousel (Gel.3c-10 STYLE.md §6).
@@ -61,7 +62,7 @@ export interface PaginationProps {
 // `panels` slots[]; `directions?` MEANING. Drag + visuals owned by the kit.
 export interface ResizableProps<TPanel extends React.ReactNode = React.ReactNode> {
   panels: TPanel[];
-  directions?: "horizontal" | "vertical";
+  directions?: KitAxis;
 }
 
 // 47. Scroll Area
@@ -77,7 +78,7 @@ export interface ScrollAreaProps {
 // `label?` text; `orientation?` direction. No style/sx/className/MUI variant.
 export interface SeparatorProps {
   label?: string;
-  orientation?: "horizontal" | "vertical";
+  orientation?: KitAxis;
   id?: string;
   "aria-label"?: string;
 }

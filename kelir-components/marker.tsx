@@ -5,17 +5,17 @@ import { css } from "../kelir-variants";
 import { getMarkerContainer, markerPalettes } from "./marker-styles";
 
 // Sealed semantic marker (P1c STYLE.md §6): MUI basis (MuiBox) for
-// multi-platform; `intent` = MEANING (not a raw color); no HTMLAttributes
+// multi-platform; `tone` = MEANING (not a raw color); no HTMLAttributes
 // inheritance, no consumer style/className/event. Per-variant visuals
 // belong entirely to the kit.
 export function Marker({
   variant = "status",
-  intent = "primary",
+  tone = "primary",
   children,
   id,
   "aria-label": ariaLabel,
 }: MarkerProps) {
-  const palette = markerPalettes[intent];
+  const palette = markerPalettes[tone];
   const container: React.CSSProperties = {
     ...getMarkerContainer(variant, palette),
     fontFamily: "inherit",

@@ -11,7 +11,7 @@ const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
 export const markerPalettes: Record<
-  NonNullable<MarkerProps["intent"]>,
+  NonNullable<MarkerProps["tone"]>,
   MarkerPalette
 > = {
   primary: { bg: css.colors.primary, fg: css.on.primary },

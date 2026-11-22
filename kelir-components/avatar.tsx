@@ -3,9 +3,10 @@ import type { AvatarProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
 const AVATAR_PX = {
-  small: 32,
-  medium: 40,
-  large: 48,
+  xs: 24,
+  sm: 32,
+  md: 40,
+  lg: 48,
   xl: 96,
   "2xl": 128,
   "3xl": 160,
@@ -21,7 +22,7 @@ export function Avatar({
   src,
   alt,
   fallbackText,
-  size = "medium",
+  size = "md",
   frame = false,
   id,
   "aria-label": ariaLabel,

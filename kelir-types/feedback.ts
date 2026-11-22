@@ -1,12 +1,15 @@
 import type * as React from "react";
+import type { KitSize } from "./kit-size";
+import type { KitStatus } from "./kit-tone";
 
 // 2. Alert — sealed inline notification based on MUI (Gel.2 STYLE.md §6).
-// `severity` mandatory MEANING; `title` text slot; `onClose?` = closable.
+// `tone` mandatory MEANING (shared KitStatus: info/success/warning/error);
+// `title` text slot; `onClose?` = closable.
 // No style/sx/className/raw-severity-MUI.
 export interface AlertProps {
   title?: string;
   children: React.ReactNode;
-  severity: "error" | "warning" | "info" | "success";
+  tone: KitStatus;
   onClose?: () => void;
   id?: string;
   "aria-label"?: string;
@@ -51,10 +54,10 @@ export interface SkeletonProps {
 }
 
 // 54. Spinner — sealed loading indicator based on MUI (P1c STYLE.md §6).
-// `size?` MEANING (small/medium/large → kit-owned px). No style/sx/
+// `size?` MEANING (shared KitSize xs..3xl → kit-owned px). No style/sx/
 // className/MUI variant/value (indeterminate owned by the kit).
 export interface SpinnerProps {
-  size?: "small" | "medium" | "large";
+  size?: KitSize;
   id?: string;
   "aria-label"?: string;
 }
@@ -65,7 +68,7 @@ export interface SpinnerProps {
 // visual — display duration, not animation duration §1.2). No ...rest/style.
 export interface ToastProps {
   message: string;
-  tone?: "info" | "success" | "warning" | "error";
+  tone?: KitStatus;
   actionButton?: React.ReactNode;
   open: boolean;
   onClose: () => void;

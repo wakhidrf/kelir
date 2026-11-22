@@ -9,12 +9,12 @@ import { existsSync } from "node:fs";
 import { readdir, readFile } from "node:fs/promises";
 import { dirname, join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
-import { allowReasonNear, printReport } from "./kelir-report.mjs";
-import { TOOLS_VERSION } from "./kelir-version.mjs";
+import { allowReasonNear, printReport } from "../kelir-report.mjs";
+import { TOOLS_VERSION } from "../kelir-version.mjs";
 
-// scripts/ -> kelir/ -> views/ -> src/ -> <project>
+// tooling/ -> scripts/ -> kelir/ -> views/ -> src/ -> <project>
 const HERE = dirname(fileURLToPath(import.meta.url));
-const ROOT = join(HERE, "..", "..", "..", "..");
+const ROOT = join(HERE, "..", "..", "..", "..", "..");
 const SRC = join(ROOT, "src");
 const KIT = join(SRC, "views", "kelir");
 

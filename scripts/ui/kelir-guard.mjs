@@ -39,18 +39,18 @@
 import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
-import { CONFIG_REASON, loadConfig, suppressedBy } from "./kelir-config.mjs";
-import { TOOLS_VERSION } from "./kelir-version.mjs";
+import { CONFIG_REASON, loadConfig, suppressedBy } from "../kelir-config.mjs";
+import { TOOLS_VERSION } from "../kelir-version.mjs";
 import {
   BOLD,
   RESET,
   allowReasonNear,
   printReport,
   printTable,
-} from "./kelir-report.mjs";
+} from "../kelir-report.mjs";
 
-// scripts/ -> kelir/ -> views/ -> src/ -> <project>
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "..", "..");
+// ui/ -> scripts/ -> kelir/ -> views/ -> src/ -> <project>
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "..", "..", "..");
 const SRC = join(ROOT, "src");
 const KELIR = join(SRC, "views", "kelir");
 const KELIR_COMP = join(KELIR, "kelir-components");
@@ -390,7 +390,7 @@ if (!existsSync(SRC)) {
     "kelir-guard: could not find <project>/src at " +
       `${SRC}.\n` +
       "  Run from a consumer project that places the kit at src/views/kelir\n" +
-      "  (e.g. `npm run kelir:guard`), not from the kit repo itself.",
+      "  (e.g. `npm run kelir`), not from the kit repo itself.",
   );
   process.exit(2);
 }

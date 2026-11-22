@@ -1,4 +1,8 @@
 import type * as React from "react";
+import type { KitAlign } from "./kit-align";
+import type { KitSize } from "./kit-size";
+import type { KitStatus } from "./kit-tone";
+import type { KitVariant } from "./kit-variant";
 
 // 4. Aspect Ratio
 // 4. AspectRatio - sealed aspect-ratio frame (Gel.3c-6 STYLE.md §6).
@@ -18,7 +22,7 @@ export interface AspectRatioProps {
 }
 
 // 6. Avatar — sealed visual identity based on MUI (Gel.3a STYLE.md §6).
-// `src?/alt?/fallbackText?` CONTENT; `size?` MEANING (small/medium/large/xl/2xl/3xl
+// `src?/alt?/fallbackText?` CONTENT; `size?` MEANING (shared KitSize xs..3xl
 // → kit-owned px). `frame?` = framed logo (surface background + thick primary
 // ring + inner padding) for a mascot floating at a card edge, default
 // `false` (legacy behavior). No ...rest/style/sx/className/onClick MUI.
@@ -26,17 +30,17 @@ export interface AvatarProps {
   src?: string;
   alt?: string;
   fallbackText?: string;
-  size?: "small" | "medium" | "large" | "xl" | "2xl" | "3xl";
+  size?: KitSize;
   frame?: boolean;
   id?: string;
   "aria-label"?: string;
 }
 
 // 7. Badge — sealed status label (Gel.3a STYLE.md §6).
-// `variant?` MEANING (default primary); `children` status text.
-// No ...rest/style/sx/className/onClick.
+// `variant?` MEANING (shared KitVariant; default primary; ghost = outline look);
+// `children` status text. No ...rest/style/sx/className/onClick.
 export interface BadgeProps {
-  variant?: "primary" | "secondary" | "destructive" | "outline";
+  variant?: KitVariant;
   children: string;
   id?: string;
   "aria-label"?: string;
@@ -53,10 +57,10 @@ export interface CardProps {
   title?: string;
   subtitle?: string;
   headerActions?: React.ReactNode;
-  headerAlign?: "start" | "center" | "end";
+  headerAlign?: KitAlign;
   scrollable?: boolean;
   overflow?: "hidden" | "visible";
-  flag?: "danger" | "warn";
+  flag?: Extract<KitStatus, "warning" | "error">;
   footer?: React.ReactNode;
   children?: React.ReactNode;
   id?: string;

@@ -22,12 +22,12 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
-import { CONFIG_REASON, loadConfig, suppressedBy } from "./kelir-config.mjs";
-import { parseAllowReason, printReport } from "./kelir-report.mjs";
-import { TOOLS_VERSION } from "./kelir-version.mjs";
+import { CONFIG_REASON, loadConfig, suppressedBy } from "../kelir-config.mjs";
+import { parseAllowReason, printReport } from "../kelir-report.mjs";
+import { TOOLS_VERSION } from "../kelir-version.mjs";
 
-// scripts/ -> kelir/ -> views/ -> src/ -> <project>
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "..", "..");
+// ui/ -> scripts/ -> kelir/ -> views/ -> src/ -> <project>
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "..", "..", "..");
 const SRC = join(ROOT, "src");
 const KELIR = join(SRC, "views", "kelir");
 const STRICT = process.argv.includes("--strict");
@@ -178,7 +178,7 @@ if (!existsSync(SRC)) {
     "kelir-hunt: could not find <project>/src at " +
       `${SRC}.\n` +
       "  Run from a consumer project that places the kit at src/views/kelir\n" +
-      "  (e.g. `npm run kelir:hunt`), not from the kit repo itself.",
+      "  (e.g. `npm run kelir`), not from the kit repo itself.",
   );
   process.exit(2);
 }

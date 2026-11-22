@@ -13,9 +13,9 @@ Project Kelir saat ini terbatas untuk proyek **Next.js dengan TypeScript**. Sebe
 
 Kontrak sealed (daftar komponen beserta prop, nilai, dan token yang diizinkan tiap komponen) disimpan di **akar proyek induk** sebagai `STYLE.md`, bukan di dalam submodule ini. Gerbang parity, guard, dan status karena itu dijalankan dari repo induk, tempat kit terpasang di `src/views/kelir`. Clone Kelir yang berdiri sendiri hanya memeriksa parse perkakasnya; jalankan gerbang penuh dari proyek induk agar kontrak, tipe, dan katalog tetap selaras.
 
-Selain itu, gerbang anti-slop (`scripts/kelir-slop.mjs`, dijalankan sebagai `npm run kelir:slop:strict`) juga berjalan dari repo induk: ia memindai berkas induk yang mengimpor Kelir plus internal kit memakai tabel matcher terpin yang sama yang ada di gate ini, dan menggagalkan build pada tiap ERROR. Baris berisi `kelir-allow: slop` (atau baris di atasnya) adalah pengecualian eksplisit yang mudah ditinjau.
+Selain itu, gerbang anti-slop (`scripts/ui/kelir-slop.mjs`, dijalankan sebagai `npm run kelir`) juga berjalan dari repo induk: ia memindai berkas induk yang mengimpor Kelir plus internal kit memakai tabel matcher terpin yang sama yang ada di gate ini, dan menggagalkan build pada tiap ERROR. Baris berisi `kelir-allow: slop` (atau baris di atasnya) adalah pengecualian eksplisit yang mudah ditinjau.
 
-Gerbang adopsi (`scripts/kelir-hunt.mjs`, dijalankan sebagai `npm run kelir:hunt:strict`) menutup UI yang tidak pernah mengimpor Kelir. Route (`app/**` atau `pages/**`) dengan tag intrinsik mentah = ERROR; komponen aplikasi, canvas/iframe, sink konten dinamis, CSS-in-JS, stylesheet konsumen, dan impor UI pihak ketiga = WARN. Direktif Tailwind = ERROR. Pengecualian eksplisit berupa `kelir-allow: hunt <alasan>` di level berkas.
+Gerbang adopsi (`scripts/ui/kelir-hunt.mjs`, dijalankan sebagai `npm run kelir`) menutup UI yang tidak pernah mengimpor Kelir. Route (`app/**` atau `pages/**`) dengan tag intrinsik mentah = ERROR; komponen aplikasi, canvas/iframe, sink konten dinamis, CSS-in-JS, stylesheet konsumen, dan impor UI pihak ketiga = WARN. Direktif Tailwind = ERROR. Pengecualian eksplisit berupa `kelir-allow: hunt <alasan>` di level berkas.
 
 ### Perkakas Gerbang v1.2.1
 
@@ -26,7 +26,8 @@ Setiap gerbang mencetak tabel yang sama (`GATE | STATUS | ERRORS | WARNINGS | AL
 - `kelir-guard --explain <rule>` mencetak aturan, tautan dokumen, berkas yang terdampak, dan - untuk `raw-tag` - tabel tag berisi komponen kit yang disarankan serta apakah `--fix` bisa menanganinya.
 - `.kelirrc` di root repo induk menekan aturan WARN yang dianggap gaya proyek: `{ "kelir-guard": { "warn": ["style", "heuristic-slot"] } }`. Temuan yang ditekan dilaporkan sebagai ALLOW, tidak pernah senyap; aturan ERROR tidak bisa ditekan, dan berkas yang cacat menggagalkan gerbang dengan keluar 2.
 - `kelir-hunt --scope=views,app` membatasi pindaian ke subdirektori `src` tersebut, dan berkas yang namanya menandai kode server (`*controller*`, `*action*`, `*queries*`, `*repository*`, `*service*`, `*server*`, `*db*`, `*schema*`, `*seed*`, `*migration*`) dilewati dan dihitung, bukan dilaporkan sebagai "UI tanpa impor Kelir". `--all-files` menonaktifkan heuristik itu.
-- `kelir-allow: <reason>` dibaca oleh satu pembaca bersama yang kebal akhir-baris di `kelir-report.mjs`, jadi penanda itu tetap bekerja pada checkout CRLF (`core.autocrlf=true`) di `kelir-guard`, `kelir-alias`, `kelir-bury`, `kelir-slop`, dan `kelir-hunt`; `/* kelir-allow: alasan */` maupun bentuk JSX `{/* kelir-allow: alasan */}` sama-sama menghasilkan `alasan`. `kelir-hunt` membaca tag JSX hanya dari berkas `.tsx`/`.jsx` dan mengabaikan generics TypeScript (`Record<string, x>`, `useState<void>()`), sehingga berkas `.ts` non-UI tidak lagi dilaporkan sebagai UI.
+- `kelir-allow: <reason>` dibaca oleh satu pembaca bersama yang kebal akhir-baris di `kelir-report.mjs`, jadi penanda itu tetap bekerja pada checkout CRLF (`core.autocrlf=true`) di `kelir-guard`, `kelir-alias`, `kelir-bury`, `kelir-slop`, `kelir-hunt`, `kelir-swr`, dan `kelir-perf`; `/* kelir-allow: alasan */` maupun bentuk JSX `{/* kelir-allow: alasan */}` sama-sama menghasilkan `alasan`. `kelir-hunt` membaca tag JSX hanya dari berkas `.tsx`/`.jsx` dan mengabaikan generics TypeScript (`Record<string, x>`, `useState<void>()`), sehingga berkas `.ts` non-UI tidak lagi dilaporkan sebagai UI.
+- Dua audit opsional tanpa dependensi (hanya build-in Node, model tabel/exit sama) menandai regresi performa dan pengambilan data. `node src/views/kelir/scripts/tooling/kelir-perf.mjs` (`npm run kelir:extra`) melaporkan `root-layout-dynamic` (root layout membaca `cookies()`/`headers()`/sesi, memaksa semua route dinamis), `dns-lookup-no-cache`, `img-no-dimensions`, `external-font-blocking`, `inline-list-map`. `node src/views/kelir/scripts/tooling/kelir-swr.mjs` (`npm run kelir:extra`) melaporkan staleness/ray SWR: `always-null-key`, `mutate-key-mismatch`, `optimistic-no-rollback`, `search-no-keep-previous`, `no-config`, `focus-refetch`, `search-no-debounce`; beri `--keys <file>` untuk merekayasa kunci `<name>.member` terhadap registri `const <name> = { member: "literal" }`. Keduanya menerima `--root <dir>`, `--ignore <substr>` (berulang), `--strict`, `--json`, dan menghormati `kelir-allow: <reason>` seperti enam gate; keluar 1 bila ada ERROR (dan WARN dengan `--strict`), 2 bila pemakaian salah.
 
 ## Tipografi Per Tema
 
@@ -287,14 +288,14 @@ Project Kelir memiliki **86 komponen** yang dikelompokkan ke beberapa kategori u
 ### 1. Input & Formulir
 Komponen yang menangkap interaksi pengguna dan input data dengan kontrol terintegrasi.
 
-1. **Button**: Menampilkan tombol interaktif yang mengikuti tema aktif, dengan ukuran xs/sm/md/lg tertutup (xs = aksi di dalam baris tabel).
+1. **Button**: Menampilkan tombol interaktif yang mengikuti tema aktif, dengan skala KitSize tertutup bersama (xs = aksi di dalam baris tabel; lg lega; xl..3xl degrade ke lg).
 2. **Button Group**: Wadah untuk mengelompokkan tombol-tombol terkait dengan sudut membulat yang konsisten.
 3. **Checkbox**: Pilihan biner dengan label dan visualisasi centang.
 4. **Combobox**: Input teks auto-complete dengan daftar saran opsi.
 5. **Date Picker**: Pemilih tanggal interaktif dalam kalender popover dengan navigasi month-grid dan year-list inline.
 6. **Field**: Menggabungkan label, kontrol, dan teks bantuan untuk formulir yang aksesibel.
 7. **Input**: Input teks dasar untuk formulir dengan styling terintegrasi.
-8. **IconButton**: Tombol khusus ikon dengan label aksesibel yang wajib, dengan ukuran sm/md/lg tertutup.
+8. **IconButton**: Tombol khusus ikon dengan label aksesibel yang wajib, dengan skala KitSize tertutup bersama (xs paling kecil, lg..3xl berbagi frame lg).
 9. **Input Group**: Menggabungkan input teks dengan ikon tambahan atau tombol aksi di awal/akhir (prefix/suffix).
 10. **Input OTP**: Input kata sandi sekali pakai dengan fungsi salin-tempel yang ramah pengguna.
 11. **Label**: Label teks aksesibel yang terhubung langsung ke elemen kontrol input.
@@ -386,7 +387,7 @@ Komponen yang membentuk struktur dan penempatan elemen.
 81. **Link**: Tautan teks sebaris dengan ikon milik kit, href wajib, dan target eksternal yang aman.
 82. **LoadingOverlay**: Overlay pemuatan fullscreen yang menghalangi interaksi, dengan kartu tengah berdenyut milik kit, label status, teks kemajuan, dan slot media milik konsumen.
 83. **TruncatedText**: Teks elipsis satu baris dengan batas lebar milik kit (`text` wajib, `maxWidth?` data px, teks penuh saat hover); `ContextMenu`/`DropdownMenu` mendapat `truncate?` untuk pemicu teks elipsis.
-84. **Icon**: Pembungkus ikon dekoratif dengan warna (`intent`) dan ukuran dari token kit; tanpa `aria-label` ia tetap `aria-hidden` bagi pembaca layar.
+84. **Icon**: Pembungkus ikon dekoratif dengan warna (`tone`) dan ukuran dari token kit; tanpa `aria-label` ia tetap `aria-hidden` bagi pembaca layar.
 85. **Positioned**: Slot bertitik tetap untuk pemicu sudut dan tepi (`anchor` dari token space, `visibility` mobile/desktop dari token 600px, `elevate` mati bila slot memuat pemicu sidebar sendiri).
 86. **PageFrame**: Rangka halaman dokumen - tepi halaman, lebar isi, dan napas header/main/footer semuanya dari token `layout.page`, dengan slot `overlays` untuk pemicu bertitik tetap.
 
@@ -415,7 +416,7 @@ bawah sudah lengkap - pertahankan format `N. **theme-id**:` bila menambah tema.
 
 ## Rulebook Anti-slop (untuk Asisten AI)
 
-Project Kelir mem-vendor rulebook [anti-slop](https://github.com/miqdadbadjuber/anti-slop) yang di-pin di `kelir-integration/` agar asisten AI dan gate host memakai satu filter deterministik yang sama. Folder ini hanya berisi mirror rulebook upstream plus alat sync/index; tabel matcher gate ada di `scripts/kelir-slop.mjs`. Server MCP eksperimental sudah dihapus.
+Project Kelir mem-vendor rulebook [anti-slop](https://github.com/miqdadbadjuber/anti-slop) yang di-pin di `kelir-integration/` agar asisten AI dan gate host memakai satu filter deterministik yang sama. Folder ini hanya berisi mirror rulebook upstream plus alat sync/index; tabel matcher gate ada di `scripts/ui/kelir-slop.mjs`. Server MCP eksperimental sudah dihapus.
 
 - Jenis: aturan statis plus matcher regex; tanpa jaringan, tanpa panggilan model.
 - Gate host: `npm run kelir:slop:strict` memindai kode yang di-ship dengan matcher yang sama.

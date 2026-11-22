@@ -30,13 +30,14 @@ export function Select({
   label,
   placeholder,
   disabled = false,
-  size = "medium",
+  size = "md",
   id,
   "aria-label": ariaLabel,
 }: SelectProps) {
   const anchorRef = useRef<HTMLDivElement>(null);
   const [menuWidth, setMenuWidth] = useState<number | undefined>(undefined);
   const selectedLabel = options.find((o) => o.value === (value ?? ""))?.label;
+  const small = size === "xs" || size === "sm";
 
   return (
     <Stack gap="xs">
@@ -61,8 +62,8 @@ export function Select({
               WebkitBackdropFilter: surfaceBlur,
               color: textPrimary,
               fontFamily: "inherit",
-              fontSize: size === "small" ? "13px" : "14px",
-              fontWeight: size === "small" ? 500 : 400,
+              fontSize: small ? "13px" : "14px",
+              fontWeight: small ? 500 : 400,
             }}
           />
         }

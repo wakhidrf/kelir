@@ -27,9 +27,9 @@ export function getButtonStyles(
         ? "3px 8px"
         : size === "sm"
           ? "6px 12px"
-          : size === "lg"
-            ? "14px 28px"
-            : "10px 20px",
+          : size === "md"
+            ? "10px 20px"
+            : "14px 28px",
     ...(size === "xs" ? { fontSize: "11px" } : null),
     transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
     fontFamily: "inherit",

@@ -4,8 +4,8 @@ import { css, statusColors } from "../kelir-variants";
 
 // Kit-owned side strip (solid, Marker-border precedent): token breathing width.
 const flagColors = {
-  danger: css.destructive,
-  warn: statusColors.warning.bg,
+  error: css.destructive,
+  warning: statusColors.warning.bg,
 } as const;
 
 // Card side flag (internal): absolute status strip whose corners inherit the

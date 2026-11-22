@@ -1,4 +1,5 @@
 import type * as React from "react";
+import type { KitSize } from "./kit-size";
 
 // 12. Calendar
 // 12. Calendar - sealed date picker calendar (Gel.3c-8 STYLE.md §6).
@@ -90,7 +91,7 @@ export interface ToggleGroupProps {
   onChange?: (value: string) => void;
   variant?: "separated" | "joined";
   disabled?: boolean;
-  size?: "sm" | "md" | "lg";
+  size?: KitSize;
   id?: string;
   "aria-label"?: string;
 }

@@ -8,20 +8,20 @@ const neumorphicBg = css.colors.surface;
 const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 
-// Inline notification sealed (Gel.2 STYLE.md §6): MUI-based; `severity`
+// Inline notification sealed (Gel.2 STYLE.md §6): MUI-based; `tone`
 // forwarded (icon + MUI's built-in alert role), visuals owned by the kit —
 // no ...rest, no consumer style/sx/className. Closable only when onClose exists.
 export function Alert({
   title,
   children,
-  severity,
+  tone,
   onClose,
   id,
   "aria-label": ariaLabel,
 }: AlertProps) {
   return (
     <MuiAlert
-      severity={severity}
+      severity={tone}
       onClose={onClose ? () => onClose() : undefined}
       id={id}
       aria-label={ariaLabel}

@@ -39,10 +39,14 @@ export function IconButton({
       aria-describedby={ariaDescribedby}
       style={getIconButtonStyles({ variant, shape, size })}
       sx={{
-        // Icon ~18px (sm) / ~28px (lg); md without rule = MUI default.
+        // Icon ~16px (xs) / ~18px (sm) / ~28px (lg..3xl); md without rule = MUI default.
         ...(size === "md"
           ? null
-          : { "& .MuiSvgIcon-root": { fontSize: size === "sm" ? 18 : 28 } }),
+          : {
+              "& .MuiSvgIcon-root": {
+                fontSize: size === "xs" ? 16 : size === "sm" ? 18 : 28,
+              },
+            }),
         "&:hover": {
           backgroundColor:
             isOutline || isGhost

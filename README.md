@@ -13,9 +13,9 @@ Project Kelir is currently limited to **Next.js with TypeScript** projects. Befo
 
 The sealed contract (the component list and each component's allowed props, values, and tokens) is kept at the **host project's root** as `STYLE.md`, not inside this submodule. The parity, guard, and status gates therefore run from the host repository, where the kit is mounted at `src/views/kelir`. A standalone clone of Kelir only parse-checks its tooling; run the full gates from the host project so the contract, types, and catalog stay in sync.
 
-Alongside those, the anti-slop gate (`scripts/kelir-slop.mjs`, run as `npm run kelir:slop:strict`) runs from the host project too: it scans the host files that import Kelir plus the kit's own internals using the pinned matcher table defined in this gate, and fails the build on any ERROR. A line carrying `kelir-allow: slop` (or the line above it) is an explicit, reviewable exemption.
+Alongside those, the anti-slop gate (`scripts/ui/kelir-slop.mjs`, run as `npm run kelir`) runs from the host project too: it scans the host files that import Kelir plus the kit's own internals using the pinned matcher table defined in this gate, and fails the build on any ERROR. A line carrying `kelir-allow: slop` (or the line above it) is an explicit, reviewable exemption.
 
-The adoption gate (`scripts/kelir-hunt.mjs`, run as `npm run kelir:hunt:strict`) covers UI that never imports Kelir. Route files (`app/**` or `pages/**`) with raw intrinsic tags are ERROR; app components, canvas/iframes, dynamic-content sinks, CSS-in-JS, consumer stylesheets, and third-party UI imports are WARN. Tailwind directives are ERROR. A file-level `kelir-allow: hunt <reason>` is the explicit exemption.
+The adoption gate (`scripts/ui/kelir-hunt.mjs`, run as `npm run kelir`) covers UI that never imports Kelir. Route files (`app/**` or `pages/**`) with raw intrinsic tags are ERROR; app components, canvas/iframes, dynamic-content sinks, CSS-in-JS, consumer stylesheets, and third-party UI imports are WARN. Tailwind directives are ERROR. A file-level `kelir-allow: hunt <reason>` is the explicit exemption.
 
 ### Gate Tooling v1.2.1
 
@@ -26,7 +26,8 @@ Every gate prints the same table (`GATE | STATUS | ERRORS | WARNINGS | ALLOWED`,
 - `kelir-guard --explain <rule>` prints the rule, its docs link, the files it affects, and - for `raw-tag` - a tag map with the recommended kit component and whether `--fix` can handle it.
 - `.kelirrc` in the host project root suppresses WARN rules the project considers its own style: `{ "kelir-guard": { "warn": ["style", "heuristic-slot"] } }`. Suppressed findings are reported as ALLOW, never silent; ERROR rules cannot be suppressed, and a malformed file fails the gate with exit 2.
 - `kelir-hunt --scope=views,app` restricts the scan to those `src` subdirectories, and files whose name marks them as server code (`*controller*`, `*action*`, `*queries*`, `*repository*`, `*service*`, `*server*`, `*db*`, `*schema*`, `*seed*`, `*migration*`) are skipped and counted instead of reported as "UI without a Kelir import". `--all-files` disables that heuristic.
-- `kelir-allow: <reason>` is read by one shared, line-ending-agnostic parser in `kelir-report.mjs`, so the marker keeps working in CRLF checkouts (`core.autocrlf=true`) across `kelir-guard`, `kelir-alias`, `kelir-bury`, `kelir-slop` and `kelir-hunt`; `/* kelir-allow: why */` and the JSX form `{/* kelir-allow: why */}` both yield `why`. `kelir-hunt` reads JSX tags only from `.tsx`/`.jsx` files and ignores TypeScript generics (`Record<string, x>`, `useState<void>()`), so a non-UI `.ts` file is no longer reported as UI.
+- `kelir-allow: <reason>` is read by one shared, line-ending-agnostic parser in `kelir-report.mjs`, so the marker keeps working in CRLF checkouts (`core.autocrlf=true`) across `kelir-guard`, `kelir-alias`, `kelir-bury`, `kelir-slop`, `kelir-hunt`, `kelir-swr` and `kelir-perf`; `/* kelir-allow: why */` and the JSX form `{/* kelir-allow: why */}` both yield `why`. `kelir-hunt` reads JSX tags only from `.tsx`/`.jsx` files and ignores TypeScript generics (`Record<string, x>`, `useState<void>()`), so a non-UI `.ts` file is no longer reported as UI.
+- Two optional, dependency-free audits (Node built-ins only, same table/exit model) flag performance and data-fetching regressions. `node src/views/kelir/scripts/tooling/kelir-perf.mjs` (`npm run kelir:extra`) reports `root-layout-dynamic` (root layout reads `cookies()`/`headers()`/session, forcing every route dynamic), `dns-lookup-no-cache`, `img-no-dimensions`, `external-font-blocking`, `inline-list-map`. `node src/views/kelir/scripts/tooling/kelir-swr.mjs` (`npm run kelir:extra`) reports SWR staleness/races: `always-null-key`, `mutate-key-mismatch`, `optimistic-no-rollback`, `search-no-keep-previous`, `no-config`, `focus-refetch`, `search-no-debounce`; pass `--keys <file>` to resolve `<name>.member` keys against a `const <name> = { member: "literal" }` registry. Both accept `--root <dir>`, `--ignore <substr>` (repeatable), `--strict`, `--json`, and honor `kelir-allow: <reason>` like the six gates; exit 1 on any ERROR (and WARN with `--strict`), 2 on bad usage.
 
 ## Per-Theme Typography
 
@@ -286,14 +287,14 @@ Project Kelir has **86 components** organized into several main categories to ma
 ### 1. Inputs & Forms
 Components that capture user interaction and data input with integrated controls.
 
-1. **Button**: Displays an interactive button that follows the active theme, with closed xs/sm/md/lg sizes (xs = in-table row action).
+1. **Button**: Displays an interactive button that follows the active theme, with the shared closed KitSize scale (xs = in-table row action; lg roomy; xl..3xl degrade to lg).
 2. **Button Group**: A container for grouping related buttons with consistent rounded corners.
 3. **Checkbox**: A binary choice with a label and check visualization.
 4. **Combobox**: An auto-complete text input with a list of suggested options.
 5. **Date Picker**: An interactive date picker in a popover calendar with inline month-grid and year-list navigation.
 6. **Field**: Combines label, control, and helper text for an accessible form.
 7. **Input**: A basic text input for forms with integrated styling.
-8. **IconButton**: An icon-only button with a required accessible label, with closed sm/md/lg sizes.
+8. **IconButton**: An icon-only button with a required accessible label, with the shared closed KitSize scale (xs tightest, lg..3xl share the lg frame).
 9. **Input Group**: Combines a text input with additional icons or action buttons at the start/end (prefix/suffix).
 10. **Input OTP**: A one-time password input component with user-friendly copy-paste functionality.
 11. **Label**: An accessible text label directly connected to an input control element.
@@ -385,7 +386,7 @@ Components that shape the structure and placement of elements.
 81. **Link**: An inline text link with kit-owned icon, required href, and safe external target.
 82. **LoadingOverlay**: A fullscreen loading overlay that blocks interaction, with a kit-pulsed center card, status label, progress text, and a consumer media slot.
 83. **TruncatedText**: Single-line ellipsis text with kit-owned width cap (`text` required, `maxWidth?` px data, full text on hover); `ContextMenu`/`DropdownMenu` gained `truncate?` for ellipsis text triggers.
-84. **Icon**: A decorative icon wrapper whose color (`intent`) and size come from kit tokens; without an `aria-label` it stays `aria-hidden` for screen readers.
+84. **Icon**: A decorative icon wrapper whose color (`tone`) and size come from kit tokens; without an `aria-label` it stays `aria-hidden` for screen readers.
 85. **Positioned**: A fixed viewport slot for corner and edge triggers (`anchor` from space tokens, `visibility` mobile/desktop from the 600px token, `elevate` off when the slot holds its own sidebar trigger).
 86. **PageFrame**: A document page frame - edge padding, content width, header, main and footer spacing all come from `layout.page` tokens, with an `overlays` slot for fixed triggers.
 
@@ -414,7 +415,7 @@ complete - keep the `N. **theme-id**:` format when adding a theme.
 
 ## Anti-slop Rulebook (for AI Assistants)
 
-Project Kelir vendors the pinned [anti-slop](https://github.com/miqdadbadjuber/anti-slop) rulebook in `kelir-integration/` so AI assistants and the host gate share one deterministic filter. The folder contains only the upstream rulebook mirror plus the sync/index tools; the gate's matcher table lives in `scripts/kelir-slop.mjs`. The experimental MCP server was removed.
+Project Kelir vendors the pinned [anti-slop](https://github.com/miqdadbadjuber/anti-slop) rulebook in `kelir-integration/` so AI assistants and the host gate share one deterministic filter. The folder contains only the upstream rulebook mirror plus the sync/index tools; the gate's matcher table lives in `scripts/ui/kelir-slop.mjs`. The experimental MCP server was removed.
 
 - Kind: static rules plus regex matchers; no network, no model call.
 - Host gate: `npm run kelir:slop:strict` scans shipped code using the same matchers.

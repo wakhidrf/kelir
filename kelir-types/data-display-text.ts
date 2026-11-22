@@ -1,4 +1,6 @@
 import type * as React from "react";
+import type { KitAlign, KitSide } from "./kit-align";
+import type { KitIdentity, KitStatus } from "./kit-tone";
 
 // 9. Bubble
 // 9. Bubble - sealed chat bubble (Gel.3c-7 STYLE.md §6).
@@ -6,19 +8,19 @@ import type * as React from "react";
 // fold behavior; `children` message content slot. No style/sx/className.
 export interface BubbleProps {
   variant?: "sent" | "received";
-  align?: "start" | "end";
+  align?: KitSide;
   reactions?: string[];
   collapsible?: boolean;
   children: React.ReactNode;
 }
 
 // 36. Marker — sealed semantic marker based on MUI (P1c STYLE.md §6).
-// `variant` shape (status/note/border/separator); `intent` MEANING
-// (primary/secondary/error/success/warning) — not raw `color`.
+// `variant` shape (status/note/border/separator); `tone` MEANING (primary/
+// secondary + status success/warning/error) — not raw `color`.
 // No style/className/HTML events — all visuals from kit tokens.
 export interface MarkerProps {
   variant?: "status" | "note" | "border" | "separator";
-  intent?: "primary" | "secondary" | "error" | "success" | "warning";
+  tone?: Extract<KitIdentity | KitStatus, "primary" | "secondary" | "success" | "warning" | "error">;
   children: React.ReactNode;
   id?: string;
   "aria-label"?: string;
@@ -33,7 +35,7 @@ export interface MessageProps {
   sender: string;
   time?: string;
   text: string;
-  align?: "start" | "end";
+  align?: KitSide;
   id?: string;
   "aria-label"?: string;
 }
@@ -78,7 +80,7 @@ export interface ListProps {
 export interface QuoteProps {
   children: React.ReactNode;
   variant?: "default" | "plain";
-  align?: "start" | "center";
+  align?: KitAlign;
   id?: string;
   "aria-label"?: string;
 }

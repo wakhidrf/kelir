@@ -5,8 +5,8 @@ import { css, statusColors } from "../kelir-variants";
 // Kit-owned bg/fg pairs (Marker-note precedent: solid, not raw colors).
 // `neutral` = token gray (Alert has no neutral tone).
 const bannerPalettes = {
-  danger: { bg: css.destructive, fg: css.on.destructive },
-  warn: statusColors.warning,
+  error: { bg: css.destructive, fg: css.on.destructive },
+  warning: statusColors.warning,
   neutral: { bg: css.colors.neutral, fg: css.colors.surface },
 } as const;
 

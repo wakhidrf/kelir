@@ -1,4 +1,6 @@
 import type * as React from "react";
+import type { KitSize } from "./kit-size";
+import type { KitIdentity, KitStatus } from "./kit-tone";
 
 // 5. Attachment
 // 5. Attachment - sealed file card (Gel.3c-7 STYLE.md §6).
@@ -65,20 +67,20 @@ export interface ImageProps {
 // for logos. Token radius; no shadow. No ...rest/style/sx/className.
 export interface TileProps {
   children: React.ReactNode;
-  tone?: "primary" | "secondary" | "plain";
-  size?: "sm" | "md" | "lg";
+  tone?: Extract<KitIdentity, "primary" | "secondary" | "plain">;
+  size?: KitSize;
   id?: string;
   "aria-label"?: string;
 }
 
 // 75. Banner — sealed centered status banner (P1b STYLE.md).
-// `tone?` MEANING (`danger|warn|neutral`, default `neutral`): kit-owned
-// bg/fg pair (Marker-note precedent: solid, not a raw color);
+// `tone?` MEANING (subset of KitTone: neutral/warning/error, default neutral):
+// kit-owned bg/fg pair (Marker-note precedent: solid, not a raw color);
 // child text inherits the color. Centered. No icon (that's `Alert`).
 // No ...rest/style/sx/className.
 export interface BannerProps {
   children: React.ReactNode;
-  tone?: "danger" | "warn" | "neutral";
+  tone?: Extract<KitStatus | "neutral", "neutral" | "warning" | "error">;
   id?: string;
   "aria-label"?: string;
 }

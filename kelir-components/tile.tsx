@@ -5,9 +5,13 @@ import { css } from "../kelir-variants";
 // Kit-owned fixed sizes (aligned with Image sm/md/lg heights); without `size` =
 // flexible icon tile (padding token).
 const sizes = {
+  xs: 24,
   sm: 32,
   md: 48,
   lg: 64,
+  xl: 80,
+  "2xl": 96,
+  "3xl": 128,
 } as const;
 
 // Sealed icon/logo tile (P1b STYLE.md): `tone?` MEANING (background + text from
