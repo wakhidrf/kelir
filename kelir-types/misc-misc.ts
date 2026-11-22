@@ -30,14 +30,16 @@ export interface EmptyProps {
   "aria-label"?: string;
 }
 
-// 69. Image — neutral sealed media (P1b STYLE.md).
-// `src` required; `alt?` always rendered as an attribute (empty string when
-// not set → passes axe image-alt). `height?` MEANING (xs..7xl → kit-owned
-// px, default md); width follows the original ratio. `fluid?` fills the
-// container width (auto height); `maxHeight?`/`maxWidth?` LIMIT (px data,
-// TruncatedText.maxWidth precedent). `fit?` (contain/cover, default contain);
-// `radius?` from the kit's radius tokens (default none — neutral like Stack,
-// no shadow/border). No ...rest/style/sx/className.
+// 69. Image — neutral sealed media (P1b STYLE.md), rendered through next/image
+// (responsive srcset/sizes, lazy by default, `priority` → preloaded eager
+// fetch, reserved intrinsic box). `src` required (leading-slash or absolute
+// path); `alt?` always rendered as an attribute (empty string when not set →
+// passes axe image-alt). `height?` MEANING (xs..7xl → kit-owned px, default
+// md); width follows the original ratio. `fluid?` fills the container width
+// (auto height); `maxHeight?`/`maxWidth?` LIMIT (px data, TruncatedText
+// maxWidth precedent). `fit?` (contain/cover, default contain); `radius?` from
+// the kit's radius tokens (default none — neutral like Stack, no shadow/
+// border). No ...rest/style/sx/className.
 export interface ImageProps {
   src: string;
   alt?: string;
