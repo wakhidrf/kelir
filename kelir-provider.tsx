@@ -2,16 +2,16 @@
 
 // KelirProvider: the only legitimate visual entry point (§3c). Split into
 // sibling modules (SRP, <= 100 lines):
-//   - ./kelir-provider-state  theme state / switcher / persistence hook
-//   - ./kelir-mui-theme       neutral MUI theme factory
-//   - ./kelir-mui-components  MUI component overrides
+//   - ./kelir-provider-state        theme state / switcher / persistence hook
+//   - ./kelir-provider-injections   token style + theme script + font preloads
+//   - ./kelir-mui-theme             neutral MUI theme factory
 // Public exports (KelirProvider, KelirContext, useKelir) are unchanged.
 
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import * as React from "react";
 import { createKelirMuiTheme } from "./kelir-mui-theme";
+import { KelirProviderInjections } from "./kelir-provider-injections";
 import { useKelirThemeState } from "./kelir-provider-state";
-import { fontLinks, kelirStyleCss } from "./kelir-styles";
 import type {
   KelirContextValue,
   KelirProviderProps,
@@ -32,6 +32,7 @@ export function KelirProvider({
   defaultTheme,
   brandFont,
   brandColors,
+  themeMode = "cookie",
 }: KelirProviderProps) {
   const {
     themeName,
@@ -39,7 +40,7 @@ export function KelirProvider({
     themesList,
     registerSwitcher,
     unregisterSwitcher,
-  } = useKelirThemeState(defaultTheme);
+  } = useKelirThemeState(defaultTheme, themeMode);
 
   const muiTheme = React.useMemo(() => createKelirMuiTheme(), []);
 
@@ -56,42 +57,12 @@ export function KelirProvider({
 
   return (
     <>
-      {/* Theme token CSS + scrollbar. Injected by Kelir itself so consumers
-          don't need any token stylesheet. Selectors match the data-kelir-theme
-          attribute, so the saved theme applies before first paint (no flash).
-          Rendered as React children (a static string, not user input) so no
-          dangerouslySetInnerHTML is needed. */}
-      <style>{kelirStyleCss()}</style>
-      {/* Consumer brand font (identity, not layout): the kit that installs
-          exposes its variable; braces are stripped so a value cannot escape
-          the declaration (the string is still rendered as React text, not HTML). */}
-      {brandFont ? (
-        <style>
-          {`:root { --kelir-font-brand: ${brandFont.replace(/[;{}<>]/g, "")}; }`}
-        </style>
-      ) : null}
-      {/* Consumer brand colors (identity, not theme): two fixed slots,
-          `tone="brand-accent"|"brand-ink"`. Same as the brand font, values are
-          sanitized before entering the declaration. */}
-      {brandColors ? (
-        <style>
-          {`:root { --kelir-brand-accent: ${brandColors.accent.replace(/[;{}<>]/g, "")}; --kelir-brand-ink: ${brandColors.ink.replace(/[;{}<>]/g, "")}; }`}
-        </style>
-      ) : null}
-      {/* Theme fonts, self-hosted. @font-face ships inside the token sheet above and
-          preloads cover the active theme's text + mono faces, so nothing here is
-          render-blocking and no third-party stylesheet is fetched. React 19
-          dedupes identical <link>s by href. */}
-      {fontLinks(themeName).map(({ href }) => (
-        <link
-          key={href}
-          rel="preload"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-          href={href}
-        />
-      ))}
+      <KelirProviderInjections
+        brandFont={brandFont}
+        brandColors={brandColors}
+        themeName={themeName}
+        themeMode={themeMode}
+      />
       <KelirContext.Provider value={contextValue}>
         <MuiThemeProvider theme={muiTheme}>{children}</MuiThemeProvider>
       </KelirContext.Provider>

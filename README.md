@@ -105,7 +105,10 @@ layout reads the persisted theme cookie (if any) and lays `data-kelir-theme`
 straight onto `<html>`, so the very first SSR HTML is already themed - no flash,
 no client inline script, no localStorage. `setTheme` applies the theme instantly
 on the client (attribute) and persists it back through a Server Action that sets
-the cookie, so the next SSR response already ships the saved theme.
+the cookie, so the next SSR response already ships the saved theme. For a
+**static** root layout that must not `await cookies()`, pass
+`themeMode="client"` (see *Static public routes* below) - the same closed props,
+persisted in `localStorage` instead of a cookie.
 
 ```tsx
 // src/app/layout.tsx (Server Component)
@@ -209,10 +212,20 @@ export default function Home() {
 > leaked theme choice. The server still serves the cookie theme if a stale cookie
 > existed, but it is removed once the no-switcher page hydrates.
 
-> **Without persistence** (e.g. a static-first site): pass a fixed default theme to
-> `KelirProvider` and skip the cookie; `setTheme` then just applies the theme for
-> the current session without persisting. The cookie is only consulted when the
-> layout opts into it.
+> **Static public routes (`themeMode="client"`).** When the root layout must stay
+> static (SSG/CDN) and cannot `await cookies()` for `kelir_theme`, pass
+> `themeMode="client"`. The provider then persists the theme in `localStorage`
+> (`THEME_STORAGE_KEY`, same `kelir_theme` string) and renders a blocking inline
+> script as its first child; that script reads `localStorage` and stamps
+> `<html data-kelir-theme>` **before first paint**, so the themed first paint and
+> no flash are kept with no cookie and no server round-trip. `setTheme` writes
+> `localStorage` in this mode (it never touches the cookie, and no Server Action
+> is needed). Keep `suppressHydrationWarning` on `<html>` - the script mutates
+> the attribute before hydration, exactly as `next-themes` does.
+
+> **No persistence** (session-only): pass a fixed `defaultTheme` and never call
+> `setTheme`, or use `themeMode="client"` and clear `localStorage` on demand.
+> `setTheme` then just applies the theme for the current session.
 
 ### 4. How to Import Components
 
