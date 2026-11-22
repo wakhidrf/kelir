@@ -1,6 +1,6 @@
 import MuiBox from "@mui/material/Box";
-import type { SpacerProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { SpacerProps } from "../kelir-kit/kit-layout";
+import { css } from "../kelir-kit/kit-create-css";
 
 const sizes = {
   xs: css.layout.space.xs,

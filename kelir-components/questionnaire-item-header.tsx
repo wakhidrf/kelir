@@ -1,5 +1,5 @@
-import type { QuestionnaireQuestion } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { QuestionnaireQuestion } from "../kelir-kit/kit-questionnaire";
+import { css } from "../kelir-kit/kit-create-css";
 
 // Questionnaire item heading (internal, P2 split §8): title + required /
 // optional markers + description. Local props, no §5.

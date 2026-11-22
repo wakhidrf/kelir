@@ -5,7 +5,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MenuIcon from "@mui/icons-material/Menu";
 import MuiBox from "@mui/material/Box";
 import { createPortal } from "react-dom";
-import { css } from "../kelir-variants";
+import { css } from "../kelir-kit/kit-create-css";
 import { IconButton } from "./icon-button";
 
 const SIDEBAR_WIDTH = "var(--sidebar-width, 260px)";

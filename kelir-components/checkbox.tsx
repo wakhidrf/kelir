@@ -1,6 +1,6 @@
 import MuiCheckbox from "@mui/material/Checkbox";
-import type { CheckboxProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { CheckboxProps } from "../kelir-kit/kit-forms-choice";
+import { css } from "../kelir-kit/kit-create-css";
 
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;

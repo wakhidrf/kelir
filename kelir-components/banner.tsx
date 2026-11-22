@@ -1,6 +1,7 @@
 import MuiBox from "@mui/material/Box";
-import type { BannerProps } from "../kelir-types";
-import { css, statusColors } from "../kelir-variants";
+import type { BannerProps } from "../kelir-kit/kit-misc-misc";
+import { css } from "../kelir-kit/kit-create-css";
+ import { statusColors } from "../kelir-kit/kit-variant-values";
 
 // Kit-owned bg/fg pairs (Marker-note precedent: solid, not raw colors).
 // `neutral` = token gray (Alert has no neutral tone).

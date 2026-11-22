@@ -1,4 +1,4 @@
-import { css } from "../kelir-variants";
+import { css } from "../kelir-kit/kit-create-css";
 import { Button } from "./button";
 
 // Questionnaire navigation (internal, P2 split §8): back/skip/

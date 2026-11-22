@@ -2,8 +2,8 @@
 
 import MuiBox from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import type { ContentProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { ContentProps } from "../kelir-kit/kit-layout-shell";
+import { css } from "../kelir-kit/kit-create-css";
 
 // Kit internal breakpoint (MUI md, same as Sidebar); not a consumer number.
 const DESKTOP_QUERY = "(min-width: 900px)";

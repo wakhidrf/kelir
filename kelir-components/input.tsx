@@ -1,7 +1,8 @@
 import MuiInputBase from "@mui/material/InputBase";
 import type * as React from "react";
-import type { InputProps, KitSize } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { InputProps } from "../kelir-kit/kit-forms-input";
+ import type { KitSize } from "../kelir-kit/kit-size";
+import { css } from "../kelir-kit/kit-create-css";
 
 const concaveShadow = css.shadows.concave;
 const neumorphicBg = css.colors.surface;

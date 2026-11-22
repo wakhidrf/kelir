@@ -1,8 +1,8 @@
 import FormControlLabel from "@mui/material/FormControlLabel";
 import MuiRadio from "@mui/material/Radio";
 import MuiRadioGroup from "@mui/material/RadioGroup";
-import type { RadioGroupProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { RadioGroupProps } from "../kelir-kit/kit-forms-select";
+import { css } from "../kelir-kit/kit-create-css";
 
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;

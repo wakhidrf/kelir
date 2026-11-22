@@ -1,7 +1,7 @@
 import MuiDialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
-import type { LoadingOverlayProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { LoadingOverlayProps } from "../kelir-kit/kit-misc-overlay";
+import { css } from "../kelir-kit/kit-create-css";
 
 // LoadingOverlay sealed (No 77): MUI-based fullscreen loading overlay
 // (portal + focus-trap + aria-modal for free, Dialog precedent). Not a

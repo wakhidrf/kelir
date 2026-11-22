@@ -2,8 +2,8 @@
 
 import MuiBox from "@mui/material/Box";
 import * as React from "react";
-import type { TextareaProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { TextareaProps } from "../kelir-kit/kit-forms-input";
+import { css } from "../kelir-kit/kit-create-css";
 import { Typography } from "./typography";
 
 export function Textarea({

@@ -1,6 +1,6 @@
 "use client";
 
-import type { QuestionnaireProps } from "../kelir-types";
+import type { QuestionnaireProps } from "../kelir-kit/kit-questionnaire";
 import { QuestionnaireComplete } from "./questionnaire-complete";
 import { QuestionnaireItem } from "./questionnaire-item";
 import { QuestionnaireNav } from "./questionnaire-nav";

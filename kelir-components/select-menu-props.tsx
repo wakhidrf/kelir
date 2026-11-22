@@ -1,7 +1,7 @@
 "use client";
 
-import type { KitSize } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { KitSize } from "../kelir-kit/kit-size";
+import { css } from "../kelir-kit/kit-create-css";
 import { menuScrollbarSx, scrollbarClass } from "./select-menu-styles";
 
 const convexShadow = css.shadows.convex;

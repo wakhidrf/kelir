@@ -1,0 +1,91 @@
+import { springMotion } from "../../kelir-kit/kit-motion-tokens";
+import { createCss } from "../../kelir-kit/kit-create-css";
+import { rounded, typography } from "./skeuomorphism-scale";
+export { rounded, typography };
+// Skeuomorphism: same exact colors as DESIGN.md front matter.
+// primary #1A1A1A, secondary #4A4A4A, tertiary #0066FF, neutral #FFFFFF.
+// Dark theme (charcoal surfaces, white text).
+export const variants = {
+  // Core colors from DESIGN.md
+  primary: "#1A1A1A", // DESIGN primary (charcoal)
+  secondary: "#4A4A4A", // DESIGN secondary (dark grey)
+  tertiary: "#0066FF", // DESIGN tertiary (electric blue accent)
+  neutral: "#FFFFFF", // DESIGN neutral (text)
+  // Derived semantic colors
+  textPrimary: "#FFFFFF", // neutral (primary text)
+  textSecondary: "#C0C4CC", // derived muted silver (secondary text)
+  onPrimary: "#FFFFFF", // neutral (text on primary)
+  onSecondary: "#FFFFFF", // neutral (text on secondary)
+  onDestructive: "#FFFFFF", // neutral (text on destructive)
+  destructive: "#C0372B", // derived deep red (destructive)
+  // Derived colors (free per-theme values, fixed key names)
+  background:
+    "radial-gradient(900px 500px at 15% 0%, #4A4A4A 0%, transparent 55%), radial-gradient(700px 420px at 90% 20%, rgba(0, 102, 255, 0.16) 0%, transparent 55%), radial-gradient(500px 340px at 70% 80%, rgba(255, 255, 255, 0.06) 0%, transparent 60%), repeating-linear-gradient(45deg, rgba(255,255,255,0.01) 0 2px, transparent 2px 4px), linear-gradient(170deg, #303036 0%, #26262B 22%, #1E1E23 45%, #17171B 70%, #0F0F13 88%, #0A0A0D 100%)", // charcoal canvas with 6-stop gradient + subtle grain texture
+  baseBackground: "#0A0A0D", // solid canvas base (gradient tail) for below-the-fold body
+  surface: "#222226", // dark surface
+  borderLight: "rgba(255, 255, 255, 0.12)",
+  borderMedium: "rgba(255, 255, 255, 0.2)",
+  borderStrong: "rgba(255, 255, 255, 0.32)",
+  dividerDark: "rgba(255, 255, 255, 0.1)",
+  trackDark: "rgba(255, 255, 255, 0.16)",
+  shadowDark: "rgba(0, 0, 0, 0.6)",
+  shadowLight: "rgba(255, 255, 255, 0.08)",
+} as const;
+
+export type VariantName = keyof typeof variants;
+
+// Realistic layered shadows + tactile press (concave).
+export const shadows = {
+  card: "0 2px 12px rgba(0, 0, 0, 0.4), 0 10px 30px rgba(0, 0, 0, 0.3)",
+  convex:
+    "0 1px 2px rgba(255,255,255,0.06) inset, 0 -3px 8px rgba(0,0,0,0.4) inset, 0 6px 16px rgba(0, 0, 0, 0.45)",
+  concave:
+    "inset 0 3px 8px rgba(0, 0, 0, 0.5), inset 0 -2px 4px rgba(0, 0, 0, 0.25)",
+} as const;
+
+export const css = createCss(variants, shadows, rounded, springMotion);
+
+export const tokens = {
+  version: "alpha",
+  name: "Skeuomorphism",
+  description:
+    "Realistic, textured interface with 3D depth, real-world metaphors (leather, wood, metal), layered shadows and tactile press. Landing pages, SaaS.",
+  colors: {
+    primary: variants.primary,
+    secondary: variants.secondary,
+    tertiary: variants.tertiary,
+    neutral: variants.neutral,
+    background: variants.background,
+    baseBackground: variants.baseBackground,
+    surface: variants.surface,
+    textPrimary: variants.textPrimary,
+    textSecondary: variants.textSecondary,
+    onPrimary: variants.onPrimary,
+    onSecondary: variants.onSecondary,
+    onDestructive: variants.onDestructive,
+    destructive: variants.destructive,
+    borderLight: variants.borderLight,
+    borderMedium: variants.borderMedium,
+    borderStrong: variants.borderStrong,
+    divider: variants.dividerDark,
+    track: variants.trackDark,
+    shadowDark: variants.shadowDark,
+    shadowLight: variants.shadowLight,
+  },
+  typography,
+  rounded,
+  shadows: {
+    flat: "none",
+    convex: shadows.convex,
+    concave: shadows.concave,
+    card: shadows.card,
+  },
+  components: {
+    buttonPrimary: {
+      backgroundColor: variants.tertiary,
+      color: variants.onPrimary,
+      rounded: rounded.sm,
+      padding: "10px 20px",
+    },
+  },
+} as const;

@@ -1,4 +1,4 @@
-import { css } from "../kelir-variants";
+import { css } from "../kelir-kit/kit-create-css";
 
 // Questionnaire progress bar (internal, P2 split §8): step/total/pct
 // numbers owned by the kit. Not a public contract — local props, no §5.

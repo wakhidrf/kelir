@@ -1,6 +1,6 @@
 import MuiButton from "@mui/material/Button";
-import type { IconButtonProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { IconButtonProps } from "../kelir-kit/kit-actions";
+import { css } from "../kelir-kit/kit-create-css";
 import { getIconButtonStyles } from "./icon-button-styles";
 
 const concaveShadow = css.shadows.concave;

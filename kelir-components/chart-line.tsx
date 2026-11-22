@@ -1,4 +1,4 @@
-import { css } from "../kelir-variants";
+import { css } from "../kelir-kit/kit-create-css";
 import { getValue } from "./chart-utils";
 
 const seriesColors = [css.colors.primary, css.colors.secondary];

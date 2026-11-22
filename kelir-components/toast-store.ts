@@ -1,4 +1,4 @@
-import type { ToastProps } from "../kelir-types";
+import type { ToastProps } from "../kelir-kit/kit-feedback";
 
 type StoredToast = {
   id: number;

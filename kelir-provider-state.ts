@@ -4,11 +4,11 @@
 
 import * as React from "react";
 import { persistThemeCookie } from "@/controllers/theme-actions";
-import { KELIR_THEMES } from "./kelir-theme-list";
-import { readStoredTheme, writeStoredTheme } from "./kelir-theme-storage";
-import { THEME_ATTRIBUTE } from "./kelir-styles";
+import { KELIR_THEMES } from "./kelir-design/kelir-theme-list";
+import { readStoredTheme, writeStoredTheme } from "./kelir-design/kelir-theme-storage";
+import { THEME_ATTRIBUTE } from "./kelir-design/kelir-style-constants";
 import { useSwitcherRegistry } from "./kelir-switcher-registry";
-import type { Theme, ThemeMode } from "./kelir-types";
+import type { Theme, ThemeMode } from "./kelir-kit/kit-provider";
 
 export function useKelirThemeState(defaultTheme: Theme, themeMode: ThemeMode) {
   // Cookie mode: server-driven — the provider starts at the theme the server

@@ -1,5 +1,5 @@
 import CheckIcon from "@mui/icons-material/Check";
-import { css } from "../kelir-variants";
+import { css } from "../kelir-kit/kit-create-css";
 import { Button } from "./button";
 
 // Questionnaire complete screen (internal, P2 split §8): summary +

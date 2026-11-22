@@ -1,6 +1,6 @@
 import MuiBox from "@mui/material/Box";
 import type * as React from "react";
-import type { GridProps } from "../kelir-types";
+import type { GridProps } from "../kelir-kit/kit-layout";
 import { asideWidths, collapsePx, gaps, PIN_HEIGHT, PIN_MAX } from "./grid-layout";
 
 type GridAsideProps = {

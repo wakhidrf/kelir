@@ -1,6 +1,6 @@
 import MuiTooltip from "@mui/material/Tooltip";
-import type { TooltipProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { TooltipProps } from "../kelir-kit/kit-typography-props";
+import { css } from "../kelir-kit/kit-create-css";
 
 export function Tooltip({
   title,

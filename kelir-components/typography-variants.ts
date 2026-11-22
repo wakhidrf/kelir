@@ -1,4 +1,4 @@
-import type { TypographyProps } from "../kelir-types";
+import type { TypographyProps } from "../kelir-kit/kit-typography-props";
 
 type Variant = NonNullable<TypographyProps["variant"]>;
 

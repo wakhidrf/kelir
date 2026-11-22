@@ -1,7 +1,7 @@
 import MuiToggleButton from "@mui/material/ToggleButton";
 import * as React from "react";
-import type { ToggleProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { ToggleProps } from "../kelir-kit/kit-forms-choice";
+import { css } from "../kelir-kit/kit-create-css";
 
 export function Toggle({
   pressed: pressedProp,

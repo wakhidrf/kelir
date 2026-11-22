@@ -9,13 +9,13 @@
 
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import * as React from "react";
-import { createKelirMuiTheme } from "./kelir-mui-theme";
+import { createKelirMuiTheme } from "./kelir-kit/kit-mui-theme";
 import { KelirProviderInjections } from "./kelir-provider-injections";
 import { useKelirThemeState } from "./kelir-provider-state";
 import type {
   KelirContextValue,
   KelirProviderProps,
-} from "./kelir-types";
+} from "./kelir-kit/kit-provider";
 
 export const KelirContext = React.createContext<KelirContextValue | null>(null);
 

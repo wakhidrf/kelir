@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { css } from "../kelir-variants";
+import { css } from "../kelir-kit/kit-create-css";
 
 const convexShadow = css.shadows.convex;
 const neumorphicBg = css.colors.surface;

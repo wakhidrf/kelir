@@ -1,8 +1,8 @@
 "use client";
 
 import MuiBox from "@mui/material/Box";
-import type { CodeBlockProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { CodeBlockProps } from "../kelir-kit/kit-data-display-text";
+import { css } from "../kelir-kit/kit-create-css";
 import { Button } from "./button";
 import { useCodeBlockCopy } from "./code-block-copy";
 

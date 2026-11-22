@@ -1,8 +1,8 @@
 "use client";
 
 import MuiBox from "@mui/material/Box";
-import type { InputOtpProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { InputOtpProps } from "../kelir-kit/kit-forms-input";
+import { css } from "../kelir-kit/kit-create-css";
 import { useInputOtp } from "./input-otp-model";
 
 export function InputOtp({

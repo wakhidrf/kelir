@@ -1,6 +1,6 @@
 "use client";
 
-import { css } from "../kelir-variants";
+import { css } from "../kelir-kit/kit-create-css";
 import { WEEKDAYS, isSameDay } from "./calendar-utils";
 
 const concaveShadow = css.shadows.concave;

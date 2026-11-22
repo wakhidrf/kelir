@@ -1,6 +1,6 @@
 import MuiBox from "@mui/material/Box";
-import type { BadgeProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { BadgeProps } from "../kelir-kit/kit-data-display-content";
+import { css } from "../kelir-kit/kit-create-css";
 
 export function Badge({
   variant = "primary",

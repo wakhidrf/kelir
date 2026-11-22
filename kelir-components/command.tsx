@@ -2,8 +2,8 @@
 
 import SearchIcon from "@mui/icons-material/Search";
 import * as React from "react";
-import type { CommandProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { CommandProps } from "../kelir-kit/kit-navigation-chrome";
+import { css } from "../kelir-kit/kit-create-css";
 import { CommandGroupItems } from "./command-group";
 import { filterCommandGroups } from "./command-model";
 

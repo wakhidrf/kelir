@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import type { InputOtpProps } from "../kelir-types";
+import type { InputOtpProps } from "../kelir-kit/kit-forms-input";
 
 // InputOtp edit behavior (internal): per-slot refs, focus movement, digit
 // typing, backspace, arrow keys, and paste. Rendering lives in input-otp.tsx.

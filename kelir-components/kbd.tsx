@@ -1,6 +1,6 @@
 import MuiBox from "@mui/material/Box";
-import type { KbdProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { KbdProps } from "../kelir-kit/kit-typography-props";
+import { css } from "../kelir-kit/kit-create-css";
 
 export function Kbd({ children, id, "aria-label": ariaLabel }: KbdProps) {
   return (

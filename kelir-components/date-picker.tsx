@@ -3,7 +3,7 @@
 import MuiPopover from "@mui/material/Popover";
 import { useTheme } from "@mui/material/styles";
 import * as React from "react";
-import type { DatePickerProps } from "../kelir-types";
+import type { DatePickerProps } from "../kelir-kit/kit-forms-choice";
 import {
   generateCells,
   getYearOptions,

@@ -2,8 +2,8 @@
 
 import Portal from "@mui/material/Portal";
 import * as React from "react";
-import type { ToastApi, ToasterProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { ToastApi, ToasterProps } from "../kelir-kit/kit-feedback";
+import { css } from "../kelir-kit/kit-create-css";
 import { Toast, ToastStackContext } from "./toast";
 import {
   close,

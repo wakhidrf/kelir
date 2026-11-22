@@ -1,6 +1,6 @@
 import MuiBox from "@mui/material/Box";
-import type { PositionedProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { PositionedProps } from "../kelir-kit/kit-layout-shell";
+import { css } from "../kelir-kit/kit-create-css";
 
 // Kit mobile breakpoint (single source: the layout.mobile token, 600px).
 const MOBILE_MAX = `@media (max-width: calc(${css.layout.breakpoints.mobile} - 0.02px))`;

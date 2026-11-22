@@ -1,6 +1,6 @@
 import NextImage from "next/image";
-import type { ImageProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { ImageProps } from "../kelir-kit/kit-misc-misc";
+import { css } from "../kelir-kit/kit-create-css";
 
 const heights = {
   xs: 24,

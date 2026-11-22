@@ -1,6 +1,6 @@
 "use client";
 
-import { css } from "../kelir-variants";
+import { css } from "../kelir-kit/kit-create-css";
 import { WEEKDAYS } from "./date-picker-constants";
 import { getDayButtonStyle } from "./date-picker-styles";
 

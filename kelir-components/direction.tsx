@@ -1,4 +1,4 @@
-import type { DirectionProps } from "../kelir-types";
+import type { DirectionProps } from "../kelir-kit/kit-layout";
 
 // Direction sealed (Gel.3c-6 STYLE.md §6): dir MEANING; inherited visuals owned by the kit.
 export function Direction({ dir, children }: DirectionProps) {

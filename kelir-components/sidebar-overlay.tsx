@@ -1,8 +1,8 @@
 "use client";
 
 import MuiBox from "@mui/material/Box";
-import type { SidebarProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { SidebarProps } from "../kelir-kit/kit-navigation-chrome";
+import { css } from "../kelir-kit/kit-create-css";
 import { Drawer } from "./drawer";
 import { SidebarBody } from "./sidebar-body";
 import { SidebarOverlayTrigger } from "./sidebar-overlay-trigger";

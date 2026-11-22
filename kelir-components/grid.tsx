@@ -1,5 +1,5 @@
 import MuiBox from "@mui/material/Box";
-import type { GridProps } from "../kelir-types";
+import type { GridProps } from "../kelir-kit/kit-layout";
 import { GridAside } from "./grid-aside";
 import { autoFitCss, columnsCss, gaps, MD_QUERY } from "./grid-layout";
 

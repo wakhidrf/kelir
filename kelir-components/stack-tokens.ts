@@ -1,5 +1,5 @@
-import type { StackProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { StackProps } from "../kelir-kit/kit-layout";
+import { css } from "../kelir-kit/kit-create-css";
 
 export const gaps = {
   xs: css.layout.space.xs,

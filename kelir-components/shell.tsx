@@ -1,5 +1,5 @@
 import MuiBox from "@mui/material/Box";
-import type { ShellProps } from "../kelir-types";
+import type { ShellProps } from "../kelir-kit/kit-layout-shell";
 
 // Sealed admin app-shell viewport (P1b STYLE.md): `height:
 // 100dvh, overflow: hidden` — sidebar + content side by side (row),

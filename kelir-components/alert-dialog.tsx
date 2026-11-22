@@ -2,8 +2,8 @@ import MuiDialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import type { AlertDialogProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { AlertDialogProps } from "../kelir-kit/kit-feedback";
+import { css } from "../kelir-kit/kit-create-css";
 import { Button } from "./button";
 
 const convexShadow = css.shadows.convex;

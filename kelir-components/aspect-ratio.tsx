@@ -1,6 +1,6 @@
 import MuiBox from "@mui/material/Box";
-import type { AspectRatioProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { AspectRatioProps } from "../kelir-kit/kit-data-display-content";
+import { css } from "../kelir-kit/kit-create-css";
 
 // Kit phone breakpoint (single source: layout.mobile token 600px).
 const MOBILE_QUERY = `@media (max-width: calc(${css.layout.breakpoints.mobile} - 0.02px))`;

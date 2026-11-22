@@ -1,7 +1,7 @@
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import type * as React from "react";
-import type { AttachmentProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { AttachmentProps } from "../kelir-kit/kit-misc-misc";
+import { css } from "../kelir-kit/kit-create-css";
 import { AttachmentStatus, AttachmentProgress } from "./attachment-status";
 import { AttachmentFileInfo, AttachmentRemoveButton } from "./attachment-info";
 

@@ -1,4 +1,4 @@
-import { css } from "../kelir-variants";
+import { css } from "../kelir-kit/kit-create-css";
 
 export const gaps = {
   xs: css.layout.space.xs,

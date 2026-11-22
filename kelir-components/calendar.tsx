@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import type { CalendarProps } from "../kelir-types";
+import type { CalendarProps } from "../kelir-kit/kit-forms-choice";
 import { CalendarHeader } from "./calendar-header";
 import { CalendarGrid, CalendarContainer } from "./calendar-grid";
 

@@ -1,6 +1,6 @@
 import MuiToggleButton from "@mui/material/ToggleButton";
 import MuiToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import type { ToggleGroupProps } from "../kelir-types";
+import type { ToggleGroupProps } from "../kelir-kit/kit-forms-choice";
 import { buttonSx, groupSx } from "./toggle-group-styles";
 
 // Sealed single-choice group (Gel.3c-2 §6). `separated` (default)

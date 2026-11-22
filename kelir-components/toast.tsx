@@ -3,8 +3,9 @@
 import MuiSnackbar from "@mui/material/Snackbar";
 import SnackbarContent from "@mui/material/SnackbarContent";
 import * as React from "react";
-import type { ToastProps } from "../kelir-types";
-import { css, statusColors } from "../kelir-variants";
+import type { ToastProps } from "../kelir-kit/kit-feedback";
+import { css } from "../kelir-kit/kit-create-css";
+ import { statusColors } from "../kelir-kit/kit-variant-values";
 
 // INTERNAL kit: Toaster stacks Toasts inside its own container.
 // This context makes the MUI Snackbar root static so each Toast follows the

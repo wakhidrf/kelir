@@ -1,7 +1,7 @@
 import MuiAutocomplete from "@mui/material/Autocomplete";
 import MuiInputBase from "@mui/material/InputBase";
-import type { ComboboxProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { ComboboxProps } from "../kelir-kit/kit-forms-select";
+import { css } from "../kelir-kit/kit-create-css";
 import { getInputStyle, inputFocusSx } from "./input";
 import { Label } from "./label";
 

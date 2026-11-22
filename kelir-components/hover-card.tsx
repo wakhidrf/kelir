@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import type { HoverCardProps } from "../kelir-types";
+import type { HoverCardProps } from "../kelir-kit/kit-misc-overlay";
 import { HoverCardPanel } from "./hover-card-panel";
 import { HoverCardTrigger } from "./hover-card-trigger";
 

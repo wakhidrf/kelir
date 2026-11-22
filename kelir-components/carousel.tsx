@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import type { CarouselProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { CarouselProps } from "../kelir-kit/kit-data-display-data";
+import { css } from "../kelir-kit/kit-create-css";
 import { CarouselDots, CarouselNav } from "./carousel-controls";
 
 const convexShadow = css.shadows.convex;

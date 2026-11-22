@@ -1,7 +1,7 @@
 import CardHeader from "@mui/material/CardHeader";
 import type * as React from "react";
-import type { CardProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { CardProps } from "../kelir-kit/kit-data-display-content";
+import { css } from "../kelir-kit/kit-create-css";
 
 interface CardHeaderBlockProps {
   title?: string;

@@ -1,5 +1,5 @@
-import type { KitSize } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { KitSize } from "../kelir-kit/kit-size";
+import { css } from "../kelir-kit/kit-create-css";
 
 export function groupSx(joined: boolean) {
   return {

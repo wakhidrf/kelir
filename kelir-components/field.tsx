@@ -1,7 +1,7 @@
 import MuiFormControl from "@mui/material/FormControl";
 import MuiFormHelperText from "@mui/material/FormHelperText";
-import type { FieldProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { FieldProps } from "../kelir-kit/kit-forms-input";
+import { css } from "../kelir-kit/kit-create-css";
 import { Typography } from "./typography";
 
 export function Field({

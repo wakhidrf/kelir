@@ -1,6 +1,6 @@
 import CloseIcon from "@mui/icons-material/Close";
 import type * as React from "react";
-import { css } from "../kelir-variants";
+import { css } from "../kelir-kit/kit-create-css";
 
 const textSecondary = css.colors.textSecondary;
 
