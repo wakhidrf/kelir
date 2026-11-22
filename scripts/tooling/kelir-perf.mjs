@@ -1,7 +1,7 @@
 // kelir-perf.mjs - Next.js (App Router) performance audit (issue #123).
 // Optional dev tooling, no deps.
 //
-//   node src/views/kelir/scripts/kelir-perf.mjs [--root <dir>] [--ignore <s>]...
+//   node src/views/kelir/scripts/tooling/kelir-perf.mjs [--root <dir>] [--ignore <s>]...
 //                                                 [--strict] [--json]
 //
 // Static, dependency-free checks that flag patterns which make a Next.js app
@@ -28,8 +28,8 @@
 // No dependencies.
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative, sep } from "node:path";
-import { allowReasonNear, printReport } from "./kelir-report.mjs";
-import { TOOLS_VERSION } from "./kelir-version.mjs";
+import { allowReasonNear, printReport } from "../kelir-report.mjs";
+import { TOOLS_VERSION } from "../kelir-version.mjs";
 
 // --- args -------------------------------------------------------------------
 

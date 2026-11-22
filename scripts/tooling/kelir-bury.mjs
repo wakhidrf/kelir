@@ -1,6 +1,6 @@
 // kelir-bury.mjs - dead-code gate (issue #110, #114).
 //
-//   node src/views/kelir/scripts/kelir-bury.mjs [--tsc]
+//   node src/views/kelir/scripts/tooling/kelir-bury.mjs [--tsc]
 //
 //   --tsc  also run `tsc --noUnusedLocals --noUnusedParameters`
 //
@@ -25,12 +25,12 @@ import { spawnSync } from "node:child_process";
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { basename, dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
-import { TOOLS_VERSION } from "./kelir-version.mjs";
-import { matchAllowReason, printReport } from "./kelir-report.mjs";
+import { TOOLS_VERSION } from "../kelir-version.mjs";
+import { matchAllowReason, printReport } from "../kelir-report.mjs";
 
-// scripts/ -> kelir/ -> views/ -> src/ -> <project>
+// tooling/ -> scripts/ -> kelir/ -> views/ -> src/ -> <project>
 const HERE = dirname(fileURLToPath(import.meta.url));
-const ROOT = join(HERE, "..", "..", "..", "..");
+const ROOT = join(HERE, "..", "..", "..", "..", "..");
 const SRC = join(ROOT, "src");
 const KIT = join(SRC, "views", "kelir");
 const GENERATED = new Set([join(SRC, "views", "kelir-docs.ts")]);

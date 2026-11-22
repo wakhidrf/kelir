@@ -1,6 +1,6 @@
 // kelir-swr.mjs - SWR usage audit (issue #123). Optional dev tooling, no deps.
 //
-//   node src/views/kelir/scripts/kelir-swr.mjs [--root <dir>] [--ignore <s>]...
+//   node src/views/kelir/scripts/tooling/kelir-swr.mjs [--root <dir>] [--ignore <s>]...
 //                                                [--keys <file>] [--strict] [--json]
 //
 // Static checks that flag patterns which make SWR data stale, flicker, race,
@@ -27,8 +27,8 @@
 // No dependencies.
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { isAbsolute, join, relative, sep } from "node:path";
-import { allowReasonNear, printReport } from "./kelir-report.mjs";
-import { TOOLS_VERSION } from "./kelir-version.mjs";
+import { allowReasonNear, printReport } from "../kelir-report.mjs";
+import { TOOLS_VERSION } from "../kelir-version.mjs";
 
 function takeValue(flag) {
   const i = process.argv.indexOf(flag);

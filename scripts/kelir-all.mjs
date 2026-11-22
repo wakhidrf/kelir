@@ -31,15 +31,22 @@ import { TOOLS_VERSION } from "./kelir-version.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 
+// Layout (scripts are grouped by concern):
+//   scripts/kelir-all.mjs      this runner (the single entry point)
+//   scripts/kelir-report.mjs   shared table reporter (uniform GATE/FINDINGS/SCOPE)
+//   scripts/kelir-version.mjs  shared TOOLS_VERSION
+//   scripts/kelir-config.mjs   shared .kelirrc loader
+//   scripts/ui/                UI contract gates  (profile ui / `npm run kelir`)
+//   scripts/tooling/           non-UI gates + hygiene (profile extra / `npm run kelir:extra`)
 const GATES = [
-  { id: "kelir-guard", file: "kelir-guard.mjs", checks: "patent contract", profiles: ["ui", "all"] },
-  { id: "kelir-hunt", file: "kelir-hunt.mjs", checks: "adoption outside the kit", profiles: ["ui", "all"] },
-  { id: "kelir-slop", file: "kelir-slop.mjs", checks: "anti-slop rules", profiles: ["ui", "all"] },
-  { id: "kelir-alias", file: "kelir-alias.mjs", checks: "absolute imports", profiles: ["extra", "all"] },
-  { id: "kelir-bury", file: "kelir-bury.mjs", checks: "dead exports and files", profiles: ["extra", "all"] },
-  { id: "kelir-split", file: "kelir-split.mjs", checks: "file length", profiles: ["extra", "all"] },
-  { id: "kelir-swr", file: "kelir-swr.mjs", checks: "SWR misuse", profiles: ["extra", "all"] },
-  { id: "kelir-perf", file: "kelir-perf.mjs", checks: "Next.js performance", profiles: ["extra", "all"] },
+  { id: "kelir-guard", file: "ui/kelir-guard.mjs", checks: "patent contract", profiles: ["ui", "all"] },
+  { id: "kelir-hunt", file: "ui/kelir-hunt.mjs", checks: "adoption outside the kit", profiles: ["ui", "all"] },
+  { id: "kelir-slop", file: "ui/kelir-slop.mjs", checks: "anti-slop rules", profiles: ["ui", "all"] },
+  { id: "kelir-alias", file: "tooling/kelir-alias.mjs", checks: "absolute imports", profiles: ["extra", "all"] },
+  { id: "kelir-bury", file: "tooling/kelir-bury.mjs", checks: "dead exports and files", profiles: ["extra", "all"] },
+  { id: "kelir-split", file: "tooling/kelir-split.mjs", checks: "file length", profiles: ["extra", "all"] },
+  { id: "kelir-swr", file: "tooling/kelir-swr.mjs", checks: "SWR misuse", profiles: ["extra", "all"] },
+  { id: "kelir-perf", file: "tooling/kelir-perf.mjs", checks: "Next.js performance", profiles: ["extra", "all"] },
 ];
 
 const PROFILES = ["ui", "extra", "all"];

@@ -17,12 +17,12 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
-import { allowReasonNear, printReport } from "./kelir-report.mjs";
-import { TOOLS_VERSION } from "./kelir-version.mjs";
+import { allowReasonNear, printReport } from "../kelir-report.mjs";
+import { TOOLS_VERSION } from "../kelir-version.mjs";
 
-// scripts/ -> kelir/ -> views/ -> src/ -> <project>
+// ui/ -> scripts/ -> kelir/ -> views/ -> src/ -> <project>
 const HERE = dirname(fileURLToPath(import.meta.url));
-const ROOT = join(HERE, "..", "..", "..", "..");
+const ROOT = join(HERE, "..", "..", "..", "..", "..");
 const SRC = join(ROOT, "src");
 const KELIR = join(SRC, "views", "kelir");
 const INTEGRATION = join(KELIR, "kelir-integration");
@@ -92,7 +92,7 @@ const GENERATED = [
 ];
 // Spec files: carry their own rulebook / slop corpus to test the gate.
 const SPEC = [
-  join(KELIR, "scripts", "kelir-slop.mjs"), // this gate (matcher table + literal allow)
+  join(KELIR, "scripts", "ui", "kelir-slop.mjs"), // this gate (matcher table + literal allow)
 ];
 
 // Kit-internal code is the IMPLEMENTATION (e.g. outline:none + its own ring,
@@ -106,7 +106,7 @@ if (!existsSync(SRC)) {
     "kelir-slop: could not find <project>/src at " +
       `${SRC}.\n` +
       "  Run from a consumer project that places the kit at src/views/kelir\n" +
-      "  (e.g. `npm run kelir:slop`), not from the kit repo itself.",
+      "  (e.g. `npm run kelir`), not from the kit repo itself.",
   );
   process.exit(2);
 }
