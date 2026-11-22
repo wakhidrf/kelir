@@ -1,114 +1,58 @@
 <!-- kelir-doc: intro -->
-## Origin of the Name & Concept
+# Project Kelir
 
-The name **Project Kelir** is taken from the traditional wayang shadow-puppet performance - *kelir* is the cloth screen used as the stage for wayang shadow puppetry. This philosophy represents Project Kelir as a "screen" capable of displaying various different design faces (themes) on top of one single set of components.
+Project Kelir is a multi-theme design system for Next.js and TypeScript: one set of accessible components that re-skins itself into eleven different design languages, so you ship a polished, consistent interface without writing CSS.
 
-Project Kelir integrates various **`DESIGN.md`** files - each representing its own design language - into one coherent multi-theme design system. Each design language is defined separately in its own file, then unified under a single architecture so it can be selected or swapped with ease.
+## Why teams pick Kelir
 
-## Current Limitations
+- **One codebase, eleven looks.** Move the whole app between eleven design languages - glassmorphism, neumorphism, spatial UI, and more - with a single choice. No forks, no duplicate components.
+- **Accessible from day one.** Keyboard navigation, focus traps, screen-reader announcements, and labelled controls are built into every component, so you never retrofit accessibility later.
+- **Nothing to style by hand.** You pass content and behaviour; colours, spacing, radius, shadows, and fonts come from the active theme, so the interface stays consistent as it grows.
+- **Fonts that stay fast.** Theme fonts are hosted with the kit and preloaded only when a theme uses them - no third-party font CDN and no render-blocking request on a cold visit.
+- **Static-friendly.** Serve the theme from a cookie for a server-rendered first paint, or from the browser so public pages stay cached on a CDN.
 
-Project Kelir is currently limited to **Next.js with TypeScript** projects. Before integrating Project Kelir, the project also needs to be cleaned of any other UI/UX already installed, such as Tailwind CSS.
+## Frequently asked questions
 
-### Consistency Gates Live in the Host Project
+**Do I need to know CSS?** No. You pick from fixed, documented options - for example a button's variant - and the theme handles the visuals.
 
-The sealed contract (the component list and each component's allowed props, values, and tokens) is kept at the **host project's root** as `STYLE.md`, not inside this submodule. The parity, guard, and status gates therefore run from the host repository, where the kit is mounted at `src/views/kelir`. A standalone clone of Kelir only parse-checks its tooling; run the full gates from the host project so the contract, types, and catalog stay in sync.
+**Will it fit an existing app?** Kelir is built for Next.js with TypeScript and works best on a clean slate. Start by removing any other UI kit, such as Tailwind, so the two do not clash.
 
-Alongside those, the anti-slop gate (`scripts/ui/kelir-slop.mjs`, run as `npm run kelir`) runs from the host project too: it scans the host files that import Kelir plus the kit's own internals using the pinned matcher table defined in this gate, and fails the build on any ERROR. A line carrying `kelir-allow: slop` (or the line above it) is an explicit, reviewable exemption.
+**Can I add my own branding?** The eleven themes are the supported set. You can set a brand font and two brand colours without touching component code.
 
-The adoption gate (`scripts/ui/kelir-hunt.mjs`, run as `npm run kelir`) covers UI that never imports Kelir. Route files (`app/**` or `pages/**`) with raw intrinsic tags are ERROR; app components, canvas/iframes, dynamic-content sinks, CSS-in-JS, consumer stylesheets, and third-party UI imports are WARN. Tailwind directives are ERROR. A file-level `kelir-allow: hunt <reason>` is the explicit exemption.
+## Support the project
 
-### Gate Tooling v1.2.1
-
-Every gate prints the same table (`GATE | STATUS | ERRORS | WARNINGS | ALLOWED`, then `FINDINGS` and `SCOPE`) and reports a version from `scripts/kelir-version.mjs`, so a consumer can pin a known-good kit tag. On top of that:
-
-- `node src/views/kelir/scripts/kelir-all.mjs` (used by `npm run kelir`) runs all six gates without `&&` short-circuiting, prints every report, then a combined summary, and exits 1 if any gate failed. The runner always adds `--strict` so the summary matches the status each gate printed. `--only=kelir-guard` runs a subset and `--list` prints the order.
-- `kelir-guard --fix` rewrites the deterministic raw-tag to kit-component mappings (`<input>` to `Input`, `<a>` to `Link`, `<img>` to `Image`, `<p>`/`<h1>` to `Typography`, and so on) and adds the matching import. A tag is rewritten only when every attribute it carries is accepted by the kit component; anything else stays an ERROR and is listed under `Skipped` with the reason. `--fix --dry-run` previews without writing.
-- `kelir-guard --explain <rule>` prints the rule, its docs link, the files it affects, and - for `raw-tag` - a tag map with the recommended kit component and whether `--fix` can handle it.
-- `.kelirrc` in the host project root suppresses WARN rules the project considers its own style: `{ "kelir-guard": { "warn": ["style", "heuristic-slot"] } }`. Suppressed findings are reported as ALLOW, never silent; ERROR rules cannot be suppressed, and a malformed file fails the gate with exit 2.
-- `kelir-hunt --scope=views,app` restricts the scan to those `src` subdirectories, and files whose name marks them as server code (`*controller*`, `*action*`, `*queries*`, `*repository*`, `*service*`, `*server*`, `*db*`, `*schema*`, `*seed*`, `*migration*`) are skipped and counted instead of reported as "UI without a Kelir import". `--all-files` disables that heuristic.
-- `kelir-allow: <reason>` is read by one shared, line-ending-agnostic parser in `kelir-report.mjs`, so the marker keeps working in CRLF checkouts (`core.autocrlf=true`) across `kelir-guard`, `kelir-alias`, `kelir-bury`, `kelir-slop`, `kelir-hunt`, `kelir-swr` and `kelir-perf`; `/* kelir-allow: why */` and the JSX form `{/* kelir-allow: why */}` both yield `why`. `kelir-hunt` reads JSX tags only from `.tsx`/`.jsx` files and ignores TypeScript generics (`Record<string, x>`, `useState<void>()`), so a non-UI `.ts` file is no longer reported as UI.
-- Two optional, dependency-free audits (Node built-ins only, same table/exit model) flag performance and data-fetching regressions. `node src/views/kelir/scripts/tooling/kelir-perf.mjs` (`npm run kelir:extra`) reports `root-layout-dynamic` (root layout reads `cookies()`/`headers()`/session, forcing every route dynamic), `dns-lookup-no-cache`, `img-no-dimensions`, `external-font-blocking`, `inline-list-map`. `node src/views/kelir/scripts/tooling/kelir-swr.mjs` (`npm run kelir:extra`) reports SWR staleness/races: `always-null-key`, `mutate-key-mismatch`, `optimistic-no-rollback`, `search-no-keep-previous`, `no-config`, `focus-refetch`, `search-no-debounce`; pass `--keys <file>` to resolve `<name>.member` keys against a `const <name> = { member: "literal" }` registry. Both accept `--root <dir>`, `--ignore <substr>` (repeatable), `--strict`, `--json`, and honor `kelir-allow: <reason>` like the six gates; exit 1 on any ERROR (and WARN with `--strict`), 2 on bad usage.
-
-## Per-Theme Typography
-
-Besides multi-theme, every design language from DESIGN.md carries its own typography. The UI font and monospace font are automatically paired with the theme, so all components match the design identity with no extra configuration.
-
-The files are **self-hosted**: Kelir never pulls a third-party font stylesheet. The eight woff2 files ship inside the kit (`fonts/`), and `KelirProvider` emits the `@font-face` block itself (`font-display: swap`) and preloads only the active theme's text + mono files, so a cold visit blocks on nothing and calls no font CDN. Each path is resolved by the bundler into a hashed URL on the app's own origin, so a consumer that copies the kit brings the fonts with it:
-
-| File | Family | Weight |
-|---|---|---|
-| `jetbrains-mono-variable.woff2` | JetBrains Mono | `100 800` (variable) |
-| `playfair-display-variable.woff2` | Playfair Display | `400 900` (variable) |
-| `poppins-400.woff2` ... `poppins-800.woff2` | Poppins | `400` / `500` / `600` / `700` / `800` |
-| `exo-2-variable.woff2` | Exo 2 | `100 900` (variable) |
-
-Only four families exist across the eleven themes: JetBrains Mono is the monospace face everywhere, while Playfair Display, Poppins and Exo 2 are the text face for exactly one theme each. The other seven themes use the system UI stack and ship no text file at all.
-
-All four are licensed under the SIL Open Font License 1.1; the copyright notices and the full license text ship with the files in `fonts/LICENSE.md`.
-
----
+Project Kelir is free and open source. If it saves you time, consider buying me a Ko-fi or starring it on GitHub - both links are in the site header.
 
 <!-- kelir-doc: install -->
-## Integration & Installation Guide
 
-### 1. Preparing the Required Dependencies
+## Getting started
 
-Make sure your project has the following core dependencies:
+1. **Add the kit to your project** as a Git submodule under `src/views/kelir`.
+2. **Wrap your app in the provider** so every component picks up the active theme.
+3. **Drop components into a page** and flip the theme to watch the whole app re-skin at once.
 
-```json
-{
-  "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^9.4.0",
-    "@mui/material": "^9.4.0",
-    "next": "16.3.6",
-    "react": "19.3.0",
-    "react-dom": "19.3.0"
-  }
-}
-```
+## For developers
 
-Install all Project Kelir dependencies at once with a single command:
+### Requirements
+
+Next.js with TypeScript, plus these core packages:
 
 ```bash
-npm install \
-  @emotion/react@^11.14.0 \
-  @emotion/styled@^11.14.1 \
-  @mui/material@^9.4.0 \
-  @mui/icons-material@^9.4.0 \
-  react@19.3.0 \
-  react-dom@19.3.0
+npm install @emotion/react @emotion/styled @mui/material @mui/icons-material
 ```
 
-### 2. Adding Project Kelir as a Git Submodule
-
-Project Kelir is distributed as a Git submodule. Add it (and initialize any of
-its own dependencies) into the `src/views/kelir` directory:
+### Add Kelir as a submodule
 
 ```bash
 git submodule add https://github.com/wakhidrf/kelir.git src/views/kelir
 git submodule update --init --recursive
 ```
 
-The submodule is pinned to a specific commit (the version you added). To pull
-newer commits from the repo later:
+The submodule is pinned to the commit you add. Pull newer kit versions later with `git submodule update --remote src/views/kelir`.
 
-```bash
-git submodule update --remote src/views/kelir
-```
+### Install the provider
 
-### 3. Installing the Main Provider (`KelirProvider`)
-
-Place `KelirProvider` in `layout.tsx`. The theme is **server-driven**: the root
-layout reads the persisted theme cookie (if any) and lays `data-kelir-theme`
-straight onto `<html>`, so the very first SSR HTML is already themed - no flash,
-no client inline script, no localStorage. `setTheme` applies the theme instantly
-on the client (attribute) and persists it back through a Server Action that sets
-the cookie, so the next SSR response already ships the saved theme. For a
-**static** root layout that must not `await cookies()`, pass
-`themeMode="client"` (see *Static public routes* below) - the same closed props,
-persisted in `localStorage` instead of a cookie.
+Place `KelirProvider` in the root layout. By default the theme is server-driven: the layout reads the saved theme cookie and lays it onto `<html>` so the first paint is already themed - no flash, no client script, no localStorage.
 
 ```tsx
 // src/app/layout.tsx (Server Component)
@@ -129,8 +73,6 @@ export default async function RootLayout({
   return (
     <html lang="en" data-kelir-theme={theme} suppressHydrationWarning>
       <body>
-        {/* Optional safety gate; inert while data-kelir-ready="true" (see
-            kelir-styles "hideBeforeReadyCss"). */}
         <KelirProvider defaultTheme={theme}>{children}</KelirProvider>
       </body>
     </html>
@@ -138,8 +80,10 @@ export default async function RootLayout({
 }
 ```
 
+Persist the choice with a Server Action that writes the cookie:
+
 ```tsx
-// src/controllers/theme-actions.ts (Server Action - sets the cookie)
+// src/controllers/theme-actions.ts
 "use server";
 
 import { cookies } from "next/headers";
@@ -156,139 +100,41 @@ export async function persistThemeCookie(theme: Theme) {
 }
 ```
 
-```tsx
-// src/controllers/theme-actions.ts (Server Action - removes the cookie)
-"use server";
+**Static public pages.** When the root layout must stay static (SSG/CDN) and cannot read cookies, pass `themeMode="client"`. The theme is then stored in the browser and applied before first paint by a tiny inline script - no cookie and no server round-trip.
 
-import { cookies } from "next/headers";
-import { THEME_COOKIE } from "@/views/kelir/kelir-styles";
+**No switcher, no saved theme.** The theme cookie is kept only while a theme picker is mounted, so a shared origin never leaks a stale choice.
 
-export async function deleteThemeCookie() {
-  const cookieStore = await cookies();
-  cookieStore.set(THEME_COOKIE, "", {
-    path: "/",
-    sameSite: "lax",
-    maxAge: 0,
-  });
-}
-```
+### Use components
+
+Import straight from the kit and lay out with kit primitives instead of styled `div`s:
 
 ```tsx
-// src/app/page.tsx (Client Component)
-"use client";
-
-import { KelirSwitcher } from "@/views/kelir/kelir-switcher";
-
-export default function Home() {
-  // Render the switcher when you want interactive, persisted theme switching.
-  // setTheme applies the theme immediately and persists via the theme cookie.
-  return <KelirSwitcher />;
-}
-```
-
-```tsx
-// src/app/page.tsx (Client Component) - programmatic access
-"use client";
-
-import { useKelir } from "@/views/kelir/kelir-provider";
-
-export default function Home() {
-  const { theme, setTheme } = useKelir();
-  return <div>{/* your app */}</div>;
-}
-```
-
-> **Theme persistence.** The root layout serves the saved theme from the
-> `THEME_COOKIE` (`kelir_theme`), and `KelirProvider`'s `setTheme` persists that
-> cookie through a Server Action. No env key and no localStorage - the SSR HTML
-> itself is already themed, so there is no flash to a server default on load or
-> refresh.
-
-> **No switcher = no persisted theme.** `KelirSwitcher` (or any picker) calls
-> `registerSwitcher`/`unregisterSwitcher` via `useKelir()`. As long as one is
-> mounted, `setTheme` persists to the cookie. If the page has **no** mounted
-> switcher, the provider deletes the theme cookie and `setTheme` stays transient -
-> a shared origin (e.g. `localhost:3000` reused by several projects) never keeps a
-> leaked theme choice. The server still serves the cookie theme if a stale cookie
-> existed, but it is removed once the no-switcher page hydrates.
-
-> **Static public routes (`themeMode="client"`).** When the root layout must stay
-> static (SSG/CDN) and cannot `await cookies()` for `kelir_theme`, pass
-> `themeMode="client"`. The provider then persists the theme in `localStorage`
-> (`THEME_STORAGE_KEY`, same `kelir_theme` string) and renders a blocking inline
-> script as its first child; that script reads `localStorage` and stamps
-> `<html data-kelir-theme>` **before first paint**, so the themed first paint and
-> no flash are kept with no cookie and no server round-trip. `setTheme` writes
-> `localStorage` in this mode (it never touches the cookie, and no Server Action
-> is needed). Keep `suppressHydrationWarning` on `<html>` - the script mutates
-> the attribute before hydration, exactly as `next-themes` does.
-
-> **No persistence** (session-only): pass a fixed `defaultTheme` and never call
-> `setTheme`, or use `themeMode="client"` and clear `localStorage` on demand.
-> `setTheme` then just applies the theme for the current session.
-
-### 4. How to Import Components
-
-Import Project Kelir components directly from `src/views/kelir/kelir-components` as in the following example:
-
-```tsx
-import { Badge } from "@/views/kelir/kelir-components/badge";
 import { Button } from "@/views/kelir/kelir-components/button";
 import { Stack } from "@/views/kelir/kelir-components/stack";
-import { Switch } from "@/views/kelir/kelir-components/switch";
 
-export default function MyComponent() {
+export default function Example() {
   return (
-    // Layout via kit primitives (Stack), never a styled div.
     <Stack direction="row" gap="md">
-      <Button variant="primary">Click Me</Button>
-      <Switch label="Enable Feature" defaultChecked />
-      <Badge variant="secondary">New Info</Badge>
+      <Button variant="primary">Click me</Button>
     </Stack>
   );
 }
 ```
 
-### 5. Usage Rules
+### Rules of the road
 
-Each component card in the Showcase tab shows three things: a live preview
-you can click, the exact props you may pass (for example Button:
-`variant?: 'primary' | 'secondary' | 'destructive' | 'outline' | 'ghost'`),
-and a code snippet you can copy. The rules below are what those cards enforce.
-The prop list on each card is generated from the contract, so it never
-goes stale:
+- You provide content, options, data, and handlers; the theme owns every visual.
+- Never style from the outside - no `style`/`sx`/`className`, no raw colours or sizes, no `slotProps`.
+- Pass only the values shown on each component's card in the Showcase; an invented value will not render.
+- Lay out with kit primitives (`Stack`, `Grid`, `Spacer`), not plain wrappers.
 
-> **You fill content + meaning + behavior.** Your code provides text, options,
-> data, and handlers (`onClick`, `onChange`, `value`, `open`). Everything
-> visual - colors, radius, spacing, fonts, shadows, animations - belongs to
-> Kelir and follows the active theme automatically.
+### Consistency gates
 
-> **Never style from the outside.** No `style`/`sx`/`className`, no raw
-> colors or sizes, no `slotProps`/`classes`/`slot`, no
-> `dangerouslySetInnerHTML`, and no `data-*` attributes for styling (the only
-> exception is `data-testid` for your own tests).
+Kelir ships static checks that run from your project with `npm run kelir`: a contract guard, an anti-slop filter, an adoption check, and optional performance and data-fetching audits. Every check prints the same report table and pins a known-good version, so you always know which rules ran.
 
-> **Pick from the lists shown in each card.** Props like `variant`, `size`,
-> `gap`, `align`, `shape`, or `mode` accept only the values printed on the
-> card - try `Button variant="primary"`, `Grid columns={6}`, `Stack gap="md"`.
-> A value you invent yourself won't match the theme, and the preview won't
-> show it.
+### Per-theme fonts
 
-> **Lay out with kit primitives.** Use `Stack`, `Grid`, or `Spacer` from
-> `kelir-components` (see How to Import Components above), not plain `div`
-> wrappers.
-
-> **One visual switch.** `KelirProvider` takes `defaultTheme` + `children`
-> and nothing else visual. Change themes at runtime with
-> `useKelir().setTheme` or the ready-made `KelirSwitcher` (see Installing the
-> Main Provider above) - never by overriding colors. Flip themes in the
-> Showcase to see every preview change at once.
-
-> **Labels are yours, behavior is ours.** You provide accessible names
-> (`aria-label`, `id`, `htmlFor`); focus traps, live announcements, and
-> keyboard support are built into every component - tab through the Showcase
-> previews with your keyboard to feel it. The only component that takes
-> dimensions is `Skeleton` (`width`/`height` for loading placeholders).
+Each design language carries its own typography, and the fonts ship with the kit - never a third-party stylesheet. Four families cover all eleven themes: JetBrains Mono everywhere as the monospace face, plus Playfair Display, Poppins, and Exo 2 as the text face for one theme each. All four are under the SIL Open Font License 1.1; the licence text ships in `fonts/LICENSE.md`.
 
 ---
 
@@ -340,7 +186,7 @@ Components for displaying static data, visualizations, and message structures.
 34. **Empty**: An appealing visual state for marking when data or content is empty.
 35. **Hover Card**: A preview card with additional content that appears when hovering over a link.
 36. **Item**: A versatile row component for lists, presenting media, title, description, and action buttons.
-37. **Kbd**: Displays keyboard shortcuts with an aesthetic physical keyboard key style.
+37. **Kbd**: Displays keyboard shortcuts with an aesthetic physical keyboard style.
 38. **List**: A semantic list with kit-owned markers, spacing, and color, switchable between bullet and numbered.
 39. **Marker**: A status line marker, conversation separator, or labeled line divider in chats.
 40. **Message**: A message row component in a chat history complete with send time and status.
@@ -408,9 +254,7 @@ Components that shape the structure and placement of elements.
 <!-- kelir-doc: themes -->
 ## Theme List
 
-Project Kelir ships the following themes (one `DESIGN.md` design language each),
-selectable at runtime via `KelirProvider`/`KelirSwitcher`. The list below is
-complete - keep the `N. **theme-id**:` format when adding a theme.
+Project Kelir ships the following themes (one `DESIGN.md` design language each), selectable at runtime via `KelirProvider`/`KelirSwitcher`. The list below is complete - keep the `N. **theme-id**:` format when adding a theme.
 
 1. **aurora-ui**: Flowing aurora gradients over a dark canvas.
 2. **claymorphism**: Soft chunky clay shapes with thick rounded borders.
@@ -423,17 +267,6 @@ complete - keep the `N. **theme-id**:` format when adding a theme.
 9. **neumorphism**: Soft extruded plastic with dual light/shadow.
 10. **skeuomorphism**: Realistic textures mimicking physical materials.
 11. **spatial-ui**: Depth-ordered spatial layers with ambient shadows.
-
----
-
-## Anti-slop Rulebook (for AI Assistants)
-
-Project Kelir vendors the pinned [anti-slop](https://github.com/miqdadbadjuber/anti-slop) rulebook in `kelir-integration/` so AI assistants and the host gate share one deterministic filter. The folder contains only the upstream rulebook mirror plus the sync/index tools; the gate's matcher table lives in `scripts/ui/kelir-slop.mjs`. The experimental MCP server was removed.
-
-- Kind: static rules plus regex matchers; no network, no model call.
-- Host gate: `npm run kelir:slop:strict` scans shipped code using the same matchers.
-- Update: bump `PIN.ref` in `kelir-integration/tools/sync-antislop.mjs`, then run the sync and index tools.
-- Do not edit `kelir-integration/antislop/**` by hand; it is byte-checked against `upstream.lock.json`.
 
 ---
 
