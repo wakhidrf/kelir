@@ -1,6 +1,6 @@
 "use client";
 
-import { css } from "../kelir-variants";
+import { css } from "../kelir-kit/kit-create-css";
 import { MONTHS, navButtonStyles } from "./calendar-utils";
 
 export function CalendarHeader({ year, month, onPrev, onNext }: {

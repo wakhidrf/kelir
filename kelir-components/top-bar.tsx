@@ -1,6 +1,6 @@
 import MuiBox from "@mui/material/Box";
-import type { TopBarProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { TopBarProps } from "../kelir-kit/kit-layout-shell";
+import { css } from "../kelir-kit/kit-create-css";
 
 // Sealed mobile app-shell bar (P1b STYLE.md): `left?`/`right?` slots are
 // aligned edge-to-edge (an empty side = an invisible empty box;

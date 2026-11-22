@@ -3,8 +3,8 @@
 import MuiPopover from "@mui/material/Popover";
 import { useTheme } from "@mui/material/styles";
 import * as React from "react";
-import type { PopoverProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { PopoverProps } from "../kelir-kit/kit-misc-overlay";
+import { css } from "../kelir-kit/kit-create-css";
 
 type TriggerElementProps = {
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;

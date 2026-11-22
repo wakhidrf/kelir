@@ -3,8 +3,8 @@
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import * as React from "react";
-import type { MenubarProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { MenubarProps } from "../kelir-kit/kit-navigation-menu";
+import { css } from "../kelir-kit/kit-create-css";
 
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;

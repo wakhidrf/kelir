@@ -1,6 +1,6 @@
 import MuiBox from "@mui/material/Box";
-import type { TileProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { TileProps } from "../kelir-kit/kit-misc-misc";
+import { css } from "../kelir-kit/kit-create-css";
 
 // Kit-owned fixed sizes (aligned with Image sm/md/lg heights); without `size` =
 // flexible icon tile (padding token).

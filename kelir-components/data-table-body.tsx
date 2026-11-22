@@ -3,8 +3,8 @@
 import MuiTableBody from "@mui/material/TableBody";
 import MuiTableRow from "@mui/material/TableRow";
 import MuiTableCell from "@mui/material/TableCell";
-import type { DataTableProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { DataTableProps } from "../kelir-kit/kit-data-display-data";
+import { css } from "../kelir-kit/kit-create-css";
 
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;

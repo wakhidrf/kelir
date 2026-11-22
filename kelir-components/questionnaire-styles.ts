@@ -1,5 +1,5 @@
 import type * as React from "react";
-import { css } from "../kelir-variants";
+import { css } from "../kelir-kit/kit-create-css";
 
 const surface = css.colors.surface;
 const textSecondary = css.colors.textSecondary;

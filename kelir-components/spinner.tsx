@@ -1,6 +1,6 @@
 import MuiCircularProgress from "@mui/material/CircularProgress";
-import type { SpinnerProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { SpinnerProps } from "../kelir-kit/kit-feedback";
+import { css } from "../kelir-kit/kit-create-css";
 
 // Kit-owned sizes (closed px values, not free consumer numbers).
 const sizes = {

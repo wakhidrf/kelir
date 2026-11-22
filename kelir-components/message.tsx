@@ -1,6 +1,6 @@
 import MuiBox from "@mui/material/Box";
-import type { MessageProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { MessageProps } from "../kelir-kit/kit-data-display-text";
+import { css } from "../kelir-kit/kit-create-css";
 
 export function Message({
   avatar,

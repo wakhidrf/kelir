@@ -1,7 +1,7 @@
 import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
 import MuiBox from "@mui/material/Box";
-import type { EmptyProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { EmptyProps } from "../kelir-kit/kit-misc-misc";
+import { css } from "../kelir-kit/kit-create-css";
 
 export function Empty({
   title,

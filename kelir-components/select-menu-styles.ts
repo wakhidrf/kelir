@@ -1,4 +1,5 @@
-import { css, scrollbarClass } from "../kelir-variants";
+import { scrollbarClass } from "../kelir-kit/kit-scrollbar";
+ import { css } from "../kelir-kit/kit-create-css";
 
 export const menuScrollbarSx = {
   scrollbarWidth: "thin",

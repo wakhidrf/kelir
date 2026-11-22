@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import type { ResizableProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { ResizableProps } from "../kelir-kit/kit-data-display-data";
+import { css } from "../kelir-kit/kit-create-css";
 import { useResizableDrag } from "./resizable-drag";
 import { usePanelKey } from "./resizable-panel-key";
 

@@ -1,6 +1,6 @@
 import MuiSlider from "@mui/material/Slider";
-import type { SliderProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { SliderProps } from "../kelir-kit/kit-forms-choice";
+import { css } from "../kelir-kit/kit-create-css";
 
 export function Slider({
   value,

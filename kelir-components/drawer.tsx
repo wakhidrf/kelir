@@ -1,7 +1,7 @@
 import MuiDrawer from "@mui/material/Drawer";
 import MuiBox from "@mui/material/Box";
-import type { DrawerProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { DrawerProps } from "../kelir-kit/kit-misc-overlay";
+import { css } from "../kelir-kit/kit-create-css";
 
 export function Drawer({
   open,

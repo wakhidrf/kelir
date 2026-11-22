@@ -4,8 +4,8 @@ import Divider from "@mui/material/Divider";
 import MuiMenu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import * as React from "react";
-import type { DropdownMenuProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { DropdownMenuProps } from "../kelir-kit/kit-navigation-menu";
+import { css } from "../kelir-kit/kit-create-css";
 import { DropdownMenuTrigger } from "./dropdown-menu-trigger";
 
 const convexShadow = css.shadows.convex;

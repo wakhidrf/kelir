@@ -1,6 +1,6 @@
 import MuiBox from "@mui/material/Box";
-import type { ListProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { ListProps } from "../kelir-kit/kit-data-display-text";
+import { css } from "../kelir-kit/kit-create-css";
 
 // Sealed semantic list (P2 STYLE.md 6): markers, spacing, and color belong to the kit.
 // MUI basis (MuiBox = ul/ol + emotion + theme in tree) for multi-platform.

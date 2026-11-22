@@ -1,15 +1,15 @@
 import MuiAvatar from "@mui/material/Avatar";
-import type { AvatarProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { AvatarProps } from "../kelir-kit/kit-data-display-content";
+import { css } from "../kelir-kit/kit-create-css";
 
 const AVATAR_PX = {
   xs: 24,
   sm: 32,
   md: 40,
   lg: 48,
-  xl: 96,
-  "2xl": 128,
-  "3xl": 160,
+  xl: 56,
+  "2xl": 64,
+  "3xl": 72,
 } as const;
 
 // Pure logic (no DOM): maps size MEANING → kit px.

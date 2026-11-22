@@ -1,5 +1,5 @@
 import MuiBox from "@mui/material/Box";
-import type { StackProps } from "../kelir-types";
+import type { StackProps } from "../kelir-kit/kit-layout";
 import { gaps, MD_QUERY, minHeightValue } from "./stack-tokens";
 
 // Sealed layout primitive (P1b STYLE.md): arrangement + spacing + alignment from

@@ -1,8 +1,8 @@
 import MuiCard from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import type { CardProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { CardProps } from "../kelir-kit/kit-data-display-content";
+import { css } from "../kelir-kit/kit-create-css";
 import { CardFlag } from "./card-flag";
 import { CardHeaderBlock } from "./card-header";
 

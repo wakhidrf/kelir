@@ -1,8 +1,8 @@
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import MuiBox from "@mui/material/Box";
-import type { LinkProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { LinkProps } from "../kelir-kit/kit-navigation-chrome";
+import { css } from "../kelir-kit/kit-create-css";
 
 // Sealed inline link (P1b STYLE.md): text + inline icon belong to the kit
 // (`external?` → open-in-new icon + `target _blank` + `rel noopener`,

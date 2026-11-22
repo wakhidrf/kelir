@@ -1,5 +1,5 @@
-import type { QuestionnaireQuestion } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { QuestionnaireQuestion } from "../kelir-kit/kit-questionnaire";
+import { css } from "../kelir-kit/kit-create-css";
 import { Checkbox } from "./checkbox";
 import type { AnswerValue } from "./questionnaire-model";
 import { RadioGroup } from "./radio-group";

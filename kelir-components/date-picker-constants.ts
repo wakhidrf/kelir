@@ -1,4 +1,4 @@
-import { css } from "../kelir-variants";
+import { css } from "../kelir-kit/kit-create-css";
 
 export const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 export const MONTHS = [

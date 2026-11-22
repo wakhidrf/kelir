@@ -1,6 +1,6 @@
 import MuiBox from "@mui/material/Box";
-import type { InputGroupProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { InputGroupProps } from "../kelir-kit/kit-forms-input";
+import { css } from "../kelir-kit/kit-create-css";
 
 export function InputGroup({
   prefix,

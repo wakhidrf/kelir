@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import type { DataTableProps } from "../kelir-types";
+import type { DataTableProps } from "../kelir-kit/kit-data-display-data";
 import { DataTablePagination } from "./data-table-pagination";
 import { TableHead } from "./data-table-head";
 import { TableBody } from "./data-table-body";

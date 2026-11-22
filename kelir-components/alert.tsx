@@ -1,7 +1,7 @@
 import MuiAlert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
-import type { AlertProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { AlertProps } from "../kelir-kit/kit-feedback";
+import { css } from "../kelir-kit/kit-create-css";
 
 const cardShadow = css.shadows.card;
 const neumorphicBg = css.colors.surface;

@@ -1,4 +1,4 @@
-import type { QuestionnaireQuestion } from "../kelir-types";
+import type { QuestionnaireQuestion } from "../kelir-kit/kit-questionnaire";
 
 // Internal Questionnaire model (P2 PLAN.md split §8): answer type +
 // answered predicate. Not a public contract (not in §5).

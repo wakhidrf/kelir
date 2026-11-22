@@ -2,8 +2,8 @@
 
 import MuiCollapse from "@mui/material/Collapse";
 import * as React from "react";
-import type { CollapsibleProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { CollapsibleProps } from "../kelir-kit/kit-actions";
+import { css } from "../kelir-kit/kit-create-css";
 
 // Collapsible sealed (Gel.3c-6 STYLE.md §6): TEXT trigger slot - the kit
 // renders the trigger + handles the click (no cloneElement to the consumer).

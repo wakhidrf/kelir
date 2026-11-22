@@ -1,6 +1,6 @@
 import MuiPagination from "@mui/material/Pagination";
-import type { PaginationProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { PaginationProps } from "../kelir-kit/kit-data-display-data";
+import { css } from "../kelir-kit/kit-create-css";
 
 export function Pagination({
   count,

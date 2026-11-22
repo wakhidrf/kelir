@@ -1,8 +1,8 @@
 "use client";
 
 import MuiBox from "@mui/material/Box";
-import type { SidebarProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { SidebarProps } from "../kelir-kit/kit-navigation-chrome";
+import { css } from "../kelir-kit/kit-create-css";
 import { SidebarBody } from "./sidebar-body";
 
 const SIDEBAR_WIDTH = "var(--sidebar-width, 260px)";

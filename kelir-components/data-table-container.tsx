@@ -2,7 +2,7 @@
 
 import MuiTable from "@mui/material/Table";
 import type * as React from "react";
-import { css } from "../kelir-variants";
+import { css } from "../kelir-kit/kit-create-css";
 
 const textPrimary = css.colors.textPrimary;
 

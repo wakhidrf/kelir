@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import type { TruncatedTextProps } from "../kelir-types";
+import type { TruncatedTextProps } from "../kelir-kit/kit-data-display-text";
 
 export function TruncatedText({
   text,

@@ -1,6 +1,7 @@
 import MuiBox from "@mui/material/Box";
-import type { CardProps } from "../kelir-types";
-import { css, statusColors } from "../kelir-variants";
+import type { CardProps } from "../kelir-kit/kit-data-display-content";
+import { css } from "../kelir-kit/kit-create-css";
+ import { statusColors } from "../kelir-kit/kit-variant-values";
 
 // Kit-owned side strip (solid, Marker-border precedent): token breathing width.
 const flagColors = {

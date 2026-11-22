@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import type { QuestionnaireProps } from "../kelir-types";
+import type { QuestionnaireProps } from "../kelir-kit/kit-questionnaire";
 import {
   type Answers,
   type AnswerValue,

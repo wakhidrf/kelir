@@ -1,6 +1,6 @@
 import type * as React from "react";
-import type { NavigationMenuProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { NavigationMenuProps } from "../kelir-kit/kit-navigation-menu";
+import { css } from "../kelir-kit/kit-create-css";
 
 const textSecondary = css.colors.textSecondary;
 

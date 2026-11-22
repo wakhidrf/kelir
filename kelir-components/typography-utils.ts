@@ -1,6 +1,6 @@
 import type * as React from "react";
-import type { TypographyProps, TypographySegment } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { TypographyProps, TypographySegment } from "../kelir-kit/kit-typography-props";
+import { css } from "../kelir-kit/kit-create-css";
 import { variantStyles } from "./typography-styles";
 
 type Variant = NonNullable<TypographyProps["variant"]>;

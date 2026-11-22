@@ -1,7 +1,7 @@
 "use client";
 
 import MuiBox from "@mui/material/Box";
-import type { SidebarProps } from "../kelir-types";
+import type { SidebarProps } from "../kelir-kit/kit-navigation-chrome";
 import { ScrollArea } from "./scroll-area";
 
 export function SidebarBody({

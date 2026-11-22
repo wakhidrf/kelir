@@ -1,6 +1,6 @@
 import MuiBox from "@mui/material/Box";
-import type { QuoteProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { QuoteProps } from "../kelir-kit/kit-data-display-text";
+import { css } from "../kelir-kit/kit-create-css";
 
 // Sealed block quote (P2 STYLE.md 6): accent bar, background, radius, and
 // shadow owned by the kit. MUI base (MuiBox = blockquote + emotion + theme in

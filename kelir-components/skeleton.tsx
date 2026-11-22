@@ -1,6 +1,6 @@
 import MuiSkeleton from "@mui/material/Skeleton";
-import type { SkeletonProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { SkeletonProps } from "../kelir-kit/kit-feedback";
+import { css } from "../kelir-kit/kit-create-css";
 
 export function Skeleton({
   variant = "text",

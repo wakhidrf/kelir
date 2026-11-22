@@ -1,6 +1,6 @@
 import MuiBox from "@mui/material/Box";
-import type { PageFrameProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { PageFrameProps } from "../kelir-kit/kit-layout-shell";
+import { css } from "../kelir-kit/kit-create-css";
 import { PageFrameBody } from "./page-frame-body";
 import { MOBILE_MAX, page } from "./page-frame-tokens";
 

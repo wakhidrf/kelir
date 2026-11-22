@@ -1,6 +1,6 @@
 import MuiBreadcrumbs from "@mui/material/Breadcrumbs";
-import type { BreadcrumbProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { BreadcrumbProps } from "../kelir-kit/kit-navigation-menu";
+import { css } from "../kelir-kit/kit-create-css";
 
 export function Breadcrumb({ items, id, "aria-label": ariaLabel }: BreadcrumbProps) {
   return (

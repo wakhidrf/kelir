@@ -3,8 +3,8 @@
 import MenuItem from "@mui/material/MenuItem";
 import MuiSelect from "@mui/material/Select";
 import { useRef, useState } from "react";
-import type { SelectProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { SelectProps } from "../kelir-kit/kit-forms-select";
+import { css } from "../kelir-kit/kit-create-css";
 import { Stack } from "./stack";
 import { Typography } from "./typography";
 import { KelirSelectInput } from "./select-input";

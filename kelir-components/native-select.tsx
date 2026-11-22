@@ -1,7 +1,7 @@
 import MuiInputBase from "@mui/material/InputBase";
 import MuiNativeSelect from "@mui/material/NativeSelect";
-import type { NativeSelectProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { NativeSelectProps } from "../kelir-kit/kit-forms-select";
+import { css } from "../kelir-kit/kit-create-css";
 import { Typography } from "./typography";
 
 export function NativeSelect({

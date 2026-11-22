@@ -1,5 +1,5 @@
-import type { ChartProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { ChartProps } from "../kelir-kit/kit-data-display-data";
+import { css } from "../kelir-kit/kit-create-css";
 import { getSeriesLabel, getValue } from "./chart-utils";
 import { BarChart } from "./chart-bar";
 import { LineChart } from "./chart-line";

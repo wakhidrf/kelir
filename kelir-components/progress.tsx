@@ -1,6 +1,6 @@
 import MuiLinearProgress from "@mui/material/LinearProgress";
-import type { ProgressProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { ProgressProps } from "../kelir-kit/kit-feedback";
+import { css } from "../kelir-kit/kit-create-css";
 
 export function Progress({
   value,

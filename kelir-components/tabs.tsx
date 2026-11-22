@@ -4,8 +4,8 @@ import MuiBox from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import MuiTabs from "@mui/material/Tabs";
 import * as React from "react";
-import type { TabsProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { TabsProps } from "../kelir-kit/kit-navigation-chrome";
+import { css } from "../kelir-kit/kit-create-css";
 
 export function Tabs({
   items,

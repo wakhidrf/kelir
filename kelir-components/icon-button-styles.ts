@@ -1,6 +1,6 @@
 import type * as React from "react";
-import type { IconButtonProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { IconButtonProps } from "../kelir-kit/kit-actions";
+import { css } from "../kelir-kit/kit-create-css";
 
 type Variant = NonNullable<IconButtonProps["variant"]>;
 type Shape = NonNullable<IconButtonProps["shape"]>;
@@ -29,9 +29,9 @@ export function getIconButtonStyles({
     // Kit sizing: md = today's behavior (zero visual change); xs tighter, lg..3xl
     // share the lg frame.
     padding:
-      size === "xs" ? "4px" : size === "sm" ? "6px" : size === "md" ? "10px" : "14px",
+      size === "xs" ? "0.25rem" : size === "sm" ? "0.5rem" : size === "md" ? "0.625rem" : "0.75rem",
     minWidth:
-      size === "xs" ? "28px" : size === "sm" ? "32px" : size === "md" ? "40px" : "48px",
+      size === "xs" ? "1.75rem" : size === "sm" ? "2rem" : size === "md" ? "2.5rem" : "3rem",
     transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
     fontFamily: "inherit",
   };

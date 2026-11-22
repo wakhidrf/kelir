@@ -1,6 +1,6 @@
 import MuiBox from "@mui/material/Box";
-import type { ContainerProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { ContainerProps } from "../kelir-kit/kit-layout";
+import { css } from "../kelir-kit/kit-create-css";
 
 const maxWidths = {
   sm: "640px",

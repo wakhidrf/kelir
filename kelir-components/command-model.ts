@@ -1,4 +1,4 @@
-import type { CommandGroup, CommandProps } from "../kelir-types";
+import type { CommandGroup, CommandProps } from "../kelir-kit/kit-navigation-chrome";
 
 // Command filtering (internal): case-insensitive label match per group,
 // dropping groups left empty. Rendering lives in command.tsx.

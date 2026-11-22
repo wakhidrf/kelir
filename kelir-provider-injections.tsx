@@ -5,8 +5,8 @@
 // sanitized brand values — never consumer HTML.
 
 import * as React from "react";
-import { clientThemeScript, fontLinks, kelirStyleCss } from "./kelir-styles";
-import type { Theme, ThemeMode } from "./kelir-types";
+import { clientThemeScript, fontLinks, kelirStyleCss } from "./kelir-design/kelir-styles";
+import type { Theme, ThemeMode } from "./kelir-kit/kit-provider";
 
 export function KelirProviderInjections({
   brandFont,

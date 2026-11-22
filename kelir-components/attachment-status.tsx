@@ -1,7 +1,7 @@
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutlined";
 import type * as React from "react";
-import { css } from "../kelir-variants";
+import { css } from "../kelir-kit/kit-create-css";
 
 const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;

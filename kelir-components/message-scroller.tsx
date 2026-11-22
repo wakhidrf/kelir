@@ -1,8 +1,9 @@
 "use client";
 
 import * as React from "react";
-import type { MessageScrollerProps } from "../kelir-types";
-import { css, scrollbarClass, scrollbarCss } from "../kelir-variants";
+import type { MessageScrollerProps } from "../kelir-kit/kit-data-display-text";
+import { scrollbarClass, scrollbarCss } from "../kelir-kit/kit-scrollbar";
+ import { css } from "../kelir-kit/kit-create-css";
 
 const textSecondary = css.colors.textSecondary;
 

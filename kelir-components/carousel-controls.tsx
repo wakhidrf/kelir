@@ -1,4 +1,4 @@
-import { css } from "../kelir-variants";
+import { css } from "../kelir-kit/kit-create-css";
 import { carouselDotStyle, carouselNavButtonStyle } from "./carousel-styles";
 
 // Carousel navigation (internal): previous/next buttons over the slides.

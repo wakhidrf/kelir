@@ -2,8 +2,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MuiAccordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
-import type { AccordionProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { AccordionProps } from "../kelir-kit/kit-actions";
+import { css } from "../kelir-kit/kit-create-css";
 
 // Accordion sealed (Gel.3c-6 STYLE.md §6): summary/details TEXT slot,
 // expanded CONTROLLED + semantic onChange; visuals owned by the kit.

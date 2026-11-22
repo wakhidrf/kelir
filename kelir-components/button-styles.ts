@@ -1,6 +1,6 @@
 import type * as React from "react";
-import type { ButtonProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { ButtonProps } from "../kelir-kit/kit-actions";
+import { css } from "../kelir-kit/kit-create-css";
 
 const convexShadow = css.shadows.convex;
 const concaveShadow = css.shadows.concave;
@@ -24,13 +24,13 @@ export function getButtonStyles(
     fontWeight: 600,
     padding:
       size === "xs"
-        ? "3px 8px"
+        ? "0.1875rem 0.5rem"
         : size === "sm"
-          ? "6px 12px"
+          ? "0.5rem 1rem"
           : size === "md"
-            ? "10px 20px"
-            : "14px 28px",
-    ...(size === "xs" ? { fontSize: "11px" } : null),
+            ? "0.625rem 1.25rem"
+            : "0.75rem 1.5rem",
+    ...(size === "xs" ? { fontSize: "0.6875rem" } : null),
     transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
     fontFamily: "inherit",
     justifyContent:

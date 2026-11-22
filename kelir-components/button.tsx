@@ -1,8 +1,8 @@
 import MuiBox from "@mui/material/Box";
 import MuiButton from "@mui/material/Button";
 import type * as React from "react";
-import type { ButtonProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { ButtonProps } from "../kelir-kit/kit-actions";
+import { css } from "../kelir-kit/kit-create-css";
 import { getButtonStyles, convexShadow, concaveShadow, neumorphicBg, textPrimary } from "./button-styles";
 
 const textSecondary = css.colors.textSecondary;

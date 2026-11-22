@@ -1,5 +1,6 @@
-import type { ScrollAreaProps } from "../kelir-types";
-import { css, scrollbarClass, scrollbarCss } from "../kelir-variants";
+import type { ScrollAreaProps } from "../kelir-kit/kit-data-display-data";
+import { scrollbarClass, scrollbarCss } from "../kelir-kit/kit-scrollbar";
+ import { css } from "../kelir-kit/kit-create-css";
 
 const textPrimary = css.colors.textPrimary;
 

@@ -1,7 +1,7 @@
 import MuiTypography from "@mui/material/Typography";
 import type * as React from "react";
-import type { TypographyProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { TypographyProps } from "../kelir-kit/kit-typography-props";
+import { css } from "../kelir-kit/kit-create-css";
 import { mappedVariant, defaultElement } from "./typography-variants";
 import { MOBILE_QUERY, MD_QUERY, BRAND_FONT, styleFor, segmentStyle } from "./typography-utils";
 

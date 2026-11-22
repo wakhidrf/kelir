@@ -2,7 +2,7 @@
 
 import Popper from "@mui/material/Popper";
 import type * as React from "react";
-import { css } from "../kelir-variants";
+import { css } from "../kelir-kit/kit-create-css";
 
 const neumorphicBg = css.colors.surface;
 const surfaceBlur = css.motion.blur.backdrop;

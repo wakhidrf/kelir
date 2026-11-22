@@ -1,6 +1,7 @@
 import type * as React from "react";
-import type { MarkerProps } from "../kelir-types";
-import { css, statusColors } from "../kelir-variants";
+import type { MarkerProps } from "../kelir-kit/kit-data-display-text";
+import { css } from "../kelir-kit/kit-create-css";
+ import { statusColors } from "../kelir-kit/kit-variant-values";
 
 export interface MarkerPalette {
   bg: string;

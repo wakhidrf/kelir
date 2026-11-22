@@ -1,6 +1,6 @@
 import MuiSwitch from "@mui/material/Switch";
-import type { SwitchProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { SwitchProps } from "../kelir-kit/kit-forms-choice";
+import { css } from "../kelir-kit/kit-create-css";
 
 const textPrimary = css.colors.textPrimary;
 

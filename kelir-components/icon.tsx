@@ -1,12 +1,12 @@
 import MuiBox from "@mui/material/Box";
-import type { IconProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { IconProps } from "../kelir-kit/kit-actions";
+import { css } from "../kelir-kit/kit-create-css";
 
 const sizes = {
   xs: "0.875rem",
   sm: "1rem",
   md: "1.25rem",
-  lg: "1.75rem",
+  lg: "1.5rem",
   xl: "2.25rem",
   "2xl": "3rem",
   "3xl": "4rem",

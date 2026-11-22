@@ -1,6 +1,6 @@
 import MuiBox from "@mui/material/Box";
 import type * as React from "react";
-import { css } from "../kelir-variants";
+import { css } from "../kelir-kit/kit-create-css";
 import { MOBILE_MAX, page } from "./page-frame-tokens";
 
 type PageFrameBodyProps = {

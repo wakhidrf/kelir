@@ -2,7 +2,7 @@
 
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useEffect, useState } from "react";
-import type { SidebarProps } from "../kelir-types";
+import type { SidebarProps } from "../kelir-kit/kit-navigation-chrome";
 import { SidebarBody } from "./sidebar-body";
 import { SidebarDocked } from "./sidebar-docked";
 import { SidebarOverlay } from "./sidebar-overlay";

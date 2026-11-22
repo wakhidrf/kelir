@@ -1,7 +1,7 @@
 import MuiBox from "@mui/material/Box";
 import type * as React from "react";
-import type { MarkerProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { MarkerProps } from "../kelir-kit/kit-data-display-text";
+import { css } from "../kelir-kit/kit-create-css";
 import { getMarkerContainer, markerPalettes } from "./marker-styles";
 
 // Sealed semantic marker (P1c STYLE.md §6): MUI basis (MuiBox) for

@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Select } from "./kelir-components/select";
 import { useKelir } from "./kelir-provider";
-import type { Theme } from "./kelir-types";
+import type { Theme } from "./kelir-kit/kit-provider";
 
 export function KelirSwitcher() {
   const { theme, setTheme, themes, registerSwitcher, unregisterSwitcher } =

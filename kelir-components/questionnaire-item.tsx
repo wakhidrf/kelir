@@ -1,4 +1,4 @@
-import type { QuestionnaireQuestion } from "../kelir-types";
+import type { QuestionnaireQuestion } from "../kelir-kit/kit-questionnaire";
 import type { AnswerValue } from "./questionnaire-model";
 import { QuestionnaireItemFields } from "./questionnaire-item-fields";
 import { QuestionnaireItemHeader } from "./questionnaire-item-header";

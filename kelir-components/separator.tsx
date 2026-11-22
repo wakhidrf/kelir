@@ -1,6 +1,6 @@
 import MuiDivider from "@mui/material/Divider";
-import type { SeparatorProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { SeparatorProps } from "../kelir-kit/kit-data-display-data";
+import { css } from "../kelir-kit/kit-create-css";
 
 const textSecondary = css.colors.textSecondary;
 

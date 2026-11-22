@@ -1,6 +1,6 @@
 import MuiInputLabel from "@mui/material/InputLabel";
-import type { LabelProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { LabelProps } from "../kelir-kit/kit-forms-input";
+import { css } from "../kelir-kit/kit-create-css";
 
 export function Label({
   children,

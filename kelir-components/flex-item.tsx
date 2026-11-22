@@ -1,6 +1,6 @@
 import MuiBox from "@mui/material/Box";
-import type { FlexItemProps } from "../kelir-types";
-import { css } from "../kelir-variants";
+import type { FlexItemProps } from "../kelir-kit/kit-layout-shell";
+import { css } from "../kelir-kit/kit-create-css";
 
 // Negative space token to pull up so elements stack at the top edge.
 const offsets = {
