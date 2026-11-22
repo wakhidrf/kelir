@@ -48,7 +48,7 @@ const MATCHERS = [
   { rule: "antislop-copywriting--empty-ai-vocabulary", scope: "text", why: "empty AI vocabulary", re: /\b(?:pave the way|dive into|in the realm of|a tapestry of|when it comes to|it'?s worth noting)\b/i },
   { rule: "antislop-copywriting--significance-inflation", scope: "text", why: "inflated significance", re: /\b(?:stands as a testament|plays a (?:vital|crucial|pivotal) role|underscores the importance|a beacon of)\b/i },
   { rule: "antislop-copywriting--fabricated-specifics", scope: "text", why: "specific-looking number without a source", re: /\b\d+(?:\.\d+)?% of (?:users|developers|teams)\b/i },
-  { rule: "antislop-copywriting--all-caps-emphasis", scope: "text", why: "ALL-CAPS emphasis", re: /\b(?!(?:API|CSS|HTML|JSON|UI|UX|MCP|URL|HTTP|ID|CTA|FAQ|SVG|TODO|REST|CLI|DOM|SSR|SEO|OK|MIT|MVC|JSX|TSX|MUI|RTL|LTR|ARIA|WCAG|OTP|CPU|IDR|E2E|SQL|SDK|PNG|STYLE|README|CHANGELOG|LICENSE|CRLF)\b)(?![0-9A-F]{3,}\b)[A-Z]{3,}\b/ },
+  { rule: "antislop-copywriting--all-caps-emphasis", scope: "text", why: "ALL-CAPS emphasis", re: /\b(?!(?:API|CSS|HTML|JSON|UI|UX|MCP|URL|HTTP|ID|CTA|FAQ|SVG|TODO|REST|CLI|DOM|SSR|SEO|OK|MIT|MVC|JSX|TSX|MUI|RTL|LTR|ARIA|WCAG|OTP|CPU|IDR|E2E|SQL|SDK|PNG|STYLE|README|CHANGELOG|LICENSE|CRLF|DNS|TTL|CLS|SWR)\b)(?![0-9A-F]{3,}\b)[A-Z]{3,}\b/ },
   { rule: "antislop-copywriting--em-dashes", scope: "text", why: "em dash punctuation in copy", re: /\u2014/ },
   // human / a11y
   { rule: "antislop-human--removed-focus-outline", scope: "code", why: "focus outline removed; keyboard users lose the indicator", re: /outline\s*:\s*['"]?(?:none|0)\b/i },

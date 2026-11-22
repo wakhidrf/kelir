@@ -1,15 +1,23 @@
-// kelir-all.mjs - run every Kelir gate without short-circuiting (issue #116).
+// kelir-all.mjs - run Kelir gates without short-circuiting (issue #116).
 //
-//   node src/views/kelir/scripts/kelir-all.mjs [--strict] [--fix] [--scope=views,app]
+//   node src/views/kelir/scripts/kelir-all.mjs [--profile=ui|extra|all]
+//                                              [--only=<gate>]... [--list]
+//                                              [--strict] [--fix] [--scope=views,app]
 //
-// `npm run kelir` used to chain the six gates with `&&`, so the first red gate
-// hid the rest (a pre-existing kelir-split debt stopped guard/hunt/slop from
-// running). This runner runs all six in order, prints every report, then one
-// combined table, and exits 1 when any gate failed.
+// `npm run kelir` used to chain the gates with `&&`, so the first red gate
+// hid the rest. This runner runs the selected gates in order, prints every
+// report, then one combined table, and exits 1 when any gate failed.
 //
-// Arguments are forwarded to every gate, so gate flags work unchanged
-// (`--fix`, `--dry-run`, `--scope=`, ...). `--only=<gate>` runs a subset
-// (repeatable) and `--list` prints the gate order without running.
+// Profiles (issue #123 follow-up: split by concern):
+//   ui    - UI contract gates only (kelir-guard, kelir-hunt, kelir-slop).
+//           `npm run kelir`.
+//   extra - non-UI tooling (kelir-swr, kelir-perf) + code hygiene
+//           (kelir-alias, kelir-bury, kelir-split). `npm run kelir:extra`.
+//   all   - every gate (default; backward compatible).
+//
+// `--only=<gate>` (repeatable) overrides the profile's selection; `--list`
+// prints the gate order without running. Arguments are forwarded to every
+// gate, so gate flags work unchanged (`--fix`, `--dry-run`, `--scope=`, ...).
 //
 // The runner always adds `--strict`: a gate without it prints FAIL and still
 // exits 0, which would make the summary disagree with the report above it.
@@ -24,26 +32,44 @@ import { TOOLS_VERSION } from "./kelir-version.mjs";
 const HERE = dirname(fileURLToPath(import.meta.url));
 
 const GATES = [
-  { id: "kelir-alias", file: "kelir-alias.mjs", checks: "absolute imports" },
-  { id: "kelir-bury", file: "kelir-bury.mjs", checks: "dead exports and files" },
-  { id: "kelir-split", file: "kelir-split.mjs", checks: "file length" },
-  { id: "kelir-guard", file: "kelir-guard.mjs", checks: "patent contract" },
-  { id: "kelir-hunt", file: "kelir-hunt.mjs", checks: "adoption outside the kit" },
-  { id: "kelir-slop", file: "kelir-slop.mjs", checks: "anti-slop rules" },
+  { id: "kelir-guard", file: "kelir-guard.mjs", checks: "patent contract", profiles: ["ui", "all"] },
+  { id: "kelir-hunt", file: "kelir-hunt.mjs", checks: "adoption outside the kit", profiles: ["ui", "all"] },
+  { id: "kelir-slop", file: "kelir-slop.mjs", checks: "anti-slop rules", profiles: ["ui", "all"] },
+  { id: "kelir-alias", file: "kelir-alias.mjs", checks: "absolute imports", profiles: ["extra", "all"] },
+  { id: "kelir-bury", file: "kelir-bury.mjs", checks: "dead exports and files", profiles: ["extra", "all"] },
+  { id: "kelir-split", file: "kelir-split.mjs", checks: "file length", profiles: ["extra", "all"] },
+  { id: "kelir-swr", file: "kelir-swr.mjs", checks: "SWR misuse", profiles: ["extra", "all"] },
+  { id: "kelir-perf", file: "kelir-perf.mjs", checks: "Next.js performance", profiles: ["extra", "all"] },
 ];
 
+const PROFILES = ["ui", "extra", "all"];
+
 const argv = process.argv.slice(2);
-const only = argv.filter((a) => a.startsWith("--only=")).map((a) => a.slice("--only=".length));
-const forward = argv.filter((a) => !a.startsWith("--only=") && a !== "--list");
+const profileArg = argv.find((a) => a.startsWith("--profile="))?.slice("--profile=".length);
+const only = argv
+  .filter((a) => a.startsWith("--only="))
+  .map((a) => a.slice("--only=".length));
+const forward = argv.filter(
+  (a) => !a.startsWith("--only=") && !a.startsWith("--profile=") && a !== "--list",
+);
 if (!forward.includes("--strict")) forward.push("--strict");
+
+if (profileArg && !PROFILES.includes(profileArg)) {
+  console.error(`kelir-all: unknown profile '${profileArg}'.`);
+  console.error(`Available profiles: ${PROFILES.join(", ")}`);
+  process.exit(2);
+}
+const profile = profileArg ?? "all";
 
 if (argv.includes("--list")) {
   printTable(
     [
       { key: "id", label: "GATE" },
+      { key: "profiles", label: "PROFILES" },
       { key: "checks", label: "CHECKS" },
     ],
-    GATES.map((g) => ({ id: g.id, checks: g.checks })),
+    GATES.map((g) => ({ id: g.id, profiles: g.profiles.join(", "), checks: g.checks })),
+    "(no gates)",
   );
   process.exit(0);
 }
@@ -56,12 +82,15 @@ for (const id of only) {
   }
 }
 
-const selected = only.length > 0 ? GATES.filter((g) => only.includes(g.id)) : GATES;
+const inProfile = GATES.filter((g) => g.profiles.includes(profile));
+const selected = only.length > 0 ? GATES.filter((g) => only.includes(g.id)) : inProfile;
 const results = [];
 
 console.log(BOLD + `kelir-all v${TOOLS_VERSION}` + RESET);
 console.log(
-  `Running ${selected.length} gate(s)${forward.length > 0 ? ` with ${forward.join(" ")}` : ""}.`,
+  `Profile: ${profile} (${selected.length} gate(s))` +
+    (forward.length > 0 ? ` with ${forward.join(" ")}` : "") +
+    ".",
 );
 console.log("");
 
