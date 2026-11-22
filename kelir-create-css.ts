@@ -66,6 +66,7 @@ export function createCss(
       padding: "var(--control-padding, 12px)",
       radius: `var(--control-radius, ${themeRounded.sm})`,
       background: "var(--control-background, var(--color-primary, #8A8F98))",
+      minWidth: "var(--control-min-width, 224px)",
     },
     focusRing: {
       width: "var(--focus-ring-width, 2px)",
