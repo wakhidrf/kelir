@@ -22,10 +22,12 @@ import { themeSelector, themeVars } from "./kelir-theme-vars";
 import { scrollbarCss } from "./kelir-variants";
 
 export {
+  clientThemeScript,
   hideBeforeReadyCss,
   THEME_ATTRIBUTE,
   THEME_COOKIE,
   THEME_READY_ATTRIBUTE,
+  THEME_STORAGE_KEY,
 } from "./kelir-style-constants";
 
 export function kelirStyleCss(): string {

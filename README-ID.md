@@ -105,7 +105,10 @@ membaca cookie tema yang tersimpan (bila ada) dan menaruh `data-kelir-theme`
 langsung di `<html>`, sehingga HTML SSR pertama sudah bertema - tanpa flash,
 tanpa skrip inline klien, tanpa localStorage. `setTheme` menerapkan tema seketika
 di klien (atribut) dan menyimpannya kembali lewat Server Action yang mengatur
-cookie, sehingga respons SSR berikutnya sudah membawa tema yang tersimpan.
+cookie, sehingga respons SSR berikutnya sudah membawa tema yang tersimpan. Untuk
+layout root **statis** yang tak boleh `await cookies()`, teruskan
+`themeMode="client"` (lihat *Rute publik statis* di bawah) - prop sealed sama,
+tersimpan di `localStorage` alih-alih cookie.
 
 ```tsx
 // src/app/layout.tsx (Server Component)
@@ -209,10 +212,20 @@ export default function Home() {
 > menyimpan pilihan tema yang bocor. Server tetap menyajikan tema cookie bila cookie
 > basi masih ada, tetapi cookie itu dihapus begitu halaman tanpa switcher terhidrasi.
 >
-> **Tanpa persistensi** (mis. situs yang mengutamakan statis): teruskan tema default
-> tetap ke `KelirProvider` dan lewati cookie; `setTheme` kemudian hanya menerapkan
-> tema untuk sesi berjalan tanpa menyimpan. Cookie hanya dibaca bila layout ikut
-> serta.
+> **Rute publik statis (`themeMode="client"`).** Bila layout root harus tetap
+> statis (SSG/CDN) dan tak bisa `await cookies()` untuk `kelir_theme`, teruskan
+> `themeMode="client"`. Provider lalu menyimpan tema di `localStorage`
+> (`THEME_STORAGE_KEY`, string `kelir_theme` yang sama) dan merender skrip inline
+> blocker sebagai anak pertamanya; skrip itu membaca `localStorage` dan menstempel
+> `<html data-kelir-theme>` **sebelum paint pertama**, sehingga paint pertama
+> bertema dan tanpa flash tetap terjaga tanpa cookie dan tanpa putaran server.
+> `setTheme` menulis `localStorage` pada mode ini (tak pernah menyentuh cookie, dan
+> tak butuh Server Action). Pertahankan `suppressHydrationWarning` pada `<html>` -
+> skrip mengubah atribut sebelum hidrasi, persis seperti `next-themes`.
+
+> **Tanpa persistensi** (hanya sesi): teruskan `defaultTheme` tetap dan jangan
+> panggil `setTheme`, atau pakai `themeMode="client"` lalu bersihkan `localStorage`
+> sesuai kebutuhan. `setTheme` kemudian hanya menerapkan tema untuk sesi berjalan.
 
 ### 4. Cara Mengimpor Komponen
 

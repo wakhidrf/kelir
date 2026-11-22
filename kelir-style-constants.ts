@@ -33,3 +33,22 @@ export const hideBeforeReadyCss = `
 // client only applies the theme instantly (attribute) and persists back through
 // a Server Action. Name is URL-safe (no ":").
 export const THEME_COOKIE = "kelir_theme";
+
+// Client-mode (themeMode="client") persistence key. Lives in localStorage so a
+// consumer root layout never reads a cookie and can stay static. Same string as
+// the cookie name so the two modes share one vocabulary.
+export const THEME_STORAGE_KEY = "kelir_theme";
+
+// Blocking inline script for client mode (next-themes style). Rendered by
+// KelirProvider as the first child so the browser runs it while parsing <body>,
+// before the themed content below it: it reads the stored theme and stamps it
+// onto <html data-kelir-theme>, so the first paint is already themed — no flash
+// and no cookie. Safe to inline: the value is JSON-encoded and unknown keys are
+// ignored by the attribute (they simply match no theme selector).
+export function clientThemeScript(): string {
+  return `(function(){try{var t=localStorage.getItem(${JSON.stringify(
+    THEME_STORAGE_KEY,
+  )});if(t){document.documentElement.setAttribute(${JSON.stringify(
+    THEME_ATTRIBUTE,
+  )},t)}}catch(e){}})();`;
+}

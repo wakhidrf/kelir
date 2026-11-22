@@ -5,12 +5,12 @@
 import * as React from "react";
 import { deleteThemeCookie } from "@/controllers/theme-actions";
 
-export function useSwitcherRegistry() {
+export function useSwitcherRegistry(skipCookieCleanup = false) {
   // Mounted theme pickers (KelirSwitcher or equivalents). While at least one is
   // alive the theme cookie is preserved; when none is mounted the cookie is
   // deleted so a shared origin (e.g. localhost:3000 used by several projects)
   // never keeps a stale theme choice. Mirrored in a ref so setTheme can read it
-  // without re-subscribing.
+  // without re-subscribing. Client theme mode has no cookie to clean up.
   const [switcherCount, setSwitcherCount] = React.useState(0);
   const switcherCountRef = React.useRef(0);
 
@@ -27,8 +27,10 @@ export function useSwitcherRegistry() {
   // A mounted switcher registers during its own effect, which runs BEFORE this
   // parent's effect on the same commit, so the count is already >= 1 here on
   // switcher pages. Waiting a tick avoids deleting on switcher pages whose
-  // registration lands immediately after mount.
+  // registration lands immediately after mount. Skipped in client mode (no
+  // cookie): there the localStorage preference always persists.
   React.useEffect(() => {
+    if (skipCookieCleanup) return;
     const timer = window.setTimeout(() => {
       if (switcherCount === 0) {
         void deleteThemeCookie().catch(() => {
@@ -37,7 +39,7 @@ export function useSwitcherRegistry() {
       }
     }, 0);
     return () => window.clearTimeout(timer);
-  }, [switcherCount]);
+  }, [switcherCount, skipCookieCleanup]);
 
   return { registerSwitcher, unregisterSwitcher, switcherCountRef };
 }

@@ -26,6 +26,17 @@ export interface KelirContextValue {
   unregisterSwitcher: () => void;
 }
 
+// How the selected theme is persisted between visits.
+//  - "cookie" (default): server-driven. The consumer root layout reads the
+//    `kelir_theme` cookie and renders the saved theme onto <html> on the server,
+//    so the first SSR paint is already themed (no flash, no client script). The
+//    cost: the layout must `await cookies()`, which makes every route dynamic.
+//  - "client": localStorage + a blocking inline script (à la next-themes). The
+//    script stamps the stored theme onto <html> before first paint, and the
+//    provider reads/writes localStorage — no cookie, so a consumer root layout
+//    can stay static (SSG/CDN) while public pages still open on the right theme.
+export type ThemeMode = "cookie" | "client";
+
 // 0. KelirProvider — the only legitimate visual entry point (P1c STYLE.md §3c).
 // Valid props are ONLY: `defaultTheme` (closed Theme union) + `children`.
 // Runtime theme switching is not via extra props, but via the context
@@ -40,6 +51,10 @@ export interface KelirProviderProps {
   // Ink"). The kit applies it as --kelir-font-brand for
   // `Typography font="brand"` - consumers do not write their own CSS.
   brandFont?: string;
+  // Persistence strategy: "cookie" (default) for a server-rendered theme with no
+  // flash, or "client" to persist in localStorage so a static consumer layout
+  // need not `await cookies()`. Runtime switching stays via `useKelir().setTheme`.
+  themeMode?: ThemeMode;
   // Brand identity colors (two fixed slots, not free-form values): the kit sets
   // --kelir-brand-accent/--kelir-brand-ink for `Typography
   // tone="brand-accent"|"brand-ink"` - brand text that does NOT follow the theme (e.g.
