@@ -3,13 +3,21 @@ import type { SpinnerProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
 // Kit-owned sizes (closed px values, not free consumer numbers).
-const sizes = { small: 16, medium: 24, large: 40 } as const;
+const sizes = {
+  xs: 12,
+  sm: 16,
+  md: 24,
+  lg: 40,
+  xl: 56,
+  "2xl": 72,
+  "3xl": 96,
+} as const;
 
 // Sealed loading indicator (P1c STYLE.md §6): MUI base for
 // multi-platform; indeterminate + primary color owned by the kit — no ...rest,
 // no consumer style/sx/className/value/variant.
 export function Spinner({
-  size = "medium",
+  size = "md",
   id,
   "aria-label": ariaLabel,
 }: SpinnerProps) {

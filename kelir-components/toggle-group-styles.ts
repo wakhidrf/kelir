@@ -1,3 +1,4 @@
+import type { KitSize } from "../kelir-types";
 import { css } from "../kelir-variants";
 
 export function groupSx(joined: boolean) {
@@ -16,7 +17,9 @@ export function groupSx(joined: boolean) {
   };
 }
 
-export function buttonSx(joined: boolean, size: "sm" | "md" | "lg") {
+export function buttonSx(joined: boolean, size: KitSize) {
+  const small = size === "xs" || size === "sm";
+  const large = size === "lg" || size === "xl" || size === "2xl" || size === "3xl";
   return {
     display: "inline-flex",
     alignItems: "center",
@@ -30,18 +33,16 @@ export function buttonSx(joined: boolean, size: "sm" | "md" | "lg") {
     ...(joined
       ? {
           fontWeight: 600,
-          padding:
-            size === "sm" ? "6px 12px" : size === "lg" ? "12px 18px" : "9px 14px",
+          padding: small ? "6px 12px" : large ? "12px 18px" : "9px 14px",
         }
       : {
           border: `1px solid ${css.border.light}`,
           boxShadow: css.shadows.convex,
-          padding:
-            size === "sm"
-              ? `${css.layout.space.xs} 12px`
-              : size === "lg"
-                ? `${css.layout.space.md} 18px`
-                : `${css.layout.space.sm} 14px`,
+          padding: small
+            ? `${css.layout.space.xs} 12px`
+            : large
+              ? `${css.layout.space.md} 18px`
+              : `${css.layout.space.sm} 14px`,
         }),
     "&:hover": joined
       ? { backgroundColor: css.divider }

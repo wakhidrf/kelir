@@ -26,9 +26,12 @@ export function getIconButtonStyles({
       shape === "circle" ? "50%" : shape === "square" ? 0 : css.radius.button,
     textTransform: "none",
     fontWeight: 600,
-    // Kit sizing: md = today's behavior (zero visual change).
-    padding: size === "sm" ? "6px" : size === "lg" ? "14px" : "10px",
-    minWidth: size === "sm" ? "32px" : size === "lg" ? "48px" : "40px",
+    // Kit sizing: md = today's behavior (zero visual change); xs tighter, lg..3xl
+    // share the lg frame.
+    padding:
+      size === "xs" ? "4px" : size === "sm" ? "6px" : size === "md" ? "10px" : "14px",
+    minWidth:
+      size === "xs" ? "28px" : size === "sm" ? "32px" : size === "md" ? "40px" : "48px",
     transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
     fontFamily: "inherit",
   };

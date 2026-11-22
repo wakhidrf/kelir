@@ -287,14 +287,14 @@ Project Kelir memiliki **86 komponen** yang dikelompokkan ke beberapa kategori u
 ### 1. Input & Formulir
 Komponen yang menangkap interaksi pengguna dan input data dengan kontrol terintegrasi.
 
-1. **Button**: Menampilkan tombol interaktif yang mengikuti tema aktif, dengan ukuran xs/sm/md/lg tertutup (xs = aksi di dalam baris tabel).
+1. **Button**: Menampilkan tombol interaktif yang mengikuti tema aktif, dengan skala KitSize tertutup bersama (xs = aksi di dalam baris tabel; lg lega; xl..3xl degrade ke lg).
 2. **Button Group**: Wadah untuk mengelompokkan tombol-tombol terkait dengan sudut membulat yang konsisten.
 3. **Checkbox**: Pilihan biner dengan label dan visualisasi centang.
 4. **Combobox**: Input teks auto-complete dengan daftar saran opsi.
 5. **Date Picker**: Pemilih tanggal interaktif dalam kalender popover dengan navigasi month-grid dan year-list inline.
 6. **Field**: Menggabungkan label, kontrol, dan teks bantuan untuk formulir yang aksesibel.
 7. **Input**: Input teks dasar untuk formulir dengan styling terintegrasi.
-8. **IconButton**: Tombol khusus ikon dengan label aksesibel yang wajib, dengan ukuran sm/md/lg tertutup.
+8. **IconButton**: Tombol khusus ikon dengan label aksesibel yang wajib, dengan skala KitSize tertutup bersama (xs paling kecil, lg..3xl berbagi frame lg).
 9. **Input Group**: Menggabungkan input teks dengan ikon tambahan atau tombol aksi di awal/akhir (prefix/suffix).
 10. **Input OTP**: Input kata sandi sekali pakai dengan fungsi salin-tempel yang ramah pengguna.
 11. **Label**: Label teks aksesibel yang terhubung langsung ke elemen kontrol input.
@@ -386,7 +386,7 @@ Komponen yang membentuk struktur dan penempatan elemen.
 81. **Link**: Tautan teks sebaris dengan ikon milik kit, href wajib, dan target eksternal yang aman.
 82. **LoadingOverlay**: Overlay pemuatan fullscreen yang menghalangi interaksi, dengan kartu tengah berdenyut milik kit, label status, teks kemajuan, dan slot media milik konsumen.
 83. **TruncatedText**: Teks elipsis satu baris dengan batas lebar milik kit (`text` wajib, `maxWidth?` data px, teks penuh saat hover); `ContextMenu`/`DropdownMenu` mendapat `truncate?` untuk pemicu teks elipsis.
-84. **Icon**: Pembungkus ikon dekoratif dengan warna (`intent`) dan ukuran dari token kit; tanpa `aria-label` ia tetap `aria-hidden` bagi pembaca layar.
+84. **Icon**: Pembungkus ikon dekoratif dengan warna (`tone`) dan ukuran dari token kit; tanpa `aria-label` ia tetap `aria-hidden` bagi pembaca layar.
 85. **Positioned**: Slot bertitik tetap untuk pemicu sudut dan tepi (`anchor` dari token space, `visibility` mobile/desktop dari token 600px, `elevate` mati bila slot memuat pemicu sidebar sendiri).
 86. **PageFrame**: Rangka halaman dokumen - tepi halaman, lebar isi, dan napas header/main/footer semuanya dari token `layout.page`, dengan slot `overlays` untuk pemicu bertitik tetap.
 

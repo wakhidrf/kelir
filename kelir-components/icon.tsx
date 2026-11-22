@@ -3,12 +3,16 @@ import type { IconProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
 const sizes = {
+  xs: "0.875rem",
   sm: "1rem",
   md: "1.25rem",
   lg: "1.75rem",
+  xl: "2.25rem",
+  "2xl": "3rem",
+  "3xl": "4rem",
 } as const;
 
-const intents = {
+const tones = {
   inherit: "currentColor",
   primary: css.colors.textPrimary,
   secondary: css.colors.textSecondary,
@@ -16,7 +20,7 @@ const intents = {
 } as const;
 
 // Sealed icon wrapper (P1c STYLE.md 6): color + size belong to the kit, consumers
-// only supply the icon element. `intent` is a closed union from color tokens;
+// only supply the icon element. `tone` is a closed union from color tokens;
 // `size` is a closed union (MUI SVG is forced to use `fontSize: inherit` so the
 // kit scale wins). An icon without `aria-label` is treated as decorative
 // (`aria-hidden`) so it does not add screen-reader noise; the accessible label
@@ -24,7 +28,7 @@ const intents = {
 // style/sx/className passthrough - outside the contract = violation.
 export function Icon({
   children,
-  intent = "inherit",
+  tone = "inherit",
   size = "md",
   id,
   "aria-label": ariaLabel,
@@ -41,7 +45,7 @@ export function Icon({
         alignItems: "center",
         justifyContent: "center",
         flexShrink: 0,
-        color: intents[intent],
+        color: tones[tone],
         fontSize: sizes[size],
         lineHeight: 1,
       }}

@@ -1,4 +1,10 @@
 import type * as React from "react";
+import type { KitAlign } from "./kit-align";
+import type { KitButtonType } from "./kit-button-type";
+import type { KitShape } from "./kit-shape";
+import type { KitSize } from "./kit-size";
+import type { KitIdentity } from "./kit-tone";
+import type { KitVariant } from "./kit-variant";
 
 // 1. Accordion
 // 1. Accordion - sealed collapsible based on MUI (Gel.3c-6 STYLE.md §6).
@@ -24,18 +30,15 @@ export interface ButtonProps {
   // Node at the end of the row (e.g. Badge), pushed right by flex;
   // differs from endIcon which uses the MUI icon slot (font-size 20px).
   endContent?: React.ReactNode;
-  variant?: "primary" | "secondary" | "destructive" | "outline" | "ghost";
-  // Content alignment (for full-width buttons e.g. nav): center (default,
-  // icon+text centered), start (flush start, straight icon column), or end.
-  // Logical values: correct in both LTR and RTL.
-  align?: "center" | "start" | "end";
-  // Kit-owned sizes (for narrow drawers e.g. mobile nav): xs = tightest
-  // padding + 11px text + ~14px icons (actions inside table cells),
-  // sm = tight padding + ~18px icons, md (default) = today's behavior,
-  // lg = roomy + ~28px icons. Closed union, no free numbers.
-  size?: "xs" | "sm" | "md" | "lg";
+  variant?: KitVariant;
+  // Content alignment (full-width buttons e.g. nav): center (default), start,
+  // or end. Logical values (LTR+RTL). `justify` excluded (never a full-width block).
+  align?: Extract<KitAlign, "start" | "center" | "end">;
+  // Kit-owned sizes (shared KitSize): xs tightest (in-table), sm tight, md
+  // (default) = today, lg roomy; xl..3xl degrade to lg. Closed, no free numbers.
+  size?: KitSize;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  type?: "button" | "submit";
+  type?: KitButtonType;
   disabled?: boolean;
   // Allowed, BUT must prefix the visible text (WCAG 2.5.3 Label in Name).
   // React 19 types tolerate all aria-* so rejection can't be type-tested
@@ -46,13 +49,12 @@ export interface ButtonProps {
 }
 
 // 10c. Icon - decorative icon wrapper (P1c STYLE.md 6): color from token
-// (`intent`) + size from kit scale (`size`); icon element passed via
-// `children`. No `aria-label` = decorative (`aria-hidden` owned by the kit);
-// accessible label remains owned by the parent button/link.
+// (`tone`) + size from kit scale (`size`); icon element via `children`. No
+// `aria-label` = decorative; accessible label stays with the parent link/button.
 export interface IconProps {
   children: React.ReactElement;
-  intent?: "inherit" | "primary" | "secondary" | "accent";
-  size?: "sm" | "md" | "lg";
+  tone?: Extract<KitIdentity, "inherit" | "primary" | "secondary" | "accent">;
+  size?: KitSize;
   id?: string;
   "aria-label"?: string;
 }
@@ -62,15 +64,14 @@ export interface IconProps {
 export interface IconButtonProps {
   icon: React.ReactNode;
   "aria-label": string;
-  variant?: "primary" | "secondary" | "destructive" | "outline" | "ghost";
+  variant?: KitVariant;
   // Frame shape: rounded (default, follows role token), circle, square.
-  shape?: "rounded" | "circle" | "square";
-  // Kit-owned sizes (Button counterpart): sm = padding 6 + ~18px icon,
-  // md (default) = today's behavior, lg = padding 14 + ~28px icon.
-  // Closed union, no free numbers.
-  size?: "sm" | "md" | "lg";
+  shape?: KitShape;
+  // Kit-owned sizes (Button counterpart): sm tight, md (default) = today,
+  // lg roomy; shared KitSize (xs smaller, xl..3xl degrade to lg). Closed.
+  size?: KitSize;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  type?: "button" | "submit";
+  type?: KitButtonType;
   disabled?: boolean;
   "aria-describedby"?: string;
   id?: string;

@@ -43,7 +43,7 @@ export function Combobox({
               placeholder={placeholder}
               fullWidth
               {...inputRootProps}
-              style={getInputStyle("medium")}
+              style={getInputStyle("md")}
               sx={inputFocusSx}
             />
           </div>

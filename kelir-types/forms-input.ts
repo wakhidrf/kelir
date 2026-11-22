@@ -1,4 +1,5 @@
 import type * as React from "react";
+import type { KitSize } from "./kit-size";
 
 // 28. Field
 // 27. Field — sealed label + control + helper wrapper (Gel.3b §6).
@@ -25,7 +26,7 @@ export interface InputProps {
   placeholder?: string;
   type?: "text" | "password" | "email" | "number" | "search" | "tel" | "url";
   disabled?: boolean;
-  size?: "small" | "medium";
+  size?: KitSize;
   id?: string;
   "aria-label"?: string;
 }

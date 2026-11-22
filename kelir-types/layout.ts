@@ -1,4 +1,5 @@
 import type * as React from "react";
+import type { KitSize } from "./kit-size";
 
 // 24. Direction
 // 24. Direction - sealed text direction (Gel.3c-6 STYLE.md §6).
@@ -61,7 +62,7 @@ export interface GridProps {
 // 67. Spacer — semantic vertical spacing (P1b STYLE.md).
 // Closed-union size from token css.layout.space.
 export interface SpacerProps {
-  size?: "xs" | "sm" | "md" | "lg";
+  size?: KitSize;
   id?: string;
 }
 

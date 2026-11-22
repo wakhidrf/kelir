@@ -1,5 +1,6 @@
 "use client";
 
+import type { KitSize } from "../kelir-types";
 import { css } from "../kelir-variants";
 import { menuScrollbarSx, scrollbarClass } from "./select-menu-styles";
 
@@ -36,10 +37,11 @@ export function getMenuSlotProps(menuWidth: number | undefined) {
   };
 }
 
-export function getSelectSx(size: string) {
+export function getSelectSx(size: KitSize) {
+  const small = size === "xs" || size === "sm";
   return {
     "& .MuiSelect-select": {
-      padding: size === "small" ? "7px 32px 7px 12px" : "10px 36px 10px 14px",
+      padding: small ? "7px 32px 7px 12px" : "10px 36px 10px 14px",
     },
     "& .MuiSelect-icon": {
       color: css.colors.textSecondary,

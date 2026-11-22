@@ -1,3 +1,5 @@
+import type { KitSize } from "./kit-size";
+
 // 18. Combobox
 // 18. Combobox - sealed single-select based on MUI Autocomplete (Gel.3c-11 §6).
 // `options` string[]; `value?/defaultValue?` CONTROLLED;
@@ -48,7 +50,8 @@ export interface RadioGroupProps {
 // 48. Select — sealed dropdown based on MUI (P1c STYLE.md §6).
 // CONTENT (`options` label/value strings, `value`/`defaultValue`/`placeholder`),
 // BEHAVIOR (`onChange` semantic accepting a string; `disabled`), MEANING (`label`).
-// Menu/paper/scrollbar/menu width = kit-owned behavior. No style/sx/
+// Menu/paper/scrollbar/menu width = kit-owned behavior. `size?` is the shared
+// KitSize scale (sm/md default; xs behaves as sm, lg..3xl as md). No style/sx/
 // className/raw MenuProps/onOpen.
 export interface SelectOption {
   label: string;
@@ -62,7 +65,7 @@ export interface SelectProps {
   label?: string;
   placeholder?: string;
   disabled?: boolean;
-  size?: "small" | "medium";
+  size?: KitSize;
   id?: string;
   "aria-label"?: string;
 }

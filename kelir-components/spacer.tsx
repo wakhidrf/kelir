@@ -7,6 +7,9 @@ const sizes = {
   sm: css.layout.space.sm,
   md: css.layout.space.md,
   lg: css.layout.space.lg,
+  xl: css.layout.space.xl,
+  "2xl": css.layout.space["2xl"],
+  "3xl": css.layout.space["3xl"],
 } as const;
 
 // Semantic vertical spacing (P1b STYLE.md). Presentational: aria-hidden.

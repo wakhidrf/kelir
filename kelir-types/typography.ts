@@ -1,4 +1,6 @@
 import type * as React from "react";
+import type { KitAlign } from "./kit-align";
+import type { KitIdentity } from "./kit-tone";
 
 // 34. Kbd
 // 34. Kbd — sealed keyboard key (Gel.3c STYLE.md §6).
@@ -50,14 +52,17 @@ export interface TypographyProps {
   variantMobile?: TypographyVariant;
   // Text color from theme tokens (primary/secondary) or brand identity
   // (brand-accent/brand-ink from KelirProvider.brandColors); none = the
-  // variant's default color.
-  tone?: "primary" | "secondary" | "brand-accent" | "brand-ink";
+  // variant's default color. Subset of KitIdentity (text-tone roles).
+  tone?: Extract<
+    KitIdentity,
+    "primary" | "secondary" | "brand-accent" | "brand-ink"
+  >;
   // Identity font: text = the active theme's font (default), brand = the
   // brand font registered via KelirProvider.brandFont.
   font?: "text" | "brand";
   as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "div";
   level?: 1 | 2 | 3 | 4 | 5 | 6;
-  align?: "start" | "center" | "end" | "justify";
+  align?: KitAlign;
   truncate?: boolean;
   breakAll?: boolean;
   tracking?: "normal" | "wide";
@@ -71,7 +76,7 @@ export interface TypographyProps {
 // (sm = 0.55em + weight 500, md = default) from kit tokens.
 export interface TypographySegment {
   text?: string;
-  tone?: "muted" | "primary";
+  tone?: Extract<KitIdentity, "muted" | "primary">;
   scale?: "sm" | "md";
   break?: boolean;
 }

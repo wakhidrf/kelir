@@ -1,6 +1,6 @@
 import MuiInputBase from "@mui/material/InputBase";
 import type * as React from "react";
-import type { InputProps } from "../kelir-types";
+import type { InputProps, KitSize } from "../kelir-types";
 import { css } from "../kelir-variants";
 
 const concaveShadow = css.shadows.concave;
@@ -11,7 +11,8 @@ const textPrimary = css.colors.textPrimary;
 // INTERNAL kit (not public contract): text field styles belong to the kit. Used
 // by Input + internal composites (Combobox) so there is no visual duplication.
 // Consumers do not import this - visuals only through sealed components.
-export function getInputStyle(size: "small" | "medium"): React.CSSProperties {
+export function getInputStyle(size: KitSize): React.CSSProperties {
+  const small = size === "xs" || size === "sm";
   return {
     backgroundColor: neumorphicBg,
     borderRadius: css.control.radius,
@@ -19,13 +20,12 @@ export function getInputStyle(size: "small" | "medium"): React.CSSProperties {
     border: `1px solid ${css.border.light}`,
     backdropFilter: surfaceBlur,
     WebkitBackdropFilter: surfaceBlur,
-    padding:
-      size === "small"
-        ? `${css.layout.space.xs} ${css.layout.space.md}`
-        : `${css.layout.space.sm} ${css.layout.space.lg}`,
+    padding: small
+      ? `${css.layout.space.xs} ${css.layout.space.md}`
+      : `${css.layout.space.sm} ${css.layout.space.lg}`,
     color: textPrimary,
     fontFamily: "inherit",
-    fontSize: size === "small" ? "13px" : "14px",
+    fontSize: small ? "13px" : "14px",
     transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
   };
 }
@@ -51,7 +51,7 @@ export function Input({
   placeholder,
   type = "text",
   disabled = false,
-  size = "medium",
+  size = "md",
   id,
   "aria-label": ariaLabel,
 }: InputProps) {
