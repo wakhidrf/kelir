@@ -1,4 +1,4 @@
-import MuiBox from "@mui/material/Box";
+import NextImage from "next/image";
 import type { ImageProps } from "../kelir-types";
 import { css } from "../kelir-variants";
 
@@ -23,23 +23,28 @@ const radii = {
   lg: css.radius.lg,
 } as const;
 
+// Nominal intrinsic size for next/image's srcset + reserved box only. `fluid`
+// fills the container width (height auto from the source ratio); the fixed
+// modes pin the kit-owned px height. The real layout is set via `style` below.
+const FLUID_W = 1600;
+const FLUID_H = 900;
+
 // Pure logic (not DOM): maps height MEANING → kit px.
 // Unit-tested directly - jsdom does not compute emotion stylesheets.
 export function imagePx(height: NonNullable<ImageProps["height"]>): number {
   return heights[height];
 }
 
-// Sealed neutral media (P1b STYLE.md): height from a closed union (width follows
-// the original ratio), contain/cover fit, radius token (default none).
-// `fluid?` = width fills the container + auto height (original ratio preserved)
-// for decorative/hero media; `maxHeight?` limits height from the same scale;
-// `maxWidth?` limits width in px (TruncatedText.maxWidth precedent).
-// `fill?` = fills a positioned container fully (e.g. inside AspectRatio);
-// `priority?` = eager loading + high fetchPriority; `sizes?` = display size hint
-// for source selection.
+// Sealed neutral media (P1b STYLE.md): rendered through next/image so consumers
+// get responsive srcset/sizes, lazy-loading by default, and a preloaded eager
+// fetch for `priority`. height from a closed union (width follows the source
+// ratio), contain/cover fit, radius token (default none).
+// `fluid?` = width fills the container + auto height (original ratio preserved);
+// `maxHeight?`/`maxWidth?` LIMIT the box; `fill?` = fills a positioned container
+// fully (e.g. inside AspectRatio); `priority?` = preload the image (eager fetch).
 // `alt` is always rendered as an attribute (empty string when unset) so it
-// passes axe image-alt. No default shadow/border, no ...rest to DOM and
-// no style passthrough - outside the contract = violation.
+// passes axe image-alt. No default shadow/border, no ...rest to DOM and no
+// style passthrough - outside the contract = violation.
 export function Image({
   src,
   alt,
@@ -55,36 +60,33 @@ export function Image({
   id,
   "aria-label": ariaLabel,
 }: ImageProps) {
+  const h = heights[height];
+  const style = {
+    objectFit: fit,
+    borderRadius: radii[radius],
+    ...(maxHeight ? { maxHeight: heights[maxHeight] } : null),
+    ...(fill
+      ? null
+      : fluid
+        ? { width: "100%", height: "auto" }
+        : { width: "auto", height: h }),
+    ...(fill ? null : { maxWidth: maxWidth === undefined ? "100%" : maxWidth }),
+  };
+
   return (
-    <MuiBox
-      component="img"
+    <NextImage
       src={src}
       alt={alt ?? ""}
       id={id}
       aria-label={ariaLabel}
+      {...(fill
+        ? { fill: true }
+        : fluid
+          ? { width: FLUID_W, height: FLUID_H }
+          : { width: h, height: h })}
       sizes={sizes}
-      loading={priority ? "eager" : undefined}
-      fetchPriority={priority ? "high" : undefined}
-      style={{
-        display: "block",
-        ...(fill
-          ? ({
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-            } as const)
-          : fluid
-            ? ({ width: "100%", height: "auto" } as const)
-            : ({ height: heights[height], width: "auto" } as const)),
-        maxWidth:
-          fill || maxWidth === undefined ? (fill ? "none" : "100%") : maxWidth,
-        ...(maxHeight
-          ? ({ maxHeight: heights[maxHeight] } as const)
-          : null),
-        objectFit: fit,
-        borderRadius: radii[radius],
-      }}
+      preload={priority}
+      style={style}
     />
   );
 }
