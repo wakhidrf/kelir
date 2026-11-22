@@ -40,7 +40,7 @@ export function getMenuSlotProps(menuWidth: number | undefined) {
 export function getSelectSx(size: KitSize) {
   const small = size === "xs" || size === "sm";
   return {
-    minWidth: "220px",
+    minWidth: css.control.minWidth,
     "& .MuiSelect-select": {
       padding: small ? "7px 32px 7px 12px" : "10px 36px 10px 14px",
     },
