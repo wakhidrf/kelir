@@ -1,114 +1,58 @@
 <!-- kelir-doc: intro -->
-## Asal-Usul Nama & Konsep
+# Project Kelir
 
-Nama **Project Kelir** diambil dari pertunjukan wayang kulit tradisional - *kelir* adalah layar kain yang dipakai sebagai panggung wayang kulit. Filosofi ini menggambarkan Project Kelir sebagai sebuah "layar" yang mampu menampilkan berbagai wajah desain (tema) yang berbeda di atas satu rangkaian komponen yang sama.
+Project Kelir adalah sistem desain multi-tema untuk Next.js dan TypeScript: satu rangkaian komponen aksesibel yang berubah wajah menjadi sebelas bahasa desain berbeda, sehingga Anda membangun antarmuka yang rapi dan konsisten tanpa menulis CSS.
 
-Project Kelir mengintegrasikan berbagai file **`DESIGN.md`** - masing-masing mewakili bahasa desainnya sendiri - menjadi satu sistem desain multi-tema yang koheren. Setiap bahasa desain didefinisikan terpisah dalam filenya masing-masing, lalu disatukan dalam satu arsitektur sehingga mudah dipilih atau diganti.
+## Kenapa memilih Kelir
 
-## Keterbatasan Saat Ini
+- **Satu basis kode, sebelas tampilan.** Pindahkan seluruh aplikasi antar sebelas bahasa desain - glassmorphism, neumorphism, spatial UI, dan lainnya - dengan satu pilihan. Tanpa fork, tanpa komponen ganda.
+- **Aksesibel sejak hari pertama.** Navigasi keyboard, focus trap, pengumuman pembaca layar, dan kontrol berlabel sudah tertanam di tiap komponen, jadi aksesibilitas tak perlu dirombak belakangan.
+- **Tak ada yang perlu di-style manual.** Anda mengisi konten dan perilaku; warna, jarak, radius, bayangan, dan font datang dari tema aktif, sehingga antarmuka tetap konsisten saat aplikasi tumbuh.
+- **Font yang tetap cepat.** Font tema di-host bersama kit dan hanya dipreload saat sebuah tema memakainya - tanpa CDN font pihak ketiga dan tanpa permintaan yang memblokir render pada kunjungan pertama.
+- **Ramah statis.** Sajikan tema dari cookie untuk paint pertama yang dirender server, atau dari browser agar halaman publik tetap tersimpan di CDN.
 
-Project Kelir saat ini terbatas untuk proyek **Next.js dengan TypeScript**. Sebelum mengintegrasikan Project Kelir, proyek juga perlu dibersihkan dari UI/UX lain yang sudah terpasang, seperti Tailwind CSS.
+## Pertanyaan umum
 
-### Gerbang Konsistensi Hidup di Proyek Induk
+**Apakah saya perlu paham CSS?** Tidak. Anda memilih dari opsi tetap yang terdokumentasi - misalnya varian tombol - dan tema yang mengurus visualnya.
 
-Kontrak sealed (daftar komponen beserta prop, nilai, dan token yang diizinkan tiap komponen) disimpan di **akar proyek induk** sebagai `STYLE.md`, bukan di dalam submodule ini. Gerbang parity, guard, dan status karena itu dijalankan dari repo induk, tempat kit terpasang di `src/views/kelir`. Clone Kelir yang berdiri sendiri hanya memeriksa parse perkakasnya; jalankan gerbang penuh dari proyek induk agar kontrak, tipe, dan katalog tetap selaras.
+**Apakah cocok untuk aplikasi yang sudah ada?** Kelir dibangun untuk Next.js dengan TypeScript dan paling pas di proyek baru. Mulailah dengan menghapus UI kit lain, seperti Tailwind, agar keduanya tidak bentrok.
 
-Selain itu, gerbang anti-slop (`scripts/ui/kelir-slop.mjs`, dijalankan sebagai `npm run kelir`) juga berjalan dari repo induk: ia memindai berkas induk yang mengimpor Kelir plus internal kit memakai tabel matcher terpin yang sama yang ada di gate ini, dan menggagalkan build pada tiap ERROR. Baris berisi `kelir-allow: slop` (atau baris di atasnya) adalah pengecualian eksplisit yang mudah ditinjau.
+**Bisakah saya menambah branding sendiri?** Sebelas tema adalah set yang didukung. Anda bisa mengatur font merek dan dua warna merek tanpa menyentuh kode komponen.
 
-Gerbang adopsi (`scripts/ui/kelir-hunt.mjs`, dijalankan sebagai `npm run kelir`) menutup UI yang tidak pernah mengimpor Kelir. Route (`app/**` atau `pages/**`) dengan tag intrinsik mentah = ERROR; komponen aplikasi, canvas/iframe, sink konten dinamis, CSS-in-JS, stylesheet konsumen, dan impor UI pihak ketiga = WARN. Direktif Tailwind = ERROR. Pengecualian eksplisit berupa `kelir-allow: hunt <alasan>` di level berkas.
+## Dukung proyek ini
 
-### Perkakas Gerbang v1.2.1
-
-Setiap gerbang mencetak tabel yang sama (`GATE | STATUS | ERRORS | WARNINGS | ALLOWED`, lalu `FINDINGS` dan `SCOPE`) dan melaporkan versi dari `scripts/kelir-version.mjs`, sehingga konsumen bisa mematok tag kit yang sudah pasti baik. Di atas itu:
-
-- `node src/views/kelir/scripts/kelir-all.mjs` (dipakai `npm run kelir`) menjalankan enam gerbang tanpa short-circuit `&&`, mencetak semua laporan, lalu ringkasan gabungan, dan keluar 1 bila ada gerbang yang gagal. Runner selalu menambahkan `--strict` agar ringkasan cocok dengan status yang dicetak tiap gerbang. `--only=kelir-guard` menjalankan sebagian, `--list` mencetak urutannya.
-- `kelir-guard --fix` menulis ulang pemetaan deterministik tag mentah ke komponen kit (`<input>` ke `Input`, `<a>` ke `Link`, `<img>` ke `Image`, `<p>`/`<h1>` ke `Typography`, dan seterusnya) plus impor yang sesuai. Tag hanya ditulis ulang bila seluruh atribut yang dipakainya diterima komponen kit; sisanya tetap ERROR dan tercantum di `Skipped` beserta alasannya. `--fix --dry-run` untuk pratinjau tanpa menulis.
-- `kelir-guard --explain <rule>` mencetak aturan, tautan dokumen, berkas yang terdampak, dan - untuk `raw-tag` - tabel tag berisi komponen kit yang disarankan serta apakah `--fix` bisa menanganinya.
-- `.kelirrc` di root repo induk menekan aturan WARN yang dianggap gaya proyek: `{ "kelir-guard": { "warn": ["style", "heuristic-slot"] } }`. Temuan yang ditekan dilaporkan sebagai ALLOW, tidak pernah senyap; aturan ERROR tidak bisa ditekan, dan berkas yang cacat menggagalkan gerbang dengan keluar 2.
-- `kelir-hunt --scope=views,app` membatasi pindaian ke subdirektori `src` tersebut, dan berkas yang namanya menandai kode server (`*controller*`, `*action*`, `*queries*`, `*repository*`, `*service*`, `*server*`, `*db*`, `*schema*`, `*seed*`, `*migration*`) dilewati dan dihitung, bukan dilaporkan sebagai "UI tanpa impor Kelir". `--all-files` menonaktifkan heuristik itu.
-- `kelir-allow: <reason>` dibaca oleh satu pembaca bersama yang kebal akhir-baris di `kelir-report.mjs`, jadi penanda itu tetap bekerja pada checkout CRLF (`core.autocrlf=true`) di `kelir-guard`, `kelir-alias`, `kelir-bury`, `kelir-slop`, `kelir-hunt`, `kelir-swr`, dan `kelir-perf`; `/* kelir-allow: alasan */` maupun bentuk JSX `{/* kelir-allow: alasan */}` sama-sama menghasilkan `alasan`. `kelir-hunt` membaca tag JSX hanya dari berkas `.tsx`/`.jsx` dan mengabaikan generics TypeScript (`Record<string, x>`, `useState<void>()`), sehingga berkas `.ts` non-UI tidak lagi dilaporkan sebagai UI.
-- Dua audit opsional tanpa dependensi (hanya build-in Node, model tabel/exit sama) menandai regresi performa dan pengambilan data. `node src/views/kelir/scripts/tooling/kelir-perf.mjs` (`npm run kelir:extra`) melaporkan `root-layout-dynamic` (root layout membaca `cookies()`/`headers()`/sesi, memaksa semua route dinamis), `dns-lookup-no-cache`, `img-no-dimensions`, `external-font-blocking`, `inline-list-map`. `node src/views/kelir/scripts/tooling/kelir-swr.mjs` (`npm run kelir:extra`) melaporkan staleness/ray SWR: `always-null-key`, `mutate-key-mismatch`, `optimistic-no-rollback`, `search-no-keep-previous`, `no-config`, `focus-refetch`, `search-no-debounce`; beri `--keys <file>` untuk merekayasa kunci `<name>.member` terhadap registri `const <name> = { member: "literal" }`. Keduanya menerima `--root <dir>`, `--ignore <substr>` (berulang), `--strict`, `--json`, dan menghormati `kelir-allow: <reason>` seperti enam gate; keluar 1 bila ada ERROR (dan WARN dengan `--strict`), 2 bila pemakaian salah.
-
-## Tipografi Per Tema
-
-Selain multi-tema, setiap bahasa desain dari DESIGN.md membawa tipografinya sendiri. Font UI dan font monospace otomatis dipasangkan dengan tema, sehingga semua komponen selaras dengan identitas desain tanpa konfigurasi tambahan.
-
-Berkasnya **di-host sendiri**: Kelir tidak pernah menarik stylesheet font pihak ketiga. Delapan berkas woff2 menyertai kit di dalam `fonts/`, dan `KelirProvider` sendiri yang mengeluarkan blok `@font-face` (`font-display: swap`) serta hanya memuat awal berkas teks + mono milik tema aktif, jadi kunjungan pertama tidak memblokir apa pun dan tidak memanggil CDN font. Setiap path diresolusi bundler menjadi URL ber-hash pada origin aplikasi itu sendiri, sehingga konsumen yang menyalin kit langsung membawa fontnya:
-
-| Berkas | Keluarga | Bobot |
-|---|---|---|
-| `jetbrains-mono-variable.woff2` | JetBrains Mono | `100 800` (variabel) |
-| `playfair-display-variable.woff2` | Playfair Display | `400 900` (variabel) |
-| `poppins-400.woff2` ... `poppins-800.woff2` | Poppins | `400` / `500` / `600` / `700` / `800` |
-| `exo-2-variable.woff2` | Exo 2 | `100 900` (variabel) |
-
-Hanya ada empat keluarga untuk sebelas tema: JetBrains Mono adalah wajah monospace di semua tema, sedangkan Playfair Display, Poppins, dan Exo 2 masing-masing menjadi wajah teks untuk tepat satu tema. Tujuh tema lainnya memakai system UI stack dan tidak mengirim berkas teks sama sekali.
-
-Keempatnya berlisensi SIL Open Font License 1.1; pemberitahuan hak cipta dan teks lisensi lengkapnya menyertai berkas di `fonts/LICENSE.md`.
-
----
+Project Kelir gratis dan sumber terbuka. Jika ia menghemat waktu Anda, boleh membelikan saya Ko-fi atau memberi bintang di GitHub - kedua tautannya ada di header situs.
 
 <!-- kelir-doc: install -->
-## Panduan Integrasi & Instalasi
 
-### 1. Menyiapkan Dependensi yang Dibutuhkan
+## Cara mulai
 
-Pastikan proyek Anda memiliki dependensi inti berikut:
+1. **Tambahkan kit ke proyek Anda** sebagai submodule Git di `src/views/kelir`.
+2. **Bungkus aplikasi dengan provider** agar setiap komponen mengikuti tema aktif.
+3. **Letakkan komponen di sebuah halaman** dan ganti tema untuk melihat seluruh aplikasi berubah wajah sekaligus.
 
-```json
-{
-  "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^9.4.0",
-    "@mui/material": "^9.4.0",
-    "next": "16.3.6",
-    "react": "19.3.0",
-    "react-dom": "19.3.0"
-  }
-}
-```
+## Untuk developer
 
-Pasang semua dependensi Project Kelir sekaligus dengan satu perintah:
+### Persyaratan
+
+Next.js dengan TypeScript, plus paket inti berikut:
 
 ```bash
-npm install \
-  @emotion/react@^11.14.0 \
-  @emotion/styled@^11.14.1 \
-  @mui/material@^9.4.0 \
-  @mui/icons-material@^9.4.0 \
-  react@19.3.0 \
-  react-dom@19.3.0
+npm install @emotion/react @emotion/styled @mui/material @mui/icons-material
 ```
 
-### 2. Menambahkan Project Kelir sebagai Git Submodule
-
-Project Kelir didistribusikan sebagai Git submodule. Tambahkan (dan inisialisasi
-dependensinya sendiri bila ada) ke direktori `src/views/kelir`:
+### Tambahkan Kelir sebagai submodule
 
 ```bash
 git submodule add https://github.com/wakhidrf/kelir.git src/views/kelir
 git submodule update --init --recursive
 ```
 
-Submodule disematkan pada commit tertentu (versi saat Anda menambahkannya). Untuk
-menarik commit yang lebih baru dari repo nanti:
+Submodule dipatok ke commit yang Anda tambahkan. Tarik versi kit yang lebih baru nanti dengan `git submodule update --remote src/views/kelir`.
 
-```bash
-git submodule update --remote src/views/kelir
-```
+### Pasang provider
 
-### 3. Memasang Provider Utama (`KelirProvider`)
-
-Taruh `KelirProvider` di `layout.tsx`. Tema bersifat **server-driven**: layout root
-membaca cookie tema yang tersimpan (bila ada) dan menaruh `data-kelir-theme`
-langsung di `<html>`, sehingga HTML SSR pertama sudah bertema - tanpa flash,
-tanpa skrip inline klien, tanpa localStorage. `setTheme` menerapkan tema seketika
-di klien (atribut) dan menyimpannya kembali lewat Server Action yang mengatur
-cookie, sehingga respons SSR berikutnya sudah membawa tema yang tersimpan. Untuk
-layout root **statis** yang tak boleh `await cookies()`, teruskan
-`themeMode="client"` (lihat *Rute publik statis* di bawah) - prop sealed sama,
-tersimpan di `localStorage` alih-alih cookie.
+Taruh `KelirProvider` di root layout. Bawaannya tema bersifat server-driven: layout membaca cookie tema yang tersimpan dan menaruhnya di `<html>` sehingga paint pertama sudah bertema - tanpa flash, tanpa skrip klien, tanpa localStorage.
 
 ```tsx
 // src/app/layout.tsx (Server Component)
@@ -127,10 +71,8 @@ export default async function RootLayout({
   const theme: Theme = stored ? (stored as Theme) : "neumorphism";
 
   return (
-    <html lang="en" data-kelir-theme={theme} suppressHydrationWarning>
+    <html lang="id" data-kelir-theme={theme} suppressHydrationWarning>
       <body>
-        {/* Optional safety gate; inert while data-kelir-ready="true" (see
-            kelir-styles "hideBeforeReadyCss"). */}
         <KelirProvider defaultTheme={theme}>{children}</KelirProvider>
       </body>
     </html>
@@ -138,8 +80,10 @@ export default async function RootLayout({
 }
 ```
 
+Simpan pilihan itu dengan Server Action yang menulis cookie:
+
 ```tsx
-// src/controllers/theme-actions.ts (Server Action - sets the cookie)
+// src/controllers/theme-actions.ts
 "use server";
 
 import { cookies } from "next/headers";
@@ -156,140 +100,41 @@ export async function persistThemeCookie(theme: Theme) {
 }
 ```
 
-```tsx
-// src/controllers/theme-actions.ts (Server Action - removes the cookie)
-"use server";
+**Halaman publik statis.** Saat root layout harus tetap statis (SSG/CDN) dan tak bisa membaca cookie, teruskan `themeMode="client"`. Tema lalu disimpan di browser dan diterapkan sebelum paint pertama oleh skrip inline kecil - tanpa cookie dan tanpa putaran server.
 
-import { cookies } from "next/headers";
-import { THEME_COOKIE } from "@/views/kelir/kelir-styles";
+**Tanpa switcher, tanpa tema tersimpan.** Cookie tema hanya dipertahankan selama ada pemilih tema yang terpasang, sehingga origin bersama tak pernah membocorkan pilihan lama.
 
-export async function deleteThemeCookie() {
-  const cookieStore = await cookies();
-  cookieStore.set(THEME_COOKIE, "", {
-    path: "/",
-    sameSite: "lax",
-    maxAge: 0,
-  });
-}
-```
+### Memakai komponen
+
+Impor langsung dari kit dan tata letak dengan primitif kit, bukan `div` ber-style:
 
 ```tsx
-// src/app/page.tsx (Client Component)
-"use client";
-
-import { KelirSwitcher } from "@/views/kelir/kelir-switcher";
-
-export default function Home() {
-  // Render the switcher when you want interactive, persisted theme switching.
-  // setTheme applies the theme immediately and persists via the theme cookie.
-  return <KelirSwitcher />;
-}
-```
-
-```tsx
-// src/app/page.tsx (Client Component) - programmatic access
-"use client";
-
-import { useKelir } from "@/views/kelir/kelir-provider";
-
-export default function Home() {
-  const { theme, setTheme } = useKelir();
-  return <div>{/* your app */}</div>;
-}
-```
-
-> **Persistensi tema.** Layout root menyajikan tema tersimpan dari
-> `THEME_COOKIE` (`kelir_theme`), dan `setTheme` milik `KelirProvider` menyimpan
-> cookie tersebut lewat Server Action. Tanpa env key dan tanpa localStorage - HTML
-> SSR-nya sendiri sudah bertema, sehingga tidak ada flash ke default server saat
-> muat atau refresh.
->
-> **Tanpa switcher = tanpa tema tersimpan.** `KelirSwitcher` (atau picker apa pun)
-> memanggil `registerSwitcher`/`unregisterSwitcher` lewat `useKelir()`. Selama salah
-> satunya terpasang, `setTheme` menyimpan ke cookie. Jika halaman **tidak** memiliki
-> switcher terpasang, provider menghapus cookie tema dan `setTheme` menjadi transien -
-> origin bersama (mis. `localhost:3000` yang dipakai beberapa proyek) tidak pernah
-> menyimpan pilihan tema yang bocor. Server tetap menyajikan tema cookie bila cookie
-> basi masih ada, tetapi cookie itu dihapus begitu halaman tanpa switcher terhidrasi.
->
-> **Rute publik statis (`themeMode="client"`).** Bila layout root harus tetap
-> statis (SSG/CDN) dan tak bisa `await cookies()` untuk `kelir_theme`, teruskan
-> `themeMode="client"`. Provider lalu menyimpan tema di `localStorage`
-> (`THEME_STORAGE_KEY`, string `kelir_theme` yang sama) dan merender skrip inline
-> blocker sebagai anak pertamanya; skrip itu membaca `localStorage` dan menstempel
-> `<html data-kelir-theme>` **sebelum paint pertama**, sehingga paint pertama
-> bertema dan tanpa flash tetap terjaga tanpa cookie dan tanpa putaran server.
-> `setTheme` menulis `localStorage` pada mode ini (tak pernah menyentuh cookie, dan
-> tak butuh Server Action). Pertahankan `suppressHydrationWarning` pada `<html>` -
-> skrip mengubah atribut sebelum hidrasi, persis seperti `next-themes`.
-
-> **Tanpa persistensi** (hanya sesi): teruskan `defaultTheme` tetap dan jangan
-> panggil `setTheme`, atau pakai `themeMode="client"` lalu bersihkan `localStorage`
-> sesuai kebutuhan. `setTheme` kemudian hanya menerapkan tema untuk sesi berjalan.
-
-### 4. Cara Mengimpor Komponen
-
-Impor komponen Project Kelir langsung dari `src/views/kelir/kelir-components` seperti contoh berikut:
-
-```tsx
-import { Badge } from "@/views/kelir/kelir-components/badge";
 import { Button } from "@/views/kelir/kelir-components/button";
 import { Stack } from "@/views/kelir/kelir-components/stack";
-import { Switch } from "@/views/kelir/kelir-components/switch";
 
-export default function MyComponent() {
+export default function Contoh() {
   return (
-    // Tata letak via primitif kit (Stack), jangan div ber-style.
     <Stack direction="row" gap="md">
-      <Button variant="primary">Klik Saya</Button>
-      <Switch label="Aktifkan Fitur" defaultChecked />
-      <Badge variant="secondary">Info Baru</Badge>
+      <Button variant="primary">Klik saya</Button>
     </Stack>
   );
 }
 ```
 
-### 5. Aturan Pakai
+### Aturan main
 
-Tiap kartu komponen di tab Galeri menampilkan tiga hal: pratinjau live yang
-bisa diklik, prop persis yang boleh Anda teruskan (misalnya Button:
-`variant?: 'primary' | 'secondary' | 'destructive' | 'outline' | 'ghost'`),
-dan contoh kode yang bisa disalin. Aturan di bawah inilah yang ditegakkan
-kartu-kartu itu. Daftar prop di tiap kartu dibuat otomatis dari kontrak,
-sehingga tak pernah basi:
+- Anda mengisi konten, opsi, data, dan handler; tema memiliki semua visual.
+- Jangan pernah men-style dari luar - tanpa `style`/`sx`/`className`, tanpa warna atau ukuran mentah, tanpa `slotProps`.
+- Teruskan hanya nilai yang tertera di kartu tiap komponen di Showcase; nilai yang Anda karang sendiri tak akan dirender.
+- Tata letak dengan primitif kit (`Stack`, `Grid`, `Spacer`), bukan pembungkus biasa.
 
-> **Anda mengisi isi + makna + perilaku.** Kode Anda memasok teks, opsi, data,
-> dan handler (`onClick`, `onChange`, `value`, `open`). Semua yang visual -
-> warna, radius, spasi, font, bayangan, animasi - milik Kelir dan mengikuti
-> tema aktif secara otomatis.
+### Gerbang konsistensi
 
-> **Jangan men-style dari luar.** Tanpa `style`/`sx`/`className`, tanpa warna
-> atau ukuran mentah, tanpa `slotProps`/`classes`/`slot`, tanpa
-> `dangerouslySetInnerHTML`, dan tanpa atribut `data-*` untuk styling
-> (satu-satunya pengecualian adalah `data-testid` untuk test Anda sendiri).
+Kelir membawa pemeriksaan statis yang dijalankan dari proyek Anda dengan `npm run kelir`: guard kontrak, filter anti-slop, pemeriksaan adopsi, dan audit performa serta pengambilan data opsional. Tiap pemeriksaan mencetak tabel laporan yang sama dan mematok versi yang sudah pasti baik, jadi Anda selalu tahu aturan mana yang berjalan.
 
-> **Pilih dari daftar di tiap kartu.** Prop seperti `variant`, `size`, `gap`,
-> `align`, `shape`, atau `mode` hanya menerima nilai yang tertera di kartu -
-> coba `Button variant="primary"`, `Grid columns={6}`, `Stack gap="md"`.
-> Nilai karangan sendiri tak cocok dengan tema, dan pratinjau tak akan
-> menampilkannya.
+### Font per tema
 
-> **Tata letak pakai primitif kit.** Pakai `Stack`, `Grid`, atau `Spacer` dari
-> `kelir-components` (lihat Cara Mengimpor Komponen di atas), bukan pembungkus
-> `div` polos.
-
-> **Satu sakelar visual.** `KelirProvider` hanya menerima `defaultTheme` +
-> `children`, tanpa yang lain. Ganti tema saat runtime lewat
-> `useKelir().setTheme` atau `KelirSwitcher` yang sudah jadi (lihat Memasang
-> Provider Utama di atas) - jangan pernah menimpa warna. Ganti-ganti tema di
-> Galeri untuk melihat semua pratinjau berubah sekaligus.
-
-> **Label milik Anda, perilaku milik kami.** Anda memasok nama aksesibel
-> (`aria-label`, `id`, `htmlFor`); focus trap, pengumuman live, dan dukungan
-> keyboard sudah built-in di setiap komponen - telusuri pratinjau Galeri
-> dengan keyboard (Tab) untuk merasakannya. Satu-satunya komponen yang
-> menerima dimensi adalah `Skeleton` (`width`/`height` untuk placeholder
-> loading).
+Tiap bahasa desain membawa tipografinya sendiri, dan fontnya menyertai kit - bukan stylesheet pihak ketiga. Empat keluarga mencakup sebelas tema: JetBrains Mono sebagai wajah monospace di semua tema, plus Playfair Display, Poppins, dan Exo 2 sebagai wajah teks untuk masing-masing satu tema. Keempatnya berlisensi SIL Open Font License 1.1; teks lisensinya menyertai berkas di `fonts/LICENSE.md`.
 
 ---
 
@@ -424,17 +269,6 @@ bawah sudah lengkap - pertahankan format `N. **theme-id**:` bila menambah tema.
 9. **neumorphism**: Plastik extrusi lembut dengan cahaya/bayangan ganda.
 10. **skeuomorphism**: Tekstur realistis yang meniru material fisik.
 11. **spatial-ui**: Lapisan spasial berurutan-kedalaman dengan bayangan ambient.
-
----
-
-## Rulebook Anti-slop (untuk Asisten AI)
-
-Project Kelir mem-vendor rulebook [anti-slop](https://github.com/miqdadbadjuber/anti-slop) yang di-pin di `kelir-integration/` agar asisten AI dan gate host memakai satu filter deterministik yang sama. Folder ini hanya berisi mirror rulebook upstream plus alat sync/index; tabel matcher gate ada di `scripts/ui/kelir-slop.mjs`. Server MCP eksperimental sudah dihapus.
-
-- Jenis: aturan statis plus matcher regex; tanpa jaringan, tanpa panggilan model.
-- Gate host: `npm run kelir:slop:strict` memindai kode yang di-ship dengan matcher yang sama.
-- Update: ubah `PIN.ref` di `kelir-integration/tools/sync-antislop.mjs`, lalu jalankan alat sync dan index.
-- Jangan menyunting `kelir-integration/antislop/**` dengan tangan; isinya dicek byte-exact terhadap `upstream.lock.json`.
 
 ---
 

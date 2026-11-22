@@ -1,81 +1,23 @@
-## Changelog
+# Changelog
 
-| Fitur / Aturan | Sebelum v7 | v7 |
-|---|---|---|
-| Tata letak halaman | Anda menulis pembungkus sendiri | Pakai `Stack` (`gap`, `direction`), `Grid` (`columns` dari daftar tetap, `gap`), dan `Spacer` (`size`) milik kit - pembungkus `div` polos tak lagi diterima |
-| Ukuran `Skeleton` | Tak ada cara mengatur ukuran placeholder loading | `width`/`height` boleh hanya di `Skeleton`; `animation` adalah `pulse\|wave\|false` |
-| Nilai prop | Sebagian prop menerima apa saja | Daftar pilihan tetap di mana-mana (`Grid columns`, `Typography as`/`level`, `Input type`/`size`, dan lainnya) - lihat `kelir-types.ts` |
-| Test hook | - | `data-testid` satu-satunya atribut `data-*` yang boleh Anda pakai |
-| `Sidebar` | Sidebar tetap, tanpa opsi | `mode` (`auto`: docked di desktop, overlay di mobile), `triggerVariant` (`none`/`hamburger`/`chevron`), `overlayHeight` (`full`/`auto`); `aria-label` wajib (nama landmark nav) |
-| `Drawer` | Selalu full-height | `height` (`full`, atau `auto` yang membungkus isi dan menengahkannya); tepi kanan membulat ala card; dialog bernama untuk screen reader |
-| Tombol | Teks hanya rata tengah; tombol ikon bebas bentuk | `Button align` (`center`/`start`/`end`); `IconButton shape` (`rounded`/`circle`/`square`), selalu dengan `aria-label` |
-| Prop trigger `Sidebar` | `trigger?` | `triggerVariant?` (union sama; union gaya tombol, bukan slot) |
-| Prop tinggi `Drawer` | `paperHeight?` | `height?` (`full\|auto` sama) |
-| Tinggi overlay `Sidebar` | `full\|content` | `full\|auto` |
-| Nama landmark `Sidebar` | `aria-label` opsional | `aria-label` wajib |
-| Nilai alignment | `left\|right` (Button, Card, Typography, Message, Bubble) | `start\|end` (nilai logis; sama di LTR, benar di RTL) |
-| Isi Card | Area isi tetap | Badan scroll via `scrollable?` (default `false`): isi scroll di dalam, header/footer tetap; tinggi luar tetap milik konsumen |
-| Perataan Stack | Hanya direction + gap | `align?` (`start\|center\|end\|stretch`, default `stretch`) dan `justify?` (`start\|center\|end\|space-between`, default `start`) - union logis tertutup, tanpa ubah visual bila default |
-| Elipsis Typography | Pembungkus ellipsis sendiri | `truncate?` (default `false`): elipsis satu-baris milik kit |
-| Lebar halaman | Pembungkus maxWidth sendiri | `Container` (`maxWidth?` `sm\|md\|lg\|xl`, `padding?` dari space layout) - murni layout, tanpa warna/border/shadow |
-| Gambar logo/media | `<img>` mentah dengan objectFit | `Image` (`src`, `alt?`, `height?`, `fit?` `contain\|cover`, `radius?`) - netral, tanpa shadow/border bawaan |
-| Bungkus baris | Pembungkus flex-wrap sendiri | `Stack wrap?` (default `false`) - baris/kolom membungkus milik kit |
-| Item flex | Pembungkus `flex: 1` / `flexShrink: 0` / `overflow: hidden` sendiri | `FlexItem` (`grow?`, `shrink?`, `clip?` untuk truncasi baris flex bersama `grow`) - boolean tertutup, tanpa angka bebas; default blok biasa |
-| Lebar halaman, vertikal | Pembungkus padding vertikal + overflow sendiri | `Container paddingBlock?` (`none\|sm\|md\|lg\|xl\|2xl`, default `none`) dan `clip?` (default `false`) dari skala space yang sama |
-| Cangkang aplikasi | Cangkang viewport ditulis ulang tiap app | `Shell` (baris atau `stacked?`), `Content` (satu area scroll, padding responsif, latar), `TopBar` (`left?`/`right?`, surface) - murni layout, tanpa warna/border/shadow kustom |
-| Ubin ikon/logo | Kotak padding sendiri | `Tile` (`tone?` `primary\|secondary\|plain`, `size?` `sm\|md\|lg` ke px milik kit; tanpa size ubin-ikon fleksibel) |
-| Spanduk status + flag kartu | Spanduk tinta dan strip sendiri | `Banner` (`tone?` `danger\|warn\|neutral`) dengan teks mewarisi warna; `Card flag?` (`danger\|warn`, strip sisi absolut, default tanpa strip) |
-| Tautan panjang, kode verifikasi | Pembungkus break-all / letter-spacing sendiri | `Typography breakAll?` (default `false`) dan `tracking?` (`normal\|wide`, spasi renggang 6px milik kit) |
-| Tautan sebaris | `<a>` mentah dengan `style=` | `Link` (`href` wajib, `children` teks, `external?` untuk ikon tab-baru + target + rel) - textPrimary, tanpa underline |
-| Radius sudut | - | Sudut kini mengikuti token tema per peran (`button`/`card`/`surface`/`prominent`) - tampilan sama, tiap tema bisa membentuknya |
-| Keandalan | - | Setiap komponen diliput test tipe, runtime, dan aksesibilitas di 11 tema; `Questionnaire` dipecah jadi 5 modul dengan prop identik; generik lebih ketat (`Chart`/`Table`/`Carousel`/`Resizable`) |
-| Aksesibilitas | Sebagian | Built-in di mana-mana: pengumuman Toast, focus trap Dialog, pemicu Tooltip/Popover yang bisa difokus, tombol panah Menu, input berlabel |
-| Ukuran tombol | Satu ukuran tetap | `Button`/`IconButton size?` (`sm\|md\|lg`, default `md` = hari ini): padding rapat/lega + ikon ~18px/~28px untuk drawer sempit - union tertutup, tanpa angka bebas |
-| Padding docked Sidebar | Isi docked menempel ke bingkai | Docked kini punya napas dalam sm yang sama dengan overlay (konsumen sealed tak bisa menambahkannya); overlay tak berubah |
-| Affordance pemicu menu | Pemicu teks-only terbaca seperti label | `DropdownMenu triggerVariant?` (`text\|button`, default `text`): `button` merender pemicu Button outline milik kit; perilaku identik |
-| Varian bar app-shell | `TopBar` selalu lempeng surface | `TopBar variant?` (`raised\|flat`, default `raised`): `raised` kini surface Kelir penuh (surface + border bawah + shadow); `flat` baris aksi transparan di dalam konten; layout identik |
-| Asisten AI | Agen membaca puluhan file untuk memahami kontrak | Server MCP eksperimental di `kelir-mcp/` (stdio lokal, katalog baca-saja; saran dan pemeriksaan menyusul) |
-| Overlay pemuatan | Overlay redup rakitan div polos + token | `LoadingOverlay` (`open` wajib, `label?`/`progress?` teks, `children?` slot media): kartu berdenyut milik kit, nama aksesibel milik kit, tanpa dismiss |
-| Sel tabel panjang | Pembungkus elipsis rakitan yang tak menembus pemicu menu milik kit | `TruncatedText` (`text` wajib, `maxWidth?` data px, teks penuh saat hover) + `ContextMenu`/`DropdownMenu truncate?` (default `false`; hanya varian teks, teks penuh saat hover) |
-| Tepi docked Sidebar | Tepi viewport flush tetap rounded keempat sudut + border penuh | Sudut sisi-layar dinolkan via logical props (aman RTL) + tanpa border sisi-layar; sisi-konten tetap token radius |
-| Overlay mobile Sidebar | Overlay mentok separuh layar | `min(SIDEBAR_WIDTH, 75vw)` - hingga tiga perempat layar |
-| Avatar besar | `Avatar size` mentok di large | `Avatar size?` bertambah `xl` (96px), sejajar ukuran teratas `Image`/`Tile` |
-| Overflow kartu | Kartu selalu memotong tepinya | `Card overflow?` (`hidden\|visible`, default `hidden`); kartu `scrollable` tetap memotong agar isi bisa scroll |
-| Pemicu menu sempit | Pemicu terpotong bisa terlihat sesak atau terlalu lebar | `ContextMenu`/`DropdownMenu maxWidth?` (data px; berlaku pada pemicu yang di-truncate) |
-| Penekanan Toast | Setiap toast tampak sama | `Toast tone?` (`info\|success\|warning\|error`): strip aksen sisi kiri dari token kit/status; tanpa `tone` tetap netral |
-| Notifikasi global | Setiap form membangun state notifikasi dan host sendiri | `Toaster` + `useToast()`: antrean FIFO dengan batas dan durasi milik kit, satu tampil secara bawaan (`maxVisible?`), `position?` logis, dan `Toast` sealed sebagai satu-satunya renderer |
-| Layout responsif | Layout per-breakpoint butuh CSS/hook sendiri | `Stack directionMd?`, `Container paddingBlockMd?`, `Typography variantMd?`: satu breakpoint kit (768px) diterapkan di `>=768px`, nilai dari union yang sudah tertutup |
-| Gambar responsif | Media hero/fluid butuh pembungkus rakitan | `Image fluid?` (isi lebar wadah, tinggi auto) dan `maxHeight?` (dari skala ukuran) |
-| Ruang terpesan | Area tinggi tetap untuk konten async/pihak ketiga butuh style inline | `Stack minHeight?` dari skala space (`xs`..`4xl`), default tanpa |
-| Asisten AI (suggest) | Agen tetap menebak komponen kit yang cocok | Tool MCP `suggest` (v1.1): keinginan bahasa alami → kandidat sealed berperingkat, dengan pengingat kontrak; hanya dari katalog, tak pernah rakitan sendiri |
-| Gerbang konsistensi kit | Repo kit tak punya pemeriksaan sendiri | Gerbang yang butuh `STYLE.md` jalan dari proyek induk dan kini gagal dengan pesan jelas bila dijalankan dari checkout kit tanpa induk; kit menjalankan parse-check di CI |
-| Seksi satu layar | Hero/interstitial satu layar butuh tinggi viewport rakitan | `Stack minHeight?` bertambah `screen` (100dvh); padukan dengan `Container` untuk kolom terpusat berlebar terbatas |
-| Media besar + terbatas | Ukuran media mentok 96px dan media fluid tak bisa dibatasi | `Image height?`/`maxHeight?` bertambah `2xl`..`7xl` (128..400px); `Image maxWidth?` membatasi lebar fluid dalam px |
-| Urutan di layar lebar | Menukar urutan anak per breakpoint butuh CSS sendiri | `Stack reverseMd?` (default `false`): membalik urutan anak pada `>=768px`, di atas `directionMd ?? direction` |
-| Heading berhias inline | Kata bergaya dalam satu heading butuh elemen bertingkat | `Typography segments?`: span inline ber-token (tone muted/primary, skala kecil, pindah baris) dalam satu elemen heading |
-| Logo berbingkai mengambang | Logo bulat berbingkai di atas kartu butuh kotak rakitan | `Avatar frame?` (latar surface + ring primary tebal + padding) dan `FlexItem offsetY?` (`sm\|md\|lg`, tarik naik ber-token) |
-| Filter AI slop | Agen mengirim UI, copy, dan komentar AI generik, dan kit tak bisa menolak | Filter anti-slop MCP (v1.2): mirror offline terpin dari rulebook anti-slop (`kelir://antislop` + per-skill), tool `audit` deterministik, dan catatan anti-slop di `suggest` |
-| Gerbang anti-slop | Filter hanya mengaudit cuplikan yang dikirim agen; tak ada yang menggagalkan build | `scripts/ui/kelir-slop.mjs` berjalan di CI repo induk (`npm run kelir`): memindai berkas induk yang mengimpor Kelir plus internal kit memakai matcher terpin yang sama dengan tool `audit` MCP, mencetak `file:baris` pada tiap ERROR, dan menghormati `kelir-allow: slop` eksplisit di satu baris atau baris di atasnya |
-| Presisi anti-slop | Kata produk nyata dan glif ikon ikut tertandai sebagai teriak atau emoji hiasan | Nama dokumen dan token teknis (`STYLE`, `README`, `CHANGELOG`, `LICENSE`, `CRLF`, `IDR`, dan akronim standar lain) tak lagi dibaca sebagai penekanan; glif centang `✓`/`✔` diperlakukan sebagai ikon, bukan hiasan |
-| Kode, kutipan, dan daftar dalam prosa | Blok kode, kutipan, dan daftar berarti markup rakitan plus gaya mentah | `CodeBlock` (`code` wajib, `language?`, tombol salin dan cadangan clipboard milik kit), `Quote` (batang aksen, latar, radius milik kit), dan `List` (`items`, `ordered?`, penanda dan jarak milik kit) |
-| Sakelar segmented rapat | Grup toggle berupa satu baris tombol raised berpad 6px dan berjarak 8px (terlihat berat) | `ToggleGroup variant?` (`separated` bawaan, nol-ubah; `joined` = satu pil rapat menyatu, segmen non-aktif transparan, segmen aktif primary) |
-| Pembungkus ikon + layout responsif | Konsumen membungkus ikon sendiri dan mewarnainya lewat kelas CSS miliknya, dan tiap grid harus menyimpan media query sendiri | `Icon` (`children`, `intent?`, `size?`) plus `Grid columnsSm?`/`columnsMd?` and `Stack gapMd?` |
-| Chrome halaman + font merek | Tiap halaman menyusun chrome-nya sendiri (tepi, lebar isi, header/footer) plus media query, titik henti, dan font merek buatan sendiri | `PageFrame` (akar + header/main/footer/overlays dari token `layout.page` baru), `Positioned` (slot sudut/tepi tetap dengan `visibility` dari token 600px), `Typography` dapat varian `hero`/`stat` plus `tone?` dan `font?` (`brand` lewat `KelirProvider brandFont?`), `Grid minItem?` (auto-fit dari token, tanpa media query konsumen), `AspectRatio plain?` |
-| Penjaga CSS konsumen | CSS konsumen lolos tanpa suara: kelas `className` milik app, blok `<style>` per halaman, dan tag tata letak mentah | `kelir-guard.mjs` kini ERROR pada blok `<style>` konsumen yang bukan milik kit; `className` pada elemen intrinsik dan tag tata letak/teks mentah dilaporkan sebagai inventaris terukur (jadi ERROR sesudah migrasi). `<link>` font tema dan `KelirProvider brandFont` adalah jalur milik kit untuk memasukkan font merek |
-| Slot bertitik tetap | Slot hanya bisa di sudut atas atau tepi kiri tengah | `Positioned anchor?` dapat baris bawah (`bottom-start`, `bottom-center`, `bottom-end`) dari token space yang sama - pemicu gulir-ke-atas tak lagi butuh CSS app |
-| Aksi di dalam baris tabel | Tabel padat butuh tombol aksi yang lebih kecil, kit belum punya ukurannya | `Button size?` dapat `xs` (padding 3px 8px, teks 11px, ikon ~14px) - union tertutup kini `xs\|sm\|md\|lg` |
-| Baris tabel padat | Tiap tabel tetap bersel 14px berpad 16px, jadi tabel data lebar menggulir samping di ponsel dan berongga di desktop | `Table density?` (`default` nol-ubah; `compact` = sel 12px, kepala 11px, pad `8px 12px`, lebar minimum 600px) |
-| Ukuran rujukan tabel padat | Belum ada patokan kit untuk tabel data yang lebih kecil tapi tetap terbaca | Asal-usul: `density="compact"` plus aksi baris `size="xs"` disetel pada tabel data enam kolom dan terbaca pada lebar desktop maupun ponsel. Jadikan pasangan itu ukuran rujukan kit untuk tabel data padat multiplatform, supaya konsumen menyalin ukuran terukur alih-alih menebak padding |
-| Perkakas gerbang (v1.2.0) | Enam gerbang dirantai `&&`, jadi gerbang merah pertama menyembunyikan sisanya | `kelir-all.mjs` (`npm run kelir`) menjalankan keenam gerbang, mencetak semua laporan plus satu ringkasan gabungan, dan keluar 1 bila ada yang gagal; `--only=<gate>` menjalankan sebagian, `--list` mencetak urutan |
-| Perbaikan gerbang | ERROR `raw-tag` mekanis harus ditulis ulang tangan | `kelir-guard --fix` menulis ulang pemetaan deterministik (`<input>`, `<a>`, `<img>`, `<button>`, `<label>`, `<hr>`, `<blockquote>`, `<p>`, `<span>`, `<h1>`-`<h3>`) plus impor yang cocok; tag hanya disentuh bila seluruh atributnya diterima komponen kit, sisanya tetap ERROR di `Skipped` beserta alasan. `--fix --dry-run` untuk pratinjau |
-| Peringatan gerbang | Semua WARN tercetak, termasuk yang dianggap gaya proyek | `.kelirrc` (`{ "kelir-guard": { "warn": ["style", "heuristic-slot"] } }`) melaporkannya sebagai ALLOW, bukan WARN; aturan ERROR tidak bisa ditekan dan berkas cacat menggagalkan gerbang dengan keluar 2 |
-| Kebisingan gerbang adopsi | `kelir-hunt` melaporkan "UI tanpa impor Kelir" pada kode `controllers/` dan `models/` | `kelir-hunt --scope=views,app` membatasi pindaian ke subdirektori `src` itu; berkas bernama server (`*controller*`, `*action*`, `*queries*`, `*repository*`, `*service*`, `*server*`, `*db*`, `*schema*`, `*seed*`, `*migration*`) dilewati dan dihitung; `--all-files` menonaktifkan heuristik |
-| Migrasi aturan | Perubahan aturan datang sebagai ERROR mentah tanpa peta | `kelir-guard --explain <rule>` mencetak aturan, tautan dokumen, berkas terdampak, dan - untuk `raw-tag` - tabel tag berisi pengganti kit serta apakah `--fix` menanganinya |
-| Versi gerbang | Tak ada cara tahu kumpulan aturan yang dijalankan konsumen | `scripts/kelir-version.mjs` melaporkan `TOOLS_VERSION` (kini 1.2.1) di kepala setiap gerbang |
-| Komentar pengecualian CRLF | `kelir-allow: <reason>` diam-diam diabaikan pada berkas yang di-checkout dengan CRLF (`core.autocrlf=true`), sehingga gerbang tetap gagal tanpa petunjuk apa pun | Satu pembaca bersama yang kebal akhir-baris di `kelir-report.mjs` kini dipakai `kelir-guard`, `kelir-alias`, `kelir-bury`, `kelir-slop`, dan `kelir-hunt`; `/* kelir-allow: alasan */` maupun bentuk JSX `{/* kelir-allow: alasan */}` sama-sama terbaca `alasan` |
-| Deteksi JSX di gerbang adopsi | `kelir-hunt` melaporkan `ui-outside` pada generics TypeScript (`Record<string, x>`, `useState<void>()`) di berkas yang tidak memuat JSX | `kelir-hunt` membaca tag hanya dari `.tsx`/`.jsx`, mengabaikan `<` yang didahului karakter kata (argumen generics), dan membuang kata tipe TS (`string`, `void`, `typeof`, ...); berkas `.ts` tidak lagi dihitung sebagai UI |
-| Penyajian font tema | Setiap kunjungan pertama membayar lima stylesheet pihak ketiga yang memblokir render (`fonts.cdnfonts.com`) untuk font tema dan mono | Font tema kini di-host sendiri: Kelir mengeluarkan blok `@font-face` sendiri (`font-display: swap`) yang menunjuk `/fonts/*.woff2` milik aplikasi induk, dan hanya memuat awal berkas teks + mono milik tema aktif - tak ada yang memblokir paint pertama dan tak ada CDN font yang dipanggil. Tabelnya berada di `kelir-theme-font-faces.ts`; delapan berkas woff2 menyertai kit di `fonts/` dan bundler mengeluarkannya sebagai URL ber-hash pada origin sendiri (tanpa salinan `public/`, tanpa wiring dari induk) |
-| Font neumorphism | `neumorphism` mendeklarasikan `"Product Sans"` padahal DESIGN.md-nya meminta system UI stack | `neumorphism` memakai system stack seperti tujuh tema system-stack lainnya - `"Product Sans"` berpemilik, tak bisa di-host sendiri, dan memang tak diminta desainnya |
-| Audit tanpa dependensi (v1.2.1, issue #123) | Tak ada cek statis untuk performa Next.js atau penyalahgunaan SWR; keduanya harus ditemukan manual | `kelir-perf.mjs` (`npm run kelir:extra`) menandai `root-layout-dynamic`, `dns-lookup-no-cache`, `img-no-dimensions`, `external-font-blocking`, `inline-list-map`; `kelir-swr.mjs` (`npm run kelir:extra`) menandai `always-null-key`, `mutate-key-mismatch`, `optimistic-no-rollback`, `search-no-keep-previous`, `no-config`, `focus-refetch`, `search-no-debounce` (`--keys <file>` merekayasa `<name>.member` terhadap registri `const <name> = { member: "literal" }`). Keduanya hanya build-in Node, memakai model tabel/exit gerbang (`--root`, `--ignore`, `--strict`, `--json`, `kelir-allow: <reason>`, keluar 1 bila ERROR/WARN-strict, 2 bila pemakaian salah), dan mencetak `TOOLS_VERSION` |
-| Render `Image` (issue #120) | `<img>` polos: tanpa srcset responsif, tanpa lazy-load, tanpa kotak ter-reserve - media besar dikirim resolusi penuh dan bisa menggeser layout | `Image` dirender lewat `next/image`: `srcset`/`sizes` otomatis, lazy secara default, `priority` jadi fetch eager ter-preload, dan kotak intrinsik di-reserve agar media tak menggeser layout. Prop sealed tak berubah (`src`, `alt?`, `height?`, `fluid?`, `fill?`, `fit?`, `radius?`, `maxHeight?`/`maxWidth?`, `sizes?`); `src` berupa path leading-slash atau absolut |
-| Rute publik statis (issue #122) | Tema hanya server: root layout konsumen harus `await cookies()` untuk `kelir_theme`, membuat setiap rute dinamis (tanpa SSG/CDN) | `KelirProvider themeMode?` (`cookie` bawaan, tak berubah, atau `client`): mode client menyimpan tema di `localStorage` dan menyuntikkan skrip inline blocker pra-paint (ala next-themes) yang menstempel tema tersimpan ke `<html data-kelir-theme>` sebelum paint pertama, sehingga root layout konsumen bisa tetap statis namun halaman publik tetap terbuka pada tema yang benar - tanpa flash, tanpa cookie. Prop sealed hanya bertambah `themeMode`; `setTheme` menulis localStorage pada mode client dan cookie (via Server Action) pada mode cookie |
+## [7.0.0] - 2026-11-22
+
+### Baru
+- Anda bisa memilih dari sebelas tema desain dan mengganti wajah seluruh aplikasi sekaligus tanpa mengubah kode.
+- Tersedia 86 komponen siap pakai - tombol, formulir, tabel, dialog, hingga tata letak - yang otomatis mengikuti tema aktif.
+- Setiap komponen sudah aksesibel sejak awal: navigasi keyboard, focus trap pada dialog, dan pengumuman pembaca layar.
+- Anda bisa memasang font merek dan dua warna merek tanpa menyentuh kode komponen.
+- Font tema di-host sendiri dan hanya dimuat saat dipakai, sehingga kunjungan pertama cepat dan tak memanggil CDN font.
+- Anda bisa menyalin blok kode dengan satu klik dan menampilkan notifikasi singkat ke seluruh aplikasi lewat satu baris.
+- Gambar kini responsif dan lazy secara bawaan, dengan kotak yang sudah dicadangkan agar layout tidak bergeser saat dimuat.
+- Halaman publik bisa tetap statis (tersimpan di CDN) sambil menampilkan tema yang benar, berkat mode tema di sisi browser.
+
+### Ditingkatkan
+- Nilai tiap komponen kini berupa pilihan tetap yang terdokumentasi, jadi tampilannya konsisten dan tak mudah salah pilih.
+- Teks panjang bisa dipotong dengan elipsis rapi, dan kartu bisa dibuat scroll tanpa menggeser header/footer.
+- Tata letak responsif kini cukup lewat komponen, tanpa menulis media query sendiri.
+- Arah kini logis (start/end), sehingga benar baik pada teks kiri-ke-kanan maupun kanan-ke-kiri.
+
+### Diperbaiki
+- Font tema neumorphism kini memakai system font sesuai desainnya.
+- Judul, kutipan, dan daftar kini tampil rapi di dalam teks paragraf.
