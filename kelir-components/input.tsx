@@ -10,10 +10,26 @@ const surfaceBlur = css.motion.blur.backdrop;
 const textPrimary = css.colors.textPrimary;
 
 // INTERNAL kit (not public contract): text field styles belong to the kit. Used
-// by Input + internal composites (Combobox) so there is no visual duplication.
-// Consumers do not import this - visuals only through sealed components.
-export function getInputStyle(size: KitSize): React.CSSProperties {
+// by Input + internal composites (Combobox, Select, NativeSelect) so there is no
+// visual duplication. Consumers do not import this - visuals only through sealed
+// components.
+// Single source of size→metrics: every text-like control derives block/inline
+// padding + font size from the same kit tokens, so controls of the same size
+// have identical height and typography (issue #139).
+export function getControlMetrics(size: KitSize) {
   const small = size === "xs" || size === "sm";
+  return {
+    small,
+    paddingBlock: small ? css.layout.space.xs : css.layout.space.sm,
+    paddingInline: small ? css.layout.space.md : css.layout.space.lg,
+    fontSize: small ? "13px" : "14px",
+  };
+}
+
+// Shared control surface (background/radius/shadow/border/blur/type) without
+// padding: Input pads its root, Select/NativeSelect pad the inner select box so
+// the dropdown icon gutter fits.
+export function getControlSurfaceStyle(size: KitSize): React.CSSProperties {
   return {
     backgroundColor: neumorphicBg,
     borderRadius: css.control.radius,
@@ -21,13 +37,18 @@ export function getInputStyle(size: KitSize): React.CSSProperties {
     border: `1px solid ${css.border.light}`,
     backdropFilter: surfaceBlur,
     WebkitBackdropFilter: surfaceBlur,
-    padding: small
-      ? `${css.layout.space.xs} ${css.layout.space.md}`
-      : `${css.layout.space.sm} ${css.layout.space.lg}`,
     color: textPrimary,
     fontFamily: "inherit",
-    fontSize: small ? "13px" : "14px",
+    fontSize: getControlMetrics(size).fontSize,
     transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
+  };
+}
+
+export function getInputStyle(size: KitSize): React.CSSProperties {
+  const { paddingBlock, paddingInline } = getControlMetrics(size);
+  return {
+    ...getControlSurfaceStyle(size),
+    padding: `${paddingBlock} ${paddingInline}`,
   };
 }
 

@@ -19,7 +19,10 @@ export interface ComboboxProps {
 // 40. Native Select
 // 40. NativeSelect — sealed native select based on MUI (Gel.3c-3 §6).
 // `options` label/value strings; `onChange` semantic (string, no event);
-// `label?` text slot (sealed Typography). No ...rest/style/MUI onChange.
+// `label?` text slot (sealed Typography). `size?` is the shared KitSize scale
+// (sm/md default; xs behaves as sm, lg..3xl as md) and derives the same
+// padding/type as Input so controls of one size match (issue #139).
+// No ...rest/style/MUI onChange.
 export interface NativeSelectOption {
   label: string;
   value: string;
@@ -31,6 +34,7 @@ export interface NativeSelectProps {
   onChange?: (value: string) => void;
   label?: string;
   disabled?: boolean;
+  size?: KitSize;
   id?: string;
   "aria-label"?: string;
 }
