@@ -1,6 +1,7 @@
 import type * as React from "react";
 import type { ButtonProps } from "../kelir-kit/kit-actions";
 import { css } from "../kelir-kit/kit-create-css";
+import { getControlMetrics } from "./input";
 
 const convexShadow = css.shadows.convex;
 const concaveShadow = css.shadows.concave;
@@ -18,19 +19,29 @@ export function getButtonStyles(
   const isOutline = variant === "outline";
   const isGhost = variant === "ghost";
 
+  // Button shares the control metrics (line-height, block padding, font size)
+  // with Input/Select/NativeSelect, so a Button of one size is exactly as tall
+  // as a field of the same size (#145). xl..3xl degrade to lg; xs keeps its
+  // tight in-table frame.
+  const isXs = size === "xs";
+  const isLg =
+    size === "lg" || size === "xl" || size === "2xl" || size === "3xl";
+  const step = isXs ? "xs" : isLg ? "lg" : (size ?? "md");
+  const metrics = getControlMetrics(step === "lg" ? "md" : step);
+  const blockPadding = isXs
+    ? "0.1875rem"
+    : isLg
+      ? css.layout.space.md
+      : metrics.paddingBlock;
+  const inlinePadding = isXs ? "0.5rem" : isLg ? "1.5rem" : metrics.paddingInline;
+
   const base: React.CSSProperties = {
     borderRadius: css.radius.button,
     textTransform: "none",
     fontWeight: 600,
-    padding:
-      size === "xs"
-        ? "0.1875rem 0.5rem"
-        : size === "sm"
-          ? "0.5rem 1rem"
-          : size === "md"
-            ? "0.625rem 1.25rem"
-            : "0.75rem 1.5rem",
-    ...(size === "xs" ? { fontSize: "0.6875rem" } : null),
+    padding: `${blockPadding} ${inlinePadding}`,
+    lineHeight: 1.4375,
+    fontSize: isXs ? "0.6875rem" : metrics.fontSize,
     transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
     fontFamily: "inherit",
     justifyContent:
@@ -43,26 +54,26 @@ export function getButtonStyles(
 
   if (isPrimary) {
     base.background = css.control.background;
-    base.border = "none";
+    base.border = "1px solid transparent";
     base.boxShadow = convexShadow;
     base.color = css.on.primary;
   } else if (isSecondary) {
     base.backgroundColor = css.colors.secondary;
-    base.border = "none";
+    base.border = "1px solid transparent";
     base.boxShadow = convexShadow;
     base.color = css.on.secondary;
   } else if (isDestructive) {
     base.backgroundColor = css.destructive;
-    base.border = "none";
+    base.border = "1px solid transparent";
     base.boxShadow = convexShadow;
     base.color = css.on.destructive;
   } else if (isOutline) {
     base.backgroundColor = "transparent";
-    base.border = `1.5px solid ${css.border.medium}`;
+    base.border = `1px solid ${css.border.medium}`;
     base.color = textPrimary;
   } else if (isGhost) {
     base.backgroundColor = "transparent";
-    base.border = "none";
+    base.border = "1px solid transparent";
     base.boxShadow = "none";
     base.color = textPrimary;
   } else {
