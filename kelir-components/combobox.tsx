@@ -2,7 +2,7 @@ import MuiAutocomplete from "@mui/material/Autocomplete";
 import MuiInputBase from "@mui/material/InputBase";
 import type { ComboboxProps } from "../kelir-kit/kit-forms-select";
 import { css } from "../kelir-kit/kit-create-css";
-import { getInputStyle, inputFocusSx } from "./input";
+import { getInputStyle, inputRootSx } from "./input";
 import { Label } from "./label";
 
 const convexShadow = css.shadows.convex;
@@ -36,7 +36,7 @@ export function Combobox({
             {/* Internal composite: render MuiInputBase directly (not the sealed
             Input) because Autocomplete REQUIRES wiring MUI's ref/inputProps/
             adornment to the input element. Visuals still owned by the kit via
-            the internal getInputStyle/inputFocusSx helpers - not consumer style. */}
+            the internal getInputStyle/inputRootSx helpers - not consumer style. */}
             <MuiInputBase
               inputRef={ref}
               inputProps={params.slotProps.htmlInput}
@@ -44,7 +44,7 @@ export function Combobox({
               fullWidth
               {...inputRootProps}
               style={getInputStyle("md")}
-              sx={inputFocusSx}
+              sx={inputRootSx}
             />
           </div>
         );

@@ -52,7 +52,13 @@ export function getInputStyle(size: KitSize): React.CSSProperties {
   };
 }
 
-export const inputFocusSx = {
+// Root sx shared by Input + Combobox. The kit pads the ROOT (getInputStyle), so
+// MUI's default inner-input padding (4px 0 5px) must be zeroed: otherwise the
+// control is padded twice and renders taller than Select of the same size (#144).
+export const inputRootSx = {
+  "& .MuiInputBase-input": {
+    padding: 0,
+  },
   "&.Mui-focused": {
     borderColor: css.colors.primary,
   },
@@ -88,7 +94,7 @@ export function Input({
       id={id}
       aria-label={ariaLabel}
       style={getInputStyle(size)}
-      sx={inputFocusSx}
+      sx={inputRootSx}
     />
   );
 }
