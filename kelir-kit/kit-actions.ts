@@ -8,12 +8,12 @@ import type { KitVariant } from "./kit-variant";
 
 // 1. Accordion
 // 1. Accordion - sealed collapsible based on MUI (Gel.3c-6 STYLE.md §6).
-// `summary`/`details` TEXT slots; `expanded?` CONTROLLED + `defaultExpanded?`
-// + `onChange?(expanded)` event-free semantics; `disabled?`.
+// `summary` TEXT slot; `details` CONTENT slot (text or interactive elements);
+// `expanded?` CONTROLLED + `defaultExpanded?` + `onChange?(expanded)`; `disabled?`.
 // No children/slotProps/style/sx/className/onChange-event-MUI.
 export interface AccordionProps {
   summary: string;
-  details: string;
+  details: React.ReactNode;
   expanded?: boolean;
   defaultExpanded?: boolean;
   onChange?: (expanded: boolean) => void;
