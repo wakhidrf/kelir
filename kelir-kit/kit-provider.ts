@@ -41,16 +41,29 @@ export type ThemeMode = "cookie" | "client";
 // Valid props are ONLY: `defaultTheme` (closed Theme union) + `children`.
 // Runtime theme switching is not via extra props, but via the context
 // `useKelir().setTheme` / `KelirSwitcher`. Any other visual prop = violation.
+// Consumer brand font (identity, not layout). Two forms:
+//  - string: a family name the host already loads (e.g. "Vermin Vibes Out Of
+//    Ink"). The kit only installs --kelir-font-brand.
+//  - BrandFontFace: a self-hosted face. The kit emits the @font-face rule and
+//    preloads the first file, so the family actually resolves without consumer
+//    CSS (issue #138). Structurally identical to the kit's internal FontFace.
+export interface BrandFontFace {
+  /** CSS font-family, quoted (e.g. '"Bebas Neue"'). */
+  family: string;
+  /** One entry per file; the first is the one a preload hints at. */
+  files: { src: string; weight: string }[];
+}
+
 export interface KelirProviderProps {
   children: React.ReactNode;
   /** Consumer-provided default theme — for this app the theme cookie already
    *  resolved on the server, so the first render matches the persisted choice
    *  and there is no flash. */
   defaultTheme: Theme;
-  // Consumer brand font (font family name, e.g. "Vermin Vibes Out Of
-  // Ink"). The kit applies it as --kelir-font-brand for
-  // `Typography font="brand"` - consumers do not write their own CSS.
-  brandFont?: string;
+  // Consumer brand font: a family name, or a self-hosted face the kit installs
+  // (@font-face + preload) so `Typography font="brand"` resolves without
+  // consumer CSS. Values are sanitized of ; { } < >.
+  brandFont?: string | BrandFontFace;
   // Persistence strategy: "cookie" (default) for a server-rendered theme with no
   // flash, or "client" to persist in localStorage so a static consumer layout
   // need not `await cookies()`. Runtime switching stays via `useKelir().setTheme`.

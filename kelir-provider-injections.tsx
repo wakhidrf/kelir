@@ -5,8 +5,17 @@
 // sanitized brand values — never consumer HTML.
 
 import * as React from "react";
-import { clientThemeScript, fontLinks, kelirStyleCss } from "./kelir-design/kelir-styles";
-import type { Theme, ThemeMode } from "./kelir-kit/kit-provider";
+import { brandFontFaceCss, brandFontLink } from "./kelir-design/kelir-font-css";
+import {
+  clientThemeScript,
+  fontLinks,
+  kelirStyleCss,
+} from "./kelir-design/kelir-styles";
+import type {
+  BrandFontFace,
+  Theme,
+  ThemeMode,
+} from "./kelir-kit/kit-provider";
 
 export function KelirProviderInjections({
   brandFont,
@@ -14,11 +23,18 @@ export function KelirProviderInjections({
   themeName,
   themeMode,
 }: {
-  brandFont?: string;
+  brandFont?: string | BrandFontFace;
   brandColors?: { accent: string; ink: string };
   themeName: Theme;
   themeMode: ThemeMode;
 }) {
+  // Two brandFont forms (issue #138): a bare family name the host already
+  // loads, or a self-hosted face the kit installs via @font-face + preload.
+  const brandFace: BrandFontFace | undefined =
+    brandFont && typeof brandFont === "object" ? brandFont : undefined;
+  const brandFamily =
+    brandFace?.family ?? (typeof brandFont === "string" ? brandFont : undefined);
+  const brandPreload = brandFace ? brandFontLink(brandFace) : undefined;
   return (
     <>
       {/* Client mode only: a blocking inline script that stamps the stored theme
@@ -33,12 +49,14 @@ export function KelirProviderInjections({
           Rendered as React children (a static string, not user input) so no
           dangerouslySetInnerHTML is needed. */}
       <style>{kelirStyleCss()}</style>
-      {/* Consumer brand font (identity, not layout): the kit installs it as
-          --kelir-font-brand; braces are stripped so a value cannot escape the
-          declaration (the string is still rendered as React text, not HTML). */}
-      {brandFont ? (
+      {/* Consumer brand font (identity, not layout). A self-hosted face gets its
+          @font-face rule here so the family actually resolves without consumer
+          CSS; a bare family name only installs the variable. Braces are stripped
+          so a value cannot escape the declaration (rendered as React text). */}
+      {brandFace ? <style>{brandFontFaceCss(brandFace)}</style> : null}
+      {brandFamily ? (
         <style>
-          {`:root { --kelir-font-brand: ${brandFont.replace(/[;{}<>]/g, "")}; }`}
+          {`:root { --kelir-font-brand: ${brandFamily.replace(/[;{}<>]/g, "")}; }`}
         </style>
       ) : null}
       {/* Consumer brand colors (identity, not theme): two fixed slots,
@@ -61,6 +79,16 @@ export function KelirProviderInjections({
           href={href}
         />
       ))}
+      {/* Brand face preload: the first file, same hint as theme faces. */}
+      {brandPreload ? (
+        <link
+          rel="preload"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+          href={brandPreload.href}
+        />
+      ) : null}
     </>
   );
 }

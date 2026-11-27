@@ -14,6 +14,7 @@
 // public exports are unchanged.
 
 import { baseCss } from "./kelir-base-css";
+import { faceCss } from "./kelir-font-css";
 import { themeRegistry } from "./kelir-registry";
 import { FONT_FACES } from "./kelir-theme-font-faces";
 import { FONTS } from "./kelir-theme-fonts";
@@ -62,14 +63,7 @@ export function kelirStyleCss(): string {
 // origin. Declaring all of them costs nothing until a family is used: an
 // unreferenced @font-face downloads no file.
 export function fontFaceCss(): string {
-  return Object.values(FONT_FACES)
-    .flatMap((face) =>
-      face.files.map(
-        (file) =>
-          `@font-face {\n  font-family: ${face.family};\n  font-style: normal;\n  font-weight: ${file.weight};\n  font-display: swap;\n  src: url("${file.src}") format("woff2");\n}`,
-      ),
-    )
-    .join("\n");
+  return Object.values(FONT_FACES).map(faceCss).join("\n");
 }
 
 // Preload hints for the active theme: the first file of each family it uses, so
