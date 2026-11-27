@@ -4,6 +4,7 @@ import MuiBox from "@mui/material/Box";
 import * as React from "react";
 import type { TextareaProps } from "../kelir-kit/kit-forms-input";
 import { css } from "../kelir-kit/kit-create-css";
+import { getControlMetrics } from "./input";
 import { Typography } from "./typography";
 
 export function Textarea({
@@ -20,6 +21,9 @@ export function Textarea({
   "aria-label": ariaLabel,
 }: TextareaProps) {
   const [focused, setFocused] = React.useState(false);
+  // Same control metrics as Input/Select of the same size (#142): padding and
+  // font come from the kit token scale, not a per-component literal.
+  const { paddingBlock, paddingInline, fontSize } = getControlMetrics("md");
 
   return (
     <MuiBox sx={{ width: "100%" }}>
@@ -51,10 +55,10 @@ export function Textarea({
           boxShadow: css.shadows.concave,
           backdropFilter: css.motion.blur.backdrop,
           WebkitBackdropFilter: css.motion.blur.backdrop,
-          padding: "10px 14px",
+          padding: `${paddingBlock} ${paddingInline}`,
           color: css.colors.textPrimary,
           fontFamily: "inherit",
-          fontSize: "14px",
+          fontSize,
           outline: focused
             ? `${css.focusRing.width} solid ${css.focusRing.color}`
             : "none",

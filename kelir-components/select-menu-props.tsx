@@ -45,7 +45,6 @@ const iconGutter = (small: boolean) => (small ? "32px" : "36px");
 export function getSelectSx(size: KitSize) {
   const { small, paddingBlock, paddingInline } = getControlMetrics(size);
   return {
-    minWidth: small ? "224px" : "240px",
     "& .MuiSelect-select": {
       padding: `${paddingBlock} ${iconGutter(small)} ${paddingBlock} ${paddingInline}`,
     },

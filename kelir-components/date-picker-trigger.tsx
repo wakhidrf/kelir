@@ -9,6 +9,7 @@ import {
   textPrimary,
   textSecondary,
 } from "./date-picker-constants";
+import { getControlMetrics } from "./input";
 
 export function DatePickerTrigger({
   value,
@@ -19,6 +20,9 @@ export function DatePickerTrigger({
   placeholder?: string;
   onOpen: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }) {
+  // Same control metrics as Input of the same size (#142): the trigger is a
+  // field, so its padding/type come from the kit token scale.
+  const { paddingBlock, paddingInline, fontSize } = getControlMetrics("md");
   return (
     <button
       type="button"
@@ -30,10 +34,10 @@ export function DatePickerTrigger({
         borderRadius: css.control.radius,
         boxShadow: concaveShadow,
         border: `1px solid ${css.border.light}`,
-        padding: "10px 14px",
+        padding: `${paddingBlock} ${paddingInline}`,
         color: value ? textPrimary : textSecondary,
         fontFamily: "inherit",
-        fontSize: "14px",
+        fontSize,
         cursor: "pointer",
         transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
       }}
