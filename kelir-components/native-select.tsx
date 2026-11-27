@@ -2,6 +2,7 @@ import MuiInputBase from "@mui/material/InputBase";
 import MuiNativeSelect from "@mui/material/NativeSelect";
 import type { NativeSelectProps } from "../kelir-kit/kit-forms-select";
 import { css } from "../kelir-kit/kit-create-css";
+import { getControlMetrics, getControlSurfaceStyle } from "./input";
 import { Typography } from "./typography";
 
 export function NativeSelect({
@@ -11,9 +12,12 @@ export function NativeSelect({
   onChange,
   label,
   disabled,
+  size = "md",
   id,
   "aria-label": ariaLabel,
 }: NativeSelectProps) {
+  const { small, paddingBlock, paddingInline } = getControlMetrics(size);
+  const iconGutter = small ? "32px" : "36px";
   return (
     <>
       {label && <Typography variant="label-caps">{label}</Typography>}
@@ -27,22 +31,7 @@ export function NativeSelect({
         // (Gel.2 finding on Checkbox/Switch). NativeSelect renders its own
         // <select>; aria on the root is enough for the listbox role.
         aria-label={ariaLabel ?? label}
-        input={
-          <MuiInputBase
-            fullWidth
-            style={{
-              backgroundColor: css.colors.surface,
-              borderRadius: css.control.radius,
-              boxShadow: css.shadows.concave,
-              border: `1px solid ${css.border.light}`,
-              backdropFilter: css.motion.blur.backdrop,
-              WebkitBackdropFilter: css.motion.blur.backdrop,
-              color: css.colors.textPrimary,
-              fontFamily: "inherit",
-              fontSize: "14px",
-            }}
-          />
-        }
+        input={<MuiInputBase fullWidth style={getControlSurfaceStyle(size)} />}
         sx={{
           "&.Mui-focused": {
             "& .MuiInputBase-root": {
@@ -54,7 +43,7 @@ export function NativeSelect({
             outlineOffset: css.focusRing.offset,
           },
           "& .MuiNativeSelect-select": {
-            padding: "10px 36px 10px 14px",
+            padding: `${paddingBlock} ${iconGutter} ${paddingBlock} ${paddingInline}`,
           },
           "& .MuiNativeSelect-icon": {
             color: css.colors.textSecondary,

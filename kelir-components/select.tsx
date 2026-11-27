@@ -5,6 +5,7 @@ import MuiSelect from "@mui/material/Select";
 import { useRef, useState } from "react";
 import type { SelectProps } from "../kelir-kit/kit-forms-select";
 import { css } from "../kelir-kit/kit-create-css";
+import { getControlSurfaceStyle } from "./input";
 import { Stack } from "./stack";
 import { Typography } from "./typography";
 import { KelirSelectInput } from "./select-input";
@@ -15,11 +16,6 @@ import {
   getMenuItemSx,
 } from "./select-menu-props";
 
-const convexShadow = css.shadows.convex;
-const concaveShadow = css.shadows.concave;
-const neumorphicBg = css.colors.surface;
-const surfaceBlur = css.motion.blur.backdrop;
-const textPrimary = css.colors.textPrimary;
 const textSecondary = css.colors.textSecondary;
 
 export function Select({
@@ -37,7 +33,6 @@ export function Select({
   const anchorRef = useRef<HTMLDivElement>(null);
   const [menuWidth, setMenuWidth] = useState<number | undefined>(undefined);
   const selectedLabel = options.find((o) => o.value === (value ?? ""))?.label;
-  const small = size === "xs" || size === "sm";
 
   return (
     <Stack gap="xs">
@@ -51,22 +46,7 @@ export function Select({
         displayEmpty
         id={id}
         aria-label={ariaLabel ?? label}
-        input={
-          <KelirSelectInput
-            style={{
-              backgroundColor: neumorphicBg,
-              borderRadius: css.control.radius,
-              boxShadow: concaveShadow,
-              border: `1px solid ${css.border.light}`,
-              backdropFilter: surfaceBlur,
-              WebkitBackdropFilter: surfaceBlur,
-              color: textPrimary,
-              fontFamily: "inherit",
-              fontSize: small ? "13px" : "14px",
-              fontWeight: small ? 500 : 400,
-            }}
-          />
-        }
+        input={<KelirSelectInput style={getControlSurfaceStyle(size)} />}
         renderValue={(v) =>
           v === "" ? (
             <span style={{ color: textSecondary }}>
