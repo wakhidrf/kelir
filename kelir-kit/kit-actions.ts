@@ -6,10 +6,9 @@ import type { KitSize } from "./kit-size";
 import type { KitIdentity } from "./kit-tone";
 import type { KitVariant } from "./kit-variant";
 
-// 1. Accordion
 // 1. Accordion - sealed collapsible based on MUI (Gel.3c-6 STYLE.md §6).
 // `summary` TEXT slot; `details` CONTENT slot (text or interactive elements);
-// `expanded?` CONTROLLED + `defaultExpanded?` + `onChange?(expanded)`; `disabled?`.
+// `expanded?` CONTROLLED + `defaultExpanded?` + `onChange?(expanded)`; `disabled?`; `active?`.
 // No children/slotProps/style/sx/className/onChange-event-MUI.
 export interface AccordionProps {
   summary: string;
@@ -18,6 +17,7 @@ export interface AccordionProps {
   defaultExpanded?: boolean;
   onChange?: (expanded: boolean) => void;
   disabled?: boolean;
+  active?: boolean;
 }
 
 // 10. Button — explicit sealed (P1c STYLE.md §6): no MUI inheritance,

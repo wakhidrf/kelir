@@ -5,8 +5,11 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import type { AccordionProps } from "../kelir-kit/kit-actions";
 import { css } from "../kelir-kit/kit-create-css";
 
-// Accordion sealed (Gel.3c-6 STYLE.md §6): summary/details TEXT slot,
-// expanded CONTROLLED + semantic onChange; visuals owned by the kit.
+const textPrimary = css.colors.textPrimary;
+const onPrimary = css.on.primary;
+
+// Accordion sealed (Gel.3c-6 STYLE.md §6): `summary` text slot, `details`
+// content slot, `active` primary treatment; visuals owned by the kit.
 export function Accordion({
   summary,
   details,
@@ -14,6 +17,7 @@ export function Accordion({
   defaultExpanded,
   onChange,
   disabled,
+  active = false,
 }: AccordionProps) {
   return (
     <MuiAccordion
@@ -34,11 +38,18 @@ export function Accordion({
       }}
     >
       <AccordionSummary
-        expandIcon={<ExpandMoreIcon style={{ color: css.colors.textPrimary }} />}
+        expandIcon={
+          <ExpandMoreIcon style={{ color: active ? onPrimary : textPrimary }} />
+        }
+        aria-current={active ? "true" : undefined}
+        sx={{
+          backgroundColor: active ? css.colors.primary : "transparent",
+          color: active ? onPrimary : textPrimary,
+          boxShadow: active ? css.shadows.concave : "none",
+          transition: `all ${css.motion.duration.hover} ${css.motion.easing.curve}`,
+        }}
       >
-        <div style={{ fontWeight: 600, color: css.colors.textPrimary }}>
-          {summary}
-        </div>
+        <div style={{ fontWeight: 600, color: "inherit" }}>{summary}</div>
       </AccordionSummary>
       <AccordionDetails
         style={{
