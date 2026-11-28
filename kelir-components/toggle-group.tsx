@@ -42,7 +42,7 @@ export function ToggleGroup({
           sx={buttonSx(joined, size)}
         >
           {option.icon}
-          {option.label}
+          <span>{option.label}</span>
         </MuiToggleButton>
       ))}
     </MuiToggleButtonGroup>
