@@ -261,12 +261,13 @@ Project Kelir ships the following themes (one `DESIGN.md` design language each),
 3. **dimensional-layering**: Stacked translucent layers with depth separation.
 4. **editorial-contemporaneo**: Contemporary print-editorial typography and rules.
 5. **edtech-plataforma**: Friendly education-platform surfaces and accents.
-6. **futuristic-glassmorphism**: Neon-tinted glass panels with glow accents.
-7. **glassmorphism**: Frosted-glass translucency with backdrop blur.
-8. **liquid-glass**: Fluid glossy highlights over clear glass.
-9. **neumorphism**: Soft extruded plastic with dual light/shadow.
-10. **skeuomorphism**: Realistic textures mimicking physical materials.
-11. **spatial-ui**: Depth-ordered spatial layers with ambient shadows.
+6. **flat-educacional**: Vibrant flat surfaces with saturated e-learning colors.
+7. **futuristic-glassmorphism**: Neon-tinted glass panels with glow accents.
+8. **glassmorphism**: Frosted-glass translucency with backdrop blur.
+9. **liquid-glass**: Fluid glossy highlights over clear glass.
+10. **neumorphism**: Soft extruded plastic with dual light/shadow.
+11. **skeuomorphism**: Realistic textures mimicking physical materials.
+12. **spatial-ui**: Depth-ordered spatial layers with ambient shadows.
 
 ---
 

@@ -38,6 +38,11 @@ export const FONTS: Record<Theme, ThemeFonts> = {
     mono: MONO,
     faces: ["poppins", "jetbrains-mono"],
   },
+  "flat-educacional": {
+    active: '"Roboto", sans-serif',
+    mono: MONO,
+    faces: ["roboto", "jetbrains-mono"],
+  },
   "futuristic-glassmorphism": {
     active: '"Exo 2", sans-serif',
     mono: MONO,
@@ -59,6 +64,7 @@ export const SCHEMES: Record<Theme, "light" | "dark"> = {
   "dimensional-layering": "light",
   "editorial-contemporaneo": "light",
   "edtech-plataforma": "light", // DESIGN light only
+  "flat-educacional": "light", // DESIGN light only
   "futuristic-glassmorphism": "dark",
   skeuomorphism: "dark",
 };

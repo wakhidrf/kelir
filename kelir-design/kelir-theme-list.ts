@@ -14,6 +14,7 @@ export const KELIR_THEMES: { slug: Theme; label: string }[] = [
     label: "Contemporary Editorial",
   },
   { slug: "edtech-plataforma", label: "EdTech Course Platform" },
+  { slug: "flat-educacional", label: "Flat Education Vibrant" },
   { slug: "skeuomorphism", label: "Skeuomorphism" },
   { slug: "liquid-glass", label: "Liquid Glass" },
   { slug: "spatial-ui", label: "Spatial UI (VisionOS)" },

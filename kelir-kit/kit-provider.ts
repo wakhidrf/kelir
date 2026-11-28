@@ -7,6 +7,7 @@ export type Theme =
   | "dimensional-layering"
   | "editorial-contemporaneo"
   | "edtech-plataforma"
+  | "flat-educacional"
   | "futuristic-glassmorphism"
   | "glassmorphism"
   | "liquid-glass"
