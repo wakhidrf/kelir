@@ -9,8 +9,9 @@ Each file is the latin subset as served by Google Fonts.
 | `playfair-display-variable.woff2` | Playfair Display | Copyright 2017 The Playfair Display Project Authors (https://github.com/clauseggers/Playfair-Display), with Reserved Font Name "Playfair Display" |
 | `poppins-400.woff2` ... `poppins-800.woff2` | Poppins | Copyright 2020 The Poppins Project Authors (https://github.com/itfoundry/Poppins) |
 | `exo-2-variable.woff2` | Exo 2 | Copyright 2013 The Exo 2 Project Authors (https://github.com/googlefonts/Exo-2.0) |
+| `roboto-variable.woff2` | Roboto | Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto) |
 
-All four families are licensed under the SIL Open Font License, Version 1.1, reproduced below.
+All families except Roboto are licensed under the SIL Open Font License, Version 1.1, reproduced below. Roboto is licensed under the Apache License, Version 2.0 (https://www.apache.org/licenses/LICENSE-2.0).
 
 ---
 

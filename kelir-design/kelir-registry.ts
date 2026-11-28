@@ -3,6 +3,7 @@ import { tokens as claymorphismTokens } from "./themes/claymorphism";
 import { tokens as dimensionalLayeringTokens } from "./themes/dimensional-layering";
 import { tokens as editorialToken } from "./themes/editorial-contemporaneo";
 import { tokens as edtechPlataformaTokens } from "./themes/edtech-plataforma";
+import { tokens as flatEducationTokens } from "./themes/flat-educacional";
 import { tokens as futuristicGlassTokens } from "./themes/futuristic-glassmorphism";
 import { tokens as glassmorphismTokens } from "./themes/glassmorphism";
 import { tokens as liquidGlassTokens } from "./themes/liquid-glass";
@@ -65,5 +66,10 @@ export const themeRegistry = {
     slug: "edtech-plataforma",
     label: "EdTech Course Platform",
     tokens: edtechPlataformaTokens,
+  },
+  "flat-educacional": {
+    slug: "flat-educacional",
+    label: "Flat Education Vibrant",
+    tokens: flatEducationTokens,
   },
 } as const;

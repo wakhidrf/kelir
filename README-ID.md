@@ -263,12 +263,13 @@ bawah sudah lengkap - pertahankan format `N. **theme-id**:` bila menambah tema.
 3. **dimensional-layering**: Lapisan-lapisan translusen bertumpuk dengan pemisahan kedalaman.
 4. **editorial-contemporaneo**: Tipografi dan garis aturan editorial-cetak kontemporer.
 5. **edtech-plataforma**: Permukaan dan aksen platform edukasi yang ramah.
-6. **futuristic-glassmorphism**: Panel kaca bernuansa neon dengan aksen cahaya.
-7. **glassmorphism**: Translusensi kaca buram dengan backdrop blur.
-8. **liquid-glass**: Highlight mengilap yang fluid di atas kaca bening.
-9. **neumorphism**: Plastik extrusi lembut dengan cahaya/bayangan ganda.
-10. **skeuomorphism**: Tekstur realistis yang meniru material fisik.
-11. **spatial-ui**: Lapisan spasial berurutan-kedalaman dengan bayangan ambient.
+6. **flat-educacional**: Permukaan flat yang vibrant dengan warna e-learning saturasi.
+7. **futuristic-glassmorphism**: Panel kaca bernuansa neon dengan aksen cahaya.
+8. **glassmorphism**: Translusensi kaca buram dengan backdrop blur.
+9. **liquid-glass**: Highlight mengilap yang fluid di atas kaca bening.
+10. **neumorphism**: Plastik extrusi lembut dengan cahaya/bayangan ganda.
+11. **skeuomorphism**: Tekstur realistis yang meniru material fisik.
+12. **spatial-ui**: Lapisan spasial berurutan-kedalaman dengan bayangan ambient.
 
 ---
 

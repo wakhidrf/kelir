@@ -26,7 +26,8 @@ export type FontKey =
   | "jetbrains-mono"
   | "playfair-display"
   | "poppins"
-  | "exo-2";
+  | "exo-2"
+  | "roboto";
 
 // Paths are relative to this file and static, which is what lets the bundler
 // emit them. Files are the latin subsets, licensed SIL OFL 1.1 (see
@@ -82,6 +83,15 @@ export const FONT_FACES: Record<FontKey, FontFace> = {
     files: [
       {
         src: new URL("./fonts/exo-2-variable.woff2", import.meta.url).href,
+        weight: "100 900",
+      },
+    ],
+  },
+  roboto: {
+    family: '"Roboto"',
+    files: [
+      {
+        src: new URL("./fonts/roboto-variable.woff2", import.meta.url).href,
         weight: "100 900",
       },
     ],
