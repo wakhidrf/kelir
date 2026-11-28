@@ -27,6 +27,24 @@ export const hideBeforeReadyCss = `
   }
 `;
 
+// Reduced motion (quality-bar: accessibility). Every duration and the aurora flow
+// are driven by CSS variables, so the media query only overrides those: no
+// !important, which the critical list forbids beyond background/text/font. The
+// selector matches the theme selectors' specificity (0,2,0) and is emitted last,
+// so it wins on source order.
+export const reducedMotionCss = `
+  @media (prefers-reduced-motion: reduce) {
+    :root[data-kelir-theme] {
+      --motion-duration-base: 0.01ms;
+      --motion-duration-hover: 0.01ms;
+      --motion-duration-entry: 0.01ms;
+      --motion-duration-stagger: 0.01ms;
+      --motion-duration-page: 0.01ms;
+      --kelir-flow-anim: none;
+    }
+  }
+`;
+
 // Theme persistence is server-side via cookie: layout.tsx reads the cookie and
 // renders the saved theme on <html>, so the very first SSR HTML is already
 // themed — no flash, no client-side inline script and no localStorage. The

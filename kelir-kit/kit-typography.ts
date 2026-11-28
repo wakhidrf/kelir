@@ -22,7 +22,7 @@ export interface KelirTypeScale {
 export interface KelirTypographyTokens {
   scale: KelirTypeScale;
   lineHeight: { body: string };
-  letterSpacing: { hero: string };
+  letterSpacing: { hero: string; h1: string };
   maxCh: { body: string };
   weights: {
     hero: number;
@@ -50,6 +50,8 @@ export const typography: KelirTypographyTokens = {
   },
   letterSpacing: {
     hero: "-1px",
+    // Display tracking is negative and set per size (quality-bar: craft).
+    h1: "-0.02em",
   },
   maxCh: {
     body: "72ch",
@@ -82,5 +84,6 @@ export const typographyVars: string =
   `--type-weight-body: ${typography.weights.body};\n` +
   `--type-weight-label: ${typography.weights.label};\n` +
   `--type-letterspacing-hero: ${typography.letterSpacing.hero};\n` +
+  `--type-letterspacing-h1: ${typography.letterSpacing.h1};\n` +
   `--type-lineheight-body: ${typography.lineHeight.body};\n` +
   `--type-max-ch: ${typography.maxCh.body};\n`;
