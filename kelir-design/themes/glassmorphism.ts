@@ -11,9 +11,9 @@ export const variants = {
   // Derived semantic colors
   textPrimary: "#FFFFFF", // White (primary text on glass)
   textSecondary: "rgba(255, 255, 255, 0.7)", // Soft white (secondary text)
-  onPrimary: "#FFFFFF", // White (text on primary)
+  onPrimary: "#0A0E27", // deep indigo (AA 5.01 on the blue primary)
   onSecondary: "#FFFFFF", // White (text on secondary)
-  onDestructive: "#FFFFFF", // White (text on destructive)
+  onDestructive: "#0A0E27", // deep indigo (AA 5.22 on the pink destructive)
   destructive: "#FF1493", // Vivid Pink (destructive background)
   // Derived colors (free per-theme values, fixed key names)
   background:

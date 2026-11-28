@@ -5,6 +5,7 @@ export { rounded, typography };
 // Flat Education Vibrant: shadow-free flat surfaces, saturated primaries and a
 // warm orange surface. DESIGN.md front matter (primary #007BFF / secondary
 // #FFD700 / tertiary #2ECC40 / neutral #FFFFFF / surface #FF8C00).
+// DESIGN accent (soft purple #9370DB) has no slot: accent tone aliases primary.
 export const variants = {
   // Core colors from DESIGN.md
   primary: "#007BFF", // Electric Blue
@@ -14,7 +15,7 @@ export const variants = {
   // Derived semantic colors
   textPrimary: "#1A1A1A", // Charcoal (no pure black per DESIGN.md)
   textSecondary: "#6B6B6B", // Muted grey (secondary text)
-  onPrimary: "#FFFFFF", // White (text on primary)
+  onPrimary: "#111111", // near-black (AA 4.75 on the blue primary)
   onSecondary: "#1A1A1A", // Charcoal (text on secondary)
   onDestructive: "#FFFFFF", // White (text on destructive)
   destructive: "#C62828", // Semantic red (error text/border)
