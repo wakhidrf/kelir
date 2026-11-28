@@ -55,6 +55,7 @@ export function createKelirMuiTheme() {
       h1: {
         fontSize: "var(--type-h1, 2.25rem)",
         fontWeight: "var(--type-weight-h1, 700)",
+        letterSpacing: "var(--type-letterspacing-h1, -0.02em)",
       },
       h2: {
         fontSize: "var(--type-h2, 1.5rem)",

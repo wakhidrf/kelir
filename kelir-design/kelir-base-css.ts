@@ -78,6 +78,8 @@ export const baseCss = `
   ${hideBeforeReadyCss}
   h1, h2 {
     text-shadow: var(--kelir-chroma, none);
+    /* No widows in display lines (quality-bar: details). */
+    text-wrap: balance;
   }
   a {
     color: inherit;

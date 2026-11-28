@@ -8,6 +8,8 @@ export { rounded, typography };
 // white #FFFFFF, surface light grey #F8FAFC) + yellow warning accent. Ease-out
 // motion (entry 420ms, stagger 80ms) = easeMotion default. Poppins display.
 // DESIGN accent (amber #FFC107) has no slot: Kelir's accent tone aliases primary.
+// DESIGN surface (#F8FAFC) is the canvas here, so it maps to background and the
+// card surface stays white; the literal reading would make cards invisible.
 export const variants = {
   // Core colors from DESIGN.md
   primary: "#FF6B00", // Orange (warm accent / CTA)
