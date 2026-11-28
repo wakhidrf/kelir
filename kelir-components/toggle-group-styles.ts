@@ -50,6 +50,20 @@ export function buttonSx(joined: boolean, size: KitSize) {
           backgroundColor: css.colors.surface,
           boxShadow: css.shadows.concave,
         },
+    /* Primary targets answer in the motion verb: the inner label lifts, so the
+       hover is a movement and not a color swap alone (quality-bar). */
+    "& > span": {
+      display: "inline-block",
+      transition: `transform ${css.motion.duration.hover} ${css.motion.easing.curve}`,
+    },
+    "&:hover > span": { transform: "translateY(-1px)" },
+    /* The global focus ring is the primary color, which disappears on the
+       primary-filled selected item: the selected item gets an onPrimary ring. */
+    "&:focus-visible": {
+      outline: `2px solid ${css.colors.primary}`,
+      outlineOffset: "-2px",
+    },
+    "&.Mui-selected:focus-visible": { outlineColor: css.on.primary },
     "&.Mui-selected": {
       backgroundColor: css.colors.primary,
       color: css.on.primary,

@@ -39,6 +39,7 @@ export function PageFrameBody({ header, footer, children }: PageFrameBodyProps) 
       ) : null}
       <MuiBox
         component="main"
+        id="main"
         style={{
           minHeight: page.mainMinHeight,
           paddingTop: page.mainPaddingBlock,

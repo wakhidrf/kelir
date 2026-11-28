@@ -27,6 +27,27 @@ export const hideBeforeReadyCss = `
   }
 `;
 
+// Skip link (a11y): the first focusable element, off-screen until focused, then
+// themed from the active theme's own variables. Kit-owned so consumers render
+// <SkipLink /> instead of writing CSS (§3).
+export const skipLinkCss = `
+  .kelir-skip {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    z-index: 1000;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm, 8px);
+    background: var(--color-primary, #8a8f98);
+    color: var(--color-on-primary, #ffffff);
+    font-family: var(--kelir-font-active, sans-serif);
+    transform: translateY(-200%);
+  }
+  .kelir-skip:focus-visible {
+    transform: none;
+  }
+`;
+
 // Reduced motion (quality-bar: accessibility). Every duration and the aurora flow
 // are driven by CSS variables, so the media query only overrides those: no
 // !important, which the critical list forbids beyond background/text/font. The

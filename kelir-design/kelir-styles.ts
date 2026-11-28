@@ -14,7 +14,7 @@
 // public exports are unchanged.
 
 import { baseCss } from "./kelir-base-css";
-import { reducedMotionCss } from "./kelir-style-constants";
+import { reducedMotionCss, skipLinkCss } from "./kelir-style-constants";
 import { faceCss } from "./kelir-font-css";
 import { themeRegistry } from "./kelir-registry";
 import { FONT_FACES } from "./kelir-theme-font-faces";
@@ -54,7 +54,7 @@ export function kelirStyleCss(): string {
   // alone is NOT enough (unlayered CSS beats layered CSS) — the critical
   // declarations use !important inside the layer, which beats unlayered normal
   // CSS.
-  const inner = `${baseCss}\n${keyframes}\n${blocks.join("\n\n")}\n\n${scrollbarCss}\n${reducedMotionCss}`;
+  const inner = `${baseCss}\n${keyframes}\n${blocks.join("\n\n")}\n\n${scrollbarCss}\n${skipLinkCss}\n${reducedMotionCss}`;
   // @font-face first, outside the layer: the browser discovers the files while
   // the (much larger) token sheet is still parsing.
   return `${fontFaceCss()}\n@layer kelir {\n${inner}\n}`;
