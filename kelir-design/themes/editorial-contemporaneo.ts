@@ -5,6 +5,7 @@ export { rounded, typography };
 // front matter (primary white, secondary black, tertiary wine-red, neutral
 // dark grey) plus gold surface and navy accent. Light scheme, serif Display
 // (Playfair), ease-out motion (entry 420ms, stagger 80ms) = easeMotion default.
+// DESIGN accent (navy #000080) has no slot: Kelir's accent tone aliases primary.
 export const variants = {
   // Core colors from DESIGN.md
   primary: "#FFFFFF", // DESIGN primary (white surface)
@@ -21,7 +22,7 @@ export const variants = {
   // Derived colors (free per-theme values, fixed key names)
   background: "#FAF8F2", // warm paper canvas
   baseBackground: "#FAF8F2", // solid canvas base (same as background for flat themes)
-  surface: "#FFFFFF", // paper surface (editorial card)
+  surface: "#FFD700", // DESIGN surface (gold editorial card)
   borderLight: "rgba(0, 0, 0, 0.1)",
   borderMedium: "rgba(0, 0, 0, 0.16)",
   borderStrong: "rgba(0, 0, 0, 0.28)",

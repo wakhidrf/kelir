@@ -7,7 +7,7 @@ export const rounded = {
 export const typography = {
   h1: {
     fontFamily: '"Poppins", sans-serif',
-    fontSize: "2.25rem",
+    fontSize: "2.5rem", // DESIGN h1
     fontWeight: 700,
   },
   bodyMd: {

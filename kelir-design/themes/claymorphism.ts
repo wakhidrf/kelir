@@ -13,7 +13,7 @@ export const variants = {
   neutral: "#E6E6FA", // Lavender (DESIGN neutral / highlight)
   // Derived semantic colors
   textPrimary: "#3A2E2C", // Dark warm grey (primary text)
-  textSecondary: "#8A7A76", // Muted grey (secondary text)
+  textSecondary: "#6E5F5B", // muted warm grey (AA 5.38 on the clay canvas)
   onPrimary: "#6E4A3C", // Warm brown (text on primary)
   onSecondary: "#2C4A63", // Deep blue (text on secondary)
   onDestructive: "#632C41", // Deep red (text on destructive)

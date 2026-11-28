@@ -83,4 +83,8 @@ export const baseCss = `
     color: inherit;
     text-decoration: none;
   }
+  ::selection {
+    background: var(--color-primary, #8a8f98);
+    color: var(--color-on-primary, #ffffff);
+  }
 `;

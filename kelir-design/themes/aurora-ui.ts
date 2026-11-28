@@ -16,9 +16,9 @@ export const variants = {
   // Derived semantic colors
   textPrimary: "#F2F6FF", // near-white (primary text on aurora canvas)
   textSecondary: "rgba(242, 246, 255, 0.68)", // muted blue-white
-  onPrimary: "#F2F6FF", // near-white (text on electric blue)
-  onSecondary: "#F2F6FF", // near-white (text on magenta)
-  onDestructive: "#FFFFFF", // white (text on destructive)
+  onPrimary: "#0B1020", // deep navy (AA 4.99 on electric blue)
+  onSecondary: "#0B1020", // deep navy (AA 5.20 on magenta)
+  onDestructive: "#0B1020", // deep navy (AA 4.84 on destructive)
   destructive: "#E5484D", // derived vivid red (destructive)
   // Derived colors (free per-theme values, fixed key names)
   background:

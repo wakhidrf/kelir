@@ -7,6 +7,7 @@ export { rounded, typography };
 // orange #FF6B00, secondary purple #7C3AED, tertiary blue #2563EB, neutral
 // white #FFFFFF, surface light grey #F8FAFC) + yellow warning accent. Ease-out
 // motion (entry 420ms, stagger 80ms) = easeMotion default. Poppins display.
+// DESIGN accent (amber #FFC107) has no slot: Kelir's accent tone aliases primary.
 export const variants = {
   // Core colors from DESIGN.md
   primary: "#FF6B00", // Orange (warm accent / CTA)
@@ -16,7 +17,7 @@ export const variants = {
   // Derived semantic colors
   textPrimary: "#1F2937", // Charcoal (primary text, off-black)
   textSecondary: "#64748B", // Slate (secondary text)
-  onPrimary: "#FFFFFF", // White (text on orange primary)
+  onPrimary: "#1F2937", // charcoal (AA 5.14 on the orange primary)
   onSecondary: "#FFFFFF", // White (text on purple)
   onDestructive: "#FFFFFF", // White (text on destructive)
   destructive: "#DC2626", // Solid red (destructive background)
